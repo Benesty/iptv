@@ -13,7 +13,7 @@ https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Téléréalités
 https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/LCN_%28TV%29.svg/500px-LCN_%28TV%29.svg.png" tvg-id="LCN.ca@SD", LCN [Geo-blocked]
+#EXTINF:-1 tvg-logo="https://i.imgur.com/Ggl9Wm0.png", LCN
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png", CBC
 https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/stream/54c4e83e-477b-420b-bcec-2be1ca01ad10:MRN2/variant/776d06c2e08e0fd454cf24db9901b073/bandwidth/3102000.m3u8
