@@ -18,6 +18,12 @@ https://hls.savoir.media/live/stream.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/f/f7/T%C3%A9l%C3%A9-Qu%C3%A9bec_logo.svg", Télé-Québec Jeunesse
 https://bcovlive-a.akamaihd.net/b7988e7f33b34cf2bf86a766afcadd3c/us-west-2/6101674910001/playlist_wv.m3u8
 
+#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Cinéma
+https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
+
+#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Comédies
+https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
+
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/6/6d/CBC_logo.svg", CBC
 https://dai.google.com/linear/hls/pa/event/ZX-bVk6oQHyOaEJSRmxUlg/stream/3e4439eb-bd64-4ed6-9177-95cdd96ce84d:DLS/master.m3u8
 
@@ -36,8 +42,11 @@ https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/2/21/CBC_Comedy_logo.svg", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Cinéma
-https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/thumb/0/07/France_24_logo_2018.svg/640px-France_24_logo_2018.svg.png", France 24 (FR)
+https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8
 
-#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Comédies
-https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/640px-TV5Monde_Logo.svg.png", TV5Monde FBS
+https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8
+
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/640px-TV5Monde_Logo.svg.png", TV5Monde Info
+https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8
