@@ -1,46 +1,46 @@
 #EXTM3U
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/5/5a/ICI_RDI_logo.svg", ICI RDI
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/ICI_RDI_logo.svg/200px-ICI_RDI_logo.svg.png", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/3a/ICI_T%C3%A9l%C3%A9_logo_2016.svg", ICI Télé Estrie
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ICI_T%C3%A9l%C3%A9_logo_2016.svg/200px-ICI_T%C3%A9l%C3%A9_logo_2016.svg.png", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/5/5b/TVA_logo_2012.svg", TVA
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/TVA_logo_2012.svg/200px-TVA_logo_2012.svg.png", TVA
 https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
 
-#EXTINF:-1 tvg-logo="https://savoir.media/themes/custom/savoir_theme/images/logo.svg", Savoir Média
+#EXTINF:-1 tvg-logo="https://i.imgur.com/pa4wOVY.png", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
 
-#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Cinéma
+#EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
 
-#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Comédies
+#EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Comédies
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/6/6d/CBC_logo.svg", CBC
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/200px-CBC_Logo_1992-Present.svg.png", CBC
 https://dai.google.com/linear/hls/pa/event/ZX-bVk6oQHyOaEJSRmxUlg/stream/3e4439eb-bd64-4ed6-9177-95cdd96ce84d:DLS/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/b/b2/CBC_News_Network_logo_2019.svg", CBC News
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/b/b2/CBC_News_Network_logo_2019.svg/200px-CBC_News_Network_logo_2019.svg.png", CBC News
 https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/1/1c/Global_News_logo.svg", Global News Canada
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/1/1c/Global_News_logo.svg/200px-Global_News_logo.svg.png", Global News Canada
 https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/1/1c/Global_News_logo.svg", Global News Montréal
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/1/1c/Global_News_logo.svg/200px-Global_News_logo.svg.png", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/e/e9/Citytv_logo.svg", CityNews
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/e/e9/Citytv_logo.svg/200px-Citytv_logo.svg.png", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/2/21/CBC_Comedy_logo.svg", CBC Comedy
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/2/21/CBC_Comedy_logo.svg/200px-CBC_Comedy_logo.svg.png", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/thumb/0/07/France_24_logo_2018.svg/640px-France_24_logo_2018.svg.png", France 24 (FR)
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/thumb/0/07/France_24_logo_2018.svg/200px-France_24_logo_2018.svg.png", France 24 (FR)
 https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/640px-TV5Monde_Logo.svg.png", TV5Monde FBS
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/200px-TV5Monde_Logo.svg.png", TV5Monde FBS
 https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/640px-TV5Monde_Logo.svg.png", TV5Monde Info
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/TV5Monde_Logo.svg/200px-TV5Monde_Logo.svg.png", TV5Monde Info
 https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8
