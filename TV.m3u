@@ -9,14 +9,8 @@ https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/5/5b/TVA_logo_2012.svg", TVA
 https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
 
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/f/f7/T%C3%A9l%C3%A9-Qu%C3%A9bec_logo.svg", Télé-Québec
-https://bcovlive-a.akamaihd.net/b7988e7f33b34cf2bf86a766afcadd3c/us-west-2/6101674910001/playlist_wv.m3u8
-
 #EXTINF:-1 tvg-logo="https://savoir.media/themes/custom/savoir_theme/images/logo.svg", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
-
-#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/fr/f/f7/T%C3%A9l%C3%A9-Qu%C3%A9bec_logo.svg", Télé-Québec Jeunesse
-https://bcovlive-a.akamaihd.net/b7988e7f33b34cf2bf86a766afcadd3c/us-west-2/6101674910001/playlist_wv.m3u8
 
 #EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/5/5e/Noovo_2020.svg", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
