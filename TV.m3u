@@ -1,46 +1,35 @@
 #EXTM3U
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/Z1b2TJD.png", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/HsSi3NV.png", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/1GR8Szn.png", TVA
 https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/pa4wOVY.png", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Comédies
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
-
+#EXTINF:-1 tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Téléréalités
+https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/LCN_%28TV%29.svg/500px-LCN_%28TV%29.svg.png" tvg-id="LCN.ca@SD", LCN [Geo-blocked]
+https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png", CBC
 https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/stream/54c4e83e-477b-420b-bcec-2be1ca01ad10:MRN2/variant/776d06c2e08e0fd454cf24db9901b073/bandwidth/3102000.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News
 https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Canada
 https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/BlFNlHz.png", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/qOutOWN.png", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/oJzjkUV.png", France 24 (FR)
 https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/TQbobOv.png", TV5Monde FBS
 https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8
-
 #EXTINF:-1 tvg-logo="https://i.imgur.com/dLLmV6b.png", TV5Monde Info
 https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8
