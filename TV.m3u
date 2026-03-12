@@ -19,14 +19,20 @@ https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/stream/54c4e83e-477b-420b-bcec-2be1ca01ad10:MRN2/variant/776d06c2e08e0fd454cf24db9901b073/bandwidth/3102000.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News
 https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News Explore
+https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/qOutOWN.png", CBC Comedy
+https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Canada
 https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/BlFNlHz.png", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
-#EXTINF:-1 tvg-logo="https://i.imgur.com/qOutOWN.png", CBC Comedy
-https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/L9bMsMq.png", BNN Bloomberg
+https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/nMGyCaq.png", Gusto TV
+https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/oJzjkUV.png", France 24 (FR)
 https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8
 #EXTINF:-1 tvg-logo="https://i.imgur.com/TQbobOv.png", TV5Monde FBS
