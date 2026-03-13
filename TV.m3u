@@ -1,5 +1,5 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="IciRDI.ca" tvg-logo="https://i.imgur.com/Z1b2TJD.png", ICI RDI
+#EXTINF:-1 tvg-id="IciRDI.ca" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
 #EXTINF:-1 tvg-id="CKSHDT.ca" tvg-logo="https://i.imgur.com/HsSi3NV.png", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
