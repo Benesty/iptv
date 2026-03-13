@@ -107,7 +107,7 @@ https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 
 #EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="US Networks", ABC
 http://41.205.93.154/ABC/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/NBC_Peacock_1986.svg/440px-NBC_Peacock_1986.svg.png" group-title="US Networks", NBC
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/mvXSIou.jpeg" group-title="US Networks", NBC
 http://41.205.93.154/NBC/tracks-v1a1/mono.m3u8
 
 #========================================
