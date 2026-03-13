@@ -4,15 +4,15 @@
 # QUÉBEC / CANADA FR
 #========================================
 
-#EXTINF:-1 tvg-id="IciRDI.ca" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg", ICI RDI
+#EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
-#EXTINF:-1 tvg-id="CKSHDT.ca" tvg-logo="https://i.imgur.com/HsSi3NV.png", ICI Télé Estrie
+#EXTINF:-1 tvg-id="CKSH.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
-#EXTINF:-1 tvg-id="CHLTDT.ca" tvg-logo="https://i.imgur.com/1GR8Szn.png", TVA Sherbrooke
+#EXTINF:-1 tvg-id="CHLT.Sherbrooke.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png", TVA Sherbrooke
 https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
-#EXTINF:-1 tvg-id="LeCanalNouvellesTVA.ca" tvg-logo="https://i.imgur.com/Ggl9Wm0.png", LCN
+#EXTINF:-1 tvg-id="Le.Canal.Nouvelles.TVA.ca2" tvg-logo="https://i.imgur.com/Ggl9Wm0.png", LCN
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
-#EXTINF:-1 tvg-id="CFTUDT.ca" tvg-logo="https://i.imgur.com/pa4wOVY.png", Savoir Média
+#EXTINF:-1 tvg-id="Savoir.média.ca2" tvg-logo="https://i.imgur.com/pa4wOVY.png", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/BL9ziSJ.png", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
@@ -25,9 +25,9 @@ https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 # CANADA EN
 #========================================
 
-#EXTINF:-1 tvg-id="CBMTDT.ca" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png", CBC Montréal
+#EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png", CBC Montréal
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
-#EXTINF:-1 tvg-id="CBCNewsNetwork.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News
+#EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News
 https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/1EqQGKS.png", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
@@ -35,49 +35,49 @@ https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Canada
 https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8
-#EXTINF:-1 tvg-id="CIHFDT.ca" tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Montréal
+#EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
-#EXTINF:-1 tvg-id="CityNews.ca" tvg-logo="https://i.imgur.com/BlFNlHz.png", CityNews
+#EXTINF:-1 tvg-id="CityNews.680.ca2" tvg-logo="https://i.imgur.com/BlFNlHz.png", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
-#EXTINF:-1 tvg-id="BNNBloomberg.ca" tvg-logo="https://i.imgur.com/ZkN8AUc.png", BNN Bloomberg
+#EXTINF:-1 tvg-id="BNN.Bloomberg.ca2" tvg-logo="https://i.imgur.com/ZkN8AUc.png", BNN Bloomberg
 https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
-#EXTINF:-1 tvg-id="GustoTV.ca" tvg-logo="https://i.imgur.com/k0InwrS.jpeg", Gusto TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/k0InwrS.jpeg", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/0uSFbyZ.png" group-title="Canada EN", Wild TV
+#EXTINF:-1 tvg-id="WILD.TV.ca2" tvg-logo="https://i.imgur.com/0uSFbyZ.png" group-title="Canada EN", Wild TV
 https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476/variant/22100055.m3u8
 
 #========================================
 # SPORTS
 #========================================
 
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/espn-us.png" group-title="Sports", ESPN
+#EXTINF:-1 tvg-id="ESPN.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/espn-us.png" group-title="Sports", ESPN
 http://41.205.93.154/ESPN/index.m3u8
-#EXTINF:-1 tvg-id="TSN1.ca" tvg-logo="https://i.ibb.co/sFh5z2s/TSN1.png" group-title="Sports", TSN 1
+#EXTINF:-1 tvg-id="TSN.1.ca2" tvg-logo="https://i.ibb.co/sFh5z2s/TSN1.png" group-title="Sports", TSN 1
 https://7pal.short.gy/tsn1ca
-#EXTINF:-1 tvg-id="TSN2.ca" tvg-logo="https://i.ibb.co/2YPBw0D/TSN2.png" group-title="Sports", TSN 2
+#EXTINF:-1 tvg-id="TSN.2.ca2" tvg-logo="https://i.ibb.co/2YPBw0D/TSN2.png" group-title="Sports", TSN 2
 https://7pal.short.gy/tsn2ca
-#EXTINF:-1 tvg-id="TSN3.ca" tvg-logo="https://i.ibb.co/z5RJ9Rj/TSN3.png" group-title="Sports", TSN 3
+#EXTINF:-1 tvg-id="TSN.3.ca2" tvg-logo="https://i.ibb.co/z5RJ9Rj/TSN3.png" group-title="Sports", TSN 3
 https://7pal.short.gy/tsn3ca
-#EXTINF:-1 tvg-id="TSN4.ca" tvg-logo="https://i.ibb.co/5KtsP33/TSN4.png" group-title="Sports", TSN 4
+#EXTINF:-1 tvg-id="TSN.4.ca2" tvg-logo="https://i.ibb.co/5KtsP33/TSN4.png" group-title="Sports", TSN 4
 https://7pal.short.gy/tsn4ca
-#EXTINF:-1 tvg-id="TSN5.ca" tvg-logo="https://i.ibb.co/zncTyYH/TSN5.png" group-title="Sports", TSN 5
+#EXTINF:-1 tvg-id="TSN.5.ca2" tvg-logo="https://i.ibb.co/zncTyYH/TSN5.png" group-title="Sports", TSN 5
 https://7pal.short.gy/tsn5ca
 
 #========================================
 # NOUVELLES FR
 #========================================
 
-#EXTINF:-1 tvg-id="France24French.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png", France 24 (FR)
+#EXTINF:-1 tvg-id="France.24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png", France 24 (FR)
 https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8
-#EXTINF:-1 tvg-id="TV5MondeFranceBelgiumSwitzerland.fr" tvg-logo="https://i.imgur.com/TQbobOv.png", TV5Monde FBS
+#EXTINF:-1 tvg-id="TV5.Monde.FBS.fr" tvg-logo="https://i.imgur.com/TQbobOv.png", TV5Monde FBS
 https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8
-#EXTINF:-1 tvg-id="TV5MondeInfo.fr" tvg-logo="https://i.imgur.com/dLLmV6b.png", TV5Monde Info
+#EXTINF:-1 tvg-id="TV5.Monde.fr" tvg-logo="https://i.imgur.com/dLLmV6b.png", TV5Monde Info
 https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="Nouvelles FR", TV5Monde+ Voyage
 https://d1qvkge2x4ev90.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-8q6p9i1t9dw2k/tvfvo.m3u8
-#EXTINF:-1 tvg-id="BFMBusiness.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-business-fr.png" group-title="Nouvelles FR", BFM Business
+#EXTINF:-1 tvg-id="BFM.Business.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-business-fr.png" group-title="Nouvelles FR", BFM Business
 https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_BUSINESS/index.m3u8
-#EXTINF:-1 tvg-id="BFMTV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png" group-title="Nouvelles FR", BFM TV
+#EXTINF:-1 tvg-id="BFM.TV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png" group-title="Nouvelles FR", BFM TV
 https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_TV/index.m3u8
 #EXTINF:-1 tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="Nouvelles FR", TMC
 http://41.205.93.154/TMC/tracks-v1a1/mono.m3u8
@@ -86,71 +86,71 @@ http://41.205.93.154/TMC/tracks-v1a1/mono.m3u8
 # NEWS US
 #========================================
 
-#EXTINF:-1 tvg-id="CBSNews247.us" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/CBS_News_247_logo.svg/560px-CBS_News_247_logo.svg.png" group-title="News US", CBS News 24/7
+#EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/CBS_News_247_logo.svg/560px-CBS_News_247_logo.svg.png" group-title="News US", CBS News 24/7
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/500px-New_Bloomberg_Logo.svg.png" group-title="News US", Bloomberg Television
+#EXTINF:-1 tvg-id="Bloomberg.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/500px-New_Bloomberg_Logo.svg.png" group-title="News US", Bloomberg Television
 https://liveprodusphoenixeast.akamaized.net/USPhx-HD/Channel-TX-USPhx-AWS-virginia-1/Source-USPhx-16k-1-s6lk2-BP-07-02-81ykIWnsMsg_live.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/CNN.svg/800px-CNN.svg.png" group-title="News US", CNN
+#EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/CNN.svg/800px-CNN.svg.png" group-title="News US", CNN
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_1464000.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/CNBC_logo.svg/200px-CNBC_logo.svg.png" group-title="News US", CNBC
+#EXTINF:-1 tvg-id="CNBC.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/CNBC_logo.svg/200px-CNBC_logo.svg.png" group-title="News US", CNBC
 http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Fox_News_Channel_logo.svg/440px-Fox_News_Channel_logo.svg.png" group-title="News US", Fox News Channel
+#EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Fox_News_Channel_logo.svg/440px-Fox_News_Channel_logo.svg.png" group-title="News US", Fox News Channel
 http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="LiveNOWfromFOX.us" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/LiveNOW_from_FOX_logo.svg/500px-LiveNOW_from_FOX_logo.svg.png" group-title="News US", LiveNOW from FOX
+#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/LiveNOW_from_FOX_logo.svg/500px-LiveNOW_from_FOX_logo.svg.png" group-title="News US", LiveNOW from FOX
 https://fox-foxnewsnow-vizio.amagi.tv/playlist.m3u8
-#EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="News US", France 24 (EN)
+#EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="News US", France 24 (EN)
 https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 
 #========================================
 # US NETWORKS
 #========================================
 
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="US Networks", ABC
+#EXTINF:-1 tvg-id="ABC.National.Feed.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="US Networks", ABC
 http://41.205.93.154/ABC/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/mvXSIou.jpeg" group-title="US Networks", NBC
+#EXTINF:-1 tvg-id="NBC.East.Stream.us2" tvg-logo="https://i.imgur.com/mvXSIou.jpeg" group-title="US Networks", NBC
 http://41.205.93.154/NBC/tracks-v1a1/mono.m3u8
 
 #========================================
 # DIVERTISSEMENT
 #========================================
 
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/animal-planet-us.png" group-title="Divertissement", Animal Planet
+#EXTINF:-1 tvg-id="Animal.Planet.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/animal-planet-us.png" group-title="Divertissement", Animal Planet
 http://41.205.93.154/ANIMALPLANET/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/discovery-channel-us.png" group-title="Divertissement", Discovery
+#EXTINF:-1 tvg-id="Discovery.Channel.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/discovery-channel-us.png" group-title="Divertissement", Discovery
 http://41.205.93.154/DISCOVERY/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/discovery-channel-us.png" group-title="Divertissement", Discovery Channel
+#EXTINF:-1 tvg-id="Discovery.Channel.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/discovery-channel-us.png" group-title="Divertissement", Discovery Channel
 https://a1xs.vip/300034
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/e-entertainment-us.png" group-title="Divertissement", E!
+#EXTINF:-1 tvg-id="E!.Entertainment.Television.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/e-entertainment-us.png" group-title="Divertissement", E!
 http://23.237.104.106:8080/USA_E/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/f9/Food_Network_New_Logo.png" group-title="Divertissement", Food Network
+#EXTINF:-1 tvg-id="Food.Network.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/f9/Food_Network_New_Logo.png" group-title="Divertissement", Food Network
 http://23.237.104.106:8080/USA_FOOD_NETWORK/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fx-us.png" group-title="Divertissement", FX
+#EXTINF:-1 tvg-id="FX.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fx-us.png" group-title="Divertissement", FX
 http://23.237.104.106:8080/USA_FX/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fxx-us.png" group-title="Divertissement", FXX
+#EXTINF:-1 tvg-id="FXX.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fxx-us.png" group-title="Divertissement", FXX
 http://23.237.104.106:8080/USA_FXX/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-us.png" group-title="Divertissement", History
+#EXTINF:-1 tvg-id="History.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-us.png" group-title="Divertissement", History
 http://nor1live.win/livehttpplay?channel_id=23105
 
 #========================================
 # FILMS / PREMIUM
 #========================================
 
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/440px-HBO_logo.svg.png" group-title="Premium", HBO
+#EXTINF:-1 tvg-id="HBO.East.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/440px-HBO_logo.svg.png" group-title="Premium", HBO
 http://23.237.104.106:8080/USA_HBO/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/440px-HBO_logo.svg.png" group-title="Premium", HBO 2
+#EXTINF:-1 tvg-id="HBO.West.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/440px-HBO_logo.svg.png" group-title="Premium", HBO 2
 http://23.237.104.106:8080/USA_HBO2/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/starz-us.png" group-title="Premium", Starz Cinema
+#EXTINF:-1 tvg-id="Starz.Cinema.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/starz-us.png" group-title="Premium", Starz Cinema
 http://23.237.104.106:8080/USA_STARZ_CINEMA/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/starz-us.png" group-title="Premium", Starz Comedy
+#EXTINF:-1 tvg-id="Starz.Comedy.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/starz-us.png" group-title="Premium", Starz Comedy
 http://fl51.moveonjoy.com/STARZ_COMEDY/tracks-v1a1/mono.ts.m3u8
 
 #========================================
 # ENFANTS
 #========================================
 
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-junior-us.png" group-title="Enfants", Disney Junior
+#EXTINF:-1 tvg-id="Disney.Junior.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-junior-us.png" group-title="Enfants", Disney Junior
 http://23.237.104.106:8080/USA_DISNEY_JUNIOR/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-xd-us.png" group-title="Enfants", Disney XD
+#EXTINF:-1 tvg-id="Disney.XD.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-xd-us.png" group-title="Enfants", Disney XD
 http://23.237.104.106:8080/USA_DISNEY_XD/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="Enfants", Nickelodeon
+#EXTINF:-1 tvg-id="Nickelodeon.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="Enfants", Nickelodeon
 http://23.237.104.106:8080/USA_NICKELODEON/index.m3u8
