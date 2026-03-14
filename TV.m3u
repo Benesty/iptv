@@ -45,23 +45,6 @@ https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 
 #========================================
-# SPORTS
-#========================================
-
-#EXTINF:-1 tvg-id="ESPN.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/espn-us.png" group-title="Sports", ESPN
-http://41.205.93.154/ESPN/index.m3u8
-#EXTINF:-1 tvg-id="TSN.1.ca2" tvg-logo="https://i.ibb.co/sFh5z2s/TSN1.png" group-title="Sports", TSN 1
-https://7pal.short.gy/tsn1ca
-#EXTINF:-1 tvg-id="TSN.2.ca2" tvg-logo="https://i.ibb.co/2YPBw0D/TSN2.png" group-title="Sports", TSN 2
-https://7pal.short.gy/tsn2ca
-#EXTINF:-1 tvg-id="TSN.3.ca2" tvg-logo="https://i.ibb.co/z5RJ9Rj/TSN3.png" group-title="Sports", TSN 3
-https://7pal.short.gy/tsn3ca
-#EXTINF:-1 tvg-id="TSN.4.ca2" tvg-logo="https://i.ibb.co/5KtsP33/TSN4.png" group-title="Sports", TSN 4
-https://7pal.short.gy/tsn4ca
-#EXTINF:-1 tvg-id="TSN.5.ca2" tvg-logo="https://i.ibb.co/zncTyYH/TSN5.png" group-title="Sports", TSN 5
-https://7pal.short.gy/tsn5ca
-
-#========================================
 # NOUVELLES FR
 #========================================
 
