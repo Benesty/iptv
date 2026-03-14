@@ -75,8 +75,6 @@ https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_14
 http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Fox_News_Channel_logo.svg/440px-Fox_News_Channel_logo.svg.png" group-title="News US", Fox News Channel
 http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/LiveNOW_from_FOX_logo.svg/500px-LiveNOW_from_FOX_logo.svg.png" group-title="News US", LiveNOW from FOX
-https://fox-foxnewsnow-vizio.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="News US", France 24 (EN)
 https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 
