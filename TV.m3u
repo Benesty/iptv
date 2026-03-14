@@ -33,8 +33,6 @@ https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/qOutOWN.png", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Canada
-https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
 #EXTINF:-1 tvg-id="CityNews.680.ca2" tvg-logo="https://i.imgur.com/BlFNlHz.png", CityNews
