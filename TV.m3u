@@ -74,7 +74,7 @@ https://viamotionhsi.netplus.ch/live/eds/ab1/browser-HLS8/ab1.m3u8
 https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
 https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8
-#EXTINF:-1 tvg-id="CanalPlusClair.fr" tvg-logo="https://picserve.netplus.ch/channels/canalplusclair.png" group-title="France", Canal+ en clair
+#EXTINF:-1 tvg-id="Canal+.fr" tvg-logo="https://picserve.netplus.ch/channels/canalplusclair.png" group-title="France", Canal+ en clair
 https://viamotionhsi.netplus.ch/live/eds/canalplusclair/browser-HLS8/canalplusclair.m3u8
 #EXTINF:-1 tvg-id="Mezzo.fr" tvg-logo="https://picserve.netplus.ch/channels/mezzo.png" group-title="France", Mezzo
 https://viamotionhsi.netplus.ch/live/eds/mezzo/browser-HLS8/mezzo.m3u8
