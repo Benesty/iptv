@@ -44,8 +44,6 @@ https://d15aro46bnpfm8.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 https://d16zzycxcd0m0r.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-hixvx5kymecr9/RMC_Decouverte_FR.m3u8
 #EXTINF:-1 tvg-chno="25" tvg-id="Chérie.25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://d3dcdjv6dx07iz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-eaaww2dyp3iih/RMC_Life_FR.m3u8
-#EXTINF:-1 tvg-id="Franceinfo.fr@SD" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", Franceinfo
-https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/franceinfotv.m3u8
 
 #========================================
 # 🇫🇷 FRANCE — Info
@@ -57,8 +55,6 @@ https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_TV/index.m3u8
 https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_BUSINESS/index.m3u8
 #EXTINF:-1 tvg-id="France.24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="France", France 24 (FR)
 https://live.france24.com/hls/live/2037179-b/F24_FR_HI_HLS/master_5000.m3u8
-#EXTINF:-1 tvg-id="TV5MondeFranceBelgiumSwitzerlandMonaco.fr@SD" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde France Belgique Suisse Monaco (1080p) [Geo-blocked]
-https://ott.tv5monde.com/Content/HLS/Live/channel(fbs)/variant.m3u8
 #EXTINF:-1 tvg-id="TV5.Monde.fr" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
 https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
@@ -155,8 +151,6 @@ https://liveprodusphoenixeast.akamaized.net/USPhx-HD/Channel-TX-USPhx-AWS-virgin
 http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News Channel
 http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="Animal.Planet.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/animal-planet-us.png" group-title="USA", Animal Planet
-http://41.205.93.154/ANIMALPLANET/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="E!.Entertainment.Television.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/e-entertainment-us.png" group-title="USA", E!
 http://23.237.104.106:8080/USA_E/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Food.Network.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/f9/Food_Network_New_Logo.png" group-title="USA", Food Network
