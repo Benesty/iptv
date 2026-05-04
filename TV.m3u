@@ -5,39 +5,35 @@
 #========================================
 
 #EXTINF:-1 tvg-chno="1" tvg-id="TF1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" group-title="France", TF1
-https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8
+http://41.205.93.154/TF1/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="France2.fr@SD" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" group-title="France", France 2 (1080p)
 http://69.64.57.208/france2/mono.m3u8
 #EXTINF:-1 tvg-chno="3" tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" group-title="France", France 3
-https://viamotionhsi.netplus.ch/live/eds/france3hd/browser-HLS8/france3hd.m3u8
+https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/France_3.m3u8
 #EXTINF:-1 tvg-chno="4" tvg-id="France4.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png" group-title="France", France 4
-https://viamotionhsi.netplus.ch/live/eds/france4hd/browser-HLS8/france4hd.m3u8
+https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/France_4.m3u8
 #EXTINF:-1 tvg-id="France5.fr@SD" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" group-title="France", France 5 (1080p)
 http://69.64.57.208/france5/mono.m3u8
 #EXTINF:-1 tvg-chno="6" tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" group-title="France", M6
-https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8
+https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/M6.m3u8
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
-https://viamotionhsi.netplus.ch/live/eds/artehd/browser-HLS8/artehd.m3u8
+https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/Arte.m3u8
 #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
-https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8
+http://151.80.18.177:86/W9_HD/index.m3u8
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
 http://41.205.93.154/TMC/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
-https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8
+http://41.205.93.154/TFX/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
 https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
-https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8
+https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/LCI.m3u8
 #EXTINF:-1 tvg-id="CNews.fr@SD" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews (1080p) [Geo-blocked]
 https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/CNews.m3u8
 #EXTINF:-1 tvg-chno="17" tvg-id="CSTAR.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
-https://viamotionhsi.netplus.ch/live/eds/d17/browser-HLS8/d17.m3u8
-#EXTINF:-1 tvg-chno="19" tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", NOVO 19
-https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8
-#EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-series-films-fr.png" group-title="France", TF1 Séries Films
-https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8
+http://41.205.93.154/CSTAR/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-chno="22" tvg-id="6ter.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png" group-title="France", 6TER
-https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8
+http://151.80.18.177:86/6ter/index.m3u8
 #EXTINF:-1 tvg-chno="23" tvg-id="Numero23.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png" group-title="France", RMC Story
 https://d15aro46bnpfm8.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-fqkqiax1078up/RMC_Story_FR.m3u8
 #EXTINF:-1 tvg-chno="24" tvg-id="RMCDecouverte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png" group-title="France", RMC Découverte
@@ -65,21 +61,13 @@ https://d1qvkge2x4ev90.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #========================================
 
 #EXTINF:-1 tvg-chno="51" tvg-id="AB1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/ab1-fr.png" group-title="France", AB1
-https://viamotionhsi.netplus.ch/live/eds/ab1/browser-HLS8/ab1.m3u8
-#EXTINF:-1 tvg-chno="59" tvg-id="PlanetePlus.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/planete-plus-fr.png" group-title="France", Planète+
-https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8
+http://151.80.18.177:86/AB1/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
-https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8
-#EXTINF:-1 tvg-id="Canal+.fr" tvg-logo="https://picserve.netplus.ch/channels/canalplusclair.png" group-title="France", Canal+ en clair
-https://viamotionhsi.netplus.ch/live/eds/canalplusclair/browser-HLS8/canalplusclair.m3u8
-#EXTINF:-1 tvg-id="Mezzo.fr" tvg-logo="https://picserve.netplus.ch/channels/mezzo.png" group-title="France", Mezzo
-https://viamotionhsi.netplus.ch/live/eds/mezzo/browser-HLS8/mezzo.m3u8
-#EXTINF:-1 tvg-id="CartoonNetwork.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cartoon-network-fr.png" group-title="France", Cartoon Network
-https://viamotionhsi.netplus.ch/live/eds/cartoonnetwork/browser-HLS8/cartoonnetwork.m3u8
+http://151.80.18.177:86/RTL9/index.m3u8
 #EXTINF:-1 tvg-id="CanalJ.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/canal-j-fr.png" group-title="France", Canal J
-https://viamotionhsi.netplus.ch/live/eds/canalj/browser-HLS8/canalj.m3u8
+http://151.80.18.177:86/Canal_J_HD/index.m3u8
 #EXTINF:-1 tvg-chno="123" tvg-id="TCM.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tcm-cinema-fr.png" group-title="France", TCM Cinéma
-https://viamotionhsi.netplus.ch/live/eds/tcm/browser-HLS8/tcm.m3u8
+http://151.80.18.177:86/TCM_Cinema_HD/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJr.fr@SD" tvg-logo="https://i.imgur.com/3mEtOWc.png" group-title="France", Disney Jr. (1080p)
 http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 #EXTINF:-1 tvg-id="Nickelodeon.fr@SD" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="France", Nickelodeon (1080p)
