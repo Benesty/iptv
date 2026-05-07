@@ -38,6 +38,16 @@ https://d36bxc1bknkxrk.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 https://d2mt8for1pddy4.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6uronj7gzvy4j/index.m3u8
 #EXTINF:-1 tvg-chno="25" tvg-id="RMCLife.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://jmp2.uk/stvp-FR4000003O1
+#EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/QmZclR2duGF/res/qaCoHpMFLsGNK1E8-highest.m3u8
+#EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/canalplusclair-hd-highest.m3u8
+#EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/documentaire-highest.m3u8
+#EXTINF:-1 tvg-chno="116" tvg-id="FranceTVSeries.fr" tvg-logo="https://i.imgur.com/ESz1gbr.png" group-title="France", France TV Séries
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/serie-highest.m3u8
+#EXTINF:-1 tvg-chno="117" tvg-id="FranceTVSport.fr" tvg-logo="https://i.imgur.com/IeiMuGI.png" group-title="France", France TV Sport
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/sport-highest.m3u8
 #========================================
 # 🇫🇷 FRANCE — Info
 #========================================
