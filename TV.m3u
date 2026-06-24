@@ -90,7 +90,7 @@ https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
 #EXTINF:-1 tvg-id="CHLT.Sherbrooke.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA Sherbrooke
-https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
+https://tvalive-dai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
 #EXTINF:-1 tvg-id="Le.Canal.Nouvelles.TVA.ca2" tvg-logo="https://i.imgur.com/Ggl9Wm0.png" group-title="Canada FR", LCN
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-id="Savoir.média.ca2" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada FR", Savoir Média
@@ -107,24 +107,24 @@ https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Montréal
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News
-https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
+https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/PTDoNeI.jpeg" group-title="Canada EN", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/AF9wcJm.jpeg" group-title="Canada EN", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png" group-title="Canada EN", Global News Montréal
-https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
+# HS - aucune source fonctionnelle trouvee - https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
 #EXTINF:-1 tvg-id="CityNews.680.ca2" tvg-logo="https://i.imgur.com/BlFNlHz.png" group-title="Canada EN", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
 #EXTINF:-1 tvg-id="BNN.Bloomberg.ca2" tvg-logo="https://i.imgur.com/ZkN8AUc.png" group-title="Canada EN", BNN Bloomberg
-https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
+https://pe-ak-lp01a-9c9media.akamaized.net/live/News1BNNDigi/p/dash/00000001/1bba52dc66e4c68e/manifest.mpd
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #========================================
 # 🇺🇸 USA
 #========================================
 #EXTINF:-1 tvg-id="ABC.National.Feed.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="USA", ABC
-http://41.205.93.154/ABC/tracks-v1a1/mono.m3u8
+http://41.205.93.154/ABC/index.m3u8
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="USA", France 24 (EN)
 https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
@@ -132,26 +132,26 @@ https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/m
 #EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="USA", CNN
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_1464000.m3u8
 #EXTINF:-1 tvg-id="Bloomberg.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/500px-New_Bloomberg_Logo.svg.png" group-title="USA", Bloomberg Television
-https://liveprodusphoenixeast.akamaized.net/USPhx-HD/Channel-TX-USPhx-AWS-virginia-1/Source-USPhx-16k-1-s6lk2-BP-07-02-81ykIWnsMsg_live.m3u8
+https://bloomberg.com/media-manifest/streams/us.m3u8
 #EXTINF:-1 tvg-id="CNBC.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cnbc-us.png" group-title="USA", CNBC
-http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
+http://41.205.93.154/CNBC/index.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News Channel
-http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
+http://41.205.93.154/FOX-NEWS/index.m3u8
 #EXTINF:-1 tvg-id="E!.Entertainment.Television.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/e-entertainment-us.png" group-title="USA", E!
-http://23.237.104.106:8080/USA_E/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_E/index.m3u8
 #EXTINF:-1 tvg-id="Food.Network.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/f9/Food_Network_New_Logo.png" group-title="USA", Food Network
-http://23.237.104.106:8080/USA_FOOD_NETWORK/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_FOOD_NETWORK/index.m3u8
 #EXTINF:-1 tvg-id="FX.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fx-us.png" group-title="USA", FX
-http://23.237.104.106:8080/USA_FX/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_FX/index.m3u8
 #EXTINF:-1 tvg-id="FXX.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fxx-us.png" group-title="USA", FXX
-http://23.237.104.106:8080/USA_FXX/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_FXX/index.m3u8
 #EXTINF:-1 tvg-id="HBO.East.us2" tvg-logo="https://i.imgur.com/FX4NuUK.png" group-title="USA", HBO
-http://23.237.104.106:8080/USA_HBO/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_HBO/index.m3u8
 #EXTINF:-1 tvg-id="Starz.Cinema.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/starz-us.png" group-title="USA", Starz Cinema
-http://23.237.104.106:8080/USA_STARZ_CINEMA/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_STARZ_CINEMA/index.m3u8
 #EXTINF:-1 tvg-id="Disney.Junior.HD.us2" tvg-logo="https://i.imgur.com/3mEtOWc.png" group-title="USA", Disney Junior
-http://23.237.104.106:8080/USA_DISNEY_JUNIOR/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8
 #EXTINF:-1 tvg-id="Disney.XD.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-xd-us.png" group-title="USA", Disney XD
-http://23.237.104.106:8080/USA_DISNEY_XD/tracks-v1a1/mono.m3u8
+http://23.237.104.106:8080/USA_DISNEY_XD/index.m3u8
 #EXTINF:-1 tvg-id="Nickelodeon.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="USA", Nickelodeon
 http://23.237.104.106:8080/USA_NICKELODEON/index.m3u8
