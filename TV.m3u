@@ -3,7 +3,7 @@
 # 🇫🇷 FRANCE — TNT
 #========================================
 #EXTINF:-1 tvg-chno="1" tvg-id="TF1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" group-title="France", TF1
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/gwzCwx3m0YUz/res/UdaQIbDoinFS7g6-highest.m3u8
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/AaB764g0yuJi/res/Qw0k8VDS8M54P3TW-highest.m3u8
 #EXTINF:-1 tvg-chno="2" tvg-id="France2.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" group-title="France", France 2
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-2-highest.m3u8
 #EXTINF:-1 tvg-chno="3" tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" group-title="France", France 3
@@ -20,14 +20,14 @@ https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/a
 #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
 https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/gwzCwx3m0YUz/res/KG4sHwhUIWaizmax-highest.m3u8
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/AaB764g0yuJi/res/gg93BQMb1kLby7yv-highest.m3u8
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/gwzCwx3m0YUz/res/oQ6OSzRhy6TXPGI-highest.m3u8
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/AaB764g0yuJi/res/3pPZYO8JKkQMntKG-highest.m3u8
 # ⚠️ GULLI — NOK : URL 6cloud d'origine 404, aucun flux FR libre joignable.
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
 #https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/gwzCwx3m0YUz/res/rdKzhhODRFmpP2us-highest.m3u8
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/AaB764g0yuJi/res/tC7ftMRcEejmJC1S-highest.m3u8
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/cnews-clair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
@@ -42,7 +42,7 @@ https://d16zzycxcd0m0r.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #EXTINF:-1 tvg-chno="25" tvg-id="RMCLife.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://jmp2.uk/stvp-FR4000003O1
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/gwzCwx3m0YUz/res/0Uj8xoCI8wRF130Z-highest.m3u8
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/AaB764g0yuJi/res/sDppi8ndlNFbu2Lr-highest.m3u8
 #EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/canalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs

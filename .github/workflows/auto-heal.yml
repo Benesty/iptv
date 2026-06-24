@@ -1,0 +1,78 @@
+name: Auto-heal ParaTV links
+
+# ParaTV (TF1, TMC, TFX, LCI, TF1 Séries Films...) renomme ses chemins de flux
+# toutes les quelques heures. Ce job re-synchronise automatiquement, chaque heure,
+# les URLs ParaTV de TV.m3u à partir de la playlist source de ParaTV, en faisant
+# correspondre les chaînes par tvg-id. Il ne touche QUE les flux ParaTV à dossier
+# obfusqué (pas francetv/canalplus qui sont stables), et ne commente rien tout
+# seul (pour ne pas désactiver des chaînes géo-restreintes valides).
+
+on:
+  schedule:
+    - cron: '17 * * * *'   # toutes les heures à HH:17
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Re-sync ParaTV stream URLs
+        shell: bash {0}
+        run: |
+          python3 - <<'PY'
+          import re, urllib.request
+
+          SRC = "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u"
+          para = urllib.request.urlopen(SRC, timeout=60).read().decode("utf-8", "replace").splitlines()
+
+          # tvg-id -> URL actuelle dans ParaTV
+          para_map = {}
+          for i, l in enumerate(para):
+              if l.startswith("#EXTINF") and i + 1 < len(para):
+                  m = re.search(r'tvg-id="([^"]+)"', l)
+                  url = para[i + 1].strip()
+                  if m and url.startswith("http"):
+                      para_map.setdefault(m.group(1), url)
+
+          # flux ParaTV à dossier obfusqué (rotatif) — on exclut les dossiers stables
+          ROT = re.compile(
+              r'^https://raw\.githubusercontent\.com/Paradise-91/ParaTV/main/streams/'
+              r'(?!francetv|canalplus)[A-Za-z0-9]+/res/')
+
+          tv = open("TV.m3u", encoding="utf-8").read().splitlines()
+          changed = []
+          for i, l in enumerate(tv):
+              if l.startswith("#EXTINF") and i + 1 < len(tv):
+                  m = re.search(r'tvg-id="([^"]+)"', l)
+                  url = tv[i + 1]
+                  if m and ROT.match(url) and m.group(1) in para_map:
+                      new = para_map[m.group(1)]
+                      if new != url:
+                          tv[i + 1] = new
+                          changed.append(m.group(1))
+
+          if changed:
+              open("TV.m3u", "w", encoding="utf-8").write("\n".join(tv) + "\n")
+              print("UPDATED:", ", ".join(changed))
+          else:
+              print("Aucun changement ParaTV.")
+          PY
+
+      - name: Commit if changed
+        shell: bash {0}
+        run: |
+          if [ -n "$(git status --porcelain TV.m3u)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add TV.m3u
+            git commit -m "Auto-heal: re-sync ParaTV stream URLs [skip ci]"
+            git push
+            echo "Pushed updated TV.m3u"
+          else
+            echo "Rien à committer."
+          fi
