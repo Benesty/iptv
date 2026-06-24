@@ -62,8 +62,14 @@ export default async function handler(req) {
 
   let upstream;
   try {
+    const tOrigin = new URL(target).origin;
     upstream = await fetch(target, {
-      headers: { "user-agent": "Mozilla/5.0 (SmartTV) AppleWebKit/537.36" },
+      headers: {
+        "user-agent": "Mozilla/5.0 (SmartTV) AppleWebKit/537.36",
+        // certains CDN telco (netplus…) exigent un Referer/Origin
+        referer: tOrigin + "/",
+        origin: tOrigin,
+      },
       redirect: "follow",
     });
   } catch (e) {
