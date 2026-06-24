@@ -1,19 +1,34 @@
 /**
  * Proxy France — Vercel Edge Function épinglée à Paris (cdg1).
  *
- * But : débloquer les chaînes géo-FR (TF1, M6, France.tv…) depuis le Québec,
- * SANS VPN sur ton appareil. Tout le flux (manifeste + segments) est récupéré
- * depuis une IP française (Vercel Paris) puis relayé à ton lecteur.
+ * Débloque les chaînes géo-FR (TF1, France.tv, Canal+…) depuis le Québec :
+ * tout le flux (manifeste + segments) est récupéré depuis une IP française
+ * puis relayé à ton lecteur.
  *
- * Usage :  /api/fr?u=<URL encodée du flux>
- * Exemple :/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FTF1.fr
- *
- * NB Pro requis pour épingler la région (regions:['cdg1']).
+ * Deux modes :
+ *   /api/fr?id=<tvg-id>   -> résout l'URL ParaTV courante PUIS proxifie (1 saut)
+ *   /api/fr?u=<url>       -> proxifie une URL directe (France.tv, Canal+, segments…)
  */
 
 export const config = { runtime: "edge", regions: ["cdg1"] };
 
+const PLAYLIST =
+  "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u";
 const SELF = "/api/fr?u=";
+
+async function resolveParaTV(id) {
+  const res = await fetch(PLAYLIST, { headers: { "cache-control": "max-age=60" } });
+  if (!res.ok) return null;
+  const lines = (await res.text()).split("\n");
+  const needle = `tvg-id="${id}"`;
+  for (let i = 0; i < lines.length - 1; i++) {
+    if (lines[i].startsWith("#EXTINF") && lines[i].includes(needle)) {
+      const u = lines[i + 1].trim();
+      if (u.startsWith("http")) return u;
+    }
+  }
+  return null;
+}
 
 function rewriteManifest(text, baseUrl, origin) {
   return text
@@ -22,13 +37,11 @@ function rewriteManifest(text, baseUrl, origin) {
       const t = line.trim();
       if (!t) return line;
       if (t.startsWith("#")) {
-        // réécrit les URI="..." (audio, sous-titres, clés…)
         return line.replace(/URI="([^"]+)"/g, (_m, u) => {
           const abs = new URL(u, baseUrl).href;
           return `URI="${origin}${SELF}${encodeURIComponent(abs)}"`;
         });
       }
-      // ligne d'URL (segment ou sous-playlist) -> repasse par le proxy
       const abs = new URL(t, baseUrl).href;
       return `${origin}${SELF}${encodeURIComponent(abs)}`;
     })
@@ -37,9 +50,15 @@ function rewriteManifest(text, baseUrl, origin) {
 
 export default async function handler(req) {
   const reqUrl = new URL(req.url);
-  const target = reqUrl.searchParams.get("u");
-  if (!target) return new Response("usage: /api/fr?u=<url>", { status: 400 });
   const origin = reqUrl.origin;
+  const id = reqUrl.searchParams.get("id");
+  let target = reqUrl.searchParams.get("u");
+
+  if (id && !target) {
+    target = await resolveParaTV(id);
+    if (!target) return new Response("id introuvable: " + id, { status: 404 });
+  }
+  if (!target) return new Response("usage: /api/fr?id=<tvg-id> ou ?u=<url>", { status: 400 });
 
   let upstream;
   try {
@@ -54,14 +73,12 @@ export default async function handler(req) {
 
   const ct = (upstream.headers.get("content-type") || "").toLowerCase();
   const isManifest =
-    target.toLowerCase().includes(".m3u8") ||
-    ct.includes("mpegurl") ||
-    ct.includes("application/x-mpegurl");
+    (upstream.url || target).toLowerCase().includes(".m3u8") ||
+    ct.includes("mpegurl");
 
   if (isManifest) {
     const text = await upstream.text();
-    const base = upstream.url || target;
-    const out = rewriteManifest(text, base, origin);
+    const out = rewriteManifest(text, upstream.url || target, origin);
     return new Response(out, {
       status: 200,
       headers: {
@@ -72,7 +89,6 @@ export default async function handler(req) {
     });
   }
 
-  // segment binaire : relais en streaming
   const h = new Headers();
   const pct = upstream.headers.get("content-type");
   if (pct) h.set("content-type", pct);
