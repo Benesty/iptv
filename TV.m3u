@@ -3,7 +3,7 @@
 # 🇫🇷 FRANCE — TNT
 #========================================
 #EXTINF:-1 tvg-chno="1" tvg-id="TF1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" group-title="France", TF1
-https://iptv-lake-three.vercel.app/api/TF1.fr
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FTF1.fr
 #EXTINF:-1 tvg-chno="2" tvg-id="France2.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" group-title="France", France 2
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-2-highest.m3u8
 #EXTINF:-1 tvg-chno="3" tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" group-title="France", France 3
@@ -13,20 +13,20 @@ https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/f
 #EXTINF:-1 tvg-chno="5" tvg-id="France5.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" group-title="France", France 5
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-5-highest.m3u8
 #EXTINF:-1 tvg-chno="6" tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" group-title="France", M6
-http://151.80.18.177:86/M6_HD/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Forigin-m6web.live.6cloud.fr%2Fout%2Fv1%2F6play%2F6play-m6%2Fcmaf_q2hyb21h%2Fhls-short-hd.m3u8
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/arte-highest.m3u8
 #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
 https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
-https://iptv-lake-three.vercel.app/api/TMC.fr
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FTMC.fr
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
-https://iptv-lake-three.vercel.app/api/NT1.fr
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FNT1.fr
 # ⚠️ GULLI — NOK : URL 6cloud d'origine 404, aucun flux FR libre joignable.
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
 #https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
-https://iptv-lake-three.vercel.app/api/LCI.fr
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FLCI.fr
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/cnews-clair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
@@ -40,7 +40,7 @@ https://d16zzycxcd0m0r.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #EXTINF:-1 tvg-chno="25" tvg-id="RMCLife.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://jmp2.uk/stvp-FR4000003O1
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
-https://iptv-lake-three.vercel.app/api/TF1SeriesFilms.fr
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fiptv-lake-three.vercel.app%2Fapi%2FTF1SeriesFilms.fr
 #EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/canalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs
@@ -104,6 +104,10 @@ https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/BL9ziSJ.png" group-title="Canada FR", Noovo Téléréalités
 https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8
 #========================================
+#EXTINF:-1 tvg-id="TeleQuebec.ca" tvg-logo="https://i.imgur.com/8R4EaFu.png" group-title="Canada FR", Télé-Québec
+https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
+#EXTINF:-1 tvg-id="TV5QuebecCanada.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tv5-ca.png" group-title="Canada FR", TV5 Québec
+http://23.133.220.149/TV5/index.m3u8
 # 🇨🇦 CANADA EN
 #========================================
 #EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Montréal
