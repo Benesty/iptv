@@ -70,7 +70,7 @@ http://151.80.18.177:86/AB1/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
 http://151.80.18.177:86/RTL9/index.m3u8
 #EXTINF:-1 tvg-id="CanalJ.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/canal-j-fr.png" group-title="France", Canal J
-http://144.217.253.140/Canalj/tracks-v1a1/index.m3u8
+http://151.80.18.177:86/Canal_J_HD/index.m3u8
 #EXTINF:-1 tvg-chno="123" tvg-id="TCM.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tcm-cinema-fr.png" group-title="France", TCM Cinéma
 http://151.80.18.177:86/TCM_Cinema_HD/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJr.fr" tvg-logo="https://i.imgur.com/3mEtOWc.png" group-title="France", Disney Jr.
