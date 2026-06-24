@@ -124,7 +124,7 @@ https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/
 # 🇺🇸 USA
 #========================================
 #EXTINF:-1 tvg-id="ABC.National.Feed.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="USA", ABC
-http://41.205.93.154/ABC/tracks-v1a1/mono.m3u8
+# HS - serveur 404, aucune source - http://41.205.93.154/ABC/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="USA", France 24 (EN)
 https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
@@ -134,9 +134,9 @@ https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_14
 #EXTINF:-1 tvg-id="Bloomberg.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/500px-New_Bloomberg_Logo.svg.png" group-title="USA", Bloomberg Television
 https://bloomberg.com/media-manifest/streams/us.m3u8
 #EXTINF:-1 tvg-id="CNBC.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cnbc-us.png" group-title="USA", CNBC
-http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
+# HS - serveur 404, aucune source - http://41.205.93.154/CNBC/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News Channel
-http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
+# HS - serveur 404, aucune source - http://41.205.93.154/FOX-NEWS/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="E!.Entertainment.Television.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/e-entertainment-us.png" group-title="USA", E!
 http://23.237.104.106:8080/USA_E/index.m3u8
 #EXTINF:-1 tvg-id="Food.Network.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/f9/Food_Network_New_Logo.png" group-title="USA", Food Network
