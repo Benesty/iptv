@@ -9,7 +9,7 @@ name: Auto-heal ParaTV links
 
 on:
   schedule:
-    - cron: '*/15 * * * *'   # toutes les heures à HH:17
+    - cron: '*/15 * * * *'   # toutes les 15 min (ParaTV tourne ses URLs ~chaque heure)
   workflow_dispatch:
 
 permissions:
