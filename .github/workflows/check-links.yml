@@ -1,7 +1,8 @@
 name: Check IPTV links
 
 # Teste chaque flux de TV.m3u depuis un runner GitHub (accès internet complet).
-# Lancement manuel depuis l'onglet Actions, ou via l'API.
+# Un lien est "OK" UNIQUEMENT si le serveur renvoie un manifeste HLS valide
+# (#EXTM3U) — un simple code 200 ne suffit pas. Tout le reste = FAIL.
 on:
   workflow_dispatch:
   push:
@@ -15,18 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test each stream URL
+      - name: Test each stream URL (strict manifest validation)
         shell: bash {0}
         run: |
-          UA="VLC/3.0.20 LibVLC/3.0.20"
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
           FILE="TV.m3u"
-          chan=""
-          alive=0; geo=0; dead=0; total=0
+          chan=""; ok=0; fail=0; total=0
           {
-            echo "# Résultat du test des flux"
+            echo "# Test strict des flux (manifeste HLS validé)"
             echo ""
-            echo "| Statut | Code | Chaîne | URL |"
-            echo "|---|---|---|---|"
+            echo "| Résultat | Code | Chaîne |"
+            echo "|---|---|---|"
           } >> "$GITHUB_STEP_SUMMARY"
 
           while IFS= read -r line || [ -n "$line" ]; do
@@ -34,27 +34,26 @@ jobs:
               \#EXTINF*) chan="${line##*,}" ;;
               http*)
                 total=$((total+1))
-                code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -w '%{http_code}' "$line" 2>/dev/null || true)
-                # certains CDN refusent HEAD/GET complet : retente en range
-                if [ "$code" = "000" ] || [ "$code" = "405" ]; then
-                  code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -r 0-2048 -w '%{http_code}' "$line" 2>/dev/null || true)
+                host=$(echo "$line" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+                # télécharge le début du flux et capture le code HTTP
+                body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 \
+                       -w '\nHTTPCODE:%{http_code}' "$line" 2>/dev/null)
+                code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+                if printf '%s' "$body" | grep -q '#EXTM3U'; then
+                  result="✅ OK (manifeste valide)"; ok=$((ok+1))
+                else
+                  result="❌ FAIL"; fail=$((fail+1))
                 fi
-                case "$code" in
-                  2*|30*) status="✅ ALIVE"; alive=$((alive+1)) ;;
-                  401|403|451) status="🌍 GEO/AUTH"; geo=$((geo+1)) ;;
-                  *) status="❌ DEAD"; dead=$((dead+1)) ;;
-                esac
-                echo "$status | $code | $chan"
-                echo "| $status | $code | ${chan} | \`${line:0:60}\` |" >> "$GITHUB_STEP_SUMMARY"
+                echo "$result | ${code:-000} | $chan"
+                echo "| $result | ${code:-000} | ${chan} |" >> "$GITHUB_STEP_SUMMARY"
                 ;;
             esac
           done < "$FILE"
 
           {
             echo ""
-            echo "**Total: $total — ✅ $alive vivants · 🌍 $geo géo/auth · ❌ $dead morts**"
+            echo "**$total testés — ✅ $ok manifeste valide · ❌ $fail échec**"
             echo ""
-            echo "_Runner US : les chaînes 🇫🇷 françaises et 🇨🇦 canadiennes peuvent apparaître 🌍 GEO (bloquées hors zone) tout en marchant chez toi. Seuls les ❌ DEAD sont réellement HS._"
+            echo "_OK = le serveur a réellement renvoyé un manifeste HLS jouable depuis ce runner (US). Un flux géo-bloqué hors-US apparaît en FAIL ici même s'il marche dans sa zone._"
           } >> "$GITHUB_STEP_SUMMARY"
-
-          echo "=== RÉSUMÉ: $total testés | $alive vivants | $geo géo/auth | $dead morts ==="
+          echo "=== RÉSUMÉ: $total testés | $ok OK | $fail FAIL ==="
