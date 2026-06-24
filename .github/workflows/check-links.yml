@@ -4,6 +4,10 @@ name: Check IPTV links
 # Lancement manuel depuis l'onglet Actions, ou via l'API.
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'TV.m3u'
+      - '.github/workflows/check-links.yml'
 
 jobs:
   check:
