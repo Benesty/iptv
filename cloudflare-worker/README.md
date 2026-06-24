@@ -15,7 +15,19 @@ TF1/TMC/TFX/LCI/TF1 Séries Films ne meurent plus jamais.
 Teste dans le navigateur : `https://paratv.TON-COMPTE.workers.dev/TF1.fr`
 → ça doit lancer le flux TF1 (ou rediriger vers un .m3u8).
 
-## Option B — CLI (si tu as Node)
+## Option Vercel (tu as Vercel Pro) — recommandé pour toi
+
+La fonction est déjà dans le repo : [`/api/[channel].js`](../api/%5Bchannel%5D.js) (Edge Function).
+
+1. https://vercel.com/new → **Import** le repo `benesty/iptv`.
+2. Laisse tout par défaut → **Deploy** (zéro config, Vercel détecte `/api`).
+3. Ton URL : `https://<projet>.vercel.app/api/TF1.fr`
+
+Comme le repo est connecté, chaque push redéploie tout seul. (CLI : `vercel --prod`.)
+
+Teste : `https://<projet>.vercel.app/api/TF1.fr` → doit lancer TF1.
+
+## Option B — Cloudflare CLI (si tu as Node)
 
 ```bash
 npm i -g wrangler
