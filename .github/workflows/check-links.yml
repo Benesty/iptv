@@ -16,6 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Test each stream URL
+        shell: bash {0}
         run: |
           UA="VLC/3.0.20 LibVLC/3.0.20"
           FILE="TV.m3u"
@@ -33,10 +34,10 @@ jobs:
               \#EXTINF*) chan="${line##*,}" ;;
               http*)
                 total=$((total+1))
-                code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -w '%{http_code}' "$line" 2>/dev/null)
+                code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -w '%{http_code}' "$line" 2>/dev/null || true)
                 # certains CDN refusent HEAD/GET complet : retente en range
                 if [ "$code" = "000" ] || [ "$code" = "405" ]; then
-                  code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -r 0-2048 -w '%{http_code}' "$line" 2>/dev/null)
+                  code=$(curl -A "$UA" -s -o /dev/null -m 15 -L -r 0-2048 -w '%{http_code}' "$line" 2>/dev/null || true)
                 fi
                 case "$code" in
                   2*|30*) status="✅ ALIVE"; alive=$((alive+1)) ;;
