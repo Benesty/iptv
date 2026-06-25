@@ -78,6 +78,16 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 #EXTINF:-1 tvg-id="NickelodeonJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="France", Nickelodeon Junior
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
+#EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
+https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
+#EXTINF:-1 tvg-id="LCP.fr" group-title="France", LCP
+https://iptv-lake-three.vercel.app/api/fr?id=LaChaineParlementaire.fr
+#EXTINF:-1 tvg-id="PublicSenat.fr" group-title="France", Public Sénat
+https://iptv-lake-three.vercel.app/api/fr?id=PublicSenat2424.fr
+#EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
+https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
+#EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
+https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
@@ -103,6 +113,24 @@ https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #========================================
 #EXTINF:-1 tvg-id="TeleQuebec.ca" tvg-logo="https://i.imgur.com/8R4EaFu.png" group-title="Canada FR", Télé-Québec
 https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
+#EXTINF:-1 tvg-id="CFTM.ca" group-title="Canada FR", TVA
+https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8
+#EXTINF:-1 tvg-id="CBVT.ca" group-title="Canada FR", ICI Télé Québec
+https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master.m3u8
+#EXTINF:-1 tvg-id="CKTM.ca" group-title="Canada FR", ICI Télé Mauricie
+https://rcavlive.akamaized.net/hls/live/704021/cancktm/master.m3u8
+#EXTINF:-1 tvg-id="CKTV.ca" group-title="Canada FR", ICI Télé Saguenay
+https://rcavlive.akamaized.net/hls/live/704023/cancktv/master.m3u8
+#EXTINF:-1 tvg-id="CJBR.ca" group-title="Canada FR", ICI Télé Est-du-Québec
+https://rcavlive.akamaized.net/hls/live/704024/cancjbr/master.m3u8
+#EXTINF:-1 tvg-id="CBOFT.ca" group-title="Canada FR", ICI Télé Ottawa-Gatineau
+https://rcavlive.akamaized.net/hls/live/664046/cancboft/master.m3u8
+#EXTINF:-1 tvg-id="CBLFT.ca" group-title="Canada FR", ICI Télé Ontario
+https://rcavlive.akamaized.net/hls/live/704022/cancblft/master.m3u8
+#EXTINF:-1 tvg-id="CanalSavoir.ca" group-title="Canada FR", Canal Savoir
+https://hls.savoir.media/live/stream.m3u8
+#EXTINF:-1 tvg-id="Zeste.ca" group-title="Canada FR", Zeste
+https://vmediazeste.akamaized.net/no/V-ZESTE/V-ZESTE.isml/V-ZESTE.m3u8
 # 🇨🇦 CANADA EN
 #========================================
 #EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Television
@@ -126,6 +154,8 @@ https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/
 https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
 #EXTINF:-1 tvg-id="TSN.The.Ocho.ca2" group-title="Canada EN", TSN The Ocho
 https://d3pnbvng3bx2nj.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-rds8g35qfqrnv/TSN_The_Ocho.m3u8
+#EXTINF:-1 tvg-id="CAAJ3400006QE" group-title="Canada EN", The Red Green Channel
+https://jmp2.uk/stvp-CAAJ3400006QE
 # 🇺🇸 USA
 #========================================
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="USA", France 24 (EN)
@@ -172,3 +202,49 @@ http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8
 http://23.237.104.106:8080/USA_BOOMERANG/index.m3u8
 #EXTINF:-1 tvg-id="NBA.TV.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nba-tv-us.png" group-title="USA", NBA TV
 http://23.237.104.106:8080/USA_NBA/index.m3u8
+#EXTINF:-1 tvg-id="ABCNewsLive.us" group-title="USA", ABC News Live
+https://jmp2.uk/plu-6508be683a0d700008c534e4.m3u8
+#EXTINF:-1 tvg-id="NBCNewsNow.us" group-title="USA", NBC News Now
+https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
+#EXTINF:-1 tvg-id="Newsmax.us" group-title="USA", Newsmax
+https://nmx1ota.akamaized.net/hls/live/2107010/Live_1/index.m3u8
+#EXTINF:-1 tvg-id="ScrippsNews.us" group-title="USA", Scripps News
+https://jmp2.uk/stvp-USBD3000073N
+#EXTINF:-1 tvg-id="CheddarNews.us" group-title="USA", Cheddar News
+https://jmp2.uk/stvp-USAJ3504714A
+#EXTINF:-1 tvg-id="FOXWeather.us" group-title="USA", FOX Weather
+https://jmp2.uk/stvp-USBD700003L7
+#EXTINF:-1 tvg-id="WeatherNation.us" group-title="USA", WeatherNation
+https://jmp2.uk/rok-a1e38b83ae2a56f09f4d2ee8ed206b35.m3u8
+#EXTINF:-1 tvg-id="CourtTV.us" group-title="USA", Court TV
+https://jmp2.uk/stvp-USBA34000049Z
+#EXTINF:-1 tvg-id="Comet.us" group-title="USA", Comet
+https://fast-channels.sinclairstoryline.com/COMET/index.m3u8
+#EXTINF:-1 tvg-id="MeTV.us" group-title="USA", MeTV
+https://82934cf9c8696bd2.mediapackage.us-east-1.amazonaws.com/out/v1/23685237ffbb4047a8143ac2166ead44/index.m3u8
+#EXTINF:-1 tvg-id="Buzzr.us" group-title="USA", Buzzr
+https://buzzrota-ono.amagi.tv/playlist.m3u8
+#EXTINF:-1 tvg-id="PBSKids.us" group-title="USA", PBS Kids
+https://jmp2.uk/stvp-USBC3600013PC
+#EXTINF:-1 tvg-id="NFLChannel.us" group-title="USA", NFL Channel
+https://jmp2.uk/plu-5ced7d5df64be98e07ed47b6.m3u8
+#EXTINF:-1 tvg-id="beINSportsXtra.us" group-title="USA", beIN Sports XTRA
+https://d9ssxzmclhfo4.cloudfront.net/bein_sports.m3u8
+#EXTINF:-1 tvg-id="Stadium.us" group-title="USA", Stadium
+https://jmp2.uk/stvp-USAJ3504705A
+#EXTINF:-1 tvg-id="TennisChannel.us" group-title="USA", Tennis Channel
+https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischnlintl-lggb/playlist.m3u8
+#EXTINF:-1 tvg-id="ComedyCentral.us" group-title="USA", Comedy Central (Pluto)
+https://jmp2.uk/plu-5ca671f215a62078d2ec0abf.m3u8
+#EXTINF:-1 tvg-id="MTV.us" group-title="USA", MTV (Pluto)
+https://jmp2.uk/plu-5ca672f515a62078d2ec0ad2.m3u8
+#EXTINF:-1 tvg-id="BET.us" group-title="USA", BET (Pluto)
+https://jmp2.uk/plu-5ca670f6593a5d78f0e85aed.m3u8
+#EXTINF:-1 tvg-id="History.us" group-title="USA", Pluto TV History
+https://jmp2.uk/plu-5a4d35dfa5c02e717a234f86.m3u8
+#EXTINF:-1 tvg-id="AMC.us" group-title="USA", Stories by AMC
+https://jmp2.uk/plu-62f2ce24f328e00007e7f55a.m3u8
+#EXTINF:-1 tvg-id="ParamountMovieChannel.us" group-title="USA", Paramount Movie Channel
+https://jmp2.uk/plu-5cb0cae7a461406ffe3f5213.m3u8
+#EXTINF:-1 tvg-id="HallmarkMoviesMore.us" group-title="USA", Hallmark Movies & More
+https://jmp2.uk/stvp-USBD270001633
