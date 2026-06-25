@@ -80,10 +80,6 @@ http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
-#EXTINF:-1 tvg-id="LCP.fr" group-title="France", LCP
-https://iptv-lake-three.vercel.app/api/fr?id=LaChaineParlementaire.fr
-#EXTINF:-1 tvg-id="PublicSenat.fr" group-title="France", Public Sénat
-https://iptv-lake-three.vercel.app/api/fr?id=PublicSenat2424.fr
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
 https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
@@ -115,18 +111,6 @@ https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
 #EXTINF:-1 tvg-id="CFTM.ca" group-title="Canada FR", TVA
 https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8
-#EXTINF:-1 tvg-id="CBVT.ca" group-title="Canada FR", ICI Télé Québec
-https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master.m3u8
-#EXTINF:-1 tvg-id="CKTM.ca" group-title="Canada FR", ICI Télé Mauricie
-https://rcavlive.akamaized.net/hls/live/704021/cancktm/master.m3u8
-#EXTINF:-1 tvg-id="CKTV.ca" group-title="Canada FR", ICI Télé Saguenay
-https://rcavlive.akamaized.net/hls/live/704023/cancktv/master.m3u8
-#EXTINF:-1 tvg-id="CJBR.ca" group-title="Canada FR", ICI Télé Est-du-Québec
-https://rcavlive.akamaized.net/hls/live/704024/cancjbr/master.m3u8
-#EXTINF:-1 tvg-id="CBOFT.ca" group-title="Canada FR", ICI Télé Ottawa-Gatineau
-https://rcavlive.akamaized.net/hls/live/664046/cancboft/master.m3u8
-#EXTINF:-1 tvg-id="CBLFT.ca" group-title="Canada FR", ICI Télé Ontario
-https://rcavlive.akamaized.net/hls/live/704022/cancblft/master.m3u8
 #EXTINF:-1 tvg-id="CanalSavoir.ca" group-title="Canada FR", Canal Savoir
 https://hls.savoir.media/live/stream.m3u8
 #EXTINF:-1 tvg-id="Zeste.ca" group-title="Canada FR", Zeste
@@ -154,8 +138,6 @@ https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/
 https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
 #EXTINF:-1 tvg-id="TSN.The.Ocho.ca2" group-title="Canada EN", TSN The Ocho
 https://d3pnbvng3bx2nj.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-rds8g35qfqrnv/TSN_The_Ocho.m3u8
-#EXTINF:-1 tvg-id="CAAJ3400006QE" group-title="Canada EN", The Red Green Channel
-https://jmp2.uk/stvp-CAAJ3400006QE
 # 🇺🇸 USA
 #========================================
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="USA", France 24 (EN)
@@ -210,10 +192,6 @@ https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
 https://nmx1ota.akamaized.net/hls/live/2107010/Live_1/index.m3u8
 #EXTINF:-1 tvg-id="ScrippsNews.us" group-title="USA", Scripps News
 https://jmp2.uk/stvp-USBD3000073N
-#EXTINF:-1 tvg-id="CheddarNews.us" group-title="USA", Cheddar News
-https://jmp2.uk/stvp-USAJ3504714A
-#EXTINF:-1 tvg-id="FOXWeather.us" group-title="USA", FOX Weather
-https://jmp2.uk/stvp-USBD700003L7
 #EXTINF:-1 tvg-id="WeatherNation.us" group-title="USA", WeatherNation
 https://jmp2.uk/rok-a1e38b83ae2a56f09f4d2ee8ed206b35.m3u8
 #EXTINF:-1 tvg-id="CourtTV.us" group-title="USA", Court TV
