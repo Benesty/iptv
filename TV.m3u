@@ -59,6 +59,8 @@ https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/f
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28info%29%2Fvariant.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
 https://jmp2.uk/stvp-FR1800004EP
+#EXTINF:-1 tvg-id="TV5MONDEChefs.fr" group-title="France", TV5Monde Chefs
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28chefs%29%2Fvariant.m3u8
 #========================================
 # 🇫🇷 FRANCE — Thématiques
 #========================================
