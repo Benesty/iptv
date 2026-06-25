@@ -185,4 +185,4 @@ http://23.237.104.106:8080/USA_BOOMERANG/index.m3u8
 #EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nba-tv-us.png" group-title="USA", NBA TV
 http://23.237.104.106:8080/USA_NBA/index.m3u8
 #EXTINF:-1 tvg-id="HGTV.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/hgtv-us.png" group-title="Canada EN", HGTV Canada
-https://starlite.best/api/stream/burns/burns/livetv.epg/hgtv.canada.ca.m3u8
+http://167.114.156.30:1935/flu555/_definst_/jhgtv/playlist.m3u8
