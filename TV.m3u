@@ -122,12 +122,6 @@ https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/
 #========================================
 #EXTINF:-1 tvg-id="KnowledgeNetwork.ca" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada EN", Knowledge Network
 https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
-#EXTINF:-1 tvg-id="Cottage.Life.ca2" group-title="Canada EN", Cottage Life
-http://185.246.209.113/CottageLife/index.m3u8
-#EXTINF:-1 tvg-id="T+E.ca2" group-title="Canada EN", T+E
-http://185.246.209.113/T+E/index.m3u8
-#EXTINF:-1 tvg-id="Love.Nature.ca2" group-title="Canada EN", Love Nature
-http://185.246.209.113/LOVENATUREHD/index.m3u8
 #EXTINF:-1 tvg-id="TVO.Kids.ca2" group-title="Canada EN", TVOKids
 https://bcovlive-a.akamaihd.net/rf86f817779524249abf842af6d16f55f/us-east-1/15364602001/playlist.m3u8
 #EXTINF:-1 tvg-id="TSN.The.Ocho.ca2" group-title="Canada EN", TSN The Ocho
