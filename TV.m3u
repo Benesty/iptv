@@ -89,7 +89,7 @@ https://jmp2.uk/stvp-FRBD19000095S
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 # ⚠️ ICI RDI — géo-bloqué Canada (403 hors-CA). Devrait fonctionner depuis ton réseau au Québec.
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
-https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
+https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8
 #EXTINF:-1 tvg-id="CHLT.Sherbrooke.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA Sherbrooke
 https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
 #EXTINF:-1 tvg-id="Le.Canal.Nouvelles.TVA.ca2" tvg-logo="https://i.imgur.com/Ggl9Wm0.png" group-title="Canada FR", LCN
@@ -106,7 +106,7 @@ https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68
 #EXTINF:-1 tvg-id="TeleQuebec.ca" tvg-logo="https://i.imgur.com/8R4EaFu.png" group-title="Canada FR", Télé-Québec
 https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
 #EXTINF:-1 tvg-id="TV5QuebecCanada.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tv5-ca.png" group-title="Canada FR", TV5 Québec
-http://23.133.220.149/TV5/index.m3u8
+https://ch.iptvmate.net/cf91e3f65f7cbe063b76aafaf2f54f01.m3u8
 # 🇨🇦 CANADA EN
 #========================================
 #EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Montréal
