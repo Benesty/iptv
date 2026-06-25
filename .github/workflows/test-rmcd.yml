@@ -1,0 +1,28 @@
+name: Test RMC Decouverte
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test RMC Decouverte candidates
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["ParaTV id (proxy)"]="https://iptv-lake-three.vercel.app/api/fr?id=RMCDecouverte.fr"
+            ["ParaTV cloudfront direct"]="https://d2mt8for1pddy4.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6uronj7gzvy4j/index.m3u8"
+            ["Samsung FAST raw"]="https://jmp2.uk/stvp-FRBD4100008QS"
+            ["Samsung FAST proxy"]="https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fjmp2.uk%2Fstvp-FRBD4100008QS"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 25 -L --max-filesize 300000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            seg=$(printf '%s' "$body" | grep -oiE 'RMC_Decouverte|BFM|bfmtv|RMC' | head -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK manifeste"; else r="FAIL"; fi
+            echo "=== [$r] code=${code:-000} | indice=${seg:-?} :: $name"
+          done
