@@ -1,0 +1,26 @@
+name: Test HGTV US
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test HGTV US candidates
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["reseller USA_HGTV"]="http://23.237.104.106:8080/USA_HGTV/index.m3u8"
+            ["reseller USA_HGTV_HD"]="http://23.237.104.106:8080/USA_HGTV_HD/index.m3u8"
+            ["reseller USA_HGTV_HD2"]="http://23.237.104.106:8080/HGTV/index.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK manifeste"; else r="FAIL"; fi
+            echo "=== [$r] code=${code:-000} :: $name"
+          done
