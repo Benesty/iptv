@@ -35,7 +35,7 @@ http://151.80.18.177:86/6ter/index.m3u8
 #EXTINF:-1 tvg-chno="23" tvg-id="Numero23.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png" group-title="France", RMC Story
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd15aro46bnpfm8.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-fqkqiax1078up%2FRMC_Story_FR.m3u8
 #EXTINF:-1 tvg-chno="24" tvg-id="RMCDecouverte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png" group-title="France", RMC Découverte
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd16zzycxcd0m0r.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-hixvx5kymecr9%2FRMC_Decouverte_FR.m3u8
+https://jmp2.uk/stvp-FRBD4100008QS
 #EXTINF:-1 tvg-chno="25" tvg-id="FR4000003O1" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://jmp2.uk/stvp-FR4000003O1
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
