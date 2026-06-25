@@ -6,6 +6,9 @@ name: Build EPG
 on:
   schedule:
     - cron: "30 4 * * *"   # tous les jours 04:30 UTC
+  push:
+    branches: [main]
+    paths: ["TV.m3u"]      # reconstruit l'EPG à chaque ajout/retrait de chaîne
   workflow_dispatch:
 
 permissions:
