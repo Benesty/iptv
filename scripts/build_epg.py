@@ -62,6 +62,11 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", "", s.lower())
 
 
+def base(s):
+    """Retire le suffixe pays/locale final (.fr, .ca2, ...) avant normalisation."""
+    return norm(re.sub(r"(\.[a-zA-Z]{2}\d*)+$", "", s or ""))
+
+
 # 1) chaînes du m3u : (tvg-id, nom affiché)
 wanted = []
 rid = re.compile(r'tvg-id="([^"]*)"')
@@ -88,12 +93,13 @@ for i, url in enumerate(SOURCES):
         print(f"!! {url} : {e}")
 
 # 3) passe 1 : index des chaînes du guide (par id et par nom normalisé)
-chan_xml, name2id = {}, {}
+chan_xml, name2id, baseid = {}, {}, {}
 for xml in feeds:
     for _ev, el in ET.iterparse(io.BytesIO(xml), events=("end",)):
         if el.tag == "channel":
             cid = el.get("id")
             chan_xml.setdefault(cid, ET.tostring(el, encoding="unicode"))
+            baseid.setdefault(base(cid), cid)
             for dn in el.findall("display-name"):
                 if dn.text:
                     name2id.setdefault(norm(dn.text), cid)
@@ -107,7 +113,9 @@ for tid, name in wanted:
     if tid in chan_xml:
         src_of[tid] = tid
     else:
-        sid = name2id.get(norm(tid.split(".")[0])) or name2id.get(norm(name))
+        sid = (baseid.get(base(tid)) or
+               name2id.get(norm(tid.split(".")[0])) or
+               name2id.get(norm(name)))
         if sid:
             src_of[tid] = sid
             print(f"   nom→ {tid:24s} ~ {sid}")
