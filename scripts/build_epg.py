@@ -17,6 +17,11 @@ import xml.etree.ElementTree as ET
 BASE = "https://epgshare01.online/epgshare01/"
 WANT = ("FR", "CA", "US")                       # flux nationaux voulus
 FALLBACK = [BASE + f"epg_ripper_{c}1.xml.gz" for c in WANT]
+# Guides XMLTV supplémentaires (non-gzip) pour les chaînes FAST Samsung TV Plus
+# absentes des flux nationaux epgshare01 (RMC Life, TV5Monde Chefs/Voyage/Info,
+# Noovo, CBC Comedy, Gusto…). Matchés par tvg-id exact = l'id Samsung.
+EXTRA = ["https://i.mjh.nz/SamsungTVPlus/fr.xml",
+         "https://i.mjh.nz/SamsungTVPlus/ca.xml"]
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
@@ -89,6 +94,15 @@ for i, url in enumerate(SOURCES):
         time.sleep(4)
     try:
         feeds.append(gzip.decompress(get(url)))
+    except Exception as e:
+        print(f"!! {url} : {e}")
+
+# guides XMLTV supplémentaires (déjà en clair, pas de gunzip)
+for url in EXTRA:
+    time.sleep(2)
+    try:
+        feeds.append(get(url))
+        print(f"   + extra : {url.split('/')[-2]}/{url.split('/')[-1]}")
     except Exception as e:
         print(f"!! {url} : {e}")
 

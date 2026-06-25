@@ -36,7 +36,7 @@ http://151.80.18.177:86/6ter/index.m3u8
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd15aro46bnpfm8.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-fqkqiax1078up%2FRMC_Story_FR.m3u8
 #EXTINF:-1 tvg-chno="24" tvg-id="RMCDecouverte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png" group-title="France", RMC Découverte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd16zzycxcd0m0r.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-hixvx5kymecr9%2FRMC_Decouverte_FR.m3u8
-#EXTINF:-1 tvg-chno="25" tvg-id="RMCLife.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
+#EXTINF:-1 tvg-chno="25" tvg-id="FR4000003O1" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png" group-title="France", RMC Life
 https://jmp2.uk/stvp-FR4000003O1
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
 https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
@@ -55,11 +55,11 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.b
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmb.bct.nextradiotv.com%2Fmaster.m3u8
 #EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="France", France 24 (FR)
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-24-highest.m3u8
-#EXTINF:-1 tvg-id="TV5MondeInfo.fr" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
+#EXTINF:-1 tvg-id="FR1800005X0" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28info%29%2Fvariant.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
+#EXTINF:-1 tvg-id="FR1800004EP" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
 https://jmp2.uk/stvp-FR1800004EP
-#EXTINF:-1 tvg-id="TV5MONDEChefs.fr" group-title="France", TV5Monde Chefs
+#EXTINF:-1 tvg-id="FR1300003HM" group-title="France", TV5Monde Chefs
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28chefs%29%2Fvariant.m3u8
 #========================================
 # 🇫🇷 FRANCE — Thématiques
@@ -94,7 +94,7 @@ https://tvalive-nondai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-id="Savoir.média.ca2" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada FR", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/BL9ziSJ.png" group-title="Canada FR", Noovo Cinéma
+#EXTINF:-1 tvg-id="CA1400008DK" tvg-logo="https://i.imgur.com/BL9ziSJ.png" group-title="Canada FR", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/BL9ziSJ.png" group-title="Canada FR", Noovo Comédies
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
@@ -111,7 +111,7 @@ https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5
 https://amg00788-cbc-amg00788c4-xumo-us-3045.playouts.now.amagi.tv/master.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/PTDoNeI.jpeg" group-title="Canada EN", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/AF9wcJm.jpeg" group-title="Canada EN", CBC Comedy
+#EXTINF:-1 tvg-id="CABD1200043OK" tvg-logo="https://i.imgur.com/AF9wcJm.jpeg" group-title="Canada EN", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png" group-title="Canada EN", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
@@ -119,7 +119,7 @@ https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4cc
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
 #EXTINF:-1 tvg-id="BNN.Bloomberg.ca2" tvg-logo="https://i.imgur.com/ZkN8AUc.png" group-title="Canada EN", BNN Bloomberg
 https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
+#EXTINF:-1 tvg-id="CABB2500021YQ" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #========================================
 #EXTINF:-1 tvg-id="KnowledgeNetwork.ca" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada EN", Knowledge Network
