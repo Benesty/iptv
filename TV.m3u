@@ -188,20 +188,6 @@ http://23.237.104.106:8080/USA_NBA/index.m3u8
 https://jmp2.uk/plu-6508be683a0d700008c534e4.m3u8
 #EXTINF:-1 tvg-id="NBCNewsNow.us" group-title="USA", NBC News Now
 https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
-#EXTINF:-1 tvg-id="Newsmax.us" group-title="USA", Newsmax
-https://nmx1ota.akamaized.net/hls/live/2107010/Live_1/index.m3u8
-#EXTINF:-1 tvg-id="ScrippsNews.us" group-title="USA", Scripps News
-https://jmp2.uk/stvp-USBD3000073N
-#EXTINF:-1 tvg-id="WeatherNation.us" group-title="USA", WeatherNation
-https://jmp2.uk/rok-a1e38b83ae2a56f09f4d2ee8ed206b35.m3u8
-#EXTINF:-1 tvg-id="CourtTV.us" group-title="USA", Court TV
-https://jmp2.uk/stvp-USBA34000049Z
-#EXTINF:-1 tvg-id="Comet.us" group-title="USA", Comet
-https://fast-channels.sinclairstoryline.com/COMET/index.m3u8
-#EXTINF:-1 tvg-id="MeTV.us" group-title="USA", MeTV
-https://82934cf9c8696bd2.mediapackage.us-east-1.amazonaws.com/out/v1/23685237ffbb4047a8143ac2166ead44/index.m3u8
-#EXTINF:-1 tvg-id="Buzzr.us" group-title="USA", Buzzr
-https://buzzrota-ono.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="PBSKids.us" group-title="USA", PBS Kids
 https://jmp2.uk/stvp-USBC3600013PC
 #EXTINF:-1 tvg-id="NFLChannel.us" group-title="USA", NFL Channel
