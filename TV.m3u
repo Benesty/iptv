@@ -83,6 +83,16 @@ https://jmp2.uk/stvp-FRBB39000020C
 #EXTINF:-1 tvg-chno="126" tvg-id="FRBD19000095S" tvg-logo="https://static.wixstatic.com/media/6ba705_157c0663b69041e0a7c5b543e83f53e0~mv2.png" group-title="France", Ciné Western
 https://jmp2.uk/stvp-FRBD19000095S
 #========================================
+#EXTINF:-1 tvg-logo="https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/RMCMystere100x100couleur.png" group-title="France", RMC Mystère
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd3w0weunrynif9.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-30cqeaahzofvb%2Findex.m3u8
+#EXTINF:-1 tvg-logo="https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/RMCWOW100x100couleur.png" group-title="France", RMC WOW
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd18uxd7zigjv4y.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-hynzl7bz38ht6%2Findex.m3u8
+#EXTINF:-1 tvg-logo="https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/RMCMECANIC100x100couleur.png" group-title="France", RMC Mecanic
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd3bb0xy15a32jc.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-3gcgvdj5b4sla%2Findex.m3u8
+#EXTINF:-1 tvg-logo="https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/RMCALERTESECOURS100x100couleur.png" group-title="France", RMC Alerte Secours
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fddt6vdovkiskj.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-jompzy8pen6vl%2Findex.m3u8
+#EXTINF:-1 tvg-logo="https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/RMCJDCV100x100couleur.png" group-title="France", RMC J'irai dormir chez vous
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fdwsx9zc2hxqhl.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-k0j7zahecxb3y%2Findex.m3u8
 # 🇨🇦 CANADA FR
 #========================================
 #EXTINF:-1 tvg-id="CKSH.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé Estrie
