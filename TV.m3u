@@ -23,7 +23,7 @@ https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
 https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
-# HS [6cloud bloque les datacenters - residentiel requis] https://origin-caf900c010ea8046.live.6cloud.fr/out/v1/c65696b42ca34e97a9b5f54758d6dd50/cmaf/hlsfmp4_short_q2hyb21h_gulli_sd_index.m3u8
+http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
@@ -128,8 +128,8 @@ https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/
 #========================================
 # 🇺🇸 USA
 #========================================
-#EXTINF:-1 tvg-id="ABC.National.Feed.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/500px-ABC-2021-LOGO.svg.png" group-title="USA", ABC
-# HS - aucun flux ABC libre fonctionnel (uplynk 404, rezofoot 404) - http://rezofoot.tv/ABC/index.m3u8
+#EXTINF:-1 tvg-id="ABCNewsLive.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/abc-news-live-hz-us.png" group-title="USA", ABC News Live
+https://lnc-abc-news.tubi.video/index.m3u8
 #EXTINF:-1 tvg-id="France.24.Anglais.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="USA", France 24 (EN)
 https://a-cdn.klowdtv.com/live2/france24_720p/playlist.m3u8
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
