@@ -1,0 +1,25 @@
+name: Test CBC Montreal DAI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test CBC Montreal DAI candidates (strict manifest)
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["Captured variant (session)"]="https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/stream/030629cd-17c7-417e-8228-c38b4a7feab9:MRN2/variant/776d06c2e08e0fd454cf24db9901b073/bandwidth/3102000.m3u8"
+            ["Master candidate (event)"]="https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/master.m3u8"
+            ["Stream candidate (event)"]="https://dai.google.com/linear/hls/pa/event/fbbUzrtWRKOeKFUZ8mT5wA/stream.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            body=$(curl -A "$UA" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK manifeste"; else r="FAIL"; fi
+            echo "=== [$r] code=${code:-000} :: $name"
+          done
