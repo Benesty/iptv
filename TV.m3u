@@ -46,8 +46,6 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fdocumentaire-highest.m3u8
 #EXTINF:-1 tvg-chno="116" tvg-id="FranceTVSeries.fr" tvg-logo="https://i.imgur.com/ESz1gbr.png" group-title="France", France TV Séries
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fserie-highest.m3u8
-#EXTINF:-1 tvg-chno="117" tvg-id="FranceTVSport.fr" tvg-logo="https://i.imgur.com/IeiMuGI.png" group-title="France", France TV Sport
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fsport-highest.m3u8
 #========================================
 # 🇫🇷 FRANCE — Info
 #========================================
@@ -78,10 +76,6 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 #EXTINF:-1 tvg-id="NickelodeonJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="France", Nickelodeon Junior
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
-#EXTINF:-1 tvg-chno="125" tvg-id="FRBB39000020C" tvg-logo="https://static.wixstatic.com/media/6ba705_4a8e930e0e1e4231b059e29e951d15ad~mv2.png" group-title="France", Ciné Nanar
-https://jmp2.uk/stvp-FRBB39000020C
-#EXTINF:-1 tvg-chno="126" tvg-id="FRBD19000095S" tvg-logo="https://static.wixstatic.com/media/6ba705_157c0663b69041e0a7c5b543e83f53e0~mv2.png" group-title="France", Ciné Western
-https://jmp2.uk/stvp-FRBD19000095S
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
@@ -184,5 +178,3 @@ http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8
 http://23.237.104.106:8080/USA_BOOMERANG/index.m3u8
 #EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nba-tv-us.png" group-title="USA", NBA TV
 http://23.237.104.106:8080/USA_NBA/index.m3u8
-#EXTINF:-1 tvg-id="HGTV.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/hgtv-us.png" group-title="Canada EN", HGTV Canada
-# HS — aucune source HGTV libre/officielle (toutes = comptes revendeurs "ACCOUNT IS BLOCKED"). Voir message.
