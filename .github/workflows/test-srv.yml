@@ -1,0 +1,62 @@
+name: Test server channels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test new channels on existing servers
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          U="http://23.237.104.106:8080"
+          F="http://151.80.18.177:86"
+          declare -A C=(
+            ["US AMC"]="$U/USA_AMC/index.m3u8"
+            ["US TNT"]="$U/USA_TNT/index.m3u8"
+            ["US TBS"]="$U/USA_TBS/index.m3u8"
+            ["US USA Network"]="$U/USA_NETWORK/index.m3u8"
+            ["US SYFY"]="$U/USA_SYFY/index.m3u8"
+            ["US A&E"]="$U/USA_AE/index.m3u8"
+            ["US History"]="$U/USA_HISTORY/index.m3u8"
+            ["US ID"]="$U/USA_ID/index.m3u8"
+            ["US HGTV"]="$U/USA_HGTV/index.m3u8"
+            ["US TLC"]="$U/USA_TLC/index.m3u8"
+            ["US MTV"]="$U/USA_MTV/index.m3u8"
+            ["US VH1"]="$U/USA_VH1/index.m3u8"
+            ["US Comedy Central"]="$U/USA_COMEDY_CENTRAL/index.m3u8"
+            ["US Paramount Net"]="$U/USA_PARAMOUNT_NETWORK/index.m3u8"
+            ["US Freeform"]="$U/USA_FREEFORM/index.m3u8"
+            ["US BBC America"]="$U/USA_BBC_AMERICA/index.m3u8"
+            ["US IFC"]="$U/USA_IFC/index.m3u8"
+            ["US TruTV"]="$U/USA_TRUTV/index.m3u8"
+            ["US WE tv"]="$U/USA_WE_TV/index.m3u8"
+            ["US Hallmark"]="$U/USA_HALLMARK/index.m3u8"
+            ["US Reelz"]="$U/USA_REELZ/index.m3u8"
+            ["US Showtime"]="$U/USA_SHOWTIME/index.m3u8"
+            ["US Cinemax"]="$U/USA_CINEMAX/index.m3u8"
+            ["US ESPN"]="$U/USA_ESPN1/index.m3u8"
+            ["US ESPN2"]="$U/USA_ESPN2/index.m3u8"
+            ["US FS1"]="$U/USA_FS1/index.m3u8"
+            ["US NFL Network"]="$U/USA_NFL_NETWORK/index.m3u8"
+            ["US NHL Network"]="$U/USA_NHL_NETWORK/index.m3u8"
+            ["US Golf"]="$U/GOLF/index.m3u8"
+            ["US OWN"]="$U/OWN/index.m3u8"
+            ["US BBC News"]="$U/USA_BBC_NEWS/index.m3u8"
+            ["US CMT"]="$U/USA_CMT/index.m3u8"
+            ["FR Disney Channel"]="$F/Disney_Channel_HD/index.m3u8"
+            ["FR Histoire"]="$F/Histoire/index.m3u8"
+            ["FR Teva"]="$F/Teva_HD/index.m3u8"
+            ["FR Paris Premiere"]="$F/Paris_Premiere_HD/index.m3u8"
+            ["FR Eurosport"]="$F/Eurosport_HD/index.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 18 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$name"
+          done | sort
