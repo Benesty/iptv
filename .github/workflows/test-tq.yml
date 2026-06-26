@@ -1,0 +1,28 @@
+name: Test TeleQuebec
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Tele-Quebec candidates
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["actuel bcovlive playlist"]="https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8"
+            ["actuel bcovlive master"]="https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/master.m3u8"
+            ["lldns chunklist"]="https://teleqmmd.mmdlive.lldns.net/teleqmmd/f386e3b206814e1f8c8c1c71c0f8e748/chunklist_b2592000.m3u8"
+            ["lldns playlist"]="https://teleqmmd.mmdlive.lldns.net/teleqmmd/f386e3b206814e1f8c8c1c71c0f8e748/playlist.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            v=$(printf '%s' "$body" | grep -c 'EXT-X-STREAM-INF')
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK"; else r="FAIL"; fi
+            echo "=== [$r] code=${code:-000} | variantes-video=$v :: $name"
+          done
