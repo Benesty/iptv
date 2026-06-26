@@ -178,8 +178,6 @@ http://23.237.104.106:8080/USA_CRIME_INVESTIGATION/index.m3u8
 http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8
 #EXTINF:-1 tvg-id="Boomerang.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/boomerang-us.png" group-title="USA", Boomerang
 http://23.237.104.106:8080/USA_BOOMERANG/index.m3u8
-#EXTINF:-1 tvg-id="NBA.TV.HD.us2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nba-tv-us.png" group-title="USA", NBA TV
-http://23.237.104.106:8080/USA_NBA/index.m3u8
 #EXTINF:-1 tvg-id="ABCNewsLive.us" group-title="USA", ABC News Live
 https://jmp2.uk/plu-6508be683a0d700008c534e4.m3u8
 #EXTINF:-1 tvg-id="NBCNewsNow.us" group-title="USA", NBC News Now
@@ -188,8 +186,6 @@ https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
 https://jmp2.uk/stvp-USBC3600013PC
 #EXTINF:-1 tvg-id="NFLChannel.us" group-title="USA", NFL Channel
 https://jmp2.uk/plu-5ced7d5df64be98e07ed47b6.m3u8
-#EXTINF:-1 tvg-id="beINSportsXtra.us" group-title="USA", beIN Sports XTRA
-https://d9ssxzmclhfo4.cloudfront.net/bein_sports.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us" group-title="USA", Comedy Central (Pluto)
 https://jmp2.uk/plu-5ca671f215a62078d2ec0abf.m3u8
 #EXTINF:-1 tvg-id="MTV.us" group-title="USA", MTV (Pluto)
