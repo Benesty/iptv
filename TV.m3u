@@ -196,14 +196,10 @@ https://jmp2.uk/plu-5ced7d5df64be98e07ed47b6.m3u8
 https://d9ssxzmclhfo4.cloudfront.net/bein_sports.m3u8
 #EXTINF:-1 tvg-id="Stadium.us" group-title="USA", Stadium
 https://jmp2.uk/stvp-USAJ3504705A
-#EXTINF:-1 tvg-id="TennisChannel.us" group-title="USA", Tennis Channel
-https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischnlintl-lggb/playlist.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us" group-title="USA", Comedy Central (Pluto)
 https://jmp2.uk/plu-5ca671f215a62078d2ec0abf.m3u8
 #EXTINF:-1 tvg-id="MTV.us" group-title="USA", MTV (Pluto)
 https://jmp2.uk/plu-5ca672f515a62078d2ec0ad2.m3u8
-#EXTINF:-1 tvg-id="BET.us" group-title="USA", BET (Pluto)
-https://jmp2.uk/plu-5ca670f6593a5d78f0e85aed.m3u8
 #EXTINF:-1 tvg-id="History.us" group-title="USA", Pluto TV History
 https://jmp2.uk/plu-5a4d35dfa5c02e717a234f86.m3u8
 #EXTINF:-1 tvg-id="AMC.us" group-title="USA", Stories by AMC
