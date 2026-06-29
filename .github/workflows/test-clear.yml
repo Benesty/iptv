@@ -1,0 +1,28 @@
+name: Test clear FR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Cherie25 + Gulli clear feeds
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          P="https://iptv-lake-three.vercel.app/api/fr?u="
+          declare -A C=(
+            ["Cherie25 nrjaudio master"]="https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8"
+            ["Cherie25 nrjaudio FHD"]="https://cherie25.nrjaudio.fm/hls/live/2038375/c25/FHD.m3u8"
+            ["Gulli lbcdn via proxy"]="${P}https%3A%2F%2Flbcdn.6cloud.fr%2Fresource%2Fm6web%2Fl%2Fgulli_hls_sd_short_q2hyb21h.m3u8%3Fgroups%5B%5D%3Dm6web-live-gulli_ext"
+            ["Gulli origin2 via proxy"]="${P}https%3A%2F%2Forigin2-6play.live.6cloud.fr%2Fpool_rnpls9by%2Fgulli%2Fsixplaysd%2Fhls_short_q2hyb21h_gulli%2Findex.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$name"
+          done | sort
