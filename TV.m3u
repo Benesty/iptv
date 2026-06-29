@@ -79,26 +79,6 @@ https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
 #========================================
 # FRANCE - Jeunesse & Deco (FAST)
 #========================================
-#EXTINF:-1 tvg-id="FRAJ3800010QO" group-title="France", Bob l'éponge
-https://jmp2.uk/stvp-FRAJ3800010QO
-#EXTINF:-1 tvg-id="FR4800002NE" group-title="France", Caillou
-https://jmp2.uk/stvp-FR4800002NE
-#EXTINF:-1 tvg-id="FRBD1900012T7" group-title="France", Charlotte aux Fraises
-https://jmp2.uk/stvp-FRBD1900012T7
-#EXTINF:-1 tvg-id="FRBD2300002CM" group-title="France", Les Lapins Crétins
-https://jmp2.uk/stvp-FRBD2300002CM
-#EXTINF:-1 tvg-id="FR90000160" group-title="France", Mr Bean Animated
-https://jmp2.uk/stvp-FR90000160
-#EXTINF:-1 tvg-id="FRAJ38000035M" group-title="France", Pluto TV Toons
-https://jmp2.uk/stvp-FRAJ38000035M
-#EXTINF:-1 tvg-id="FR700001VJ" group-title="France", Pocoyo
-https://jmp2.uk/stvp-FR700001VJ
-#EXTINF:-1 tvg-id="FRBD5100002NL" group-title="France", SuperToons TV
-https://jmp2.uk/stvp-FRBD5100002NL
-#EXTINF:-1 tvg-id="FR4200001BN" group-title="France", La Maison France 5
-https://jmp2.uk/stvp-FR4200001BN
-#EXTINF:-1 tvg-id="FRBA3300044VR" group-title="France", Pluto TV Cuisine
-https://jmp2.uk/stvp-FRBA3300044VR
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
@@ -193,9 +173,3 @@ https://jmp2.uk/plu-6508be683a0d700008c534e4.m3u8
 https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
 #EXTINF:-1 tvg-id="NFLChannel.us" group-title="USA", NFL Channel
 https://jmp2.uk/plu-5ced7d5df64be98e07ed47b6.m3u8
-#EXTINF:-1 tvg-id="ComedyCentral.us" group-title="USA", Comedy Central (Pluto)
-https://jmp2.uk/plu-5ca671f215a62078d2ec0abf.m3u8
-#EXTINF:-1 tvg-id="MTV.us" group-title="USA", MTV (Pluto)
-https://jmp2.uk/plu-5ca672f515a62078d2ec0ad2.m3u8
-#EXTINF:-1 tvg-id="ParamountMovieChannel.us" group-title="USA", Paramount Movie Channel
-https://jmp2.uk/plu-5cb0cae7a461406ffe3f5213.m3u8
