@@ -1,0 +1,31 @@
+name: Test durable FR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test durable free FR channels
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          P="https://iptv-lake-three.vercel.app/api/fr?"
+          declare -A C=(
+            ["France TV Sport"]="${P}u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fsport-highest.m3u8"
+            ["Sport en France"]="${P}id=SportEnFrance.fr"
+            ["20 Minutes TV"]="https://live-20minutestv.digiteka.com/1961167769/index.m3u8"
+            ["Le Figaro TV"]="https://static.lefigaro.fr/secom/tnt.m3u8"
+            ["Museum TV"]="https://amg01492-secomsasmediart-museumtv-fr-rakuten-5ofja.amagi.tv/hls/amagi_hls_data_rakutenAA-museumtv-fr-rakuten/CDN/master.m3u8"
+            ["Africa24"]="https://africa24.vedge.infomaniak.com/livecast/ik:africa24/manifest.m3u8"
+            ["France TV Mieux"]="${P}u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fmieux-highest.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$name"
+          done | sort
