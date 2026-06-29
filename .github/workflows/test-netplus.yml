@@ -1,0 +1,23 @@
+name: Test netplus via proxy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test netplus channels via Paris proxy
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          P="https://iptv-lake-three.vercel.app/api/fr?u="
+          enc(){ python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$1"; }
+          for slug in 6ter gulli cherie25 novo19 kto rts1hd rts2hd lemanbleu tv8montblanc tvm3; do
+            url="https://viamotionhsi.netplus.ch/live/eds/${slug}/browser-HLS8/${slug}.m3u8"
+            purl="${P}$(enc "$url")"
+            body=$(curl -A "$UA" -s -m 22 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$purl" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$slug"
+          done | sort
