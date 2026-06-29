@@ -1,0 +1,27 @@
+name: Test official 2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Gulli + BNN official
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          P="https://iptv-lake-three.vercel.app/api/fr?u="
+          declare -A C=(
+            ["Gulli lbcdn via proxy"]="${P}https%3A%2F%2Flbcdn.6cloud.fr%2Fresource%2Fm6web%2Fl%2Fgulli_hls_sd_short_q2hyb21h.m3u8%3Fgroups%5B%5D%3Dm6web-live-gulli_ext"
+            ["Gulli lbcdn raw"]="https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext"
+            ["BNN 9c9 dash mpd"]="https://pe-ak-lp01a-9c9media.akamaized.net/live/News1BNNDigi/p/dash/00000001/1bba52dc66e4c68e/manifest.mpd"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 20 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -qE '#EXTM3U|<MPD'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$name"
+          done | sort
