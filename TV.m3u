@@ -76,9 +76,8 @@ https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
 https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
-#========================================
-# FRANCE - Jeunesse & Deco (FAST)
-#========================================
+#EXTINF:-1 tvg-id="NRJ12.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/nrj-12-fr.png" group-title="France", NRJ12
+https://nrj12.nrjaudio.fm/hls/live/2038374/nrj_12/master.m3u8
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
