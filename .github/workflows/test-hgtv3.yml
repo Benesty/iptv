@@ -1,0 +1,30 @@
+name: Test HGTV alt2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test HGTV better-quality candidates
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["M6 proxy ParaTV"]="https://iptv-lake-three.vercel.app/api/fr?id=M6.fr"
+            ["212.102.60.231 HGTV"]="http://212.102.60.231/HGTV/index.m3u8"
+            ["143.244.60.30 HGTV"]="http://143.244.60.30/HGTV/index.m3u8"
+            ["thetvapp HGTVEast"]="http://origin.thetvapp.to/hls/HGTVEast/index.m3u8"
+            ["cvtv HGTV HD"]="https://cvtv.cvalley.net/hls/HGTVHD/HGTVHD.m3u8"
+            ["food-dlvr akamai HGTV"]="https://food-dlvr-ott.akamaized.net/primary/4/c20e615a33504bc7a227077cb102aef1/index_15.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 18 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            res=$(printf '%s' "$body" | grep -oE 'RESOLUTION=[0-9]+x[0-9]+' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s | %s\n' "$r" "${code:-000}" "${res:-?}" "$name"
+          done | sort
