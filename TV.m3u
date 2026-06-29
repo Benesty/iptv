@@ -78,8 +78,8 @@ https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
 https://nrj12.nrjaudio.fm/hls/live/2038374/nrj_12/master.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
-#EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25 (test netplus)
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fviamotionhsi.netplus.ch%2Flive%2Feds%2Fcherie25%2Fbrowser-HLS8%2Fcherie25.m3u8
+#EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
+https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
 #EXTINF:-1 tvg-id="TraceUrban.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-urban-fr.png" group-title="France", Trace Urban
 https://channels.trace.plus/Traceprod/URBAN_FR/.m3u8
 #========================================
