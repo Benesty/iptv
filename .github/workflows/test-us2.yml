@@ -1,0 +1,34 @@
+name: Test US legit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test US legit channels
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          declare -A C=(
+            ["C-SPAN"]="https://skystreams-lh.akamaihd.net/i/SkyC1_1@500806/master.m3u8"
+            ["C-SPAN2"]="https://skystreams-lh.akamaihd.net/i/SkyC2_1@500807/master.m3u8"
+            ["C-SPAN3"]="https://skystreams-lh.akamaihd.net/i/SkyC3_1@500808/master.m3u8"
+            ["Reuters"]="https://reuters-reutersnow-1-nl.samsung.wurl.tv/playlist.m3u8"
+            ["LiveNOW from FOX"]="https://lnc-fox-live-now.tubi.video/index.m3u8"
+            ["ION Mystery"]="https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-ionmystery-tablo/playlist.m3u8"
+            ["ION Plus"]="https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-ionplus-tablo/playlist.m3u8"
+            ["Bounce XL"]="https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-bouncexl-tablo/playlist.m3u8"
+            ["Grit Xtra"]="https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-gritxtra-tablo/playlist.m3u8"
+            ["AccuWeather NOW"]="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00684-accuweather-accuweather-plex/playlist.m3u8"
+            ["Newsmax 2"]="https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"
+          )
+          for name in "${!C[@]}"; do
+            url="${C[$name]}"
+            host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            body=$(curl -A "$UA" -e "$host/" -s -m 18 -L --max-filesize 200000 -w '\nHTTPCODE:%{http_code}' "$url" 2>/dev/null)
+            code=$(printf '%s' "$body" | sed -n 's/.*HTTPCODE:\([0-9]*\)$/\1/p' | tail -1)
+            if printf '%s' "$body" | grep -q '#EXTM3U'; then r="OK  "; else r="FAIL"; fi
+            printf '%s | %s | %s\n' "$r" "${code:-000}" "$name"
+          done | sort
