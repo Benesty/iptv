@@ -1,0 +1,27 @@
+name: Test M6 Int 2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test M6 International raw+proxy
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          PX="https://iptv-lake-three.vercel.app/api/fr?u="
+          enc(){ python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$1"; }
+          for pair in \
+            "M6Int index_1=https://shls-m6-int-prod-dub.shahid.net/out/v1/a315ab77ee7343a7a17dbe7e32eee3ba/index_1.m3u8" \
+            "M6Int master=https://shls-m6-int-prod-dub.shahid.net/out/v1/a315ab77ee7343a7a17dbe7e32eee3ba/index.m3u8" ; do
+            n="${pair%%=*}"; u="${pair#*=}"
+            b=$(curl -A "$UA" -s -m 15 -L --max-filesize 150000 -w '\nH:%{http_code}' "$u" 2>/dev/null)
+            c=$(printf '%s' "$b" | sed -n 's/.*H:\([0-9]*\)$/\1/p' | tail -1)
+            r=FAIL; printf '%s' "$b" | grep -q '#EXTM3U' && r=OK
+            pb=$(curl -A "$UA" -s -m 20 -L --max-filesize 150000 -w '\nH:%{http_code}' "${PX}$(enc "$u")" 2>/dev/null)
+            pc=$(printf '%s' "$pb" | sed -n 's/.*H:\([0-9]*\)$/\1/p' | tail -1)
+            pr=FAIL; printf '%s' "$pb" | grep -q '#EXTM3U' && pr=OK
+            printf '%s raw=%s | proxy=%s %s | %s\n' "$r" "${c:-000}" "${pc:-000}" "$pr" "$n"
+          done
