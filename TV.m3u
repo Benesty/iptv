@@ -66,8 +66,6 @@ https://jmp2.uk/stvp-FR1800004EP
 http://151.80.18.177:86/AB1/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
 http://151.80.18.177:86/RTL9/index.m3u8
-#EXTINF:-1 tvg-chno="123" tvg-id="TCM.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tcm-cinema-fr.png" group-title="France", TCM Cinéma
-http://151.80.18.177:86/TCM_Cinema_HD/index.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
