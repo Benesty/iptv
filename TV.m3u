@@ -105,6 +105,10 @@ https://hls.savoir.media/live/stream.m3u8
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News
 https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
+#EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
+https://jmp2.uk/stvp-CA4600005WZ
+#EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="Canada EN", CTV News
+https://jmp2.uk/stvp-CA1400004AE
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png" group-title="Canada EN", Global News Montréal
 https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4ccd/live.isml/.m3u8
 #EXTINF:-1 tvg-id="CityNews.680.ca2" tvg-logo="https://i.imgur.com/BlFNlHz.png" group-title="Canada EN", CityNews
