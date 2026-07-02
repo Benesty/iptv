@@ -1,0 +1,42 @@
+name: Diag proxy
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test proxy channels
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (SmartTV)"
+          while IFS="|" read -r n u; do
+            b=$(curl -A "$UA" -s -m 20 -L --max-filesize 200000 -w "\nH:%{http_code}" "$u" 2>/dev/null)
+            c=$(printf "%s" "$b" | sed -n "s/.*H:\([0-9]*\)$/\1/p" | tail -1)
+            r=FAIL; printf "%s" "$b" | grep -q "#EXTM3U" && r="OK  "
+            printf "%s | %s | %s\n" "$r" "${c:-000}" "$n"
+          done <<EOF
+TF1|https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr
+France 2|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8
+France 3|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-3-highest.m3u8
+France 4|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-4-highest.m3u8
+France 5|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-5-highest.m3u8
+M6|https://iptv-lake-three.vercel.app/api/fr?id=M6.fr
+Arte|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
+TMC|https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
+TFX|https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
+LCI|https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
+CNews|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcnews-clair-hd-highest.m3u8
+CSTAR|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
+RMC Story|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd15aro46bnpfm8.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-fqkqiax1078up%2FRMC_Story_FR.m3u8
+TF1 Séries Films|https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
+CANAL+ en clair|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
+France TV Docs|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fdocumentaire-highest.m3u8
+France TV Séries|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fserie-highest.m3u8
+BFM TV|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8
+BFM Business|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmb.bct.nextradiotv.com%2Fmaster.m3u8
+TV5Monde Info|https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28info%29%2Fvariant.m3u8
+franceinfo|https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
+T18|https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
+La Chaîne L'Équipe|https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
+Novo 19|https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
+EOF
