@@ -1,5 +1,0 @@
-{
-  "crons": [
-    { "path": "/api/fr?u=https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u", "schedule": "*/3 * * * *" }
-  ]
-}
