@@ -99,5 +99,9 @@ export default async function handler(req) {
   const pct = upstream.headers.get("content-type");
   if (pct) h.set("content-type", pct);
   h.set("access-control-allow-origin", "*");
+  // Les segments de média (fMP4/TS) sont immuables une fois produits :
+  // on les met en cache sur le CDN Vercel (PoP proche du lecteur) pour
+  // éviter un aller-retour jusqu'à Paris à chaque segment → moins de buffering.
+  h.set("cache-control", "public, max-age=300, s-maxage=300");
   return new Response(upstream.body, { status: upstream.status, headers: h });
 }
