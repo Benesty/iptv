@@ -88,8 +88,6 @@ https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 # ⚠️ ICI RDI — géo-bloqué Canada (403 hors-CA). Devrait fonctionner depuis ton réseau au Québec.
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8
-#EXTINF:-1 tvg-id="CBFT.ca" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé Montréal
-https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
 #EXTINF:-1 tvg-id="CHLT.Sherbrooke.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA Sherbrooke
 https://tvalive-dai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
 #EXTINF:-1 tvg-id="Le.Canal.Nouvelles.TVA.ca2" tvg-logo="https://i.imgur.com/Ggl9Wm0.png" group-title="Canada FR", LCN
