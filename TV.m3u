@@ -13,7 +13,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #EXTINF:-1 tvg-chno="5" tvg-id="France5.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" group-title="France", France 5
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-5-highest.m3u8
 #EXTINF:-1 tvg-chno="6" tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" group-title="France", M6
-https://iptv-lake-three.vercel.app/api/fr?id=M6.fr
+http://cdn.haititivi.com/M6-HD/index.m3u8
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
 #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
@@ -96,7 +96,7 @@ https://hls.savoir.media/live/stream.m3u8
 #EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Television
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News
-https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
+https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
 https://jmp2.uk/stvp-CA4600005WZ
 #EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="Canada EN", CTV News
@@ -117,6 +117,6 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
 #EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="USA", CNN
-https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_1464000.m3u8
+https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News
 https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
