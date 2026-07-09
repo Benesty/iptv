@@ -1,0 +1,47 @@
+name: health-check
+
+# Probes every channel in TV.m3u and toggles "# HS " markers on dead links.
+# Intelligent by design (see scripts/health_check.py):
+#   - disables a channel only after 3 CONSECUTIVE failing runs (ignores blips)
+#   - NEVER disables on geo-block (403/451) — the US runner can't judge geo feeds
+#   - re-enables a channel automatically once it answers OK again
+# Always exits 0, so a dead upstream never produces a failed run / email.
+#
+# Tunables: cron below (frequency) and FAIL_THRESHOLD in scripts/health_check.py.
+
+on:
+  schedule:
+    - cron: '23 * * * *'      # hourly (GitHub may delay a few min); ~3h of downtime to disable
+  workflow_dispatch:           # allow manual "Run workflow"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: health-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Probe channels
+        run: python3 scripts/health_check.py
+
+      - name: Commit marker changes (only if something changed)
+        run: |
+          if [ -n "$(git status --porcelain TV.m3u .health/state.json)" ]; then
+            git config user.name "iptv-health-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add TV.m3u .health/state.json
+            git commit -m "chore(health): auto-update dead-link markers [skip ci]"
+            git push
+          else
+            echo "No channel state changes."
+          fi
