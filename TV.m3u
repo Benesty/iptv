@@ -74,6 +74,8 @@ https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
 #EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
 https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
+#EXTINF:-1 tvg-id="TeletoonPlus.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/teletoon-plus-fr.png" group-title="France", Teletoon+
+http://cdn.haititivi.com/TELETOON-HD/index.m3u8
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
