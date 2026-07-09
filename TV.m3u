@@ -52,7 +52,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #EXTINF:-1 tvg-id="BFMTV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png" group-title="France", BFM TV
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8
 #EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="France", France 24 (FR)
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-24-highest.m3u8
+https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="FR1800005X0" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28info%29%2Fvariant.m3u8
 #EXTINF:-1 tvg-id="FR1800004EP" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
@@ -70,8 +70,6 @@ https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
 https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
-#EXTINF:-1 tvg-id="NRJ12.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/nrj-12-fr.png" group-title="France", NRJ12
-https://nrj12.nrjaudio.fm/hls/live/2038374/nrj_12/master.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
 #EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
@@ -93,8 +91,6 @@ https://hls.savoir.media/live/stream.m3u8
 #========================================
 # 🇨🇦 CANADA EN
 #========================================
-#EXTINF:-1 tvg-id="CBMT.-.CBC.Montreal.ca2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png" group-title="Canada EN", CBC Television
-https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
