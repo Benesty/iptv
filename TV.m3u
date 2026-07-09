@@ -51,8 +51,6 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #========================================
 #EXTINF:-1 tvg-id="BFMTV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png" group-title="France", BFM TV
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8
-#EXTINF:-1 tvg-id="BFMBusiness.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-business-fr.png" group-title="France", BFM Business
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmb.bct.nextradiotv.com%2Fmaster.m3u8
 #EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="France", France 24 (FR)
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-24-highest.m3u8
 #EXTINF:-1 tvg-id="FR1800005X0" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
@@ -78,8 +76,6 @@ https://nrj12.nrjaudio.fm/hls/live/2038374/nrj_12/master.m3u8
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
 #EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
 https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
-#EXTINF:-1 tvg-id="TraceUrban.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-urban-fr.png" group-title="France", Trace Urban
-https://channels.trace.plus/Traceprod/URBAN_FR/.m3u8
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
@@ -122,11 +118,5 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
 #EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="USA", CNN
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_3_1464000.m3u8
-#EXTINF:-1 tvg-id="Bloomberg.HD.us2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/500px-New_Bloomberg_Logo.svg.png" group-title="USA", Bloomberg Television
-https://liveprodusphoenixeast.akamaized.net/USPhx-HD/Channel-TX-USPhx-AWS-virginia-1/Source-USPhx-16k-1-s6lk2-BP-07-02-81ykIWnsMsg_live.m3u8
 #EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News
 https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
-#EXTINF:-1 tvg-id="ABCNewsLive.us" group-title="USA", ABC News Live
-https://jmp2.uk/plu-6508be683a0d700008c534e4.m3u8
-#EXTINF:-1 tvg-id="NBCNewsNow.us" group-title="USA", NBC News Now
-https://jmp2.uk/plu-5df97894467dfa00091c873c.m3u8
