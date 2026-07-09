@@ -16,8 +16,6 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 http://cdn.haititivi.com/M6-HD/index.m3u8
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
-#EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
-https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
 https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
@@ -72,8 +70,6 @@ https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
 https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
-#EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
-https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
 #EXTINF:-1 tvg-id="TeletoonPlus.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/teletoon-plus-fr.png" group-title="France", Teletoon+
 http://cdn.haititivi.com/TELETOON-HD/index.m3u8
 #EXTINF:-1 tvg-id="ParisPremiere.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/paris-premiere-fr.png" group-title="France", Paris Première
@@ -112,7 +108,7 @@ https://live.corusdigitaldev.com/groupa/live/6bfb7f13-9d9d-4211-9c50-fb56330e4cc
 #EXTINF:-1 tvg-id="CityNews.680.ca2" tvg-logo="https://i.imgur.com/BlFNlHz.png" group-title="Canada EN", CityNews
 https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m3u8
 #EXTINF:-1 tvg-id="BNN.Bloomberg.ca2" tvg-logo="https://i.imgur.com/ZkN8AUc.png" group-title="Canada EN", BNN Bloomberg
-https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fcdn4.skygo.mn%2Flive%2Fdisk1%2FBloomberg%2FHLSv3-FTA%2FBloomberg.m3u8
 #EXTINF:-1 tvg-id="CABB2500021YQ" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #========================================
@@ -124,5 +120,3 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
 #EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="USA", CNN
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
-#EXTINF:-1 tvg-id="Fox.News.Channel.HD.us2" tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", Fox News
-https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
