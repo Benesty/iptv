@@ -9,25 +9,18 @@ jobs:
       - name: probe
         run: |
           python3 - <<'PY'
-          import urllib.request
+          import urllib.request, time
           UA="Mozilla/5.0 (SmartTV) AppleWebKit/537.36"
-          cands = {
-            "Tele-Quebec wv":   "https://bcovlive-a.akamaihd.net/b7988e7f33b34cf2bf86a766afcadd3c/us-west-2/6101674910001/playlist_wv.m3u8",
-            "CPAC":             "https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8",
-            "ICI TV Montreal":  "https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8",
-            "Assnat":           "https://diffusionm.assnat.qc.ca/diffusion/canal17/playlist.m3u8",
-          }
-          for name,url in cands.items():
+          url="https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8"
+          for i in range(4):
             try:
               req=urllib.request.Request(url,headers={"User-Agent":UA})
               r=urllib.request.urlopen(req,timeout=25)
-              body=r.read(1200).decode("utf-8","replace")
-              ok="#EXTM3U" in body
-              # detect DRM/encryption hints in the manifest
-              drm = any(k in body for k in ("#EXT-X-KEY","#EXT-X-SESSION-KEY","com.widevine","cenc","playready"))
-              print(f"{name:16s} {r.status}  EXTM3U={ok}  DRM={drm}")
+              body=r.read(400).decode("utf-8","replace")
+              print(f"CPAC try{i} {r.status} EXTM3U={'#EXTM3U' in body}")
             except urllib.error.HTTPError as e:
-              print(f"{name:16s} HTTP {e.code}")
+              print(f"CPAC try{i} HTTP {e.code}")
             except Exception as e:
-              print(f"{name:16s} ERR {type(e).__name__} {e}")
+              print(f"CPAC try{i} ERR {type(e).__name__} {e}")
+            time.sleep(3)
           PY

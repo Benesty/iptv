@@ -99,6 +99,10 @@ https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
 #EXTINF:-1 tvg-id="NoovoTelerealites.ca" group-title="Canada FR", Noovo Téléréalités
 https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8
+#EXTINF:-1 tvg-id="ICITelevisionMontreal.ca" tvg-logo="https://i.imgur.com/i3xFNPE.png" group-title="Canada FR", ICI Télévision Montréal
+https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
+#EXTINF:-1 tvg-id="AssembleeNationale.ca" tvg-logo="https://i.imgur.com/xKNnoci.png" group-title="Canada FR", Assemblée nationale du Québec
+https://diffusionm.assnat.qc.ca/diffusion/canal17/playlist.m3u8
 # ⚠️ ICI RDI — géo-bloqué Canada (403 hors-CA). Devrait fonctionner depuis ton réseau au Québec.
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8
