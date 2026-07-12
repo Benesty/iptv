@@ -1,0 +1,17 @@
+name: Test rcjeunesse
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (SmartTV)"
+          u="https://amagi-streams.akamaized.net/hls/live/2120485/rcjeunesse/master.m3u8"
+          b=$(curl -A "$UA" -s -m 15 -L --max-filesize 200000 -w '\nH:%{http_code}' "$u")
+          c=$(printf '%s' "$b" | sed -n 's/.*H:\([0-9]*\)$/\1/p' | tail -1)
+          r=FAIL; printf '%s' "$b" | grep -q '#EXTM3U' && r=OK
+          res=$(printf '%s' "$b" | grep -oE 'RESOLUTION=[0-9x]+' | tr '\n' ' ')
+          echo "$r | code=$c | $res"
