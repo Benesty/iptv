@@ -89,6 +89,8 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 #========================================
 #EXTINF:-1 tvg-id="CKSH.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
+#EXTINF:-1 tvg-id="RadioCanadaJeunesse.ca" group-title="Canada FR", Radio-Canada Jeunesse
+https://amagi-streams.akamaized.net/hls/live/2120485/rcjeunesse/master.m3u8
 # ⚠️ ICI RDI — géo-bloqué Canada (403 hors-CA). Devrait fonctionner depuis ton réseau au Québec.
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8
