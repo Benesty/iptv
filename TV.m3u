@@ -91,6 +91,14 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
 #EXTINF:-1 tvg-id="RadioCanadaJeunesse.ca" group-title="Canada FR", Radio-Canada Jeunesse
 https://amagi-streams.akamaized.net/hls/live/2120485/rcjeunesse/master.m3u8
+#EXTINF:-1 tvg-id="RadioCanadaINFO.ca" group-title="Canada FR", Radio-Canada INFO
+https://d2pe0mcuntasoo.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-haex9tv0eft0g/Radio-Canada_INFO.m3u8
+#EXTINF:-1 tvg-id="NoovoCinema.ca" group-title="Canada FR", Noovo Cinéma
+https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
+#EXTINF:-1 tvg-id="NoovoComedies.ca" group-title="Canada FR", Noovo Comédies
+https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
+#EXTINF:-1 tvg-id="NoovoTelerealites.ca" group-title="Canada FR", Noovo Téléréalités
+https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8
 # ⚠️ ICI RDI — géo-bloqué Canada (403 hors-CA). Devrait fonctionner depuis ton réseau au Québec.
 #EXTINF:-1 tvg-id="ICI.RDI.HD.ca2" tvg-logo="https://i.imgur.com/7lXPzVC.jpeg" group-title="Canada FR", ICI RDI
 https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8
@@ -107,6 +115,10 @@ https://hls.savoir.media/live/stream.m3u8
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
 https://jmp2.uk/stvp-CA4600005WZ
+#EXTINF:-1 tvg-id="CBCKids.ca" group-title="Canada EN", CBC Kids
+https://amagi-streams.akamaized.net/hls/live/2120483/cbckids/master.m3u8
+#EXTINF:-1 tvg-id="CBCComedy.ca" group-title="Canada EN", CBC Comedy
+https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="Canada EN", CTV News
 https://jmp2.uk/stvp-CA1400004AE
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png" group-title="Canada EN", Global News Montréal
