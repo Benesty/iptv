@@ -119,14 +119,6 @@ https://jmp2.uk/stvp-CA4600005WZ
 https://amagi-streams.akamaized.net/hls/live/2120483/cbckids/master.m3u8
 #EXTINF:-1 tvg-id="CBCComedy.ca" group-title="Canada EN", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
-#EXTINF:-1 tvg-id="WeatherNetwork.ca" group-title="Canada EN", The Weather Network
-https://jmp2.uk/stvp-CABC23000223U
-#EXTINF:-1 tvg-id="HauntTV.ca" group-title="Canada EN", Haunt TV
-https://blueantmediacanada-haunttv-samsungca.amagi.tv/playlist.m3u8
-#EXTINF:-1 tvg-id="MHzNow.ca" group-title="Canada EN", MHz Now
-https://jmp2.uk/stvp-CAAJ34000158F
-#EXTINF:-1 tvg-id="InsightTV.ca" group-title="Canada EN", Insight TV
-https://insighttv-samsung-canada.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="Canada EN", CTV News
 https://jmp2.uk/stvp-CA1400004AE
 #EXTINF:-1 tvg-id="Global.Montreal.HD.ca2" tvg-logo="https://i.imgur.com/IpfmG93.png" group-title="Canada EN", Global News Montréal
