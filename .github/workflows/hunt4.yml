@@ -1,0 +1,51 @@
+name: Hunt 4 channels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test all candidates raw+proxy
+        shell: bash {0}
+        run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          PX="https://iptv-lake-three.vercel.app/api/fr?u="
+          enc(){ python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$1"; }
+          t(){
+            local label="$1" url="$2"
+            local host=$(echo "$url" | sed -E 's#^(https?://[^/]+)/.*#\1#')
+            local b=$(curl -A "$UA" -e "$host/" -s -m 10 -L --max-filesize 200000 -w '\nH:%{http_code}' "$url" 2>/dev/null)
+            local c=$(printf '%s' "$b" | sed -n 's/.*H:\([0-9]*\)$/\1/p' | tail -1)
+            local r=FAIL; printf '%s' "$b" | grep -q '#EXTM3U' && r="OK  "
+            local pb=$(curl -A "$UA" -s -m 14 -L --max-filesize 200000 -w '\nH:%{http_code}' "${PX}$(enc "$url")" 2>/dev/null)
+            local pc=$(printf '%s' "$pb" | sed -n 's/.*H:\([0-9]*\)$/\1/p' | tail -1)
+            local pr=FAIL; printf '%s' "$pb" | grep -q '#EXTM3U' && pr="OK"
+            printf '%s raw=%-4s| proxy=%-4s %s | %s\n' "$r" "${c:-000}" "${pc:-000}" "$pr" "$label"
+          }
+          echo "===== 6ter ====="
+          t "6ter 144.217"    "http://144.217.72.24/6ter/index.m3u8"
+          t "6ter 176.65.137" "http://176.65.146.137:8047/playlist.m3u8"
+          t "6ter 145.239"    "http://145.239.5.177/314/index.m3u8"
+          t "6ter Orange"     "http://cdn.webtv4.cdnfr.orange.fr/hs/HALO4/hls/6ter-850445/hls/index.m3u8"
+          t "6ter SFR"        "https://sslhls.m6tv.cdn.sfr.net/hls-live/livepkgr/_definst_/six_ter_hls_aes/six_ter_hls_aes_856.m3u8"
+          t "6ter Free"       "http://gratuittv.free.fr/Files/6ter/live/playlist.m3u8"
+          t "6ter kool.to"    "https://www.kool.to/play/3160257084/index.m3u8"
+          echo "===== Gulli ====="
+          t "Gulli 41.205"    "http://41.205.77.102/GULLI/index.m3u8"
+          t "Gulli 46.8"      "http://46.8.46.14/Gulli/index.m3u8"
+          t "Gulli m6 caf"    "https://origin-caf900c010ea8046.live.6cloud.fr/out/v1/c65696b42ca34e97a9b5f54758d6dd50/cmaf/hlsfmp4_short_q2hyb21h_gulli_sd_index.m3u8"
+          t "Gulli m6 cf"     "https://d13anarbtxy8c5.cloudfront.net/6play/short/clr/gulli/sdindex.m3u8"
+          t "Gulli Orange"    "http://cdn.webtv4.cdnfr.orange.fr/hs/HALO3/hls/gulli-76287/hls/index.m3u8"
+          t "Gulli freetv"    "https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8"
+          echo "===== AB1 ====="
+          t "AB1 abweb"       "http://live-trl102.abweb.com/liveabtrl102/ngrp:ab1.stream_bis/chunklist_b1596000.m3u8"
+          t "AB1 Orange"      "http://cdn.webtv4.cdnfr.orange.fr/hs/HALO5/hls/live/AB1_live/index.m3u8"
+          t "AB1 185.59"      "http://185.59.221.131:8081/live/ab1/playlist.m3u8"
+          echo "===== RTL9 ====="
+          t "RTL9 abweb"      "http://live-trl01.abweb.com/livetrl01/ngrp:rtl9.stream_bis/playlist.m3u8"
+          t "RTL9 Orange"     "http://cdn.webtv4.cdnfr.orange.fr/hs/HALO3/hls/live/Rtl9_live/index.m3u8"
+          t "RTL9 haititivi"  "http://cdn.haititivi.com/rtl-9/index.m3u8"
+          t "RTL9 41.205.93"  "http://41.205.93.154/RTL9/index.m3u8"
+          t "RTL9 freetv"     "https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8"
