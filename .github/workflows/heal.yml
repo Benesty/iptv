@@ -1,0 +1,54 @@
+name: Auto-heal links
+
+# Teste les flux à URL directe et remplace automatiquement les liens MORTS
+# depuis des playlists agrégatrices maintenues. Committe si changement
+# (ce qui relance l'EPG et le déploiement Vercel).
+#
+# - schedule : toutes les 6 h (assez pour rattraper une coupure le jour même,
+#   pas assez pour spammer les CDN sources).
+# - workflow_dispatch : bouton manuel, avec option "dry_run" pour un rapport
+#   sans rien committer.
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Rapport seulement (aucune modification)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-heal
+  cancel-in-progress: false
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Heal
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python3 scripts/heal.py --dry-run
+          else
+            python3 scripts/heal.py
+          fi
+
+      - name: Commit si changement
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          if git diff --quiet TV.m3u; then
+            echo "Aucun changement."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add TV.m3u
+            git commit -m "Auto-heal: remplacement de liens morts $(date -u +%F)"
+            git push
+            echo "TV.m3u réparé et poussé."
+          fi
