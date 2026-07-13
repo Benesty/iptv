@@ -1,0 +1,37 @@
+name: test-resolve
+on:
+  workflow_dispatch:
+
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe resolver channels end-to-end
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error
+          B="https://iptv-lake-three.vercel.app/api/fr?id="
+          chans={
+            "M6":"M6.fr&name=M6","W9":"W9.fr&name=W9","Gulli":"Gulli.fr&name=Gulli",
+            "6ter":"6ter.fr&name=6ter","AB1":"AB1.fr&name=AB1","RTL9":"RTL9.fr&name=RTL9",
+            "Teletoon+":"TeletoonPlus.fr&name=Teletoon",
+            "Paris Premiere":"ParisPremiere.fr&name=Paris%20Premiere",
+            "Nickelodeon":"Nickelodeon.fr&name=Nickelodeon",
+            "Nick Junior":"NickelodeonJunior.fr&name=Nickelodeon%20Junior",
+            "Disney Junior":"DisneyJunior.fr&name=Disney%20Junior",
+          }
+          UA="Mozilla/5.0"
+          ok=0
+          for nm,q in chans.items():
+            try:
+              r=urllib.request.urlopen(urllib.request.Request(B+q,headers={"User-Agent":UA}),timeout=40)
+              body=r.read(400).decode("utf-8","replace")
+              good=r.status==200 and "#EXTM3U" in body
+              ok+=good
+              print(f"  {'✅' if good else '❌'} {nm:16s} {r.status} EXTM3U={'#EXTM3U' in body}")
+            except urllib.error.HTTPError as e:
+              print(f"  ❌ {nm:16s} HTTP {e.code}")
+            except Exception as e:
+              print(f"  ❌ {nm:16s} ERR {type(e).__name__}")
+          print(f"\n{ok}/{len(chans)} résolveurs OK")
+          PY
