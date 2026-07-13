@@ -13,17 +13,17 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #EXTINF:-1 tvg-chno="5" tvg-id="France5.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" group-title="France", France 5
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-5-highest.m3u8
 #EXTINF:-1 tvg-chno="6" tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" group-title="France", M6
-http://cdn.haititivi.com/M6-HD/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=M6.fr&name=M6
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
 #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
-https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=W9.fr&name=W9
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
 https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
 https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
-https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=Gulli.fr&name=Gulli
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
@@ -31,7 +31,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
 #EXTINF:-1 tvg-chno="22" tvg-id="6ter.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png" group-title="France", 6TER
-http://151.80.18.177:86/6ter/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=6ter.fr&name=6ter
 #EXTINF:-1 tvg-chno="23" tvg-id="Numero23.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png" group-title="France", RMC Story
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd15aro46bnpfm8.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-fqkqiax1078up%2FRMC_Story_FR.m3u8
 #EXTINF:-1 tvg-chno="24" tvg-id="RMCDecouverte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png" group-title="France", RMC Découverte
@@ -61,9 +61,9 @@ https://jmp2.uk/stvp-FR1800004EP
 # 🇫🇷 FRANCE — Thématiques
 #========================================
 #EXTINF:-1 tvg-chno="51" tvg-id="AB1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/ab1-fr.png" group-title="France", AB1
-http://151.80.18.177:86/AB1/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=AB1.fr&name=AB1
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
-https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=RTL9.fr&name=RTL9
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
@@ -75,15 +75,15 @@ https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
 #EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
 https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
 #EXTINF:-1 tvg-id="TeletoonPlus.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/teletoon-plus-fr.png" group-title="France", Teletoon+
-http://cdn.haititivi.com/TELETOON-HD/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=TeletoonPlus.fr&name=Teletoon
 #EXTINF:-1 tvg-id="ParisPremiere.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/paris-premiere-fr.png" group-title="France", Paris Première
-http://cdn.haititivi.com/PARIS-PREMIERE/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=ParisPremiere.fr&name=Paris%20Premiere
 #EXTINF:-1 tvg-id="Nickelodeon.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/nickelodeon-fr.png" group-title="France", Nickelodeon
-http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=Nickelodeon.fr&name=Nickelodeon
 #EXTINF:-1 tvg-id="NickelodeonJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/nickelodeon-junior-fr.png" group-title="France", Nickelodeon Junior
-http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=NickelodeonJunior.fr&name=Nickelodeon%20Junior
 #EXTINF:-1 tvg-id="DisneyJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/disney-jr-fr.png" group-title="France", Disney Junior
-http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=DisneyJunior.fr&name=Disney%20Junior
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
