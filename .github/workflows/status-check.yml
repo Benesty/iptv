@@ -1,0 +1,49 @@
+name: status-check
+on:
+  workflow_dispatch:
+
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: full status of TV.m3u
+        run: |
+          python3 - <<'PY'
+          import re, urllib.request, urllib.error, urllib.parse as up
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
+          PROXY="https://iptv-lake-three.vercel.app/api/fr?u="
+          def cls(url, t=15):
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"*/*"}),timeout=t)
+                  b=r.read(700).decode("utf-8","replace")
+                  if r.status in (200,206) and ("#EXTM3U" in b or b.lstrip().startswith("#EXT")): return "ok"
+                  return "dead"
+              except urllib.error.HTTPError as e:
+                  return "geo" if e.code in (401,403) else "dead"
+              except Exception:
+                  return "dead"
+          lines=open("TV.m3u",encoding="utf-8").read().split("\n")
+          rows=[]; i=0
+          while i<len(lines):
+              if lines[i].startswith("#EXTINF"):
+                  name=lines[i].split(",",1)[-1].strip()
+                  grp=(re.search(r'group-title="([^"]*)"',lines[i]) or [None,"?"])[1]
+                  j=i+1
+                  while j<len(lines) and (not lines[j].strip() or lines[j].startswith("#")): j+=1
+                  url=lines[j].strip() if j<len(lines) else ""
+                  st=cls(url); proxied=""
+                  is_proxy="iptv-lake-three.vercel.app" in url or "jmp2.uk" in url
+                  if grp=="France" and not is_proxy and url.startswith("http"):
+                      proxied=cls(PROXY+up.quote(url,safe=""))
+                  rows.append((grp,name,st,proxied,url)); i=j+1
+              else: i+=1
+          print(f"{'GROUP':10} {'CHANNEL':26} {'DIRECT':6} {'PROXY':6}")
+          for g,n,s,p,u in rows:
+              print(f"{g:10} {n:26} {s:6} {p or '-':6}")
+          dead=[n for g,n,s,p,u in rows if s=="dead"]
+          geo =[n for g,n,s,p,u in rows if s=="geo"]
+          print(f"\nTOTAL {len(rows)} | DEAD {len(dead)} | geo {len(geo)}")
+          print("DEAD:", ", ".join(dead))
+          print("GEO :", ", ".join(geo))
+          PY
