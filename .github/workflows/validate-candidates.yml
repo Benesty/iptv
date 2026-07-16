@@ -1,0 +1,48 @@
+name: validate-candidates
+on:
+  workflow_dispatch:
+
+jobs:
+  v:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate candidate URLs (direct + Paris proxy)
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error, urllib.parse as up
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
+          PROXY="https://iptv-lake-three.vercel.app/api/fr?u="
+          def cls(url, t=12):
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"*/*"}),timeout=t)
+                  b=r.read(900).decode("utf-8","replace")
+                  if r.status in (200,206) and ("#EXTM3U" in b or b.lstrip().startswith("#EXT")):
+                      drm = ("skd:" in b) or ("SAMPLE-AES" in b) or (".mpd" in url.lower())
+                      return "drm" if drm else "ok"
+                  return "dead"
+              except urllib.error.HTTPError as e:
+                  return "geo" if e.code in (401,403) else "dead"
+              except Exception:
+                  return "dead"
+          RANK={"official":0,"fast":1,"aggregator":2,"restream":3}
+          cand=json.load(open("candidates.json",encoding="utf-8"))
+          summary={}
+          for chid, info in cand.items():
+              name=info.get("name",chid)
+              cands=sorted(info["candidates"], key=lambda c: RANK.get(c.get("kind","restream"),3))
+              print(f"\n===== {name} ({chid}) =====")
+              chosen=None
+              for c in cands:
+                  u=c["url"]; kind=c.get("kind","?")
+                  d=cls(u)
+                  p=cls(PROXY+up.quote(u,safe="")) if d!="ok" else "-"
+                  mode = "direct" if d=="ok" else ("proxy" if p=="ok" else "")
+                  print(f"  [{kind:10}] direct={d:4} proxy={p:4} mode={mode or 'X':6} {u[:90]}")
+                  if mode and not chosen:
+                      chosen={"url":u,"kind":kind,"mode":mode}
+              summary[chid]={"name":name,"chosen":chosen}
+              print(f"  -> CHOSEN: {chosen}")
+          print("\n\n=====JSON=====")
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
