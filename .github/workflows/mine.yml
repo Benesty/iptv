@@ -1,0 +1,55 @@
+name: mine
+on:
+  workflow_dispatch:
+
+jobs:
+  m:
+    runs-on: ubuntu-latest
+    steps:
+      - name: mine aggregators for candidate URLs
+        run: |
+          python3 - <<'PY'
+          import urllib.request, re, json
+          UA="Mozilla/5.0"
+          SRC=[
+            "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_france.m3u8",
+            "https://iptv-org.github.io/iptv/countries/fr.m3u",
+            "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
+            "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
+          ]
+          def get(u):
+              try:
+                  return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=40).read().decode("utf-8","replace")
+              except Exception as e:
+                  print("  !!",u,e); return ""
+          def norm(s): return re.sub(r'[^a-z0-9]+','',s.lower())
+          WANT={
+            "M6.fr":["m6"], "W9.fr":["w9"], "6ter.fr":["6ter"], "Gulli.fr":["gulli"],
+            "AB1.fr":["ab1"], "RTL9.fr":["rtl9"], "TeletoonPlus.fr":["teletoon","teletoonplus"],
+            "ParisPremiere.fr":["parispremiere","parispremiere"], "Nickelodeon.fr":["nickelodeon"],
+            "NickelodeonJunior.fr":["nickelodeonjunior","nickjunior"], "DisneyJunior.fr":["disneyjunior"],
+            "Cherie25.fr":["cherie25","cherie"],
+          }
+          found={k:set() for k in WANT}
+          for s in SRC:
+              txt=get(s); lines=txt.split("\n")
+              for i,l in enumerate(lines):
+                  if not l.startswith("#EXTINF"): continue
+                  dn = l.split(",")[-1] if "," in l else ""
+                  mid = re.search(r'tvg-id="([^"]*)"', l)
+                  tid = mid.group(1) if mid else ""
+                  ndn=norm(dn); ntid=norm(tid)
+                  j=i+1
+                  while j<len(lines) and (not lines[j].strip() or lines[j].startswith("#")): j+=1
+                  url=lines[j].strip() if j<len(lines) else ""
+                  if not url.startswith("http"): continue
+                  for chid,keys in WANT.items():
+                      base=norm(chid.replace(".fr",""))
+                      if ntid==norm(chid) or any(k==ndn or k==ntid for k in keys) or (base and base==ndn):
+                          found[chid].add(url)
+          for chid in WANT:
+              print(f"\n== {chid} ==")
+              for u in list(found[chid])[:12]: print("  ",u)
+          print("\n=====JSON=====")
+          print(json.dumps({k:sorted(v) for k,v in found.items()},ensure_ascii=False))
+          PY
