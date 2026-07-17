@@ -33,6 +33,50 @@ SOURCES = [
     "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
 ]
 
+# Registre de candidats par tvg-id. Les chaînes commerciales/payantes FR (M6,
+# 6ter, kids…) ne figurent PAS dans les agrégateurs ci-dessus : leurs seuls flux
+# sont des restreams sur des pools d'IP. On garde ici un pool de secours par
+# chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
+# l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
+REGISTRY = {
+    "M6.fr": [
+        "http://cdn.haititivi.com/M6-HD/index.m3u8",
+        "http://99.27.51.147:8080/M6/index.m3u8",
+    ],
+    "6ter.fr": [
+        "http://151.80.18.177:86/6ter/index.m3u8",
+        "http://145.239.5.177/314/index.m3u8",
+    ],
+    "Gulli.fr": [
+        "https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8",
+        "http://99.27.51.147:8080/Gulli/index.m3u8",
+    ],
+    "AB1.fr": [
+        "http://151.80.18.177:86/AB1/index.m3u8",
+        "http://145.239.5.177/332/index.m3u8",
+    ],
+    "RTL9.fr": [
+        "https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8",
+        "http://cdn.haititivi.com/rtl-9/index.m3u8",
+        "http://151.80.18.177:86/RTL9/index.m3u8",
+    ],
+    "ParisPremiere.fr": [
+        "http://151.80.18.177:86/Paris_Premiere_HD/index.m3u8",
+        "http://cdn.haititivi.com/PARIS-PREMIERE/index.m3u8",
+    ],
+    "Nickelodeon.fr": ["http://151.80.18.177:86/Nickelodeon_FR/index.m3u8"],
+    "NickelodeonJunior.fr": ["http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8"],
+    "DisneyJunior.fr": [
+        "http://151.80.18.177:86/Disney_Junior_HD/index.m3u8",
+        "http://41.205.77.102/DISNEY-JUNIOR/index.m3u8",
+    ],
+    "TeletoonPlus.fr": [
+        "http://144.217.253.140/Teletoon/tracks-v1a1/index.m3u8",
+        "http://cdn.haititivi.com/TELETOON-HD/index.m3u8",
+    ],
+    "Cherie25.fr": ["https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8"],
+}
+
 
 def http(url, read=0):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
@@ -119,6 +163,11 @@ def build_index():
 
 def find_replacement(tid, name, current, by_id, by_name):
     seen, cands = set(), []
+    # 1) registre de secours spécifique à la chaîne (essayé en premier)
+    for u in REGISTRY.get(tid, []):
+        if u not in seen:
+            seen.add(u); cands.append(u)
+    # 2) puis les agrégateurs maintenus (par tvg-id, puis par nom)
     for u in by_id.get(tid, []):
         if u not in seen:
             seen.add(u); cands.append(u)
