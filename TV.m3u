@@ -25,7 +25,7 @@ https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
 https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
-https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8
+http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
@@ -65,7 +65,7 @@ https://jmp2.uk/stvp-FR1800004EP
 #EXTINF:-1 tvg-chno="51" tvg-id="AB1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/ab1-fr.png" group-title="France", AB1
 http://151.80.18.177:86/AB1/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
-https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
+http://151.80.18.177:86/RTL9/index.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
