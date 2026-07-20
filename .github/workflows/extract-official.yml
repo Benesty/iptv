@@ -6,14 +6,16 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - name: search official FAST platforms for our channels
+      - name: FAST platforms (corrected endpoints + connectivity control)
         run: |
           python3 - <<'PY'
           import urllib.request, urllib.error, re, unicodedata
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
-          def get(url,n=6_000_000):
+          def get(url,n=8_000_000,hdr=None):
+              h={"User-Agent":UA,"Accept":"*/*","Referer":"https://www.mjh.nz/"}
+              if hdr:h.update(hdr)
               try:
-                  r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA}),timeout=30)
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=30)
                   return r.status, r.read(n).decode("utf-8","replace")
               except urllib.error.HTTPError as e: return e.code,""
               except Exception as e: return 0,f"{type(e).__name__}"
@@ -21,42 +23,42 @@ jobs:
               s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
               return re.sub(r"[^a-z0-9]+","",s.lower())
 
-          # Official FAST platform playlists (legal, clear, DRM-free), maintained by matt huisman
+          print("### connectivity control (jmp2 redirector, used by RMC Découverte) ###")
+          for u in ["https://jmp2.uk/stvp-FRBD4100008QS.m3u8","https://jmp2.uk/stvp-FRBD4100008QS"]:
+              st,b=get(u,4000); print(f"  {st}  {u}  extm3u={'#EXTM3U' in b}")
+
+          # Corrected / alternative FAST endpoints
           FAST={
-            "SamsungTVPlus-FR":"https://i.mjh.nz/SamsungTVPlus/fr.m3u8",
-            "PlutoTV-FR":"https://i.mjh.nz/PlutoTV/fr.m3u8",
-            "Plex-FR":"https://i.mjh.nz/Plex/fr.m3u8",
-            "Stirr":"https://i.mjh.nz/Stirr/all.m3u8",
-            "SamsungTVPlus-ALL":"https://i.mjh.nz/SamsungTVPlus/all.m3u8",
+            "Samsung-fr":"https://i.mjh.nz/SamsungTVPlus/fr.m3u8",
+            "Samsung-all":"https://i.mjh.nz/SamsungTVPlus/all.m3u8",
+            "Pluto-fr":"https://i.mjh.nz/PlutoTV/fr.m3u8",
+            "Plex-all":"https://i.mjh.nz/Plex/all.m3u8",
+            "Roku-all":"https://i.mjh.nz/Roku/all.m3u8",
+            # iptv-org provider feeds (Samsung / Pluto / Rakuten indexed, clear)
+            "iptvorg-samsung":"https://iptv-org.github.io/iptv/index.m3u",
           }
-          # channels we want an official/clear source for (name variants)
-          WANT={
-            "M6":["m6"], "W9":["w9"], "6ter":["6ter"], "Gulli":["gulli"],
-            "AB1":["ab1"], "RTL9":["rtl9"], "Teletoon":["teletoon"],
-            "ParisPremiere":["parispremiere"], "Nickelodeon":["nickelodeon"],
-            "NickelodeonJunior":["nickelodeonjunior","nickjr","nickjunior"],
-            "DisneyJunior":["disneyjunior"], "Cherie25":["cherie25","cherie"],
-            "Teva":["teva"], "Paramount":["paramount"], "Boomerang":["boomerang"],
-            "CartoonNetwork":["cartoonnetwork"], "Warner":["warnertv"],
-          }
+          WANT={"M6":["m6"],"W9":["w9"],"6ter":["6ter"],"Gulli":["gulli"],"AB1":["ab1"],
+                "RTL9":["rtl9"],"Teletoon":["teletoon"],"ParisPremiere":["parispremiere"],
+                "Nickelodeon":["nickelodeon"],"NickJunior":["nickjr","nickjunior"],
+                "DisneyJunior":["disneyjunior"],"Cherie25":["cherie"]}
           found={}
           for plat,url in FAST.items():
               st,body=get(url)
-              print(f"\n===== {plat}: HTTP {st} ({body.count('#EXTINF')} chaînes) =====")
-              if st!=200: continue
+              n=body.count("#EXTINF")
+              print(f"\n===== {plat}: HTTP {st} ({n} chaînes) =====")
+              if st!=200 or n==0: continue
               lines=body.split("\n")
               for i,l in enumerate(lines):
                   if not l.startswith("#EXTINF"): continue
-                  disp=l.split(",",1)[-1].strip()
-                  nd=norm(disp)
+                  disp=l.split(",",1)[-1].strip(); nd=norm(disp)
+                  # only French entries for the big index
                   for want,keys in WANT.items():
-                      if any(k in nd for k in keys):
+                      if any(k in nd for k in keys) and "fr" in norm(l):
                           u=""
                           for j in range(i+1,min(i+4,len(lines))):
                               if lines[j].strip().startswith("http"): u=lines[j].strip(); break
-                          print(f"   [{want:18}] {disp[:45]:45} -> {u[:95]}")
-                          found.setdefault(want,[]).append((plat,disp,u))
-          print("\n\n===== SYNTHÈSE : chaînes voulues trouvées sur une plateforme FAST =====")
-          for w in WANT:
-              print(f"  {'✅' if w in found else '❌'} {w}: {len(found.get(w,[]))} source(s) FAST")
+                          print(f"   [{want:14}] {disp[:42]:42} -> {u[:80]}")
+                          found.setdefault(want,[]).append(u)
+          print("\n===== SYNTHÈSE =====")
+          for w in WANT: print(f"  {'✅' if found.get(w) else '❌'} {w}")
           PY
