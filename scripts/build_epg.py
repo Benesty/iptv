@@ -27,8 +27,10 @@ EXTRA = ["https://i.mjh.nz/SamsungTVPlus/fr.xml",
 # pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
 # (vérifiés le 2026-07-20 dans epgshare01 FR/CA + Samsung TV Plus CA)
 ALIAS = {
-    "CanalPlus.fr": "Canal+.fr",             # CANAL+ en clair -> guide « Canal+ »
-    "CBMT.Montreal.News.ca": "CA4600005WZ",  # CBC News Montréal -> Samsung « CBC News Quebec »
+    "CanalPlus.fr": "Canal+.fr",              # CANAL+ en clair -> guide « Canal+ »
+    "CBMT.Montreal.News.ca": "CA4600005WZ",   # CBC News Montréal -> Samsung « CBC News Quebec »
+    "CanalPlusCinemas.fr": "Canal+.Cinéma(s).fr",  # Canal+ Cinéma -> guide « Canal+ Cinéma(s) »
+    "NoovoComedies.ca": "CA1300001DN",        # Noovo Comédies -> Samsung « Noovo Ça c'est drôle »
 }
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
