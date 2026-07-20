@@ -7,73 +7,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: enumerate channels hosted on our pool servers
+      - name: dump name->url for the two good pool servers
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.error, re, unicodedata, concurrent.futures as cf
+          import urllib.request, re, collections, concurrent.futures as cf
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
           def get(url,n=9_000_000):
               try:
                   r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA}),timeout=30)
                   return r.read(n).decode("utf-8","replace")
               except Exception: return ""
-
-          # aggregator playlists that reference our pool hosts
-          SRC=[
-            "https://iptv-org.github.io/iptv/index.m3u",
-            "https://iptv-org.github.io/iptv/countries/fr.m3u",
-            "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
-            "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_france.m3u8",
-          ]
-          # the servers the user already relies on
-          HOSTS=["151.80.18.177","99.27.51.147","145.239.5.177","cdn.haititivi.com",
-                 "freetv.fun","41.205.","144.217.253.140","gratuittv.free.fr"]
-
-          # what's already in our playlist (to flag NEW ones)
-          have=set()
-          try:
-              cur=open("TV.m3u",encoding="utf-8").read()
-              have={l.strip() for l in cur.splitlines() if l.startswith("http")}
-          except Exception: pass
-
-          # host -> {name -> url}
-          import collections
-          catalog=collections.defaultdict(dict)
+          SRC=["https://iptv-org.github.io/iptv/index.m3u",
+               "https://iptv-org.github.io/iptv/countries/fr.m3u",
+               "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8"]
+          HOSTS=["145.239.5.177","151.80.18.177","99.27.51.147"]
+          have=set(l.strip() for l in open("TV.m3u",encoding="utf-8") if l.startswith("http"))
+          cat=collections.defaultdict(dict)
           for s in SRC:
-              txt=get(s); lines=txt.split("\n")
-              for i,l in enumerate(lines):
+              L=get(s).split("\n")
+              for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
-                  u=""
-                  for j in range(i+1,min(i+3,len(lines))):
-                      if lines[j].strip().startswith("http"): u=lines[j].strip(); break
-                  if not u: continue
+                  if any(x in name for x in ("Gecko","Safari","Chrome","http")): continue  # skip parasites
+                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
                   for h in HOSTS:
-                      if h in u:
-                          catalog[h].setdefault(name, u)
-                          break
-
-          # collect all urls to validate
-          allpairs=[(h,n,u) for h,d in catalog.items() for n,u in d.items()]
-          print(f"Trouvé {len(allpairs)} entrées sur tes serveurs. Test de vivacité…\n")
+                      if u and h in u: cat[h].setdefault(name,u)
           def alive(u):
               try:
                   r=urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=10)
-                  b=r.read(400).decode("utf-8","replace")
-                  return r.status==200 and ("#EXTM3U" in b or b.lstrip().startswith("#EXT"))
+                  b=r.read(300).decode("utf-8","replace"); return r.status==200 and b.lstrip().startswith("#EXT")
               except Exception: return False
-          status={}
+          pairs=[(h,n,u) for h,d in cat.items() for n,u in d.items()]
+          st={}
           with cf.ThreadPoolExecutor(max_workers=20) as ex:
-              futs={ex.submit(alive,u):(h,n,u) for h,n,u in allpairs}
-              for f in cf.as_completed(futs):
-                  status[futs[f][2]]=f.result()
-
+              fs={ex.submit(alive,u):u for _,_,u in pairs}
+              for f in cf.as_completed(fs): st[fs[f]]=f.result()
           for h in HOSTS:
-              d=catalog.get(h,{})
-              if not d: continue
-              live=[(n,u) for n,u in d.items() if status.get(u)]
-              print(f"\n########## {h} — {len(live)}/{len(d)} vivantes ##########")
-              for n,u in sorted(live):
-                  new = "🆕" if u not in have else "  "
-                  print(f"  {new} {n[:50]}")
+              d=cat.get(h,{})
+              print(f"\n########## {h} ##########")
+              for n,u in sorted(d.items()):
+                  if not st.get(u): continue
+                  flag="🆕" if u not in have else "déjà"
+                  print(f"  {flag:4} {n[:34]:34} {u}")
           PY
