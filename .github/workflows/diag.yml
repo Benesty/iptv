@@ -6,98 +6,64 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: combined EPG + pool diagnostic
+      - name: dump exact EPG channel ids (CA reachable via discover)
         run: |
           python3 - <<'PY'
-          import urllib.request, gzip, io, re, unicodedata, collections
+          import urllib.request, gzip, io, re, unicodedata
           import xml.etree.ElementTree as ET
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
-          def get(url,n=200_000_000):
-              for _ in range(3):
+          BASE="https://epgshare01.online/epgshare01/"
+          def get(url,n=250_000_000):
+              last=None
+              for _ in range(4):
                   try:
-                      r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Referer":"https://epgshare01.online/epgshare01/"}),timeout=180)
-                      return r.read(n)
-                  except Exception: pass
-              return b""
+                      return urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Referer":BASE}),timeout=180).read()
+                  except Exception as e: last=e; import time; time.sleep(3)
+              print("  !!",url,last); return b""
           def norm(s):
               s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
               return re.sub(r"[^a-z0-9]+","",s.lower())
-
-          #################### PART 1 : EPG id lookup ####################
-          print("################## PART 1 — EPG : identifiants guide candidats ##################")
-          EPG_SRC=[("epgshare01-FR","https://epgshare01.online/epgshare01/epg_ripper_FR1.xml.gz",True),
-                   ("epgshare01-CA","https://epgshare01.online/epgshare01/epg_ripper_CA1.xml.gz",True),
-                   ("samsung-fr","https://i.mjh.nz/SamsungTVPlus/fr.xml",False),
-                   ("samsung-ca","https://i.mjh.nz/SamsungTVPlus/ca.xml",False)]
-          # channel -> keywords to search in guide display-names / ids
-          TARG={"Canal+ en clair":["canal"],"Radio-Canada Jeunesse":["jeunesse","radiocanada","rcjeunesse"],
-                "Noovo Comédies":["noovo"],"Noovo Téléréalités":["noovo"],
-                "CBC News Montréal":["cbc","cbmt","cbnews"],"CBC Kids":["cbckid","cbckids","cbc kid"]}
-          hits=collections.defaultdict(list)
-          for tag,url,gz in EPG_SRC:
+          # discover CA + FR national files
+          html=get(BASE).decode("utf-8","replace")
+          files=set(re.findall(r"epg_ripper_[A-Z0-9_]+\.xml\.gz",html))
+          def pick(c):
+              cs=sorted(f for f in files if re.fullmatch(rf"epg_ripper_{c}\d+\.xml\.gz",f))
+              return BASE+cs[0] if cs else None
+          SRC=[("FR",pick("FR"),True),("CA",pick("CA"),True),
+               ("samsung-ca","https://i.mjh.nz/SamsungTVPlus/ca.xml",False)]
+          print("fichiers:",[ (t,(u or '').split('/')[-1]) for t,u,_ in SRC])
+          # dump channels matching these keyword groups
+          GROUPS={
+            "CANAL+ (chaîne principale)":lambda n,i: norm(n) in ("canal","canalplus","canalclair","canalenclair") or norm(i) in ("canalfr","canalplusfr"),
+            "NOOVO":lambda n,i:"noovo" in norm(n),
+            "CBC":lambda n,i:"cbc" in norm(n),
+            "RADIO-CANADA / ICI / JEUNESSE":lambda n,i:("radiocanada" in norm(n)) or ("jeunesse" in norm(n)) or norm(n).startswith("ici"),
+          }
+          import collections
+          out=collections.defaultdict(list)
+          for tag,url,gz in SRC:
+              if not url: print("  pas de fichier pour",tag); continue
               raw=get(url)
-              if not raw: print(f"  !! {tag} injoignable"); continue
+              if not raw: continue
               try: data=gzip.decompress(raw) if gz else raw
               except Exception: data=raw
-              cnt=0
+              n=0
               for _e,el in ET.iterparse(io.BytesIO(data),events=("end",)):
                   if el.tag=="channel":
-                      cnt+=1
-                      cid=el.get("id") or ""
-                      names=[dn.text for dn in el.findall("display-name") if dn.text]
-                      blob=norm(cid+" "+" ".join(names))
-                      for ch,kws in TARG.items():
-                          if any(norm(k) in blob for k in kws):
-                              hits[ch].append((tag,cid,names[:2]))
+                      n+=1; cid=el.get("id") or ""
+                      names=[d.text for d in el.findall("display-name") if d.text]
+                      for g,fn in GROUPS.items():
+                          if any(fn(nm,cid) for nm in names):
+                              out[g].append((tag,cid,names[:2]))
                       el.clear()
                   elif el.tag=="programme": el.clear()
-              print(f"  {tag}: {cnt} chaînes scannées")
-          for ch,kws in TARG.items():
-              print(f"\n  === {ch} ===")
+              print(f"  {tag}: {n} chaînes")
+          for g in GROUPS:
+              print(f"\n===== {g} =====")
               seen=set()
-              for tag,cid,names in hits.get(ch,[])[:12]:
-                  k=(cid,tag)
-                  if k in seen: continue
-                  seen.add(k)
-                  print(f"     [{tag:14}] id={cid!r}  names={names}")
-              if not hits.get(ch): print("     (aucun candidat)")
-
-          #################### PART 2 : pool catalog (CA/US/FR + alternatives) ####################
-          print("\n\n################## PART 2 — catalogue des serveurs pools ##################")
-          POOL=["145.239.5.177","151.80.18.177","99.27.51.147","cdn.haititivi.com","41.205.","144.217.253.140"]
-          SRC=["https://iptv-org.github.io/iptv/index.m3u"]
-          # existing playlist channel names (to flag alternatives)
-          have_names=set()
-          cur=open("TV.m3u",encoding="utf-8").read().splitlines()
-          for l in cur:
-              if l.startswith("#EXTINF") and "," in l: have_names.add(norm(l.split(",",1)[-1]))
-          cat=collections.defaultdict(list)   # host -> list of (name, country, url, is_alt)
-          for s in SRC:
-              L=get(s).decode("utf-8","replace").split("\n")
-              for i,l in enumerate(L):
-                  if not l.startswith("#EXTINF"): continue
-                  name=l.split(",",1)[-1].strip()
-                  if any(x in name for x in ("Gecko","Safari","Chrome")): continue
-                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
-                  ctry=""
-                  m=re.search(r'\.([a-z]{2})\d*(@|$|")',tid)
-                  if m: ctry=m.group(1).upper()
-                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
-                  for h in POOL:
-                      if u and h in u:
-                          is_alt = norm(name) in have_names
-                          cat[h].append((name,ctry,u,is_alt)); break
-          for h in POOL:
-              rows=cat.get(h,[])
-              if not rows: continue
-              caus=[r for r in rows if r[1] in ("CA","US")]
-              print(f"\n########## {h} — {len(rows)} entrées ({len(caus)} CA/US) ##########")
-              print("  -- CA / US --")
-              for name,ctry,u,alt in sorted(caus):
-                  print(f"     [{ctry}] {name[:34]:34} {'(ALT existante)' if alt else '(NEW)'} {u}")
-              alts_fr=[r for r in rows if r[3] and r[1] not in ("CA","US")]
-              print("  -- alternatives pour chaînes FR déjà présentes --")
-              for name,ctry,u,alt in sorted(alts_fr):
-                  print(f"     {name[:34]:34} {u}")
+              for tag,cid,names in out.get(g,[]):
+                  if cid in seen: continue
+                  seen.add(cid)
+                  print(f"   [{tag:11}] {cid:26} {names}")
+              if not out.get(g): print("   (rien)")
           PY
