@@ -143,7 +143,7 @@ https://hls.savoir.media/live/stream.m3u8
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
 https://jmp2.uk/stvp-CA4600005WZ
-#EXTINF:-1 tvg-id="CBCKids.ca" group-title="Canada EN", CBC Kids
+#EXTINF:-1 tvg-id="CBCKids.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-ca.png" group-title="Canada EN", CBC Kids
 https://amagi-streams.akamaized.net/hls/live/2120483/cbckids/master.m3u8
 #EXTINF:-1 tvg-id="CBCComedy.ca" group-title="Canada EN", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
