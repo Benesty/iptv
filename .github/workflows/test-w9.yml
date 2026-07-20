@@ -1,0 +1,38 @@
+name: test-w9
+on:
+  workflow_dispatch:
+
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe W9 every which way
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, urllib.parse as up
+          UA="Mozilla/5.0 (SmartTV) AppleWebKit/537.36"
+          W9="https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8"
+          PROXY="https://iptv-lake-three.vercel.app/api/fr?u="
+          def probe(url, ref=None):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if ref: h["Referer"]=ref; h["Origin"]=ref.rstrip("/")
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=25)
+                  b=r.read(3000).decode("utf-8","replace")
+                  drm = ("SAMPLE-AES" in b) or ("skd:" in b) or (".mpd" in b) or ("cenc" in b.lower()) or ("#EXT-X-KEY" in b)
+                  clear = b.lstrip().startswith("#EXTM3U") and not drm
+                  print(f"  HTTP {r.status} | manifest={'#EXTM3U' in b} | DRM={drm} | CLEAR={clear}")
+                  if "#EXTM3U" in b:
+                      for ln in b.splitlines()[:12]:
+                          if ln.startswith("#EXT-X-STREAM") or ln.startswith("#EXT-X-KEY") or ln.startswith("http") or ".m3u8" in ln:
+                              print("     ", ln[:100])
+                  return r.status, clear
+              except urllib.error.HTTPError as e:
+                  print(f"  HTTP {e.code} (geo/blocked)"); return e.code, False
+              except Exception as e:
+                  print(f"  ERR {type(e).__name__}"); return 0, False
+
+          print("### 1) W9 DIRECT (6cloud, sans referer) — vue 'runner US' ###");   probe(W9)
+          print("### 2) W9 DIRECT avec Referer m6+ ###");                            probe(W9, "https://www.6play.fr/")
+          print("### 3) W9 via PROXY Paris (?u=) — vue Vercel FR ###");              probe(PROXY+up.quote(W9,safe=""))
+          PY
