@@ -91,6 +91,20 @@ http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/disney-jr-fr.png" group-title="France", Disney Junior
 http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
+#EXTINF:-1 tvg-id="DisneyChannel.fr" tvg-logo="https://i.imgur.com/UxrAiAe.png" group-title="France", Disney Channel
+http://151.80.18.177:86/Disney_Channel_HD/index.m3u8
+#EXTINF:-1 tvg-id="SerieClub.fr" tvg-logo="https://i.imgur.com/V8wRRg5.png" group-title="France", Série Club
+http://145.239.5.177/355/index.m3u8
+#EXTINF:-1 tvg-id="Teva.fr" tvg-logo="https://i.imgur.com/kDW0hN5.png" group-title="France", Teva
+http://145.239.5.177/356/index.m3u8
+#EXTINF:-1 tvg-id="CinePlusEmotion.fr" tvg-logo="https://i.imgur.com/upYjPvc.jpeg" group-title="France", Ciné+ Émotion
+http://145.239.5.177/337/index.m3u8
+#EXTINF:-1 tvg-id="CanalPlusCinemas.fr" tvg-logo="https://i.imgur.com/fvPoNEa.jpeg" group-title="France", CANAL+ Cinéma
+http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
+#EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://upload.wikimedia.org/wikipedia/en/c/c9/M6_Music_%282012%29.png" group-title="France", M6 Music
+http://145.239.5.177/320/index.m3u8
+#EXTINF:-1 tvg-id="FootPlus.fr" tvg-logo="https://i.imgur.com/qsLLyn4.png" group-title="France", Foot+
+http://145.239.5.177/556a/index.m3u8
 #========================================
 # 🇨🇦 CANADA FR
 #========================================
