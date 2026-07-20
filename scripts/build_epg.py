@@ -22,6 +22,14 @@ FALLBACK = [BASE + f"epg_ripper_{c}1.xml.gz" for c in WANT]
 # Noovo, CBC Comedy, Gusto…). Matchés par tvg-id exact = l'id Samsung.
 EXTRA = ["https://i.mjh.nz/SamsungTVPlus/fr.xml",
          "https://i.mjh.nz/SamsungTVPlus/ca.xml"]
+
+# Alias explicites : tvg-id du m3u -> id EXACT d'une chaîne dans un guide source,
+# pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
+# (vérifiés le 2026-07-20 dans epgshare01 FR/CA + Samsung TV Plus CA)
+ALIAS = {
+    "CanalPlus.fr": "Canal+.fr",             # CANAL+ en clair -> guide « Canal+ »
+    "CBMT.Montreal.News.ca": "CA4600005WZ",  # CBC News Montréal -> Samsung « CBC News Quebec »
+}
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
@@ -126,6 +134,9 @@ src_of = {}
 for tid, name in wanted:
     if tid in chan_xml:
         src_of[tid] = tid
+    elif tid in ALIAS and ALIAS[tid] in chan_xml:
+        src_of[tid] = ALIAS[tid]
+        print(f"   alias {tid:24s} -> {ALIAS[tid]}")
     else:
         sid = (baseid.get(base(tid)) or
                name2id.get(norm(tid.split(".")[0])) or
