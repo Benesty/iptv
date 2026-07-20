@@ -1,0 +1,55 @@
+name: extract-official
+on:
+  workflow_dispatch:
+
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe official broadcaster APIs
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          def get(url, hdr=None, n=200000):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if hdr: h.update(hdr)
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=25)
+                  return r.status, r.read(n).decode("utf-8","replace")
+              except urllib.error.HTTPError as e:
+                  return e.code, (e.read(2000).decode("utf-8","replace") if e.fp else "")
+              except Exception as e:
+                  return 0, f"ERR {type(e).__name__}: {e}"
+
+          print("========== M6+ / 6play live API (M6 group) ==========")
+          # Public 6play live middleware — returns live assets incl. DRM info
+          for ch in ["m6","w9","6ter","gulli","fun_radio","rtl2"]:
+              url=f"https://pc.middleware.6play.fr/6play/v2/platforms/m6group_web/services/6play/live?channel={ch}&with=service_display_images,nextdiffusion,extra_data"
+              st,body=get(url)
+              print(f"\n--- {ch}: HTTP {st} ---")
+              if st==200:
+                  try:
+                      j=json.loads(body)
+                      # structure: {channelKey: [ {live: {...assets...}} ]}
+                      import re
+                      # find video asset URLs and drm keywords
+                      urls=re.findall(r'https?://[^"\\]+\.(?:m3u8|mpd)[^"\\]*', body)
+                      drm = "drm" in body.lower() or "widevine" in body.lower() or "playready" in body.lower() or ".mpd" in body.lower()
+                      print("  assets found:", len(urls), "| drm-mentioned:", drm)
+                      for u in urls[:5]: print("   ", u[:120])
+                  except Exception as e:
+                      print("  parse err", e, body[:200])
+              else:
+                  print("  ", body[:200])
+
+          print("\n\n========== Molotov / other official player probes ==========")
+          # TF1 & france.tv already handled by resolver — skip.
+          # Arte official (clear, no DRM, multi-geo) as a sanity check:
+          st,body=get("https://api.arte.tv/api/player/v2/config/fr/LIVE")
+          print("arte LIVE api:", st)
+          if st==200:
+              import re
+              us=re.findall(r'https?://[^"\\]+\.m3u8[^"\\]*', body)
+              print("  arte m3u8:", us[:3])
+          PY
