@@ -7,21 +7,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: health-check every FR channel (resolved through the real endpoint)
+      - name: deep health-check (master -> variant -> first segment)
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.error, re, concurrent.futures as cf
+          import urllib.request, urllib.error, re
+          from urllib.parse import urljoin
+          import concurrent.futures as cf
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
-          def probe(url):
+          def fetch(url, rng=None):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if rng: h["Range"]=rng
+              r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=20)
+              return r.status, r.read(rng and 4000 or 200000), r.headers.get("Content-Type","")
+          def first_uri(text, base):
+              for ln in text.split("\n"):
+                  ln=ln.strip()
+                  if ln and not ln.startswith("#"):
+                      return urljoin(base, ln)
+              return None
+          def deep(url):
               try:
-                  r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"*/*"}),timeout=15)
-                  b=r.read(500).decode("utf-8","replace")
-                  if r.status in (200,206) and ("#EXTM3U" in b or b.lstrip().startswith("#EXT")): return "ok"
-                  return "dead"
+                  st,b,ct=fetch(url)
+                  t=b.decode("utf-8","replace")
+                  if "#EXTM3U" not in t and not t.lstrip().startswith("#EXT"): return "master?"
+                  cur, curtext = url, t
+                  # if master (has STREAM-INF) descend one level
+                  if "#EXT-X-STREAM-INF" in curtext:
+                      v=first_uri(curtext, cur)
+                      if not v: return "no-variant"
+                      st,b,ct=fetch(v); curtext=b.decode("utf-8","replace"); cur=v
+                  # now media playlist: get first segment
+                  seg=first_uri(curtext, cur)
+                  if not seg: return "no-seg"
+                  st,b,ct=fetch(seg, rng="bytes=0-2000")
+                  if st in (200,206) and len(b)>200 and "html" not in ct.lower():
+                      return "PLAYS"
+                  return f"seg-bad({st},{len(b)}b,{ct[:12]})"
               except urllib.error.HTTPError as e:
-                  return "geo" if e.code in (401,403) else f"dead{e.code}"
-              except Exception: return "dead"
-          # parse playlist, keep only France group entries
+                  return f"http{e.code}"
+              except Exception as e:
+                  return f"err:{type(e).__name__}"
           lines=open("TV.m3u",encoding="utf-8").read().split("\n")
           chans=[]
           for i,l in enumerate(lines):
@@ -30,15 +55,14 @@ jobs:
                   u=next((lines[j].strip() for j in range(i+1,min(i+4,len(lines))) if lines[j].strip().startswith("http")),"")
                   if u: chans.append((name,u))
           res={}
-          with cf.ThreadPoolExecutor(max_workers=16) as ex:
-              fut={ex.submit(probe,u):(n,u) for n,u in chans}
-              for f in cf.as_completed(fut): res[fut[f][0]]=(f.result(),fut[f][1])
-          dead=[]
+          with cf.ThreadPoolExecutor(max_workers=12) as ex:
+              fut={ex.submit(deep,u):n for n,u in chans}
+              for f in cf.as_completed(fut): res[fut[f]]=f.result()
+          bad=[]
           for n,_ in chans:
-              st,u=res[n]
-              tag={"ok":"✅","geo":"🌍"}.get(st,"💀")
-              print(f"  {tag} {n:26} {st:6} {u[:70]}")
-              if tag=="💀": dead.append(n)
-          print(f"\n{len(chans)} chaînes FR — MORTES: {len(dead)}")
-          if dead: print("  ", ", ".join(dead))
+              r=res[n]; ok=r=="PLAYS"
+              print(f"  {'✅' if ok else '❌'} {n:26} {r}")
+              if not ok: bad.append(n)
+          print(f"\n{len(chans)} FR — ne jouent PAS: {len(bad)}")
+          if bad: print("  ", ", ".join(bad))
           PY
