@@ -6,70 +6,30 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - name: verify identity + research Chérie 25 / L'Équipe
+      - name: full urls + Chérie identity
         run: |
           python3 - <<'PY'
           import urllib.request, re
-          from urllib.parse import urljoin
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
-          def fetch(url,rng=None):
-              h={"User-Agent":UA,"Accept":"*/*"}
-              if rng:h["Range"]=rng
-              r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=20)
-              return r.status,r.read(4000 if rng else 200000),r.headers.get("Content-Type",""),r.geturl()
-          def first_uri(t,base):
-              for ln in t.split("\n"):
-                  ln=ln.strip()
-                  if ln and not ln.startswith("#"): return urljoin(base,ln)
-              return None
-          def identity(url):
-              """retourne (joue?, chemin_segment) pour juger l'identité de la chaîne"""
-              try:
-                  st,b,ct,fin=fetch(url); t=b.decode("utf-8","replace")
-                  if not t.lstrip().startswith("#EXT"): return (False,"pas m3u8")
-                  cur=fin
-                  if "#EXT-X-STREAM-INF" in t:
-                      v=first_uri(t,cur); st,b,ct,fin=fetch(v); t=b.decode("utf-8","replace"); cur=fin
-                  seg=first_uri(t,cur)
-                  if not seg: return (False,"no seg")
-                  st,b,ct,fin=fetch(seg,rng="bytes=0-2000")
-                  ok=st in (200,206) and len(b)>200 and "html" not in ct.lower()
-                  return (ok, fin)   # fin = URL réelle du segment (contient souvent le nom de chaîne)
-              except Exception as e:
-                  return (False,f"err {type(e).__name__}")
           def get(u):
               try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=40).read().decode("utf-8","replace")
-              except Exception: return ""
-          AGG={"iptvorg":get("https://iptv-org.github.io/iptv/countries/fr.m3u"),
-               "paratv":get("https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u"),
-               "schumijo":get("https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8")}
-          def candidates(keys):
-              out=[]
-              for src,txt in AGG.items():
-                  L=txt.split("\n")
-                  for i,l in enumerate(L):
-                      if l.startswith("#EXTINF") and any(k in l.lower() for k in keys):
-                          u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
-                          if u: out.append((src,u))
-                  # also from pools directly
-              return out
-
-          print("########## L'Équipe — vérif identité des gagnants ##########")
-          for u in ["https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/ZhUoBlR9BmI6/res/wQxLfoaend5U79ob-highest.m3u8"]+ [x[1] for x in candidates(["l'équipe","lequipe"])]:
-              ok,seg=identity(u)
-              print(f"   {'✅' if ok else '❌'} src={u[:70]}")
-              print(f"        segment: {seg[:110]}")
-
-          print("\n########## Chérie 25 — recherche + identité ##########")
-          cher=[("hard","https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8"),
-                ("pool","http://145.239.5.177/362/index.m3u8"),
-                ("pool","http://151.80.18.177:86/Cherie_25_HD/index.m3u8"),
-                ("pool","http://151.80.18.177:86/CHERIE25/index.m3u8")] + candidates(["chérie","cherie"])
-          seen=set()
-          for src,u in cher:
-              if u in seen: continue
-              seen.add(u)
-              ok,seg=identity(u)
-              print(f"   {'✅' if ok else '❌'} [{src}] {u[:70]}")
-              print(f"        segment: {seg[:110]}")
+              except Exception as e: return f"ERR {e}"
+          # 1) full L'Équipe cloudfront + paratv URLs from the aggregators
+          para=get("https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u")
+          schu=get("https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8")
+          org=get("https://iptv-org.github.io/iptv/countries/fr.m3u")
+          def dump(txt,keys,label):
+              print(f"\n===== {label} =====")
+              L=txt.split("\n")
+              for i,l in enumerate(L):
+                  if l.startswith("#EXTINF") and any(k in l.lower() for k in keys):
+                      u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
+                      # show tvg-id + name + url  (to catch mislabels)
+                      tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,"?"])[1]
+                      nm=l.split(",",1)[-1].strip()
+                      print(f"   id={tid:20} name={nm[:22]:22} -> {u}")
+          for tag,txt in [("paratv",para),("schumijo",schu),("iptv-org",org)]:
+              dump(txt,["l'équipe","lequipe","equipe"],f"L'ÉQUIPE @ {tag}")
+          for tag,txt in [("paratv",para),("schumijo",schu),("iptv-org",org)]:
+              dump(txt,["chérie","cherie"],f"CHÉRIE 25 @ {tag}")
           PY
