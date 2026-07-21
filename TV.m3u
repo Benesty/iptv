@@ -83,8 +83,12 @@ https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
-#EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
-https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
+# ⚠️ Chérie 25 — retirée le 2026-07-21 : le flux officiel NRJ a changé d'id (segments
+# 404) et aucune source de remplacement CORRECTE ne joue (celle des agrégateurs est en
+# fait « RMC Life » mal étiquetée). Commentée pour éviter un mauvais auto-remplacement.
+# Donne-moi l'URL NRJ actuelle si tu la trouves et je la réactive.
+# #EXTINF:-1 tvg-id="Cherie25.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cherie-25-fr.png" group-title="France", Chérie 25
+# https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8
 # ⚠️ Teletoon+ — retirée : chaîne payante (M6+/Canal), aucun flux libre fonctionnel
 # (tous les restreams testés le 2026-07-17 sont morts). Retire le « # » des 2 lignes
 # ci-dessous pour la réactiver si tu trouves une source qui marche.
