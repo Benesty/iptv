@@ -6,64 +6,71 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: deep health-check (master -> variant -> first segment)
+      - name: find a PLAYING source for L'Équipe and Chérie 25
         run: |
           python3 - <<'PY'
           import urllib.request, urllib.error, re
           from urllib.parse import urljoin
-          import concurrent.futures as cf
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
-          def fetch(url, rng=None):
+          def fetch(url,rng=None):
               h={"User-Agent":UA,"Accept":"*/*"}
-              if rng: h["Range"]=rng
+              if rng:h["Range"]=rng
               r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=20)
-              # r.geturl() = URL FINALE après redirections (base correcte pour urljoin)
-              return r.status, r.read(rng and 4000 or 200000), r.headers.get("Content-Type",""), r.geturl()
-          def first_uri(text, base):
-              for ln in text.split("\n"):
+              return r.status,r.read(4000 if rng else 200000),r.headers.get("Content-Type",""),r.geturl()
+          def first_uri(t,base):
+              for ln in t.split("\n"):
                   ln=ln.strip()
-                  if ln and not ln.startswith("#"):
-                      return urljoin(base, ln)
+                  if ln and not ln.startswith("#"): return urljoin(base,ln)
               return None
-          def deep(url):
+          def plays(url):
               try:
-                  st,b,ct,fin=fetch(url)
-                  t=b.decode("utf-8","replace")
-                  if "#EXTM3U" not in t and not t.lstrip().startswith("#EXT"): return "master?"
-                  cur, curtext = fin, t
-                  # if master (has STREAM-INF) descend one level
-                  if "#EXT-X-STREAM-INF" in curtext:
-                      v=first_uri(curtext, cur)
-                      if not v: return "no-variant"
-                      st,b,ct,fin=fetch(v); curtext=b.decode("utf-8","replace"); cur=fin
-                  # now media playlist: get first segment
-                  seg=first_uri(curtext, cur)
-                  if not seg: return "no-seg"
-                  st,b,ct,fin=fetch(seg, rng="bytes=0-2000")
-                  if st in (200,206) and len(b)>200 and "html" not in ct.lower():
-                      return "PLAYS"
-                  return f"seg-bad({st},{len(b)}b)"
-              except urllib.error.HTTPError as e:
-                  return f"http{e.code}"
-              except Exception as e:
-                  return f"err:{type(e).__name__}"
-          lines=open("TV.m3u",encoding="utf-8").read().split("\n")
-          chans=[]
-          for i,l in enumerate(lines):
-              if l.startswith("#EXTINF") and 'group-title="France"' in l:
-                  name=l.split(",",1)[-1].strip()
-                  u=next((lines[j].strip() for j in range(i+1,min(i+4,len(lines))) if lines[j].strip().startswith("http")),"")
-                  if u: chans.append((name,u))
-          res={}
-          with cf.ThreadPoolExecutor(max_workers=12) as ex:
-              fut={ex.submit(deep,u):n for n,u in chans}
-              for f in cf.as_completed(fut): res[fut[f]]=f.result()
-          bad=[]
-          for n,_ in chans:
-              r=res[n]; ok=r=="PLAYS"
-              print(f"  {'✅' if ok else '❌'} {n:26} {r}")
-              if not ok: bad.append(n)
-          print(f"\n{len(chans)} FR — ne jouent PAS: {len(bad)}")
-          if bad: print("  ", ", ".join(bad))
+                  st,b,ct,fin=fetch(url); t=b.decode("utf-8","replace")
+                  if not t.lstrip().startswith("#EXT"): return False
+                  cur=fin
+                  if "#EXT-X-STREAM-INF" in t:
+                      v=first_uri(t,cur);
+                      if not v: return False
+                      st,b,ct,fin=fetch(v); t=b.decode("utf-8","replace"); cur=fin
+                  seg=first_uri(t,cur)
+                  if not seg: return False
+                  st,b,ct,fin=fetch(seg,rng="bytes=0-2000")
+                  return st in (200,206) and len(b)>200 and "html" not in ct.lower()
+              except Exception: return False
+          def get(url):
+              try: return urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA}),timeout=40).read().decode("utf-8","replace")
+              except Exception: return ""
+          # gather candidates from aggregators by name/id
+          AGG=[get("https://iptv-org.github.io/iptv/countries/fr.m3u"),
+               get("https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u"),
+               get("https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8")]
+          def cands_for(keys):
+              out=[]
+              for txt in AGG:
+                  L=txt.split("\n")
+                  for i,l in enumerate(L):
+                      if not l.startswith("#EXTINF"): continue
+                      low=l.lower()
+                      if any(k in low for k in keys):
+                          u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
+                          if u and u not in out: out.append(u)
+              return out
+          TARGETS={
+            "La Chaîne L'Équipe":(["l'équipe","lequipe","la chaine l","lachaine l"],
+                 ["https://iptv-lake-three.vercel.app/api/fr?id=LEquipe21.fr"]),
+            "Chérie 25":(["chérie 25","cherie 25","cherie25"],
+                 ["https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8",
+                  "https://cherie25.nrjaudio.fm/hls/live/2038375/c25/FHD.m3u8",
+                  "https://s13.tntendirect.com/cherie25/live/playlist.m3u8",
+                  "http://41.205.77.102/CHERIE25/index.m3u8"]),
+          }
+          for name,(keys,hard) in TARGETS.items():
+              print(f"\n===== {name} =====")
+              seen=set(); winner=None
+              for u in hard+cands_for(keys):
+                  if u in seen: continue
+                  seen.add(u)
+                  ok=plays(u)
+                  print(f"   {'✅ PLAYS' if ok else '❌      '} {u[:95]}")
+                  if ok and not winner: winner=u
+              print(f"   -> GAGNANT: {winner}")
           PY
