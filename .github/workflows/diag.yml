@@ -1,0 +1,44 @@
+name: diag
+on:
+  workflow_dispatch:
+
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: health-check every FR channel (resolved through the real endpoint)
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re, concurrent.futures as cf
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+          def probe(url):
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"*/*"}),timeout=15)
+                  b=r.read(500).decode("utf-8","replace")
+                  if r.status in (200,206) and ("#EXTM3U" in b or b.lstrip().startswith("#EXT")): return "ok"
+                  return "dead"
+              except urllib.error.HTTPError as e:
+                  return "geo" if e.code in (401,403) else f"dead{e.code}"
+              except Exception: return "dead"
+          # parse playlist, keep only France group entries
+          lines=open("TV.m3u",encoding="utf-8").read().split("\n")
+          chans=[]
+          for i,l in enumerate(lines):
+              if l.startswith("#EXTINF") and 'group-title="France"' in l:
+                  name=l.split(",",1)[-1].strip()
+                  u=next((lines[j].strip() for j in range(i+1,min(i+4,len(lines))) if lines[j].strip().startswith("http")),"")
+                  if u: chans.append((name,u))
+          res={}
+          with cf.ThreadPoolExecutor(max_workers=16) as ex:
+              fut={ex.submit(probe,u):(n,u) for n,u in chans}
+              for f in cf.as_completed(fut): res[fut[f][0]]=(f.result(),fut[f][1])
+          dead=[]
+          for n,_ in chans:
+              st,u=res[n]
+              tag={"ok":"✅","geo":"🌍"}.get(st,"💀")
+              print(f"  {tag} {n:26} {st:6} {u[:70]}")
+              if tag=="💀": dead.append(n)
+          print(f"\n{len(chans)} chaînes FR — MORTES: {len(dead)}")
+          if dead: print("  ", ", ".join(dead))
+          PY
