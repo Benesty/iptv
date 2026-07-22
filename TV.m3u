@@ -38,6 +38,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
 # ALT CSTAR (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/361/index.m3u8
+# ALT CSTAR (résolveur Dailymotion intégré, repli stub inclus — bascule ici si le stub ParaTV reste figé et que CSTAR meurt): https://iptv-lake-three.vercel.app/api/fr?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
 #EXTINF:-1 tvg-chno="22" tvg-id="6ter.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png" group-title="France", 6TER
 http://151.80.18.177:86/6ter/index.m3u8
 # ALT 6TER (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/314/index.m3u8
@@ -77,11 +78,13 @@ http://151.80.18.177:86/AB1/index.m3u8
 http://151.80.18.177:86/RTL9/index.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
-# T18 — source Dailymotion (jetons expirants). Servie EN DIRECT (sans le proxy Paris)
-# car Dailymotion bloque les IP datacenter Vercel : ça ne marche que depuis ta connexion
-# résidentielle. Si ça ne joue pas chez toi, dis-le-moi et je la commente.
+# T18 — live Dailymotion x9jhhyc. Résolu à la volée par /api/fr?dm= (jeton frais à
+# chaque zap, avec ref=t18.fr si le live est verrouillé à son site) ; si la résolution
+# échoue (métadonnées bloquées côté Vercel), fb= retombe sur le stub ParaTV = l'ancien
+# comportement. Si ça ne joue toujours pas, essaie la variante directe commentée dessous.
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/res/t18-dm-highest.m3u8
+https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Fres%2Ft18-dm-highest.m3u8
+# ALT T18 (stub ParaTV direct sans proxy, IP résidentielle — décommenter si le dm= ci-dessus reste HS): https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/res/t18-dm-highest.m3u8
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
