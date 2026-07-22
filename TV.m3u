@@ -77,8 +77,11 @@ http://151.80.18.177:86/AB1/index.m3u8
 http://151.80.18.177:86/RTL9/index.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
+# T18 — source Dailymotion (jetons expirants). Servie EN DIRECT (sans le proxy Paris)
+# car Dailymotion bloque les IP datacenter Vercel : ça ne marche que depuis ta connexion
+# résidentielle. Si ça ne joue pas chez toi, dis-le-moi et je la commente.
 #EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
-https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
+https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/res/t18-dm-highest.m3u8
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
