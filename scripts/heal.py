@@ -16,7 +16,7 @@ Classement d'un flux (depuis un runner US) :
   geo  = HTTP 403/401 (géo-bloqué CA/FR)         -> on garde (marche chez toi)
   dead = 000/404/timeout/HTML/…                  -> on répare
 """
-import re, sys, time, unicodedata, urllib.request, urllib.error
+import re, sys, time, unicodedata, urllib.request, urllib.error, urllib.parse
 
 TIMEOUT = 15
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
@@ -85,6 +85,23 @@ def http(url, read=0):
     return r.status, data.decode("utf-8", "replace")
 
 
+def http_full(url, rng=None):
+    """(status, texte, content-type, url FINALE après redirections).
+
+    L'URL finale est indispensable : c'est la base pour résoudre les URI
+    relatives d'un manifeste (sinon on fabrique des liens de segments faux et
+    on déclare morts des flux qui marchent).
+    """
+    headers = {"User-Agent": UA, "Accept": "*/*"}
+    if rng:
+        headers["Range"] = rng
+    req = urllib.request.Request(url, headers=headers)
+    r = urllib.request.urlopen(req, timeout=TIMEOUT)
+    data = r.read(4000 if rng else 300000)
+    return (r.status, data.decode("utf-8", "replace"),
+            r.headers.get("Content-Type", ""), r.geturl())
+
+
 def get_text(url, tries=3):
     last = None
     for n in range(tries):
@@ -96,13 +113,43 @@ def get_text(url, tries=3):
     raise last
 
 
+def _first_uri(text, base):
+    """Première URI non-commentée d'un manifeste, rendue absolue."""
+    for ln in text.split("\n"):
+        ln = ln.strip()
+        if ln and not ln.startswith("#"):
+            return urllib.parse.urljoin(base, ln)
+    return None
+
+
 def classify(url):
-    """ok | geo | dead"""
+    """ok | geo | dead
+
+    Test PROFOND : master -> variante -> premier segment vidéo. Un flux dont le
+    manifeste répond 200 mais dont les segments sont morts est bien classé
+    « dead » (un simple test du manifeste le déclarait vivant à tort, et le bot
+    ne réparait donc jamais ce cas — le plus fréquent en pratique).
+    """
     try:
-        st, body = http(url, read=600)
-        if st in (200, 206) and "#EXTM3U" in body:
-            return "ok"
-        if st in (200, 206) and body.strip().startswith("#EXT"):
+        st, body, ct, final = http_full(url)
+        if st not in (200, 206) or not body.lstrip().startswith("#EXT"):
+            return "dead"
+
+        cur, text = final, body
+        # master (plusieurs qualités) -> on descend d'un niveau
+        if "#EXT-X-STREAM-INF" in text:
+            v = _first_uri(text, cur)
+            if not v:
+                return "dead"
+            st, text, ct, cur = http_full(v)
+            if st not in (200, 206) or not text.lstrip().startswith("#EXT"):
+                return "dead"
+
+        seg = _first_uri(text, cur)
+        if not seg:
+            return "dead"
+        st, chunk, ct, _ = http_full(seg, rng="bytes=0-2000")
+        if st in (200, 206) and len(chunk) > 200 and "html" not in (ct or "").lower():
             return "ok"
         return "dead"
     except urllib.error.HTTPError as e:
@@ -135,8 +182,65 @@ def parse_pairs(text):
     return out, lines
 
 
+def core(name):
+    """Nom réduit à son cœur identitaire.
+
+    Les agrégateurs collent la provenance et la qualité au nom :
+    « 16. CNEWS [1080p-canalplus] », « L'Equipe (1080p) », « W9 [FR][CH-ONLY] ».
+    On retire d'abord tout ce qui est entre crochets/parenthèses (provenance),
+    puis le numéro de canal en tête et la mention de qualité.
+    « 18. L'Equipe (1080p) » -> « lequipe ».
+    """
+    s = re.sub(r"[\[(\{][^\])\}]*[\])\}]", " ", name or "")   # (...) [...] {...}
+    n = norm(s)
+    n = re.sub(r"^\d+", "", n)                       # « 18. » en tête
+    n = re.sub(r"(2160p|1080p|720p|576p|480p|360p)", "", n)
+    n = re.sub(r"(uhd|fhd|hd|sd)$", "", n)
+    return n
+
+
+# Mots « décoratifs » : leur présence en plus dans un libellé ne change pas la
+# chaîne désignée (« La Chaîne L'Équipe » == « L'Equipe »).
+NOISE = ("chaine", "france", "channel", "direct", "live", "clair", "the",
+         "les", "la", "le", "tv", "fr", "en")
+
+
+def same_channel(a, b):
+    """Deux libellés désignent-ils la même chaîne ?
+
+    Garde-fou contre les agrégateurs mal étiquetés : on a déjà vu une entrée
+    tvg-id="Cherie25.fr" dont le flux était en réalité RMC Life. Remplacer une
+    chaîne par une AUTRE chaîne est pire qu'un lien mort, donc on refuse au
+    moindre doute (un refus = on garde l'ancien lien, l'utilisateur voit la
+    panne ; une acceptation à tort = il regarde la mauvaise chaîne sans le
+    savoir).
+
+    Règle : les cœurs de noms doivent être identiques, à des mots décoratifs
+    près. « lequipe » vs « lachainelequipe » -> OK (reste « lachaine »).
+    « nickelodeon » vs « nickelodeonjunior » -> refus (reste « junior »).
+    """
+    x, y = core(a), core(b)
+    if not x or not y:
+        return True          # pas d'info exploitable : on ne bloque pas
+    if x == y:
+        return True
+    short, long_ = (x, y) if len(x) <= len(y) else (y, x)
+    if short not in long_:
+        return False
+    # ce qui reste en trop doit n'être QUE des mots décoratifs
+    rest = long_.replace(short, "", 1)
+    changed = True
+    while changed and rest:
+        changed = False
+        for w in NOISE:
+            if w in rest:
+                rest = rest.replace(w, "", 1)
+                changed = True
+    return rest == ""
+
+
 def build_index():
-    """{tvgid: [urls]} et {normname: [urls]} depuis les sources."""
+    """{tvgid: [(url, nom)]} et {normname: [(url, nom)]} depuis les sources."""
     by_id, by_name = {}, {}
     for src in SOURCES:
         try:
@@ -150,30 +254,32 @@ def build_index():
                 continue
             if tid:
                 by_id.setdefault(tid, [])
-                if url not in by_id[tid]:
-                    by_id[tid].append(url)
+                if url not in [u for u, _ in by_id[tid]]:
+                    by_id[tid].append((url, name))
             n = norm(name)
             if n:
                 by_name.setdefault(n, [])
-                if url not in by_name[n]:
-                    by_name[n].append(url)
+                if url not in [u for u, _ in by_name[n]]:
+                    by_name[n].append((url, name))
         print(f"  + source: {src.split('/')[-1]} ({len(pairs)} chaînes)")
     return by_id, by_name
 
 
 def find_replacement(tid, name, current, by_id, by_name):
     seen, cands = set(), []
-    # 1) registre de secours spécifique à la chaîne (essayé en premier)
+    # 1) registre de secours spécifique à la chaîne (vérifié à la main : sûr)
     for u in REGISTRY.get(tid, []):
         if u not in seen:
             seen.add(u); cands.append(u)
-    # 2) puis les agrégateurs maintenus (par tvg-id, puis par nom)
-    for u in by_id.get(tid, []):
-        if u not in seen:
-            seen.add(u); cands.append(u)
-    for u in by_name.get(norm(name), []):
-        if u not in seen:
-            seen.add(u); cands.append(u)
+    # 2) puis les agrégateurs maintenus (par tvg-id, puis par nom), en écartant
+    #    les entrées dont le libellé désigne visiblement une AUTRE chaîne.
+    for u, src_name in by_id.get(tid, []) + by_name.get(norm(name), []):
+        if u in seen:
+            continue
+        if not same_channel(name, src_name):
+            print(f"      (ignoré: « {src_name[:38]} » ≠ « {name} »)")
+            continue
+        seen.add(u); cands.append(u)
     for u in cands:
         if u == current:
             continue
