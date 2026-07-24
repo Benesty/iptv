@@ -1,0 +1,53 @@
+name: diag
+on:
+  workflow_dispatch:
+
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pourquoi CSTAR échoue ?
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, urllib.parse as up
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+          def get(u):
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=25)
+                  return r.status, r.read(600).decode("utf-8","replace"), r.geturl()
+              except urllib.error.HTTPError as e:
+                  return e.code, (e.read(400).decode("utf-8","replace") if e.fp else ""), u
+              except Exception as e:
+                  return 0, f"{type(e).__name__}: {e}", u
+
+          SRC="https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/canalplus/res/cstar-dm-highest.m3u8"
+          PROXY="https://iptv-lake-three.vercel.app/api/fr?u="
+
+          print("### 1. la source ParaTV de CSTAR, en direct ###")
+          st,body,fin=get(SRC)
+          print(f"  HTTP {st}")
+          print("  " + "\n  ".join(body.splitlines()[:6]))
+
+          print("\n### 2. la même via le proxy (403 = mon allowlist bloque) ###")
+          st,body,fin=get(PROXY+up.quote(SRC,safe=""))
+          print(f"  HTTP {st}")
+          print("  " + body[:300].replace("\n","\n  "))
+
+          # 3. l'URL de variante réellement pointée
+          var=None
+          for ln in body.splitlines():
+              if ln.startswith("http"): var=ln; break
+          if not var:
+              st2,b2,_=get(SRC)
+              for ln in b2.splitlines():
+                  if ln.startswith("http"): var=ln; break
+          if var:
+              print(f"\n### 3. variante pointée ###\n  {var[:150]}")
+              tgt=var
+              if "/api/fr?u=" in var:
+                  tgt=up.unquote(var.split("/api/fr?u=",1)[1].split("&")[0])
+                  print(f"  cible réelle : {tgt[:150]}")
+              print(f"  hôte : {up.urlparse(tgt).hostname}")
+              st,b,_=get(var)
+              print(f"  -> HTTP {st}  {b[:160]}")
+          PY
