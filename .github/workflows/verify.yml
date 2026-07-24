@@ -1,0 +1,92 @@
+name: verify
+on:
+  workflow_dispatch:
+
+# Vérifie que le durcissement du proxy n'a rien cassé :
+#   1. les 65 chaînes jouent toujours (test master -> variante -> segment)
+#   2. le proxy REFUSE bien les cibles interdites (SSRF / hôte non autorisé)
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: end-to-end
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re, concurrent.futures as cf
+          from urllib.parse import urljoin
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+          PROXY="https://iptv-lake-three.vercel.app/api/fr"
+
+          def fetch(u,rng=None):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if rng:h["Range"]=rng
+              r=urllib.request.urlopen(urllib.request.Request(u,headers=h),timeout=20)
+              return r.status,r.read(4000 if rng else 300000),r.headers.get("Content-Type",""),r.geturl()
+          def first_uri(t,base):
+              for ln in t.split("\n"):
+                  ln=ln.strip()
+                  if ln and not ln.startswith("#"): return urljoin(base,ln)
+              return None
+          def deep(u):
+              try:
+                  st,b,ct,fin=fetch(u); t=b.decode("utf-8","replace")
+                  if not t.lstrip().startswith("#EXT"): return "dead"
+                  cur=fin
+                  if "#EXT-X-STREAM-INF" in t:
+                      v=first_uri(t,cur)
+                      if not v: return "dead"
+                      st,b,ct,fin=fetch(v); t=b.decode("utf-8","replace"); cur=fin
+                  seg=first_uri(t,cur)
+                  if not seg: return "dead"
+                  st,b,ct,fin=fetch(seg,rng="bytes=0-2000")
+                  return "PLAYS" if (st in (200,206) and len(b)>200 and "html" not in ct.lower()) else "dead"
+              except urllib.error.HTTPError as e:
+                  return "geo" if e.code in (401,403) else "dead"
+              except Exception: return "dead"
+
+          print("########## 1. TOUTES LES CHAÎNES ##########")
+          lines=open("TV.m3u",encoding="utf-8").read().split("\n")
+          chans=[]
+          for i,l in enumerate(lines):
+              if l.startswith("#EXTINF"):
+                  g=(re.search(r'group-title="([^"]*)"',l) or [None,"?"])[1]
+                  n=l.split(",",1)[-1].strip()
+                  u=next((lines[j].strip() for j in range(i+1,min(i+4,len(lines))) if lines[j].strip().startswith("http")),"")
+                  if u: chans.append((g,n,u))
+          res={}
+          with cf.ThreadPoolExecutor(max_workers=14) as ex:
+              fut={ex.submit(deep,u):(g,n) for g,n,u in chans}
+              for f in cf.as_completed(fut): res[fut[f]]=f.result()
+          bad=[];  cur=None
+          for g,n,u in chans:
+              if g!=cur: print(f"\n--- {g} ---"); cur=g
+              s=res[(g,n)]; tag={"PLAYS":"✅","geo":"🌍"}.get(s,"💀")
+              via=" (proxy)" if "/api/fr" in u else ""
+              print(f"  {tag} {n}{via}")
+              if tag=="💀": bad.append(n)
+          print(f"\n>>> {len(chans)} chaînes — DOWN: {len(bad)} {bad if bad else ''}")
+
+          print("\n########## 2. SÉCURITÉ DU PROXY ##########")
+          import urllib.parse as up
+          def code(u):
+              try:
+                  r=urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=20)
+                  return r.status
+              except urllib.error.HTTPError as e: return e.code
+              except Exception as ex: return f"ERR {type(ex).__name__}"
+          tests=[
+            ("metadata cloud (SSRF)", "http://169.254.169.254/latest/meta-data/", 403),
+            ("loopback (SSRF)",       "http://127.0.0.1:8080/x.m3u8",             403),
+            ("réseau privé (SSRF)",   "http://192.168.1.1/x.m3u8",                403),
+            ("schéma file://",        "file:///etc/passwd",                       403),
+            ("hôte tiers arbitraire", "https://example.com/",                     None),
+          ]
+          for label,target,want in tests:
+              c=code(f"{PROXY}?u={up.quote(target,safe='')}")
+              if want is None:
+                  verdict="🔒 refusé" if c==403 else f"⚠️ accepté ({c}) — définis PROXY_SECRET pour fermer"
+              else:
+                  verdict="🔒 refusé" if c==want else f"❌ NON BLOQUÉ ({c})"
+              print(f"  {verdict:52} {label}")
+          PY
