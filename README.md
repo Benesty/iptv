@@ -47,7 +47,8 @@ Le dépôt est public, donc l'URL du proxy l'est aussi. Trois protections dans `
 3. **signature HMAC** — les URL de variantes/segments/clés que le proxy génère sont
    signées, donc lui seul peut fabriquer un lien vers un hôte arbitraire.
 
-> ⚠️ La protection 3 s'active **dès que la variable d'environnement `PROXY_SECRET`
+> ℹ️ Le proxy refuse par défaut tout domaine hors allowlist — aucune configuration
+> n.est nécessaire. La protection 3 (signature) s.active en plus **si la variable `PROXY_SECRET`
 > est définie dans Vercel** (Settings → Environment Variables, n'importe quelle
 > chaîne aléatoire longue). Sans elle tout fonctionne, mais un tiers peut encore
 > relayer du trafic via ton quota.

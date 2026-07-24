@@ -29,14 +29,25 @@ const SELF = "/api/fr?u=";
 const UA = "Mozilla/5.0 (SmartTV) AppleWebKit/537.36";
 const TIMEOUT_MS = 20000;
 
-// Hôtes d'entrée autorisés sans signature : ce sont ceux référencés directement
-// dans TV.m3u (playlist ParaTV + CDN des chaînes servies en ?u=). Le suffixe
-// couvre les sous-domaines (ex. « .cloudfront.net » pour les flux Amagi).
+// Domaines réellement traversés par les chaînes proxifiées — manifeste maître,
+// variantes, segments et clés AES — relevés automatiquement par le workflow
+// `collect-hosts`. Tout le reste est refusé : c'est ce qui empêche un tiers
+// d'utiliser le proxy comme relais anonyme sur le quota Vercel.
+// Un nom commençant par « . » couvre les sous-domaines (les CDN font tourner
+// leurs noms d'edge : hls-m015…, alive-tmc-hls…), sinon la correspondance est
+// exacte.
+//
+// Si une chaîne tombe en 403 « hôte non autorisé », c'est que son CDN a changé
+// de domaine : relance le workflow `collect-hosts` et ajoute le domaine ici.
 const ALLOW_HOSTS = [
-  "raw.githubusercontent.com",
-  "ott.tv5monde.com",
-  ".cloudfront.net",
-  ".nextradiotv.com",
+  "raw.githubusercontent.com",          // fichiers de flux ParaTV
+  "ott.tv5monde.com",                   // TV5Monde Info
+  "d15aro46bnpfm8.cloudfront.net",      // RMC Story (Amagi)
+  ".tf1.fr",                            // TF1, TMC, TFX, LCI, TF1 Séries Films, Novo 19
+  ".ftven.fr",                          // France 2/3/4/5, Arte, franceinfo, FTV Docs/Séries
+  ".nextradiotv.com",                   // BFM TV
+  ".canalplus-cdn.net",                 // CANAL+ en clair, CNews
+  ".dmcdn.net",                         // CSTAR (Dailymotion)
 ];
 
 const SECRET = (typeof process !== "undefined" && process.env && process.env.PROXY_SECRET) || "";
@@ -108,10 +119,11 @@ async function targetAuthorized(rawUrl, providedSig) {
     return "url invalide";
   }
   if (isBlockedTarget(u)) return "cible interdite";
-  if (hostAllowed(u.hostname)) return null; // point d'entrée légitime
-  if (!SECRET) return null; // mode permissif tant que PROXY_SECRET n'est pas défini
-  if (providedSig && safeEqual(providedSig, await sign(rawUrl))) return null; // lien signé par nous
-  return "hôte non autorisé";
+  if (hostAllowed(u.hostname)) return null; // domaine d'une chaîne de la playlist
+  // Lien signé par le proxy lui-même (permet n'importe quel CDN sans rouvrir
+  // le proxy) — actif seulement si PROXY_SECRET est défini.
+  if (SECRET && providedSig && safeEqual(providedSig, await sign(rawUrl))) return null;
+  return `hôte non autorisé: ${u.hostname}`;
 }
 
 /* ------------------------------------------------------------------ *
