@@ -82,11 +82,15 @@ jobs:
             ("schéma file://",        "file:///etc/passwd",                       403),
             ("hôte tiers arbitraire", "https://example.com/",                     None),
           ]
+          # 403 = hôte refusé ; 415 = type de contenu non média refusé.
+          # Les deux constituent un blocage effectif de l'abus.
+          BLOQUE=(403,415)
           for label,target,want in tests:
               c=code(f"{PROXY}?u={up.quote(target,safe='')}")
               if want is None:
-                  verdict="🔒 refusé" if c==403 else f"⚠️ accepté ({c}) — définis PROXY_SECRET pour fermer"
+                  verdict=(f"🔒 refusé ({c})" if c in BLOQUE
+                           else f"⚠️ relayé ({c}) — définis PROXY_SECRET pour fermer")
               else:
-                  verdict="🔒 refusé" if c==want else f"❌ NON BLOQUÉ ({c})"
-              print(f"  {verdict:52} {label}")
+                  verdict=f"🔒 refusé ({c})" if c in BLOQUE else f"❌ NON BLOQUÉ ({c})"
+              print(f"  {verdict:56} {label}")
           PY
