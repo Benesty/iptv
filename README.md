@@ -43,15 +43,21 @@ Le dépôt est public, donc l'URL du proxy l'est aussi. Trois protections dans `
 
 1. **anti-SSRF** — `http(s)` uniquement ; IP privées, loopback, lien-local et
    métadonnées cloud (`169.254.169.254`) refusées ;
-2. **allowlist** — seuls les hôtes d'entrée de la playlist sont acceptés « nus » ;
-3. **signature HMAC** — les URL de variantes/segments/clés que le proxy génère sont
-   signées, donc lui seul peut fabriquer un lien vers un hôte arbitraire.
+2. **allowlist, en refus par défaut** — seuls les 8 domaines réellement traversés
+   par les chaînes sont acceptés (relevés par le workflow `collect-hosts`) ;
+   tout le reste reçoit `403`, ce qui interdit l'usage en relais anonyme ;
+3. **signature HMAC** *(optionnelle)* — les URL de variantes/segments/clés que le
+   proxy génère peuvent être signées, ce qui autorise n'importe quel CDN sans
+   rouvrir le proxy.
 
-> ℹ️ Le proxy refuse par défaut tout domaine hors allowlist — aucune configuration
-> n.est nécessaire. La protection 3 (signature) s.active en plus **si la variable `PROXY_SECRET`
-> est définie dans Vercel** (Settings → Environment Variables, n'importe quelle
-> chaîne aléatoire longue). Sans elle tout fonctionne, mais un tiers peut encore
-> relayer du trafic via ton quota.
+> ℹ️ Aucune configuration n'est nécessaire : la protection 2 suffit et est active.
+> La 3 s'ajoute si tu définis `PROXY_SECRET` dans Vercel (Settings → Environment
+> Variables, une longue chaîne aléatoire) — utile seulement pour encaisser sans
+> rien casser le jour où un CDN change de domaine.
+
+> ⚠️ Si une chaîne renvoie `403 hôte non autorisé: <domaine>`, c'est que son CDN a
+> bougé : relance le workflow `collect-hosts` et ajoute le domaine à `ALLOW_HOSTS`
+> dans `api/fr.js`.
 
 Le proxy ne renvoie que du média (liste blanche de `content-type`, `nosniff`,
 `CSP: sandbox`) : il ne peut pas servir de HTML/JS arbitraire sous ton domaine.
@@ -87,8 +93,10 @@ Le proxy ne renvoie que du média (liste blanche de `content-type`, `nosniff`,
 
 Certaines chaînes n'ont **aucune** source libre exploitable, ce n'est pas un bug :
 
-- **W9, M6, 6ter, RTL9** — DRM Widevine/PlayReady sur M6+ (géo-FR de surcroît) ;
-- **Teletoon+, Chérie 25, Foot+** — payantes, ou identifiant de flux officiel rotaté ;
+- **W9** — DRM Widevine/PlayReady sur M6+, et géo-FR de surcroît ;
+- **Teletoon+, Foot+** — payantes, aucun restream vivant ;
+- **Chérie 25** — l'identifiant du flux officiel NRJ a changé ; attention, la seule
+  source « qui joue » chez les agrégateurs est en réalité *RMC Life* mal étiquetée ;
 - **Télé-Québec** — DRM Widevine confirmé côté Brightcove ;
 - **T18** — source Dailymotion à jetons expirants, refusée aux IP de datacenter.
 
