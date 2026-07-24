@@ -167,18 +167,30 @@ RID = re.compile(r'tvg-id="([^"]*)"')
 
 
 def parse_pairs(text):
-    """Retourne [(extinf_line, url_line_index_in_lines)] -> ici (tvgid, name, url)."""
+    """[(tvg-id, nom, url, index_de_la_ligne_url)] pour chaque chaîne.
+
+    On saute les commentaires (#EXTVLCOPT, #EXTGRP, « # ALT … ») mais on
+    S'ARRÊTE au #EXTINF suivant : sans cette borne, une chaîne dont l'URL est
+    commentée (ce que fait check_links.sh avec « # HS [404] … ») « emprunte »
+    l'URL de la chaîne suivante. Les deux chaînes pointent alors sur la MÊME
+    ligne, et le bot écrit le flux de l'une sur la ligne de l'autre — on se
+    retrouve à regarder une autre chaîne que celle affichée.
+    """
     out, lines = [], text.split("\n")
     for i, line in enumerate(lines):
-        if line.startswith("#EXTINF"):
-            j = i + 1
-            while j < len(lines) and (not lines[j].strip() or lines[j].startswith("#")):
-                j += 1
-            if j < len(lines):
-                m = RID.search(line)
-                tid = m.group(1).strip() if m else ""
-                name = line.split(",", 1)[-1].strip() if "," in line else ""
-                out.append((tid, name, lines[j].strip(), j))
+        if not line.startswith("#EXTINF"):
+            continue
+        j = i + 1
+        while j < len(lines) and not lines[j].strip().startswith(("http://", "https://")):
+            if lines[j].startswith("#EXTINF"):
+                j = len(lines)          # chaîne sans URL active : on l'ignore
+                break
+            j += 1
+        if j < len(lines):
+            m = RID.search(line)
+            tid = m.group(1).strip() if m else ""
+            name = line.split(",", 1)[-1].strip() if "," in line else ""
+            out.append((tid, name, lines[j].strip(), j))
     return out, lines
 
 
@@ -310,6 +322,22 @@ def main():
         if c == "dead":
             dead.append((tid, name, url, j))
 
+    # Deuxième chance : ces flux « pirates » ont des micro-coupures. Sans ce
+    # re-test, un hoquet de quelques secondes suffit à remplacer définitivement
+    # une bonne URL (on l'a vu : RTL9 déclarée morte puis vivante 2 min après).
+    if dead:
+        print(f"\nRe-test dans 60 s des {len(dead)} chaîne(s) déclarées mortes…")
+        time.sleep(60)
+        confirmees = []
+        for tid, name, url, j in dead:
+            if classify(url) == "dead":
+                confirmees.append((tid, name, url, j))
+            else:
+                stats["dead"] -= 1
+                stats["ok"] += 1
+                print(f"  ↩️  {name:24s} en fait vivante (hoquet passager)")
+        dead = confirmees
+
     print(f"\nRésumé direct : {stats['ok']} ok · {stats['geo']} géo · {stats['dead']} morts")
     if not dead:
         print("Rien à réparer. 🎉")
@@ -334,6 +362,14 @@ def main():
         print("  non résolues:", ", ".join(unresolved))
 
     if healed and not DRY:
+        # Verrou de sûreté : deux chaînes ne doivent JAMAIS viser la même ligne
+        # (sinon on écrit le flux de l'une sur l'autre). On préfère ne rien
+        # écrire plutôt que de corrompre la playlist.
+        idx = [j for (_t, _n, _u, j) in pairs]
+        if len(set(idx)) != len(idx):
+            print("\n!! ABANDON : deux chaînes pointent sur la même ligne — "
+                  "TV.m3u laissé intact (playlist probablement mal formée).")
+            return 1
         with open("TV.m3u", "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
         print("\nTV.m3u mis à jour.")

@@ -107,6 +107,8 @@ for i, url in enumerate(SOURCES):
     except Exception as e:
         print(f"!! {url} : {e}")
 
+n_nationaux = len(feeds)   # combien de guides nationaux ont réellement été chargés
+
 # guides XMLTV supplémentaires (déjà en clair, pas de gunzip)
 for url in EXTRA:
     time.sleep(2)
@@ -169,6 +171,28 @@ for xml in feeds:
             el.clear()
         elif el.tag == "channel":
             el.clear()
+
+# 5bis) GARDE-FOU — ne JAMAIS publier un guide amputé.
+# Le workflow force-push la branche `epg` : si on écrivait un fichier vide ou
+# partiel, il écraserait le dernier bon guide, irrécupérable, et toutes les
+# chaînes perdraient leur programme jusqu'au prochain run réussi. Les erreurs
+# réseau étant avalées plus haut (epgshare01 renvoie des 403 sur requêtes
+# rapprochées), on vérifie ici que la moisson est plausible avant d'écrire.
+seuils = [
+    (n_nationaux == len(SOURCES),
+     f"guides nationaux manquants ({n_nationaux}/{len(SOURCES)})"),
+    (len(programmes) >= 5000,
+     f"trop peu de programmes ({len(programmes)}, seuil 5000)"),
+    (len(channels) >= 0.7 * len(ids),
+     f"trop peu de chaînes appariées ({len(channels)}/{len(ids)}, seuil 70%)"),
+]
+echecs = [msg for ok, msg in seuils if not ok]
+if echecs:
+    print("\n!! EPG NON PUBLIÉ — moisson incomplète :")
+    for msg in echecs:
+        print("   -", msg)
+    print("   La branche `epg` garde le dernier guide valide. Job en échec exprès.")
+    raise SystemExit(1)
 
 with open("epg.xml", "w", encoding="utf-8") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n')

@@ -208,9 +208,19 @@ export default async function handler(req) {
   if (!upstream.ok) return new Response("upstream " + upstream.status, { status: 502 });
 
   const ct = (upstream.headers.get("content-type") || "").toLowerCase();
-  const isManifest =
-    (upstream.url || target).toLowerCase().includes(".m3u8") ||
-    ct.includes("mpegurl");
+  // Le chemin seul, pas l'URL entière : sinon un « ?x=.m3u8 » dans la query
+  // ferait passer n'importe quelle réponse pour un manifeste.
+  let path = "";
+  try {
+    path = new URL(upstream.url || target).pathname.toLowerCase();
+  } catch {}
+  const isManifest = path.endsWith(".m3u8") || path.endsWith(".m3u") || ct.includes("mpegurl");
+
+  // Refuse les réponses trop grosses (un fichier géant ferait exploser
+  // l'isolate Edge et brûlerait le quota).
+  const len = Number(upstream.headers.get("content-length") || 0);
+  const MAX = isManifest ? 4 * 1024 * 1024 : 64 * 1024 * 1024;
+  if (len > MAX) return new Response("réponse trop volumineuse", { status: 502 });
 
   if (isManifest) {
     const text = await upstream.text();
@@ -221,8 +231,21 @@ export default async function handler(req) {
         "content-type": "application/vnd.apple.mpegurl",
         "access-control-allow-origin": "*",
         "cache-control": "no-cache",
+        "x-content-type-options": "nosniff",
+        "content-security-policy": "sandbox",
       },
     });
+  }
+
+  // Liste blanche des types renvoyés : le proxy ne doit servir que du média.
+  // Sans ça il peut rendre du HTML/JS arbitraire sous ton domaine vercel.app
+  // (hameçonnage hébergé chez toi -> risque de suspension du compte, ce qui
+  // couperait toutes les chaînes proxifiées).
+  const MEDIA_OK = ["video/", "audio/", "application/octet-stream",
+                    "application/x-mpegurl", "application/vnd.apple.mpegurl",
+                    "binary/octet-stream", "application/mp4", "image/"];
+  if (ct && !MEDIA_OK.some((t) => ct.includes(t))) {
+    return new Response("type de contenu non autorisé", { status: 415 });
   }
 
   const h = new Headers();
@@ -233,6 +256,8 @@ export default async function handler(req) {
     if (v) h.set(k, v);
   }
   h.set("access-control-allow-origin", "*");
+  h.set("x-content-type-options", "nosniff");
+  h.set("content-security-policy", "sandbox");
   // Les segments de média (fMP4/TS) sont immuables une fois produits :
   // on les met en cache sur le CDN Vercel (PoP proche du lecteur) pour
   // éviter un aller-retour jusqu'à Paris à chaque segment → moins de buffering.
