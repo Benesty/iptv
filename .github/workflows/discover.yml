@@ -98,7 +98,7 @@ jobs:
                   if any(k in low for k in QC):
                       cands.setdefault(norm(name),(name,tid,u))
 
-          print(f"\n{len(cands)} candidats québécois — test…\n")
+          print(f"\n{len(cands)} candidats québécois — test…")
           live=[]
           with cf.ThreadPoolExecutor(max_workers=24) as ex:
               fut={ex.submit(plays,u):(n,t,u) for n,t,u in cands.values()}
@@ -107,17 +107,15 @@ jobs:
                   try:
                       if f.result(): live.append((n,t,u))
                   except Exception: pass
-          print(f"===== {len(live)} QUÉBÉCOISES QUI JOUENT =====")
-          for n,t,u in sorted(live,key=lambda x:x[0].lower()):
-              print(f"  {n[:40]:40} | {t[:20]:20} | {u[:90]}")
 
-          print("\n\n===== SERVEURS IP HÉBERGEANT DU CANADIEN =====")
-          for h,c in hosts_ca.most_common(12):
-              print(f"  {h:20} {c} chaînes .ca")
-
-          # Inventaire : toutes les chaînes portées par ces serveurs (FR ou non)
-          print("\n===== INVENTAIRE DE CES SERVEURS (entrées francophones) =====")
-          inv=collections.defaultdict(list)
+          # Inventaire des serveurs canadiens, filtré sur les noms FRANCOPHONES :
+          # ces serveurs portent surtout de l'américain, seul le FR nous intéresse.
+          FRMARK=("tele","télé","quebec","québec","noovo"," tva","canal vie","canal d","historia",
+                  "series","séries","z tele","ztele","vrak","evasion","évasion","casa","zeste",
+                  "unis","matv","meteo","météo","rds","artv","explora","prise","cine","ciné",
+                  "ecran","écran","elle","yoopa","addik","moi et cie","ici ","radio-canada",
+                  "francais","français","french")
+          inv=collections.defaultdict(dict)
           for s,txt in feeds:
               L=txt.split("\n")
               for i,l in enumerate(L):
@@ -126,12 +124,24 @@ jobs:
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
                   if not u: continue
                   h=urlparse(u).hostname or ""
-                  if h in hosts_ca:
-                      inv[h].append((name,u))
-          for h in hosts_ca:
-              rows={n:u for n,u in inv.get(h,[])}
+                  if h in hosts_ca and any(m in name.lower() for m in FRMARK):
+                      inv[h][name]=u
+
+          print("\n===== SERVEURS CANADIENS : ENTRÉES FRANCOPHONES =====")
+          any_fr=False
+          for h,c in hosts_ca.most_common(12):
+              rows=inv.get(h,{})
               if not rows: continue
-              print(f"\n--- {h} ({len(rows)}) ---")
-              for n in sorted(rows)[:60]:
-                  print(f"   {n[:50]:50} {rows[n][:70]}")
+              any_fr=True
+              print(f"\n--- {h} ({len(rows)} FR / {c} .ca) ---")
+              for n in sorted(rows)[:40]:
+                  print(f"   {n[:46]:46} {rows[n][:74]}")
+          if not any_fr:
+              print("  (aucune entrée francophone sur ces serveurs)")
+
+          print(f"\n\n########## RÉSULTAT : {len(live)} QUÉBÉCOISES QUI JOUENT ##########")
+          for n,t,u in sorted(live,key=lambda x:x[0].lower()):
+              print(f"  ✅ {n[:38]:38} | {t[:20]:20} | {u[:88]}")
+          if not live:
+              print("  (aucune)")
           PY
