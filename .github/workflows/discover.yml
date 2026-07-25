@@ -70,8 +70,8 @@ jobs:
             "tvo","knowledge","cpac","legislative","assemblee","assemblée","savoir",
             # météo
             "weather network","meteomedia","météomédia",
-            # musique / Stingray (canadien)
-            "stingray","qello","zenlife",
+            # (les ~20 canaux musicaux Stingray sont volontairement exclus :
+            #  radio visuelle, ils noient la liste des vraies chaînes TV)
             # autres canadiens
             "gusto","tsc","total crime","ntv","aptn","omni","mhz","bnn","citynews",
             # québécois (au cas où)
