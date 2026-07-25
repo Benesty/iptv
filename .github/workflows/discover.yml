@@ -1,0 +1,93 @@
+name: discover
+on:
+  workflow_dispatch:
+
+# Teste les CDN OFFICIELS des diffuseurs québécois trouvés sur GitHub.
+# Distinction cruciale : 403 = géo-bloqué Canada -> ça marche depuis le Québec,
+# donc on GARDE (leçon ICI RDI). Seuls 404/000/DRM sont vraiment inutilisables.
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test des CDN officiels québécois
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error
+          from urllib.parse import urljoin
+          import concurrent.futures as cf
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+
+          CANDS = [
+            ("TVA (nondai)",        "https://tvalive-nondai.akamaized.net/Content/HLS/Live/channel(a7315e07-037c-12a8-bdc8-da7bd513da9d)/index.m3u8"),
+            ("TVA (tva01)",         "https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8"),
+            ("Noovo (HLS)",         "https://pe-fa-lp03a.9c9media.com/live/NOOVO/p/hls/00000201/716cf4c845225692/manifest.m3u8"),
+            ("Noovo (DASH)",        "https://pe-ak-lp04a-9c9media.akamaized.net/live/NOOVO/p/dash/00000001/f481c583dbd06b6c/manifest.mpd"),
+            ("Télé-Québec (NOUVEAU chemin)", "https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8"),
+            ("Télé-Québec (ancien, DRM connu)", "https://bcovlive-a.akamaihd.net/5855284956364b26abdc1db87fa8fc6b/us-west-2/6101674910001/playlist.m3u8"),
+            ("ICI Télé HD",         "https://rcavlive.akamaized.net/hls/live/696615/xcancbft/master.m3u8"),
+            ("ICI RC Québec",       "https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master_3000.m3u8"),
+            ("ICI RC Est",          "https://rcavlive.akamaized.net/hls/live/696614/cancbftprem/master_5000.m3u8"),
+            ("ICI RC Ouest",        "https://rcavlive.akamaized.net/hls/live/704020/cancbxft/master_3000.m3u8"),
+            ("CBC Montréal",        "https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8"),
+            ("CBC News Network",    "https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8"),
+          ]
+
+          def get(u, rng=None):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if rng: h["Range"]=rng
+              r=urllib.request.urlopen(urllib.request.Request(u,headers=h),timeout=20)
+              return r.status, r.read(4000 if rng else 200000).decode("utf-8","replace"), r.headers.get("Content-Type",""), r.geturl()
+
+          def analyse(name,u):
+              try:
+                  st,t,ct,fin=get(u)
+              except urllib.error.HTTPError as e:
+                  if e.code in (401,403):
+                      return "🌍 GÉO-CA", "403 — bloqué hors Canada, devrait marcher au Québec"
+                  return "💀 MORT", f"HTTP {e.code}"
+              except Exception as e:
+                  return "💀 MORT", type(e).__name__
+              if not t.lstrip().startswith("#EXT") and ".mpd" not in u:
+                  return "💀 MORT", "réponse non-HLS"
+              # DRM ?
+              low=t.lower()
+              drm = any(k in low for k in ("skd:","sample-aes","widevine","playready","cenc","#ext-x-session-key"))
+              if ".mpd" in u:
+                  drm = drm or ("contentprotection" in low)
+                  return ("🔒 DRM" if drm else "❓ DASH clair"), ("manifeste DASH" + (" avec DRM" if drm else " sans DRM apparent"))
+              if drm:
+                  return "🔒 DRM", "manifeste chiffré (clé DRM référencée)"
+              # va jusqu'au segment
+              try:
+                  cur=fin; txt=t
+                  if "#EXT-X-STREAM-INF" in txt:
+                      v=next((urljoin(cur,l.strip()) for l in txt.split("\n") if l.strip() and not l.startswith("#")), None)
+                      if not v: return "💀 MORT","pas de variante"
+                      st,txt,ct,cur=get(v)
+                  seg=next((urljoin(cur,l.strip()) for l in txt.split("\n") if l.strip() and not l.startswith("#")), None)
+                  if not seg: return "💀 MORT","pas de segment"
+                  st,b,ct,_=get(seg,rng="bytes=0-2000")
+                  if st in (200,206) and len(b)>200:
+                      return "✅ JOUE", "lisible même hors Canada"
+                  return "💀 MORT", f"segment {st}"
+              except urllib.error.HTTPError as e:
+                  if e.code in (401,403):
+                      return "🌍 GÉO-CA", "manifeste OK, segments bloqués hors Canada -> OK au Québec"
+                  return "💀 MORT", f"segment HTTP {e.code}"
+              except Exception as e:
+                  return "💀 MORT", type(e).__name__
+
+          res={}
+          with cf.ThreadPoolExecutor(max_workers=12) as ex:
+              fut={ex.submit(analyse,n,u):(n,u) for n,u in CANDS}
+              for f in cf.as_completed(fut):
+                  n,u=fut[f]
+                  try: res[n]=(f.result(),u)
+                  except Exception as e: res[n]=(("💀 MORT",type(e).__name__),u)
+
+          print("########## CDN OFFICIELS QUÉBÉCOIS ##########\n")
+          for n,u in CANDS:
+              (verdict,detail),_=res[n]
+              print(f"{verdict:12} {n:34} {detail}")
+              print(f"{'':12} {u[:110]}\n")
+          PY
