@@ -154,9 +154,7 @@ https://hls.savoir.media/live/stream.m3u8
 # La plupart renvoient 403 hors Canada : c'est NORMAL et attendu, elles sont
 # géo-réservées au Canada — donc elles doivent marcher depuis ton réseau, comme
 # ICI RDI juste au-dessus. Signale-moi celles qui ne jouent pas chez toi.
-#EXTINF:-1 tvg-id="ICI.Tele.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé
-https://rcavlive.akamaized.net/hls/live/696615/xcancbft/master.m3u8
-# ALT ICI Télé (flux Montréal avec pubs dynamiques): https://rcavlive-dai.akamaized.net/hls/live/696614/cancbftprem/master_5000.m3u8
+# (ICI Télé national retirée à la demande : seule ICI Télé Estrie est conservée)
 # ⚠️ TVA (national) — retirée 2026-07-25 : ne joue pas depuis le Québec (testé).
 #    TVA Sherbrooke, elle, fonctionne.
 # #EXTINF:-1 tvg-id="CFTM.Montreal.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA
