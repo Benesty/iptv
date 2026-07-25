@@ -106,8 +106,19 @@ jobs:
               print(f"  ✅ {n[:38]:38} | {u[:92]}")
           if not live_qc: print("  (aucune)")
 
-          print("\n########## 2. SERVEURS CÂBLÉS CANADIENS — TOUT CE QUI JOUE ##########")
-          for h,n,u in sorted(live_cb,key=lambda x:(x[0],x[1].lower())):
-              print(f"  {h:16} {n[:40]:40} {u[:60]}")
-          if not live_cb: print("  (rien ne joue)")
+          # Section 2 : uniquement les entrées FRANCOPHONES des serveurs câblés
+          # (le reste, ~150 chaînes US/anglo, n'a aucun intérêt ici).
+          FRW=("tele","télé","quebec","québec","noovo","tva","canal vie","canal d","historia",
+               "serie","série","ztele","z tele","vrak","evasion","évasion","zeste","unis","matv",
+               "meteomedia","rds","artv","explora","prise","cinepop","ciné","ecran","écran",
+               "elle fiction","yoopa","addik","moi et cie","ici ","radio-canada","lcn",
+               "francais","français","french","quebecor")
+          fr_cb=[(h,n,u) for h,n,u in live_cb if any(w in n.lower() for w in FRW)]
+          print(f"\n########## 2. SERVEURS CÂBLÉS — ENTRÉES FRANCOPHONES ##########")
+          print(f"   ({len(live_cb)} chaînes jouent au total sur ces serveurs, "
+                f"dont {len(fr_cb)} francophones)")
+          for h,n,u in sorted(fr_cb,key=lambda x:(x[0],x[1].lower())):
+              print(f"  ✅ {h:16} {n[:38]:38} {u[:62]}")
+          if not fr_cb:
+              print("   -> AUCUNE chaîne francophone sur ces serveurs (que de l'anglo/US)")
           PY
