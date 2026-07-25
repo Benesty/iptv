@@ -234,23 +234,6 @@ http://40.160.24.53/MUCH/index.m3u8
 http://40.160.24.53/HGTV/index.m3u8
 #EXTINF:-1 tvg-id="SuperChannelVault.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/super-channel-ca.png" group-title="Canada EN", Super Channel Vault
 http://206.212.244.63/6142/index.m3u8
-# Chaînes canadiennes NATIONALES (aucune régionale ajoutée : la règle est
-# Sherbrooke en priorité, Montréal à défaut — les deux sont déjà couvertes).
-# Toutes validées le 2026-07-25.
-#EXTINF:-1 tvg-id="CBCHeartland.ca" group-title="Canada EN", Heartland (CBC)
-https://jmp2.uk/stvp-CA4600004EA
-#EXTINF:-1 tvg-id="CBCMurdoch.ca" group-title="Canada EN", Murdoch Mysteries (CBC)
-https://jmp2.uk/stvp-CA4600001IG
-#EXTINF:-1 tvg-id="CBCSchittsCreek.ca" group-title="Canada EN", Schitt’s Creek (CBC)
-https://amagi-streams.akamaized.net/hls/live/2120484/schittscreek/master.m3u8
-#EXTINF:-1 tvg-id="RedGreen.ca" group-title="Canada EN", The Red Green Channel
-https://jmp2.uk/stvp-CAAJ3400006QE
-#EXTINF:-1 tvg-id="TSNTheOcho.ca" group-title="Canada EN", TSN The Ocho
-https://d3pnbvng3bx2nj.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-rds8g35qfqrnv/TSN_The_Ocho.m3u8
-#EXTINF:-1 tvg-id="WeatherNetwork.ca" group-title="Canada EN", The Weather Network
-https://jmp2.uk/plu-63da370e2e477400081cf8b6.m3u8
-#EXTINF:-1 tvg-id="WildTV.ca" group-title="Canada EN", Wild TV
-https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476.m3u8
 #========================================
 # 🇺🇸 USA
 #========================================
