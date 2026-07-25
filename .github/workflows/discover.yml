@@ -2,20 +2,20 @@ name: discover
 on:
   workflow_dispatch:
 
-# Cherche, parmi les agrégateurs, les chaînes NATIONALES françaises et
-# QUÉBÉCOISES qui manquent à TV.m3u, et ne retient que celles qui jouent
-# vraiment (master -> variante -> segment).
+# Chasse aux VRAIES chaînes québécoises (Télé-Québec, Noovo/V, TVA, Canal Vie,
+# Historia, Séries+, Z télé, RDS…) : recherche par mots-clés dans tous les
+# agrégateurs + inventaire complet des serveurs qui hébergent du canadien.
 jobs:
   t:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: discover
+      - name: chasse
         run: |
           python3 - <<'PY'
           import urllib.request, re, unicodedata, collections
           import concurrent.futures as cf
-          from urllib.parse import urljoin
+          from urllib.parse import urljoin, urlparse
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 
           def fetch(u,rng=None):
@@ -44,79 +44,94 @@ jobs:
                   return st in (200,206) and len(b)>200 and "html" not in ct.lower()
               except Exception: return False
           def get(u):
-              try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=60).read().decode("utf-8","replace")
+              try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=90).read().decode("utf-8","replace")
               except Exception: return ""
           def norm(s):
               s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
               return re.sub(r"[^a-z0-9]+","",s.lower())
 
           SOURCES=[
-            "https://iptv-org.github.io/iptv/countries/fr.m3u",
+            "https://iptv-org.github.io/iptv/index.m3u",
             "https://iptv-org.github.io/iptv/countries/ca.m3u",
-            "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_france.m3u8",
-            "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
-            "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
             "https://iptv-org.github.io/iptv/languages/fra.m3u",
+            "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8",
+            "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
+            "https://raw.githubusercontent.com/schumijo/iptv/main/ca.m3u8",
           ]
 
-          # Ce qu'on VEUT (nom normalisé -> doit apparaître au début du nom de la chaîne)
-          FRANCE = ["cineplus","cinepremier","cinefrisson","cineclassic","cinefamiz","cineemotion",
-            "canalplussport","canalplusseries","canalplusdocs","canalpluskids","canalplusgrandecran",
-            "paramountchannel","tcmcinema","ocs","warnertv","comedieplus","polarplus","ushuaia",
-            "planeteplus","histoire","scienceetvie","natgeo","nationalgeographic","discovery",
-            "animaux","chasseetpeche","seasons","gullimax","canalj","tiji","piwi","boomerang",
-            "cartoonnetwork","mangas","gameone","jone","mtv","nrjhits","rfmtv","melody",
-            "betfrance","nonstoppeople","ellegirl","trek","automoto","eurosport","beinsports",
-            "infosport","golfplus","equidia","machainesport","lcp","publicsenat","euronews",
-            "bfmbusiness","bfm2","teletoonplus","disneychannel","nickelodeon","boing","toonami",
-            "franceinter","arte","tv5mondechefs","tv5mondestyle"]
-          QUEBEC = ["icitele","iciartv","iciexplora","icimusique","tva","noovo","canalvie","canald",
-            "historia","seriesplus","ztele","vrak","teletoon","musiqueplus","evasion","casa","zeste",
-            "unis","tv5quebec","rds","tvasports","matv","meteomedia","prise2","investigation",
-            "cinepop","superecran","ellefictions","yoopa","explora","assembleenationale","telequebec",
-            "radiocanada","cbcmontreal"]
-          WANT = [(w,"🇫🇷 France") for w in FRANCE] + [(w,"🇨🇦 Québec") for w in QUEBEC]
-
-          BAN=("africa","afrique","cameroun","senegal","congo","maroc","tunis","algerie","gabon",
-               "ivoir","haiti","nollywood","arab","brasil","brazuca","latina","espan","portug",
-               "italia","deutsch","polska","suisse","swiss","belg","rtbf","rts","luxe","punjab",
-               "hindi","tamil","urdu","radio ","stingray","shopping","tsc","test")
+          # Les chaînes québécoises qu'on cherche vraiment
+          QC = ["telequebec","tele quebec","noovo","v tele","vtele","tva","ici tele","icitele",
+                "canal vie","canalvie","canal d","canald","historia","series+","seriesplus",
+                "z tele","ztele","vrak","evasion","casa","zeste","unis","matv","meteomedia",
+                "rds","tva sports","artv","explora","prise 2","prise2","investigation",
+                "cine pop","cinepop","super ecran","superecran","elle fictions","ellefictions",
+                "yoopa","addik","moi et cie","moietcie","tele-quebec","rdi","radio-canada",
+                "radio canada","teletoon","musique plus","musiqueplus","max","assemblee nationale"]
+          BAN=("brasil","espan","latina","portug","italia","deutsch","polska","punjab","hindi",
+               "tamil","urdu","arab","radio ","stingray")
 
           cur=open("TV.m3u",encoding="utf-8").read()
           have={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
           have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
 
+          feeds=[(s,get(s)) for s in SOURCES]
+          for s,t in feeds: print(f"  source {s.split('/')[-1]:28} {t.count('#EXTINF')} chaînes")
+
           cands={}
-          for s in SOURCES:
-              L=get(s).split("\n")
+          hosts_ca=collections.Counter()
+          for s,txt in feeds:
+              L=txt.split("\n")
               for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
                   if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
-                  low=name.lower()
+                  low=" "+name.lower()+" "
                   if any(b in low for b in BAN): continue
-                  n=norm(name)
-                  if n in have: continue
-                  hit=next((lab for w,lab in WANT if n.startswith(w)), None)
-                  if not hit: continue
+                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
-                  if not u or u in have_urls: continue
-                  cands.setdefault(n,(name,hit,u))
-          print(f"{len(cands)} candidats ciblés — test en cours…\n")
+                  if not u: continue
+                  # inventaire des hôtes qui portent du canadien (pour la partie 2)
+                  if re.search(r'\.ca\d*(@|$)', tid.lower()):
+                      h=urlparse(u).hostname or ""
+                      if re.match(r'^\d+\.\d+\.\d+\.\d+$', h): hosts_ca[h]+=1
+                  if norm(name) in have or u in have_urls: continue
+                  if any(k in low for k in QC):
+                      cands.setdefault(norm(name),(name,tid,u))
 
+          print(f"\n{len(cands)} candidats québécois — test…\n")
           live=[]
           with cf.ThreadPoolExecutor(max_workers=24) as ex:
-              fut={ex.submit(plays,u):(n,lab,u) for n,lab,u in cands.values()}
+              fut={ex.submit(plays,u):(n,t,u) for n,t,u in cands.values()}
               for f in cf.as_completed(fut):
-                  n,lab,u=fut[f]
+                  n,t,u=fut[f]
                   try:
-                      if f.result(): live.append((lab,n,u))
+                      if f.result(): live.append((n,t,u))
                   except Exception: pass
+          print(f"===== {len(live)} QUÉBÉCOISES QUI JOUENT =====")
+          for n,t,u in sorted(live,key=lambda x:x[0].lower()):
+              print(f"  {n[:40]:40} | {t[:20]:20} | {u[:90]}")
 
-          print(f"===== {len(live)} CHAÎNES QUI JOUENT =====")
-          for lab in ("🇫🇷 France","🇨🇦 Québec"):
-              rows=[(n,u) for l,n,u in live if l==lab]
-              print(f"\n--- {lab} ({len(rows)}) ---")
-              for n,u in sorted(rows, key=lambda x:x[0].lower()):
-                  print(f"  {n[:42]:42} {u}")
+          print("\n\n===== SERVEURS IP HÉBERGEANT DU CANADIEN =====")
+          for h,c in hosts_ca.most_common(12):
+              print(f"  {h:20} {c} chaînes .ca")
+
+          # Inventaire : toutes les chaînes portées par ces serveurs (FR ou non)
+          print("\n===== INVENTAIRE DE CES SERVEURS (entrées francophones) =====")
+          inv=collections.defaultdict(list)
+          for s,txt in feeds:
+              L=txt.split("\n")
+              for i,l in enumerate(L):
+                  if not l.startswith("#EXTINF"): continue
+                  name=l.split(",",1)[-1].strip()
+                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
+                  if not u: continue
+                  h=urlparse(u).hostname or ""
+                  if h in hosts_ca:
+                      inv[h].append((name,u))
+          for h in hosts_ca:
+              rows={n:u for n,u in inv.get(h,[])}
+              if not rows: continue
+              print(f"\n--- {h} ({len(rows)}) ---")
+              for n in sorted(rows)[:60]:
+                  print(f"   {n[:50]:50} {rows[n][:70]}")
           PY
