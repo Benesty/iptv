@@ -1,0 +1,126 @@
+name: discover
+on:
+  workflow_dispatch:
+
+# Inventaire des chaînes VRAIMENT canadiennes (réseaux canadiens, pas des
+# réseaux US hébergés sur un serveur canadien), absentes de TV.m3u et jouables.
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: inventaire canadien
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re, unicodedata, collections
+          import concurrent.futures as cf
+          from urllib.parse import urljoin
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+          def fetch(u,rng=None):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if rng:h["Range"]=rng
+              r=urllib.request.urlopen(urllib.request.Request(u,headers=h),timeout=15)
+              return r.status,r.read(4000 if rng else 300000).decode("utf-8","replace"),r.headers.get("Content-Type",""),r.geturl()
+          def first_uri(t,base):
+              for ln in t.split("\n"):
+                  s=ln.strip()
+                  if s and not s.startswith("#"): return urljoin(base,s)
+              return None
+          def plays(u):
+              try:
+                  st,t,ct,fin=fetch(u)
+                  if not t.lstrip().startswith("#EXT"): return False
+                  cur=fin
+                  if "#EXT-X-STREAM-INF" in t:
+                      v=first_uri(t,cur)
+                      if not v: return False
+                      st,t,ct,fin=fetch(v); cur=fin
+                      if not t.lstrip().startswith("#EXT"): return False
+                  seg=first_uri(t,cur)
+                  if not seg: return False
+                  st,b,ct,_=fetch(seg,rng="bytes=0-2000")
+                  return st in (200,206) and len(b)>200 and "html" not in ct.lower()
+              except Exception: return False
+          def get(u):
+              try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=90).read().decode("utf-8","replace")
+              except Exception: return ""
+          def norm(s):
+              s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
+              return re.sub(r"[^a-z0-9]+","",s.lower())
+
+          SRC=["https://iptv-org.github.io/iptv/index.m3u",
+               "https://iptv-org.github.io/iptv/countries/ca.m3u",
+               "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8"]
+
+          # Réseaux/marques CANADIENS (exclut les réseaux US même tagués .ca)
+          CDN_BRANDS = [
+            # sport
+            "tsn","rds","sportsnet","fight network","game tv","gametv",
+            # généralistes / Corus / Bell / Rogers
+            "ctv","cbc","city","global","w network","slice","much","showcase","adult swim",
+            "home network","hgtv canada","food network canada","history canada","crime+inv",
+            # jeunesse
+            "teletoon","ytv","treehouse","family channel","yoopa","tvokids",
+            # docu / nature (Blue Ant, canadien)
+            "love nature","naturetime","nature time","haunt tv","haunttv","homeful","love pets",
+            "cottage life","wild tv","smithsonian canada",
+            # cinéma / premium canadiens
+            "super channel","hollywood suite","crave",
+            # public / éducatif / parlementaire
+            "tvo","knowledge","cpac","legislative","assemblee","assemblée","savoir",
+            # météo
+            "weather network","meteomedia","météomédia",
+            # musique / Stingray (canadien)
+            "stingray","qello","zenlife",
+            # autres canadiens
+            "gusto","tsc","total crime","ntv","aptn","omni","mhz","bnn","citynews",
+            # québécois (au cas où)
+            "tv5 quebec","telequebec","tele-quebec","noovo","tva","ici ","artv","unis",
+          ]
+          # réseaux US à exclure explicitement même si tagués .ca
+          US_EXCL = ("usa network","showtime","starz","paramount","vh1","mtv","nick","bet",
+            "disney","national geographic","nat geo","hallmark","lifetime","oxygen","ovation",
+            "pop tv","tv land","tv one","teennick","sundance","smithsonian channel","fyi",
+            "freeform","logo","metv","heroes","law & crime","game show","pbs","babytv",
+            "babyfirst","dog tv","cleo","fetv","aspire","qvc","hsn","insp","laff","newsmax",
+            "sec network","acc network","altitude","fanduel","rfd","outdoor channel",
+            "sportsman","pursuit","world fishing","weathernation","up tv","we tv","start tv",
+            "justice central","great american","nbc","wcbs","wdaf","kadn","klfy","samay",
+            "scares by shudder","sony movies","one america","nova","pokergo","history (")
+
+          cur=open("TV.m3u",encoding="utf-8").read()
+          have={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
+          have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
+          CA_RX=re.compile(r'\.ca\d*(@|$)', re.I)
+
+          cands={}
+          for s in SRC:
+              L=get(s).split("\n")
+              for i,l in enumerate(L):
+                  if not l.startswith("#EXTINF"): continue
+                  name=l.split(",",1)[-1].strip()
+                  if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
+                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
+                  if not CA_RX.search(tid or ""): continue
+                  low=" "+name.lower()+" "
+                  if any(x in low for x in US_EXCL): continue
+                  if not any(b in low for b in CDN_BRANDS): continue
+                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
+                  if not u or u in have_urls or norm(name) in have: continue
+                  cands.setdefault(norm(name),(name,u))
+          print(f"{len(cands)} chaînes canadiennes candidates — test…\n")
+
+          live=[]
+          with cf.ThreadPoolExecutor(max_workers=24) as ex:
+              fut={ex.submit(plays,u):(n,u) for n,u in cands.values()}
+              for f in cf.as_completed(fut):
+                  n,u=fut[f]
+                  try:
+                      if f.result(): live.append((n,u))
+                  except Exception: pass
+
+          print(f"########## {len(live)} CANADIENNES JOUABLES ##########")
+          for n,u in sorted(live,key=lambda x:x[0].lower()):
+              n=re.sub(r"\s*\(\d+[pi]\)","",n)
+              print(f"  ✅ {n[:40]:40} {u[:96]}")
+          PY
