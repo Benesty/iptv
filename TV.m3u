@@ -146,11 +146,41 @@ https://tvalive-dai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-id="Savoir.média.ca2" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada FR", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
+# ─── Trouvées sur les CDN OFFICIELS des diffuseurs (recherche GitHub 2026-07-25).
+# La plupart renvoient 403 hors Canada : c'est NORMAL et attendu, elles sont
+# géo-réservées au Canada — donc elles doivent marcher depuis ton réseau, comme
+# ICI RDI juste au-dessus. Signale-moi celles qui ne jouent pas chez toi.
+#EXTINF:-1 tvg-id="ICI.Tele.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé
+https://rcavlive.akamaized.net/hls/live/696615/xcancbft/master.m3u8
+# ALT ICI Télé (flux Montréal avec pubs dynamiques): https://rcavlive-dai.akamaized.net/hls/live/696614/cancbftprem/master_5000.m3u8
+#EXTINF:-1 tvg-id="CFTM.Montreal.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA
+https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8
+# ALT TVA (flux sans insertion pub): https://tvalive-nondai.akamaized.net/Content/HLS/Live/channel(a7315e07-037c-12a8-bdc8-da7bd513da9d)/index.m3u8
+# ⚠️ Télé-Québec — chemin Brightcove DIFFÉRENT de celui que j'avais analysé (qui,
+# lui, ne servait que du Widevine). Impossible de vérifier le DRM d'ici à cause du
+# 403 : si ça ne joue pas chez toi, c'est que c'est encore chiffré — dis-le-moi et
+# je la retire.
+#EXTINF:-1 tvg-id="CIVM.Montreal.ca2" tvg-logo="https://i.imgur.com/8grBWK9.png" group-title="Canada FR", Télé-Québec
+https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
+#EXTINF:-1 tvg-id="ICI.Tele.Quebec.ca2" group-title="Canada FR", ICI Télé Québec
+https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master_3000.m3u8
+#EXTINF:-1 tvg-id="RadioCanadaLAgentJean.ca" group-title="Canada FR", L'Agent Jean!
+https://amagi-streams.akamaized.net/hls/live/2120486/rclagentjean/master.m3u8
+#EXTINF:-1 group-title="Canada FR", Assemblée nationale du Québec
+https://diffusionm.assnat.qc.ca/diffusion/canal17/playlist.m3u8
+#EXTINF:-1 group-title="Canada FR", ICI Télévision Montréal
+https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
 #========================================
 # 🇨🇦 CANADA EN
 #========================================
 # Le flux est « CBC News Explore » (canal FAST), pas CBC News Network : nom et
 # tvg-id alignés dessus, sinon l'EPG affiche la grille du linéaire (= faux).
+# Le vrai CBC News Network (linéaire) et CBC Montréal, sur le CDN officiel CBC.
+# 403 hors Canada = géo-réservé, doit marcher chez toi.
+#EXTINF:-1 tvg-id="CBC.News.Network.ca2" group-title="Canada EN", CBC News Network
+https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
+#EXTINF:-1 tvg-id="CBMT.Montreal.ca" group-title="Canada EN", CBC Montréal
+https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBCNewsExplore.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 #EXTINF:-1 tvg-id="CBMT.Montreal.News.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Montréal
