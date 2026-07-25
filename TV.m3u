@@ -184,3 +184,19 @@ https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_35
 # tvg-id retiré — pas d'EPG vaut mieux qu'un EPG faux.
 #EXTINF:-1 tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", LiveNOW from FOX
 https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
+# Chaînes câblées américaines (versions anglaises), validées le 2026-07-25 :
+# segments horodatés du jour et chemins conformes (HISTORY_CHANNEL, NAT_GEO…).
+# Le suffixe « US » les distingue de Disney Channel/Junior FR déjà présentes —
+# sans lui, le bot d'auto-réparation pourrait confondre les deux versions.
+#EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-us.png" group-title="USA", History
+http://40.160.24.53/HISTORY_CHANNEL/index.m3u8
+#EXTINF:-1 tvg-id="NationalGeographic.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/national-geographic-us.png" group-title="USA", National Geographic
+http://40.160.24.53/NAT_GEO/index.m3u8
+# ALT National Geographic (secours, flux West décalé de 3 h): http://206.212.244.63/122/index.m3u8
+#EXTINF:-1 tvg-id="NatGeoWild.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nat-geo-wild-us.png" group-title="USA", Nat Geo Wild
+http://40.160.24.53/NAT_GEO_WILD/index.m3u8
+#EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
+http://206.212.244.63/650/index.m3u8
+# ALT Disney Channel US (secours, flux West décalé de 3 h): http://206.212.244.63/3146/index.m3u8
+#EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-junior-us.png" group-title="USA", Disney Junior US
+http://206.212.244.63/655/index.m3u8
