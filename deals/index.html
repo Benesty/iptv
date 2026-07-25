@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hot Deals CA — les meilleures aubaines au Canada</title>
+<meta name="description" content="Les deals chauds de RedFlagDeals Canada, triés et présentés proprement.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🔥</text></svg>">
+<style>
+  :root{
+    --bg:#f2f4f7; --surface:#fff; --surface-2:#f7f8fa; --line:#e3e7ee;
+    --text:#111a2b; --muted:#6b7688; --faint:#98a2b3;
+    --brand:#ff5722; --brand-ink:#fff; --accent:#0a66ff;
+    --hot:#e8443a; --warm:#ff8c1a; --cold:#7b8798;
+    --radius:14px; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0d1117; --surface:#161b25; --surface-2:#1c222e; --line:#262d3a;
+      --text:#e8ecf3; --muted:#98a2b3; --faint:#6b7688;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.28);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+
+  /* ---------- en-tête ---------- */
+  header{
+    position:sticky; top:0; z-index:50; background:var(--surface);
+    border-bottom:1px solid var(--line);
+  }
+  .bar{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;letter-spacing:-.02em;white-space:nowrap}
+  .logo .flame{font-size:22px;line-height:1}
+  .logo b{color:var(--brand)}
+  .search{flex:1;position:relative;min-width:0}
+  .search input{
+    width:100%;padding:10px 38px 10px 38px;border:1px solid var(--line);border-radius:999px;
+    background:var(--surface-2);color:var(--text);outline:none
+  }
+  .search input:focus{border-color:var(--brand);background:var(--surface)}
+  .search .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--faint)}
+  .search .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;cursor:pointer;color:var(--faint);padding:6px;display:none}
+  .search.filled .clear{display:block}
+
+  /* ---------- barre de tris ---------- */
+  nav.tabs{border-bottom:1px solid var(--line);background:var(--surface)}
+  .tabs-inner{max-width:1120px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .tabs-inner::-webkit-scrollbar{display:none}
+  .tab{
+    border:0;background:transparent;padding:12px 12px 10px;cursor:pointer;white-space:nowrap;
+    color:var(--muted);font-weight:600;border-bottom:2px solid transparent
+  }
+  .tab[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+
+  main{max-width:1120px;margin:0 auto;padding:16px}
+
+  /* ---------- filtres marchands ---------- */
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{
+    border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;
+    cursor:pointer;white-space:nowrap;font-size:13px;color:var(--muted)
+  }
+  .chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink);font-weight:600}
+  .chip .n{opacity:.6;margin-left:5px;font-variant-numeric:tabular-nums}
+
+  /* ---------- carte deal ---------- */
+  .list{display:flex;flex-direction:column;gap:12px}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);display:grid;grid-template-columns:132px 1fr;gap:14px;padding:14px;
+    transition:transform .12s ease,box-shadow .12s ease
+  }
+  .card:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(16,24,40,.08),0 10px 24px rgba(16,24,40,.10)}
+  .card.expired{opacity:.55}
+
+  .thumb{
+    position:relative;width:132px;height:118px;border-radius:10px;overflow:hidden;background:var(--surface-2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center
+  }
+  .thumb img{max-width:78%;max-height:78%;object-fit:contain}
+  .thumb .initials{font-weight:800;font-size:30px;color:var(--faint);letter-spacing:-.03em;text-align:center;padding:6px}
+  .thumb .pct{
+    position:absolute;left:0;bottom:0;background:var(--hot);color:#fff;font-weight:800;font-size:12px;
+    padding:3px 7px;border-radius:0 8px 0 8px
+  }
+
+  .body{min-width:0;display:flex;flex-direction:column;gap:8px}
+  .toprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+  /* température façon Dealabs, mais honnête : c'est le net des votes RFD */
+  .temp{
+    display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:13px;
+    padding:4px 9px;border-radius:999px;background:var(--surface-2);color:var(--cold);
+    border:1px solid var(--line);font-variant-numeric:tabular-nums
+  }
+  .temp.warm{background:#fff2e2;color:#c2600a;border-color:#ffd9ae}
+  .temp.hot{background:#ffe9e6;color:#c0271c;border-color:#ffc4bc}
+  @media (prefers-color-scheme:dark){
+    .temp.warm{background:#3a2a12;color:#ffb257;border-color:#5a3f18}
+    .temp.hot{background:#3d1a16;color:#ff8a7a;border-color:#5e2620}
+  }
+  .badge{font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+  .badge.dealer{color:var(--accent);border-color:transparent;background:rgba(10,102,255,.09)}
+  .badge.dead{background:rgba(120,130,150,.15);color:var(--muted)}
+
+  h2.title{margin:0;font-size:16.5px;line-height:1.35;font-weight:700;letter-spacing:-.01em}
+  h2.title a:hover{color:var(--brand)}
+
+  .prices{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .price{font-size:19px;font-weight:800;color:var(--hot);font-variant-numeric:tabular-nums}
+  .was{color:var(--faint);text-decoration:line-through;font-size:13px}
+  .save{font-size:13px;color:#1a7f4b;font-weight:600}
+  @media (prefers-color-scheme:dark){.save{color:#4ade80}}
+
+  .meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;align-items:center}
+  .meta .dot{color:var(--faint)}
+
+  .actions{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap}
+  .btn{
+    border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:7px 13px;
+    cursor:pointer;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px
+  }
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn:hover{border-color:var(--faint)}
+  .lbl-short{display:none}
+
+  /* ---------- états ---------- */
+  .skel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);height:148px;
+    background-image:linear-gradient(90deg,transparent,rgba(150,160,180,.14),transparent);
+    background-size:200% 100%;animation:sh 1.2s infinite}
+  @keyframes sh{to{background-position:-200% 0}}
+  .empty,.error{
+    text-align:center;padding:44px 20px;color:var(--muted);background:var(--surface);
+    border:1px solid var(--line);border-radius:var(--radius)
+  }
+  .error{border-color:#e8443a55}
+  .error code{display:block;margin-top:10px;font-size:12px;color:var(--faint);word-break:break-all}
+  .more{display:flex;justify-content:center;padding:22px 0}
+  .status{color:var(--faint);font-size:12.5px;padding:2px 0 12px}
+
+  footer{max-width:1120px;margin:0 auto;padding:28px 16px 44px;color:var(--faint);font-size:12.5px;line-height:1.7}
+  footer a{text-decoration:underline}
+
+  @media (max-width:640px){
+    .bar{flex-wrap:wrap;gap:10px}
+    .search{order:3;flex-basis:100%}
+    .card{grid-template-columns:88px 1fr;gap:11px;padding:11px}
+    .thumb{width:88px;height:88px}
+    h2.title{font-size:15px}
+    .price{font-size:17px}
+    .meta{gap:8px;font-size:12px}
+    /* Deux boutons pleine largeur plutôt qu'empilés : la carte reste courte
+       et « Voir le deal » ne repousse pas le deal suivant hors de l'écran. */
+    .actions{flex-wrap:nowrap}
+    .actions .btn{flex:1;justify-content:center;padding:8px 6px;font-size:13px;white-space:nowrap}
+    /* « Discussion (203) » ne tient pas sur 2 boutons côte à côte : abrégé en 💬 203 */
+    .lbl-long{display:none} .lbl-short{display:inline}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="logo" href="./"><span class="flame">🔥</span><span>Hot<b>Deals</b>.ca</span></a>
+    <div class="search" id="searchWrap">
+      <span class="ico">🔎</span>
+      <input id="q" type="search" placeholder="Rechercher un deal (ex. airpods, pneus, costco)…" autocomplete="off">
+      <button class="clear" id="clearQ" title="Effacer">✕</button>
+    </div>
+  </div>
+  <nav class="tabs">
+    <div class="tabs-inner" id="tabs" role="tablist">
+      <button class="tab" data-sort="hot"      role="tab">🔥 Populaires</button>
+      <button class="tab" data-sort="new"      role="tab">🆕 Nouveautés</button>
+      <button class="tab" data-sort="votes"    role="tab">👍 Les plus votés</button>
+      <button class="tab" data-sort="comments" role="tab">💬 Discutés</button>
+      <button class="tab" data-sort="discount" role="tab">🏷️ Gros rabais</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="chips" id="chips"></div>
+  <div class="status" id="status"></div>
+  <div class="list" id="list"></div>
+  <div class="more" id="more"></div>
+</main>
+
+<footer>
+  Agrégateur non officiel. Les deals proviennent du forum
+  <a href="https://forums.redflagdeals.com/hot-deals-f9/" rel="noopener">Hot Deals de RedFlagDeals</a>
+  — tous les liens renvoient vers la discussion d'origine et vers le marchand.
+  Aucun contenu n'est hébergé ici, aucun compte, aucun traceur.
+  Prix en CAD, tels que publiés par les membres : vérifiez toujours sur le site du marchand.
+</footer>
+
+<script>
+const API = "/api/deals";
+const state = { sort:"hot", q:"", dealer:"", page:1, hasMore:false, loading:false, deals:[] };
+
+const $ = (s) => document.querySelector(s);
+const listEl = $("#list"), moreEl = $("#more"), chipsEl = $("#chips"), statusEl = $("#status");
+
+/* ---------- utilitaires d'affichage ---------- */
+const money = (n) => n == null ? null :
+  new Intl.NumberFormat("fr-CA",{style:"currency",currency:"CAD",maximumFractionDigits:n%1?2:0}).format(n);
+
+function ago(iso){
+  if(!iso) return "";
+  const s = Math.max(0,(Date.now()-Date.parse(iso))/1000);
+  if(s<60) return "à l'instant";
+  const units=[[60,"min"],[3600,"h"],[86400,"j"],[604800,"sem"],[2592000,"mois"]];
+  if(s<3600) return `il y a ${Math.floor(s/60)} min`;
+  if(s<86400) return `il y a ${Math.floor(s/3600)} h`;
+  if(s<604800) return `il y a ${Math.floor(s/86400)} j`;
+  if(s<2592000) return `il y a ${Math.floor(s/604800)} sem`;
+  return `il y a ${Math.floor(s/2592000)} mois`;
+}
+
+const esc = (s) => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// Palier de « chaleur » : gris jusqu'à 15 votes nets, orange jusqu'à 40, rouge au-delà.
+function tempClass(v){ return v>=40 ? "hot" : v>=15 ? "warm" : ""; }
+
+function initials(d){
+  const src = d.dealer || d.domain || d.title || "?";
+  return src.replace(/[^\p{L}\p{N} ]/gu," ").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+}
+
+function card(d){
+  const el = document.createElement("article");
+  el.className = "card" + (d.expired ? " expired" : "");
+
+  const logo = d.image ? esc(d.image)
+    : d.domain ? `https://www.google.com/s2/favicons?sz=128&domain=${encodeURIComponent(d.domain)}`
+    : "";
+
+  const priceHtml = d.price != null
+    ? `<span class="price">${money(d.price)}</span>
+       ${d.listPrice!=null && d.listPrice>d.price ? `<span class="was">${money(d.listPrice)}</span>
+       <span class="save">économie ${money(d.listPrice-d.price)}</span>`:""}`
+    : "";
+
+  el.innerHTML = `
+    <div class="thumb">
+      ${logo ? `<img src="${logo}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ""}
+      <span class="initials" ${logo?'hidden':''}>${esc(initials(d))}</span>
+      ${d.discountPct ? `<span class="pct">-${d.discountPct}%</span>` : ""}
+    </div>
+    <div class="body">
+      <div class="toprow">
+        <span class="temp ${tempClass(d.votes)}">🔥 ${d.votes>0?"+":""}${d.votes}</span>
+        ${d.dealer ? `<span class="badge dealer">${esc(d.dealer)}</span>` : ""}
+        ${d.expired ? `<span class="badge dead">Expiré</span>` : ""}
+      </div>
+      <h2 class="title"><a href="${esc(d.url)}" target="_blank" rel="noopener nofollow">${esc(d.title)}</a></h2>
+      ${priceHtml ? `<div class="prices">${priceHtml}</div>` : ""}
+      <div class="meta">
+        <span>${esc(d.author||"anonyme")}</span>
+        <span class="dot">·</span><span>${ago(d.createdAt)}</span>
+        <span class="dot">·</span><span>💬 ${d.replies}</span>
+        ${d.views ? `<span class="dot">·</span><span>👁️ ${d.views.toLocaleString("fr-CA")}</span>` : ""}
+      </div>
+      <div class="actions">
+        ${d.dealUrl ? `<a class="btn primary" href="${esc(d.dealUrl)}" target="_blank" rel="noopener nofollow sponsored">Voir le deal ↗</a>` : ""}
+        <a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener nofollow"><span class="lbl-long">Discussion (${d.replies})</span><span class="lbl-short">💬 ${d.replies}</span></a>
+      </div>
+    </div>`;
+
+  // Beaucoup de marchands n'ont pas de favicon récupérable : on retombe sur
+  // les initiales plutôt que de laisser une image cassée.
+  const img = el.querySelector("img");
+  if (img) img.addEventListener("error", () => {
+    img.remove();
+    el.querySelector(".initials").hidden = false;
+  });
+  return el;
+}
+
+/* ---------- rendu ---------- */
+function renderChips(dealers){
+  chipsEl.innerHTML = "";
+  if(!dealers?.length) return;
+  const mk = (name,count,active) => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.setAttribute("aria-pressed", String(active));
+    b.innerHTML = esc(name) + (count!=null?`<span class="n">${count}</span>`:"");
+    b.onclick = () => { state.dealer = active ? "" : name; state.page = 1; load(true); };
+    return b;
+  };
+  chipsEl.append(mk("Tous les marchands", null, !state.dealer));
+  for(const d of dealers) chipsEl.append(mk(d.name, d.count, state.dealer === d.name));
+}
+
+function renderMore(){
+  moreEl.innerHTML = "";
+  if(!state.hasMore) return;
+  const b = document.createElement("button");
+  b.className = "btn"; b.textContent = state.loading ? "Chargement…" : "Charger plus de deals";
+  b.disabled = state.loading;
+  b.onclick = () => { state.page++; load(false); };
+  moreEl.append(b);
+}
+
+function skeletons(n=6){
+  listEl.innerHTML = "";
+  for(let i=0;i<n;i++){ const s=document.createElement("div"); s.className="skel"; listEl.append(s); }
+}
+
+/* ---------- chargement ---------- */
+async function load(reset){
+  state.loading = true;
+  if(reset){ state.page = 1; state.deals = []; skeletons(); statusEl.textContent = ""; }
+  renderMore();
+
+  const p = new URLSearchParams({ sort: state.sort, page: String(state.page), per_page: "30" });
+  if(state.q) p.set("q", state.q);
+  if(state.dealer) p.set("dealer", state.dealer);
+
+  try{
+    const res = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.message || `Erreur ${res.status}`);
+
+    if(reset) listEl.innerHTML = "";
+    state.deals.push(...data.deals);
+    state.hasMore = Boolean(data.hasMore);
+    for(const d of data.deals) listEl.append(card(d));
+
+    if(reset) renderChips(data.dealers);
+    statusEl.textContent = data.total
+      ? `${data.total} deal${data.total>1?"s":""} · mis à jour ${ago(data.fetchedAt)}${data.source==="html"?" · source de secours":""}`
+      : "";
+
+    if(!state.deals.length){
+      listEl.innerHTML = `<div class="empty"><strong>Aucun deal ne correspond.</strong><br>Essayez un autre mot-clé ou retirez le filtre marchand.</div>`;
+    }
+  }catch(err){
+    if(reset) listEl.innerHTML = "";
+    const box = document.createElement("div");
+    box.className = "error";
+    box.innerHTML = `<strong>Impossible de récupérer les deals.</strong><br>
+      RedFlagDeals est peut-être injoignable pour l'instant — réessayez dans quelques minutes.
+      <code>${esc(err.message)}</code>`;
+    listEl.append(box);
+    state.hasMore = false;
+  }finally{
+    state.loading = false;
+    renderMore();
+  }
+}
+
+/* ---------- interactions + URL partageable ---------- */
+function syncUrl(){
+  const p = new URLSearchParams();
+  if(state.sort !== "hot") p.set("sort", state.sort);
+  if(state.q) p.set("q", state.q);
+  if(state.dealer) p.set("dealer", state.dealer);
+  const qs = p.toString();
+  history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+}
+
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  state.sort = t.dataset.sort;
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", String(x===t)));
+  syncUrl(); load(true);
+});
+
+let typing;
+const qEl = $("#q");
+qEl.addEventListener("input", () => {
+  $("#searchWrap").classList.toggle("filled", qEl.value.length > 0);
+  clearTimeout(typing);
+  typing = setTimeout(() => { state.q = qEl.value.trim(); syncUrl(); load(true); }, 350);
+});
+$("#clearQ").onclick = () => { qEl.value=""; qEl.dispatchEvent(new Event("input")); qEl.focus(); };
+
+// Le filtre marchand vit dans les chips : on le reflète aussi dans l'URL.
+const origLoad = load;
+load = function(reset){ syncUrl(); return origLoad(reset); };
+
+(function boot(){
+  const p = new URLSearchParams(location.search);
+  state.sort = ["hot","new","votes","comments","discount"].includes(p.get("sort")) ? p.get("sort") : "hot";
+  state.q = p.get("q") || "";
+  state.dealer = p.get("dealer") || "";
+  qEl.value = state.q;
+  $("#searchWrap").classList.toggle("filled", state.q.length > 0);
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.sort === state.sort)));
+  load(true);
+})();
+
+// Rafraîchissement discret quand l'onglet revient au premier plan après 5 min.
+let hidTs = 0;
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden) hidTs = Date.now();
+  else if(hidTs && Date.now()-hidTs > 300000) load(true);
+});
+</script>
+</body>
+</html>
