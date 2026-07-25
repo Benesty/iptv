@@ -141,9 +141,17 @@ Trois garde-fous : chaque champ est lu parmi plusieurs noms possibles, un
 **repli sur le HTML** du listing prend le relais si l'API renvoie 403/500, et
 une panne totale donne un 502 explicite plutôt qu'une page blanche.
 
+### Tester
+
 ```bash
+node scripts/dev_deals.mjs    # http://localhost:3000/deals — vraies données RFD
 node scripts/test_deals.mjs   # ~50 assertions, sans réseau (fetch bouchonné)
 ```
+
+`dev_deals.mjs` rejoue localement ce que fait Vercel (statique + Edge Function),
+en Node pur : ni CLI Vercel, ni compte à lier. Node >= 18 suffit.
+En cas de doute sur les données, `/api/deals?debug=1` montre les clés brutes
+renvoyées par RFD à côté de l'objet normalisé.
 
 Le tri « Populaires » n'est pas l'ordre de RFD : c'est `votes nets / (âge + 2)^0.45`,
 donc un deal frais qui monte vite passe devant un vieux deal très voté.
