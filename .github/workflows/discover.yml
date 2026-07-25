@@ -1,0 +1,113 @@
+name: discover
+on:
+  workflow_dispatch:
+
+# Cherche des chaînes francophones (France + Canada FR) absentes de TV.m3u,
+# et ne retient que celles qui JOUENT vraiment (master -> variante -> segment).
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: discover
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re, unicodedata, collections
+          import concurrent.futures as cf
+          from urllib.parse import urljoin, urlparse
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+
+          def fetch(u,rng=None,n=300000):
+              h={"User-Agent":UA,"Accept":"*/*"}
+              if rng:h["Range"]=rng
+              r=urllib.request.urlopen(urllib.request.Request(u,headers=h),timeout=15)
+              return r.status,r.read(4000 if rng else n).decode("utf-8","replace"),r.headers.get("Content-Type",""),r.geturl()
+          def first_uri(t,base):
+              for ln in t.split("\n"):
+                  s=ln.strip()
+                  if s and not s.startswith("#"): return urljoin(base,s)
+              return None
+          def plays(u):
+              try:
+                  st,t,ct,fin=fetch(u)
+                  if not t.lstrip().startswith("#EXT"): return False
+                  cur=fin
+                  if "#EXT-X-STREAM-INF" in t:
+                      v=first_uri(t,cur)
+                      if not v: return False
+                      st,t,ct,fin=fetch(v); cur=fin
+                      if not t.lstrip().startswith("#EXT"): return False
+                  seg=first_uri(t,cur)
+                  if not seg: return False
+                  st,b,ct,_=fetch(seg,rng="bytes=0-2000")
+                  return st in (200,206) and len(b)>200 and "html" not in ct.lower()
+              except Exception: return False
+          def get(u):
+              try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=60).read().decode("utf-8","replace")
+              except Exception: return ""
+          def norm(s):
+              s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
+              return re.sub(r"[^a-z0-9]+","",s.lower())
+
+          SOURCES=[
+            "https://iptv-org.github.io/iptv/countries/fr.m3u",
+            "https://iptv-org.github.io/iptv/countries/ca.m3u",
+            "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_france.m3u8",
+            "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
+            "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
+            "https://iptv-org.github.io/iptv/languages/fra.m3u",
+          ]
+
+          # déjà présentes (actives ou commentées) -> à ne pas reproposer
+          cur=open("TV.m3u",encoding="utf-8").read()
+          have_names={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
+          have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
+
+          # exclusions : pays non voulus, régionales/locales, radios, adulte
+          BAN=("rtbf","labtrois","latrois","rts","rsi","suisse","swiss","belg","bel rtl",
+               "luxe","monaco","afrique","africa","cameroun","senegal","congo","maroc","tunis",
+               "algerie","gabon","ivoir","haiti","nollywood","novelas","cgtn","russia","arab",
+               "radio","fip","nostalgie","cherie fm","rire chansons","xxx","adult","erotic",
+               "test","24/7","musique plus? no")
+          REGIONAL=("ici ","france 3 ","fr3 ","tv7","tv8","tele ","canal 32","canal 11","canal 21",
+                    "vosges","alsace","bretagne","normandie","picardie","corse","antenne reunion",
+                    "guadeloupe","martinique","guyane","mayotte","polynesie","calédonie","caledonie",
+                    "local","matv","nrj12? no")
+          # on garde ICI Télé / ICI RDI etc. malgré "ici " -> exception explicite
+          KEEP_ICI=("ici tele","ici radio","ici rdi","ici artv","ici explora","ici musique")
+
+          cands={}
+          for s in SOURCES:
+              txt=get(s); L=txt.split("\n")
+              for i,l in enumerate(L):
+                  if not l.startswith("#EXTINF"): continue
+                  name=l.split(",",1)[-1].strip()
+                  if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
+                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
+                  low=name.lower()
+                  # pays voulu : France ou Canada
+                  if tid and not re.search(r'\.(fr|ca)\d*(@|$)', tid.lower()): continue
+                  if not tid and ".fr" not in s and "fra" not in s and "/ca" not in s: continue
+                  if any(b in low for b in BAN): continue
+                  if any(r in low for r in REGIONAL) and not any(k in low for k in KEEP_ICI): continue
+                  if norm(name) in have_names: continue
+                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
+                  if not u or u in have_urls: continue
+                  key=norm(name)
+                  cands.setdefault(key,(name,tid,u))
+          print(f"{len(cands)} candidats francophones absents de la playlist — test en cours…\n")
+
+          items=list(cands.values())
+          live=[]
+          with cf.ThreadPoolExecutor(max_workers=24) as ex:
+              fut={ex.submit(plays,u):(n,t,u) for n,t,u in items}
+              for f in cf.as_completed(fut):
+                  n,t,u=fut[f]
+                  try:
+                      if f.result(): live.append((n,t,u))
+                  except Exception: pass
+
+          print(f"===== {len(live)} CHAÎNES QUI JOUENT VRAIMENT =====\n")
+          for n,t,u in sorted(live, key=lambda x: x[0].lower()):
+              print(f"  {n[:44]:44} | {t[:22]:22} | {u[:88]}")
+          PY
