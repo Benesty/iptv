@@ -171,9 +171,32 @@ https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m
 https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
 #EXTINF:-1 tvg-id="CABB2500021YQ" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
-#========================================
 #EXTINF:-1 tvg-id="KnowledgeNetwork.ca" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada EN", Knowledge Network
 https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
+# Sport et divertissement canadiens (câble Bell/Corus), validés le 2026-07-25.
+# Mêmes serveurs « pool » que les thématiques françaises : même fragilité, le
+# bot d'auto-réparation les surveille toutes les 3 h.
+#EXTINF:-1 tvg-id="TSN1.ca" group-title="Canada EN", TSN 1
+http://40.160.24.55/TSN_1/index.m3u8
+#EXTINF:-1 tvg-id="TSN2.ca" group-title="Canada EN", TSN 2
+http://40.160.24.55/TSN_2/index.m3u8
+#EXTINF:-1 tvg-id="TSN3.ca" group-title="Canada EN", TSN 3
+http://40.160.24.55/TSN_3/index.m3u8
+#EXTINF:-1 tvg-id="TSN4.ca" group-title="Canada EN", TSN 4
+http://40.160.24.55/TSN_4/index.m3u8
+#EXTINF:-1 tvg-id="TSN5.ca" group-title="Canada EN", TSN 5
+http://40.160.24.55/TSN_5/index.m3u8
+#EXTINF:-1 tvg-id="WNetwork.ca" group-title="Canada EN", W Network
+http://40.160.24.55/W_NETWORK/index.m3u8
+#EXTINF:-1 tvg-id="Slice.ca" group-title="Canada EN", Slice
+http://40.160.24.55/SLICE/index.m3u8
+#EXTINF:-1 tvg-id="Much.ca" group-title="Canada EN", Much
+http://40.160.24.53/MUCH/index.m3u8
+#EXTINF:-1 tvg-id="HGTV.ca" group-title="Canada EN", Home Network
+http://40.160.24.53/HGTV/index.m3u8
+#EXTINF:-1 tvg-id="SuperChannelVault.ca" group-title="Canada EN", Super Channel Vault
+http://206.212.244.63/6142/index.m3u8
+#========================================
 # 🇺🇸 USA
 #========================================
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
