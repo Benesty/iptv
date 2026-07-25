@@ -75,14 +75,14 @@ http://151.80.18.177:86/AB1/index.m3u8
 # ALT AB1 (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/332/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
 http://151.80.18.177:86/RTL9/index.m3u8
-#EXTINF:-1 tvg-id="Franceinfo.fr" group-title="France", franceinfo
+#EXTINF:-1 tvg-id="Franceinfo.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 # T18 — source Dailymotion (jetons expirants). Servie EN DIRECT (sans le proxy Paris)
 # car Dailymotion bloque les IP datacenter Vercel : ça ne marche que depuis ta connexion
 # résidentielle. Si ça ne joue pas chez toi, dis-le-moi et je la commente.
-#EXTINF:-1 tvg-id="T18.fr" group-title="France", T18
+#EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
 https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/res/t18-dm-highest.m3u8
-#EXTINF:-1 tvg-id="LaChaineLEquipe.fr" group-title="France", La Chaîne L'Équipe
+#EXTINF:-1 tvg-id="LaChaineLEquipe.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
 https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr
@@ -153,23 +153,29 @@ https://hls.savoir.media/live/stream.m3u8
 #EXTINF:-1 tvg-id="ICI.Tele.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé
 https://rcavlive.akamaized.net/hls/live/696615/xcancbft/master.m3u8
 # ALT ICI Télé (flux Montréal avec pubs dynamiques): https://rcavlive-dai.akamaized.net/hls/live/696614/cancbftprem/master_5000.m3u8
-#EXTINF:-1 tvg-id="CFTM.Montreal.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA
-https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8
+# ⚠️ TVA (national) — retirée 2026-07-25 : ne joue pas depuis le Québec (testé).
+#    TVA Sherbrooke, elle, fonctionne.
+# #EXTINF:-1 tvg-id="CFTM.Montreal.ca2" tvg-logo="https://i.imgur.com/1GR8Szn.png" group-title="Canada FR", TVA
+# https://tvalive.akamaized.net/hls/live/2012413/tva01/master.m3u8
 # ALT TVA (flux sans insertion pub): https://tvalive-nondai.akamaized.net/Content/HLS/Live/channel(a7315e07-037c-12a8-bdc8-da7bd513da9d)/index.m3u8
 # ⚠️ Télé-Québec — chemin Brightcove DIFFÉRENT de celui que j'avais analysé (qui,
 # lui, ne servait que du Widevine). Impossible de vérifier le DRM d'ici à cause du
 # 403 : si ça ne joue pas chez toi, c'est que c'est encore chiffré — dis-le-moi et
 # je la retire.
-#EXTINF:-1 tvg-id="CIVM.Montreal.ca2" tvg-logo="https://i.imgur.com/8grBWK9.png" group-title="Canada FR", Télé-Québec
-https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
-#EXTINF:-1 tvg-id="ICI.Tele.Quebec.ca2" group-title="Canada FR", ICI Télé Québec
+# ⚠️ Télé-Québec — retirée 2026-07-25 : ne joue pas (confirme le DRM Widevine
+#    déjà constaté sur l'autre chemin Brightcove).
+# #EXTINF:-1 tvg-id="CIVM.Montreal.ca2" tvg-logo="https://i.imgur.com/8grBWK9.png" group-title="Canada FR", Télé-Québec
+# https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
+#EXTINF:-1 tvg-id="ICI.Tele.Quebec.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/ici-tele-ca.png" group-title="Canada FR", ICI Télé Québec
 https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master_3000.m3u8
 #EXTINF:-1 tvg-id="RadioCanadaLAgentJean.ca" group-title="Canada FR", L'Agent Jean!
 https://amagi-streams.akamaized.net/hls/live/2120486/rclagentjean/master.m3u8
-#EXTINF:-1 group-title="Canada FR", Assemblée nationale du Québec
-https://diffusionm.assnat.qc.ca/diffusion/canal17/playlist.m3u8
-#EXTINF:-1 group-title="Canada FR", ICI Télévision Montréal
-https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
+# (Assemblée nationale retirée à la demande)
+# #EXTINF:-1 group-title="Canada FR", Assemblée nationale du Québec
+# https://diffusionm.assnat.qc.ca/diffusion/canal17/playlist.m3u8
+# (ICI Télévision Montréal retirée à la demande)
+# #EXTINF:-1 group-title="Canada FR", ICI Télévision Montréal
+# https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
 #========================================
 # 🇨🇦 CANADA EN
 #========================================
@@ -177,9 +183,9 @@ https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
 # tvg-id alignés dessus, sinon l'EPG affiche la grille du linéaire (= faux).
 # Le vrai CBC News Network (linéaire) et CBC Montréal, sur le CDN officiel CBC.
 # 403 hors Canada = géo-réservé, doit marcher chez toi.
-#EXTINF:-1 tvg-id="CBC.News.Network.ca2" group-title="Canada EN", CBC News Network
+#EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-news-network-ca.png" group-title="Canada EN", CBC News Network
 https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
-#EXTINF:-1 tvg-id="CBMT.Montreal.ca" group-title="Canada EN", CBC Montréal
+#EXTINF:-1 tvg-id="CBMT.Montreal.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-ca.png" group-title="Canada EN", CBC Montréal
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBCNewsExplore.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
@@ -187,7 +193,7 @@ https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
 https://jmp2.uk/stvp-CA4600005WZ
 #EXTINF:-1 tvg-id="CBCKids.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-ca.png" group-title="Canada EN", CBC Kids
 https://amagi-streams.akamaized.net/hls/live/2120483/cbckids/master.m3u8
-#EXTINF:-1 tvg-id="CBCComedy.ca" group-title="Canada EN", CBC Comedy
+#EXTINF:-1 tvg-id="CBCComedy.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-ca.png" group-title="Canada EN", CBC Comedy
 https://amagi-streams.akamaized.net/hls/live/2110963/cbccomedy/master.m3u8
 #EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-logo="https://i.imgur.com/2FE2ilO.png" group-title="Canada EN", CTV News
 https://jmp2.uk/stvp-CA1400004AE
@@ -206,25 +212,25 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 # Sport et divertissement canadiens (câble Bell/Corus), validés le 2026-07-25.
 # Mêmes serveurs « pool » que les thématiques françaises : même fragilité, le
 # bot d'auto-réparation les surveille toutes les 3 h.
-#EXTINF:-1 tvg-id="TSN1.ca" group-title="Canada EN", TSN 1
+#EXTINF:-1 tvg-id="TSN1.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-1-ca.png" group-title="Canada EN", TSN 1
 http://40.160.24.55/TSN_1/index.m3u8
-#EXTINF:-1 tvg-id="TSN2.ca" group-title="Canada EN", TSN 2
+#EXTINF:-1 tvg-id="TSN2.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-2-ca.png" group-title="Canada EN", TSN 2
 http://40.160.24.55/TSN_2/index.m3u8
-#EXTINF:-1 tvg-id="TSN3.ca" group-title="Canada EN", TSN 3
+#EXTINF:-1 tvg-id="TSN3.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-3-ca.png" group-title="Canada EN", TSN 3
 http://40.160.24.55/TSN_3/index.m3u8
-#EXTINF:-1 tvg-id="TSN4.ca" group-title="Canada EN", TSN 4
+#EXTINF:-1 tvg-id="TSN4.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-4-ca.png" group-title="Canada EN", TSN 4
 http://40.160.24.55/TSN_4/index.m3u8
-#EXTINF:-1 tvg-id="TSN5.ca" group-title="Canada EN", TSN 5
+#EXTINF:-1 tvg-id="TSN5.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-5-ca.png" group-title="Canada EN", TSN 5
 http://40.160.24.55/TSN_5/index.m3u8
-#EXTINF:-1 tvg-id="WNetwork.ca" group-title="Canada EN", W Network
+#EXTINF:-1 tvg-id="WNetwork.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/w-network-ca.png" group-title="Canada EN", W Network
 http://40.160.24.55/W_NETWORK/index.m3u8
-#EXTINF:-1 tvg-id="Slice.ca" group-title="Canada EN", Slice
+#EXTINF:-1 tvg-id="Slice.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/slice-ca.png" group-title="Canada EN", Slice
 http://40.160.24.55/SLICE/index.m3u8
-#EXTINF:-1 tvg-id="Much.ca" group-title="Canada EN", Much
+#EXTINF:-1 tvg-id="Much.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/much-ca.png" group-title="Canada EN", Much
 http://40.160.24.53/MUCH/index.m3u8
-#EXTINF:-1 tvg-id="HGTV.ca" group-title="Canada EN", Home Network
+#EXTINF:-1 tvg-id="HGTV.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/hgtv-ca.png" group-title="Canada EN", Home Network
 http://40.160.24.53/HGTV/index.m3u8
-#EXTINF:-1 tvg-id="SuperChannelVault.ca" group-title="Canada EN", Super Channel Vault
+#EXTINF:-1 tvg-id="SuperChannelVault.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/super-channel-ca.png" group-title="Canada EN", Super Channel Vault
 http://206.212.244.63/6142/index.m3u8
 #========================================
 # 🇺🇸 USA
@@ -235,13 +241,15 @@ https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/m
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
 # Le flux est « LiveNOW from FOX » (canal FAST), pas Fox News Channel :
 # tvg-id retiré — pas d'EPG vaut mieux qu'un EPG faux.
-#EXTINF:-1 tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", LiveNOW from FOX
-https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
+# ⚠️ LiveNOW from FOX — retirée 2026-07-25 : ne joue pas depuis le Québec
+#    (canal FAST géo-réservé aux États-Unis).
+# #EXTINF:-1 tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", LiveNOW from FOX
+# https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
 # Chaînes câblées américaines (versions anglaises), validées le 2026-07-25 :
 # segments horodatés du jour et chemins conformes (HISTORY_CHANNEL, NAT_GEO…).
 # Le suffixe « US » les distingue de Disney Channel/Junior FR déjà présentes —
 # sans lui, le bot d'auto-réparation pourrait confondre les deux versions.
-#EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-us.png" group-title="USA", History
+#EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-channel-us.png" group-title="USA", History
 http://40.160.24.53/HISTORY_CHANNEL/index.m3u8
 #EXTINF:-1 tvg-id="NationalGeographic.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/national-geographic-us.png" group-title="USA", National Geographic
 http://40.160.24.53/NAT_GEO/index.m3u8
@@ -251,5 +259,5 @@ http://40.160.24.53/NAT_GEO_WILD/index.m3u8
 #EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
 http://206.212.244.63/650/index.m3u8
 # ALT Disney Channel US (secours, flux West décalé de 3 h): http://206.212.244.63/3146/index.m3u8
-#EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-junior-us.png" group-title="USA", Disney Junior US
+#EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-jr-us.png" group-title="USA", Disney Junior US
 http://206.212.244.63/655/index.m3u8
