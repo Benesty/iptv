@@ -2,17 +2,15 @@ name: discover
 on:
   workflow_dispatch:
 
-# Sortie COURTE : uniquement les chaînes québécoises jouables + l'inventaire
-# francophone des serveurs câblés canadiens 40.160.24.53/.55.
 jobs:
   t:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: chasse
+      - name: liste + comparaison RDI
         run: |
           python3 - <<'PY'
-          import urllib.request, re, unicodedata
+          import urllib.request, urllib.error, re, collections
           import concurrent.futures as cf
           from urllib.parse import urljoin, urlparse
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
@@ -26,99 +24,76 @@ jobs:
                   s=ln.strip()
                   if s and not s.startswith("#"): return urljoin(base,s)
               return None
-          def plays(u):
+          def probe(u):
+              """(verdict, url du 1er segment) — le chemin du segment révèle la chaîne"""
               try:
                   st,t,ct,fin=fetch(u)
-                  if not t.lstrip().startswith("#EXT"): return False
+                  if not t.lstrip().startswith("#EXT"): return "pas m3u8",""
                   cur=fin
                   if "#EXT-X-STREAM-INF" in t:
                       v=first_uri(t,cur)
-                      if not v: return False
+                      if not v: return "pas de variante",""
                       st,t,ct,fin=fetch(v); cur=fin
-                      if not t.lstrip().startswith("#EXT"): return False
                   seg=first_uri(t,cur)
-                  if not seg: return False
-                  st,b,ct,_=fetch(seg,rng="bytes=0-2000")
-                  return st in (200,206) and len(b)>200 and "html" not in ct.lower()
-              except Exception: return False
+                  if not seg: return "pas de segment",""
+                  st,b,ct,f2=fetch(seg,rng="bytes=0-2000")
+                  ok = st in (200,206) and len(b)>200 and "html" not in ct.lower()
+                  return ("JOUE" if ok else f"segment KO ({st})"), f2
+              except urllib.error.HTTPError as e:
+                  return (f"HTTP {e.code}" + (" (géo-bloqué)" if e.code in (401,403) else "")),""
+              except Exception as e:
+                  return f"{type(e).__name__}",""
           def get(u):
               try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=90).read().decode("utf-8","replace")
               except Exception: return ""
-          def norm(s):
-              s=unicodedata.normalize("NFKD",s or "").encode("ascii","ignore").decode()
-              return re.sub(r"[^a-z0-9]+","",s.lower())
 
-          SOURCES=["https://iptv-org.github.io/iptv/index.m3u",
-                   "https://iptv-org.github.io/iptv/countries/ca.m3u",
-                   "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8",
-                   "https://iptv-org.github.io/iptv/languages/fra.m3u"]
-          CA_RX=re.compile(r'\.ca\d*(@|$)', re.I)
-          # noms de chaînes québécoises (mots discriminants, pas de « max »/« casa » seuls)
-          QC=("telequebec","tele-quebec","tele quebec","noovo","v tele","tva","ici tele","ici radio",
-              "ici artv","ici explora","ici rdi","canal vie","canal d ","canal d(","historia",
-              "series+","series plus","z tele","ztele","vrak","evasion","zeste","unis tv","matv",
-              "meteomedia","rds","artv","explora","prise 2","cine pop","cinepop","super ecran",
-              "elle fiction","yoopa","addik","moi et cie","lcn","savoir media","assemblee nationale",
-              "radio-canada","tv5 quebec","quebec")
+          print("################ 1. ICI RDI : LA MIENNE vs CELLE TROUVÉE ################")
+          RDI={
+            "actuelle (dans TV.m3u)": "https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8",
+            "trouvée (xcanrdi)":      "https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8",
+          }
+          for lab,u in RDI.items():
+              v,seg=probe(u)
+              print(f"\n  {lab}")
+              print(f"    url      : {u}")
+              print(f"    verdict  : {v}")
+              if seg: print(f"    segment  : {seg[:120]}")
+
+          print("\n\n################ 2. CHAÎNES CANADIENNES QUI JOUENT ################")
+          SRC=["https://iptv-org.github.io/iptv/index.m3u",
+               "https://iptv-org.github.io/iptv/countries/ca.m3u",
+               "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8"]
           CABLE=("40.160.24.53","40.160.24.55","206.212.244.63","23.133.220.149")
-
-          cur=open("TV.m3u",encoding="utf-8").read()
-          have={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
-          have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
-
-          qc={}; cable={}
-          for s in SOURCES:
+          found={}
+          for s in SRC:
               L=get(s).split("\n")
               for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
                   if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
-                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
                   if not u: continue
-                  low=" "+name.lower()+" "
-                  h=urlparse(u).hostname or ""
-                  # 1) québécoises (pays CA obligatoire)
-                  if CA_RX.search(tid or "") and any(k in low for k in QC):
-                      if u not in have_urls and norm(name) not in have:
-                          qc.setdefault(norm(name),(name,tid,u))
-                  # 2) tout ce que portent les serveurs câblés (pour repérage manuel)
-                  if h in CABLE:
-                      cable.setdefault(f"{h}|{norm(name)}",(h,name,u))
-          print(f"{len(qc)} québécoises candidates · {len(cable)} entrées sur les serveurs câblés\n")
-
-          def run(d, key):
-              out=[]
-              with cf.ThreadPoolExecutor(max_workers=24) as ex:
-                  fut={ex.submit(plays,v[-1]):v for v in d.values()}
-                  for f in cf.as_completed(fut):
-                      v=fut[f]
-                      try:
-                          if f.result(): out.append(v)
-                      except Exception: pass
-              return out
-
-          live_qc=run(qc,"qc")
-          live_cb=run(cable,"cb")
-
-          print("########## 1. QUÉBÉCOISES JOUABLES ##########")
-          for n,t,u in sorted(live_qc,key=lambda x:x[0].lower()):
-              print(f"  ✅ {n[:38]:38} | {u[:92]}")
-          if not live_qc: print("  (aucune)")
-
-          # Section 2 : uniquement les entrées FRANCOPHONES des serveurs câblés
-          # (le reste, ~150 chaînes US/anglo, n'a aucun intérêt ici).
-          FRW=("tele","télé","quebec","québec","noovo","tva","canal vie","canal d","historia",
-               "serie","série","ztele","z tele","vrak","evasion","évasion","zeste","unis","matv",
-               "meteomedia","rds","artv","explora","prise","cinepop","ciné","ecran","écran",
-               "elle fiction","yoopa","addik","moi et cie","ici ","radio-canada","lcn",
-               "francais","français","french","quebecor")
-          fr_cb=[(h,n,u) for h,n,u in live_cb if any(w in n.lower() for w in FRW)]
-          print(f"\n########## 2. SERVEURS CÂBLÉS — ENTRÉES FRANCOPHONES ##########")
-          print(f"   ({len(live_cb)} chaînes jouent au total sur ces serveurs, "
-                f"dont {len(fr_cb)} francophones)")
-          for h,n,u in sorted(fr_cb,key=lambda x:(x[0],x[1].lower())):
-              print(f"  ✅ {h:16} {n[:38]:38} {u[:62]}")
-          if not fr_cb:
-              print("   -> AUCUNE chaîne francophone sur ces serveurs (que de l'anglo/US)")
+                  if (urlparse(u).hostname or "") in CABLE:
+                      found.setdefault((urlparse(u).hostname,name),u)
+          def plays(u):
+              return probe(u)[0]=="JOUE"
+          live=collections.defaultdict(list)
+          with cf.ThreadPoolExecutor(max_workers=24) as ex:
+              fut={ex.submit(plays,u):k for k,u in found.items()}
+              for f in cf.as_completed(fut):
+                  h,n=fut[f]
+                  try:
+                      if f.result(): live[h].append(re.sub(r"\s*\(\d+[pi]\)$","",n))
+                  except Exception: pass
+          tot=sum(len(v) for v in live.values())
+          print(f"  {tot} chaînes jouent sur ces 4 serveurs\n")
+          for h in sorted(live):
+              names=sorted(live[h])
+              print(f"--- {h} ({len(names)}) ---")
+              line=""
+              for n in names:
+                  if len(line)+len(n)+3 > 150: print("  "+line); line=""
+                  line += (" · " if line else "") + n
+              if line: print("  "+line)
+              print()
           PY
