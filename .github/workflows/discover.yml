@@ -2,9 +2,8 @@ name: discover
 on:
   workflow_dispatch:
 
-# Chasse aux VRAIES chaînes québécoises (Télé-Québec, Noovo/V, TVA, Canal Vie,
-# Historia, Séries+, Z télé, RDS…) : recherche par mots-clés dans tous les
-# agrégateurs + inventaire complet des serveurs qui hébergent du canadien.
+# Chasse aux VRAIES chaînes québécoises. Filtre STRICT : le tvg-id doit être
+# canadien (.ca) — sinon on ramasse des « TVA » allemandes, « Casa » espagnoles…
 jobs:
   t:
     runs-on: ubuntu-latest
@@ -15,7 +14,7 @@ jobs:
           python3 - <<'PY'
           import urllib.request, re, unicodedata, collections
           import concurrent.futures as cf
-          from urllib.parse import urljoin, urlparse
+          from urllib.parse import urljoin
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 
           def fetch(u,rng=None):
@@ -53,95 +52,62 @@ jobs:
           SOURCES=[
             "https://iptv-org.github.io/iptv/index.m3u",
             "https://iptv-org.github.io/iptv/countries/ca.m3u",
-            "https://iptv-org.github.io/iptv/languages/fra.m3u",
             "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8",
-            "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
-            "https://raw.githubusercontent.com/schumijo/iptv/main/ca.m3u8",
+            "https://iptv-org.github.io/iptv/languages/fra.m3u",
           ]
-
-          # Les chaînes québécoises qu'on cherche vraiment
-          QC = ["telequebec","tele quebec","noovo","v tele","vtele","tva","ici tele","icitele",
-                "canal vie","canalvie","canal d","canald","historia","series+","seriesplus",
-                "z tele","ztele","vrak","evasion","casa","zeste","unis","matv","meteomedia",
-                "rds","tva sports","artv","explora","prise 2","prise2","investigation",
-                "cine pop","cinepop","super ecran","superecran","elle fictions","ellefictions",
-                "yoopa","addik","moi et cie","moietcie","tele-quebec","rdi","radio-canada",
-                "radio canada","teletoon","musique plus","musiqueplus","max","assemblee nationale"]
-          BAN=("brasil","espan","latina","portug","italia","deutsch","polska","punjab","hindi",
-               "tamil","urdu","arab","radio ","stingray")
+          CA_RX = re.compile(r'\.ca\d*(@|$)', re.I)
 
           cur=open("TV.m3u",encoding="utf-8").read()
           have={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
           have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
 
           feeds=[(s,get(s)) for s in SOURCES]
-          for s,t in feeds: print(f"  source {s.split('/')[-1]:28} {t.count('#EXTINF')} chaînes")
+          for s,t in feeds: print(f"  {s.split('/')[-1]:26} {t.count('#EXTINF')} chaînes")
 
-          cands={}
-          hosts_ca=collections.Counter()
+          # tout le canadien, puis on marque ce qui est francophone
+          FR=("tele","télé","quebec","québec","noovo","tva","canal vie","canal d","historia",
+              "serie","série","z tele","ztele","vrak","evasion","évasion","casa","zeste","unis",
+              "matv","meteomedia","météo","rds","artv","explora","prise","cinepop","ciné",
+              "ecran","écran","elle fiction","yoopa","addik","moi et cie","ici ","radio-canada",
+              "francais","français","french","savoir","assemblee","assemblée","lcn","rdi")
+          allca={}
           for s,txt in feeds:
               L=txt.split("\n")
               for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
                   if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
-                  low=" "+name.lower()+" "
-                  if any(b in low for b in BAN): continue
                   tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
+                  if not CA_RX.search(tid or ""): continue        # <-- CANADA obligatoire
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
-                  if not u: continue
-                  # inventaire des hôtes qui portent du canadien (pour la partie 2)
-                  if re.search(r'\.ca\d*(@|$)', tid.lower()):
-                      h=urlparse(u).hostname or ""
-                      if re.match(r'^\d+\.\d+\.\d+\.\d+$', h): hosts_ca[h]+=1
-                  if norm(name) in have or u in have_urls: continue
-                  if any(k in low for k in QC):
-                      cands.setdefault(norm(name),(name,tid,u))
+                  if not u or u in have_urls or norm(name) in have: continue
+                  allca.setdefault(norm(name),(name,tid,u))
+          qc={k:v for k,v in allca.items() if any(m in v[0].lower() for m in FR)}
+          print(f"\n{len(allca)} chaînes canadiennes absentes, dont {len(qc)} francophones — test…")
 
-          print(f"\n{len(cands)} candidats québécois — test…")
-          live=[]
-          with cf.ThreadPoolExecutor(max_workers=24) as ex:
-              fut={ex.submit(plays,u):(n,t,u) for n,t,u in cands.values()}
-              for f in cf.as_completed(fut):
-                  n,t,u=fut[f]
-                  try:
-                      if f.result(): live.append((n,t,u))
-                  except Exception: pass
+          def run(d):
+              out=[]
+              with cf.ThreadPoolExecutor(max_workers=24) as ex:
+                  fut={ex.submit(plays,u):(n,t,u) for n,t,u in d.values()}
+                  for f in cf.as_completed(fut):
+                      n,t,u=fut[f]
+                      try:
+                          if f.result(): out.append((n,t,u))
+                      except Exception: pass
+              return out
 
-          # Inventaire des serveurs canadiens, filtré sur les noms FRANCOPHONES :
-          # ces serveurs portent surtout de l'américain, seul le FR nous intéresse.
-          FRMARK=("tele","télé","quebec","québec","noovo"," tva","canal vie","canal d","historia",
-                  "series","séries","z tele","ztele","vrak","evasion","évasion","casa","zeste",
-                  "unis","matv","meteo","météo","rds","artv","explora","prise","cine","ciné",
-                  "ecran","écran","elle","yoopa","addik","moi et cie","ici ","radio-canada",
-                  "francais","français","french")
-          inv=collections.defaultdict(dict)
-          for s,txt in feeds:
-              L=txt.split("\n")
-              for i,l in enumerate(L):
-                  if not l.startswith("#EXTINF"): continue
-                  name=l.split(",",1)[-1].strip()
-                  u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
-                  if not u: continue
-                  h=urlparse(u).hostname or ""
-                  if h in hosts_ca and any(m in name.lower() for m in FRMARK):
-                      inv[h][name]=u
+          live_qc=run(qc)
+          # au cas où le nom ne trahit pas la langue, on teste aussi tout le reste
+          # du canadien et on l'affiche à part pour inspection manuelle
+          rest={k:v for k,v in allca.items() if k not in qc}
+          live_rest=run(rest)
 
-          print("\n===== SERVEURS CANADIENS : ENTRÉES FRANCOPHONES =====")
-          any_fr=False
-          for h,c in hosts_ca.most_common(12):
-              rows=inv.get(h,{})
-              if not rows: continue
-              any_fr=True
-              print(f"\n--- {h} ({len(rows)} FR / {c} .ca) ---")
-              for n in sorted(rows)[:40]:
-                  print(f"   {n[:46]:46} {rows[n][:74]}")
-          if not any_fr:
-              print("  (aucune entrée francophone sur ces serveurs)")
+          print(f"\n########## QUÉBÉCOISES QUI JOUENT : {len(live_qc)} ##########")
+          for n,t,u in sorted(live_qc,key=lambda x:x[0].lower()):
+              print(f"  ✅ {n[:40]:40} | {t[:22]:22} | {u[:86]}")
+          if not live_qc: print("  (aucune)")
 
-          print(f"\n\n########## RÉSULTAT : {len(live)} QUÉBÉCOISES QUI JOUENT ##########")
-          for n,t,u in sorted(live,key=lambda x:x[0].lower()):
-              print(f"  ✅ {n[:38]:38} | {t[:20]:20} | {u[:88]}")
-          if not live:
-              print("  (aucune)")
+          print(f"\n########## AUTRES CANADIENNES QUI JOUENT : {len(live_rest)} ##########")
+          for n,t,u in sorted(live_rest,key=lambda x:x[0].lower())[:60]:
+              print(f"  · {n[:40]:40} | {t[:22]:22} | {u[:70]}")
           PY
