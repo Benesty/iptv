@@ -6,11 +6,10 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: liste + comparaison RDI
+      - name: URLs exactes Disney / Nat Geo / History
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.error, re, collections
+          import urllib.request, urllib.error, re
           import concurrent.futures as cf
           from urllib.parse import urljoin, urlparse
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
@@ -25,7 +24,6 @@ jobs:
                   if s and not s.startswith("#"): return urljoin(base,s)
               return None
           def probe(u):
-              """(verdict, url du 1er segment) — le chemin du segment révèle la chaîne"""
               try:
                   st,t,ct,fin=fetch(u)
                   if not t.lstrip().startswith("#EXT"): return "pas m3u8",""
@@ -37,63 +35,41 @@ jobs:
                   seg=first_uri(t,cur)
                   if not seg: return "pas de segment",""
                   st,b,ct,f2=fetch(seg,rng="bytes=0-2000")
-                  ok = st in (200,206) and len(b)>200 and "html" not in ct.lower()
-                  return ("JOUE" if ok else f"segment KO ({st})"), f2
-              except urllib.error.HTTPError as e:
-                  return (f"HTTP {e.code}" + (" (géo-bloqué)" if e.code in (401,403) else "")),""
-              except Exception as e:
-                  return f"{type(e).__name__}",""
+                  ok=st in (200,206) and len(b)>200 and "html" not in ct.lower()
+                  return ("JOUE" if ok else f"segment KO({st})"), f2
+              except urllib.error.HTTPError as e: return f"HTTP {e.code}",""
+              except Exception as e: return type(e).__name__,""
           def get(u):
               try: return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=90).read().decode("utf-8","replace")
               except Exception: return ""
 
-          print("################ 1. ICI RDI : LA MIENNE vs CELLE TROUVÉE ################")
-          RDI={
-            "actuelle (dans TV.m3u)": "https://rcavlive.akamaized.net/hls/live/704026/canrdi/master.m3u8",
-            "trouvée (xcanrdi)":      "https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8",
-          }
-          for lab,u in RDI.items():
-              v,seg=probe(u)
-              print(f"\n  {lab}")
-              print(f"    url      : {u}")
-              print(f"    verdict  : {v}")
-              if seg: print(f"    segment  : {seg[:120]}")
-
-          print("\n\n################ 2. CHAÎNES CANADIENNES QUI JOUENT ################")
           SRC=["https://iptv-org.github.io/iptv/index.m3u",
                "https://iptv-org.github.io/iptv/countries/ca.m3u",
                "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_canada.m3u8"]
-          CABLE=("40.160.24.53","40.160.24.55","206.212.244.63","23.133.220.149")
-          found={}
+          CABLE=("40.160.24.53","40.160.24.55","206.212.244.63")
+          WANT=re.compile(r'(disney|national geographic|nat geo|history)', re.I)
+
+          rows={}
           for s in SRC:
               L=get(s).split("\n")
               for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
-                  if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
+                  if not WANT.search(name): continue
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
                   if not u: continue
                   if (urlparse(u).hostname or "") in CABLE:
-                      found.setdefault((urlparse(u).hostname,name),u)
-          def plays(u):
-              return probe(u)[0]=="JOUE"
-          live=collections.defaultdict(list)
-          with cf.ThreadPoolExecutor(max_workers=24) as ex:
-              fut={ex.submit(plays,u):k for k,u in found.items()}
+                      rows[(name,u)]=True
+          print(f"{len(rows)} entrées Disney/NatGeo/History sur ces serveurs\n")
+          res={}
+          with cf.ThreadPoolExecutor(max_workers=16) as ex:
+              fut={ex.submit(probe,u):(n,u) for n,u in rows}
               for f in cf.as_completed(fut):
-                  h,n=fut[f]
-                  try:
-                      if f.result(): live[h].append(re.sub(r"\s*\(\d+[pi]\)$","",n))
-                  except Exception: pass
-          tot=sum(len(v) for v in live.values())
-          print(f"  {tot} chaînes jouent sur ces 4 serveurs\n")
-          for h in sorted(live):
-              names=sorted(live[h])
-              print(f"--- {h} ({len(names)}) ---")
-              line=""
-              for n in names:
-                  if len(line)+len(n)+3 > 150: print("  "+line); line=""
-                  line += (" · " if line else "") + n
-              if line: print("  "+line)
-              print()
+                  n,u=fut[f]
+                  try: res[(n,u)]=f.result()
+                  except Exception as e: res[(n,u)]=(type(e).__name__,"")
+          for (n,u),(v,seg) in sorted(res.items(), key=lambda x:x[0][0].lower()):
+              flag="✅" if v=="JOUE" else "❌"
+              print(f"{flag} {n[:36]:36} {v:14} {u}")
+              if seg: print(f"      segment: {seg[:110]}")
           PY
