@@ -119,7 +119,7 @@ http://145.239.5.177/356/index.m3u8
 http://145.239.5.177/337/index.m3u8
 #EXTINF:-1 tvg-id="CanalPlusCinemas.fr" tvg-logo="https://i.imgur.com/fvPoNEa.jpeg" group-title="France", CANAL+ Cinéma
 http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
-#EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://upload.wikimedia.org/wikipedia/en/c/c9/M6_Music_%282012%29.png" group-title="France", M6 Music
+#EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-music-fr.png" group-title="France", M6 Music
 http://145.239.5.177/320/index.m3u8
 # ⚠️ Foot+ — retirée le 2026-07-24 : flux mort (confirmé par 2 tests profonds
 # indépendants) et aucun remplaçant valide (chaîne payante Canal+, pas de source
