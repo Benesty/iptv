@@ -108,3 +108,43 @@ python3 scripts/heal.py             # répare et écrit TV.m3u
 ./check_links.sh -n                 # test local (depuis TON réseau : les flux
                                     # géo-bloqués ne répondent qu'à ta zone)
 ```
+
+---
+
+# Bonus : `/deals` — agrégateur d'aubaines 🇨🇦
+
+Même déploiement Vercel, second usage : les **Hot Deals de RedFlagDeals**
+présentés dans une interface à la Dealabs (cartes, prix barré, % de rabais,
+« température » = votes nets, filtres marchands, recherche).
+
+| | |
+|---|---|
+| **Site** | `/deals` — une seule page statique, zéro dépendance, thème clair/sombre auto |
+| **API** | `/api/deals` — Edge Function qui récupère RFD et le normalise en JSON |
+| **Source** | forum *Hot Deals* (`forum_id=9`) de `forums.redflagdeals.com` |
+
+```
+/api/deals?sort=hot&page=1&per_page=30   # tris : hot, new, votes, comments, discount
+/api/deals?q=airpods&dealer=costco       # recherche plein texte + filtre marchand
+/api/deals?max_price=200&min_discount=40 # bornes prix / rabais
+/api/deals?expired=1                     # inclut les deals expirés (masqués par défaut)
+/api/deals?debug=1                       # diagnostic : clés brutes renvoyées par RFD
+```
+
+**Pourquoi un back-end plutôt qu'un `fetch` direct depuis le navigateur** : RFD
+n'envoie pas d'en-tête CORS, le format amont est instable, et le CDN Vercel
+absorbe le trafic (`s-maxage=300`) — RFD ne voit qu'un appel toutes les 5 min
+par région au lieu d'un par visiteur.
+
+**Résistance aux changements de format** — l'API du forum n'est pas documentée.
+Trois garde-fous : chaque champ est lu parmi plusieurs noms possibles, un
+**repli sur le HTML** du listing prend le relais si l'API renvoie 403/500, et
+une panne totale donne un 502 explicite plutôt qu'une page blanche.
+
+```bash
+node scripts/test_deals.mjs   # ~50 assertions, sans réseau (fetch bouchonné)
+```
+
+Le tri « Populaires » n'est pas l'ordre de RFD : c'est `votes nets / (âge + 2)^0.45`,
+donc un deal frais qui monte vite passe devant un vieux deal très voté.
+Les liens sortants sont en `nofollow` et aucun contenu n'est ré-hébergé.
