@@ -2,8 +2,9 @@ name: discover
 on:
   workflow_dispatch:
 
-# Cherche des chaînes francophones (France + Canada FR) absentes de TV.m3u,
-# et ne retient que celles qui JOUENT vraiment (master -> variante -> segment).
+# Cherche, parmi les agrégateurs, les chaînes NATIONALES françaises et
+# QUÉBÉCOISES qui manquent à TV.m3u, et ne retient que celles qui jouent
+# vraiment (master -> variante -> segment).
 jobs:
   t:
     runs-on: ubuntu-latest
@@ -12,16 +13,16 @@ jobs:
       - name: discover
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.error, re, unicodedata, collections
+          import urllib.request, re, unicodedata, collections
           import concurrent.futures as cf
-          from urllib.parse import urljoin, urlparse
+          from urllib.parse import urljoin
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 
-          def fetch(u,rng=None,n=300000):
+          def fetch(u,rng=None):
               h={"User-Agent":UA,"Accept":"*/*"}
               if rng:h["Range"]=rng
               r=urllib.request.urlopen(urllib.request.Request(u,headers=h),timeout=15)
-              return r.status,r.read(4000 if rng else n).decode("utf-8","replace"),r.headers.get("Content-Type",""),r.geturl()
+              return r.status,r.read(4000 if rng else 300000).decode("utf-8","replace"),r.headers.get("Content-Type",""),r.geturl()
           def first_uri(t,base):
               for ln in t.split("\n"):
                   s=ln.strip()
@@ -58,56 +59,64 @@ jobs:
             "https://iptv-org.github.io/iptv/languages/fra.m3u",
           ]
 
-          # déjà présentes (actives ou commentées) -> à ne pas reproposer
-          cur=open("TV.m3u",encoding="utf-8").read()
-          have_names={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
-          have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
+          # Ce qu'on VEUT (nom normalisé -> doit apparaître au début du nom de la chaîne)
+          FRANCE = ["cineplus","cinepremier","cinefrisson","cineclassic","cinefamiz","cineemotion",
+            "canalplussport","canalplusseries","canalplusdocs","canalpluskids","canalplusgrandecran",
+            "paramountchannel","tcmcinema","ocs","warnertv","comedieplus","polarplus","ushuaia",
+            "planeteplus","histoire","scienceetvie","natgeo","nationalgeographic","discovery",
+            "animaux","chasseetpeche","seasons","gullimax","canalj","tiji","piwi","boomerang",
+            "cartoonnetwork","mangas","gameone","jone","mtv","nrjhits","rfmtv","melody",
+            "betfrance","nonstoppeople","ellegirl","trek","automoto","eurosport","beinsports",
+            "infosport","golfplus","equidia","machainesport","lcp","publicsenat","euronews",
+            "bfmbusiness","bfm2","teletoonplus","disneychannel","nickelodeon","boing","toonami",
+            "franceinter","arte","tv5mondechefs","tv5mondestyle"]
+          QUEBEC = ["icitele","iciartv","iciexplora","icimusique","tva","noovo","canalvie","canald",
+            "historia","seriesplus","ztele","vrak","teletoon","musiqueplus","evasion","casa","zeste",
+            "unis","tv5quebec","rds","tvasports","matv","meteomedia","prise2","investigation",
+            "cinepop","superecran","ellefictions","yoopa","explora","assembleenationale","telequebec",
+            "radiocanada","cbcmontreal"]
+          WANT = [(w,"🇫🇷 France") for w in FRANCE] + [(w,"🇨🇦 Québec") for w in QUEBEC]
 
-          # exclusions : pays non voulus, régionales/locales, radios, adulte
-          BAN=("rtbf","labtrois","latrois","rts","rsi","suisse","swiss","belg","bel rtl",
-               "luxe","monaco","afrique","africa","cameroun","senegal","congo","maroc","tunis",
-               "algerie","gabon","ivoir","haiti","nollywood","novelas","cgtn","russia","arab",
-               "radio","fip","nostalgie","cherie fm","rire chansons","xxx","adult","erotic",
-               "test","24/7","musique plus? no")
-          REGIONAL=("ici ","france 3 ","fr3 ","tv7","tv8","tele ","canal 32","canal 11","canal 21",
-                    "vosges","alsace","bretagne","normandie","picardie","corse","antenne reunion",
-                    "guadeloupe","martinique","guyane","mayotte","polynesie","calédonie","caledonie",
-                    "local","matv","nrj12? no")
-          # on garde ICI Télé / ICI RDI etc. malgré "ici " -> exception explicite
-          KEEP_ICI=("ici tele","ici radio","ici rdi","ici artv","ici explora","ici musique")
+          BAN=("africa","afrique","cameroun","senegal","congo","maroc","tunis","algerie","gabon",
+               "ivoir","haiti","nollywood","arab","brasil","brazuca","latina","espan","portug",
+               "italia","deutsch","polska","suisse","swiss","belg","rtbf","rts","luxe","punjab",
+               "hindi","tamil","urdu","radio ","stingray","shopping","tsc","test")
+
+          cur=open("TV.m3u",encoding="utf-8").read()
+          have={norm(l.split(",",1)[-1]) for l in cur.split("\n") if "#EXTINF" in l and "," in l}
+          have_urls={l.strip() for l in cur.split("\n") if l.strip().startswith("http")}
 
           cands={}
           for s in SOURCES:
-              txt=get(s); L=txt.split("\n")
+              L=get(s).split("\n")
               for i,l in enumerate(L):
                   if not l.startswith("#EXTINF"): continue
                   name=l.split(",",1)[-1].strip()
                   if not name or any(x in name for x in ("Gecko","Safari","Chrome")): continue
-                  tid=(re.search(r'tvg-id="([^"]*)"',l) or [None,""])[1]
                   low=name.lower()
-                  # pays voulu : France ou Canada
-                  if tid and not re.search(r'\.(fr|ca)\d*(@|$)', tid.lower()): continue
-                  if not tid and ".fr" not in s and "fra" not in s and "/ca" not in s: continue
                   if any(b in low for b in BAN): continue
-                  if any(r in low for r in REGIONAL) and not any(k in low for k in KEEP_ICI): continue
-                  if norm(name) in have_names: continue
+                  n=norm(name)
+                  if n in have: continue
+                  hit=next((lab for w,lab in WANT if n.startswith(w)), None)
+                  if not hit: continue
                   u=next((L[j].strip() for j in range(i+1,min(i+3,len(L))) if L[j].strip().startswith("http")),"")
                   if not u or u in have_urls: continue
-                  key=norm(name)
-                  cands.setdefault(key,(name,tid,u))
-          print(f"{len(cands)} candidats francophones absents de la playlist — test en cours…\n")
+                  cands.setdefault(n,(name,hit,u))
+          print(f"{len(cands)} candidats ciblés — test en cours…\n")
 
-          items=list(cands.values())
           live=[]
           with cf.ThreadPoolExecutor(max_workers=24) as ex:
-              fut={ex.submit(plays,u):(n,t,u) for n,t,u in items}
+              fut={ex.submit(plays,u):(n,lab,u) for n,lab,u in cands.values()}
               for f in cf.as_completed(fut):
-                  n,t,u=fut[f]
+                  n,lab,u=fut[f]
                   try:
-                      if f.result(): live.append((n,t,u))
+                      if f.result(): live.append((lab,n,u))
                   except Exception: pass
 
-          print(f"===== {len(live)} CHAÎNES QUI JOUENT VRAIMENT =====\n")
-          for n,t,u in sorted(live, key=lambda x: x[0].lower()):
-              print(f"  {n[:44]:44} | {t[:22]:22} | {u[:88]}")
+          print(f"===== {len(live)} CHAÎNES QUI JOUENT =====")
+          for lab in ("🇫🇷 France","🇨🇦 Québec"):
+              rows=[(n,u) for l,n,u in live if l==lab]
+              print(f"\n--- {lab} ({len(rows)}) ---")
+              for n,u in sorted(rows, key=lambda x:x[0].lower()):
+                  print(f"  {n[:42]:42} {u}")
           PY
