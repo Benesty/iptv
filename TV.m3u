@@ -105,8 +105,12 @@ http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/disney-jr-fr.png" group-title="France", Disney Junior
 http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
-#EXTINF:-1 tvg-id="DisneyChannel.fr" tvg-logo="https://i.imgur.com/UxrAiAe.png" group-title="France", Disney Channel
-http://151.80.18.177:86/Disney_Channel_HD/index.m3u8
+# ⚠️ Disney Channel (France) — retirée 2026-07-25 : le flux du pool est en
+# PORTUGAIS malgré son libellé « Disney Channel » chez l'agrégateur (constaté
+# par l'utilisateur). Mauvais étiquetage de langue, pas de source FR valide.
+# Disney Channel US (groupe USA) reste disponible, lui est bien en anglais.
+# #EXTINF:-1 tvg-id="DisneyChannel.fr" tvg-logo="https://i.imgur.com/UxrAiAe.png" group-title="France", Disney Channel
+# http://151.80.18.177:86/Disney_Channel_HD/index.m3u8
 #EXTINF:-1 tvg-id="SerieClub.fr" tvg-logo="https://i.imgur.com/V8wRRg5.png" group-title="France", Série Club
 http://145.239.5.177/355/index.m3u8
 #EXTINF:-1 tvg-id="Teva.fr" tvg-logo="https://i.imgur.com/kDW0hN5.png" group-title="France", Teva

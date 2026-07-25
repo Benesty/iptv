@@ -1,0 +1,95 @@
+name: lang-audit
+on:
+  workflow_dispatch:
+
+# Audit de LANGUE : les manifestes HLS déclarent souvent la piste audio
+# (#EXT-X-MEDIA ... LANGUAGE="por"). On l'extrait pour repérer les flux dont la
+# langue contredit le groupe de la chaîne — cas réel : un « Disney Channel »
+# annoncé français qui diffusait en portugais.
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: audit
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re
+          from urllib.parse import urljoin
+          import concurrent.futures as cf
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+
+          def get(u):
+              r=urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA,"Accept":"*/*"}),timeout=18)
+              return r.read(200000).decode("utf-8","replace"), r.geturl()
+
+          # langues attendues selon le groupe de la playlist
+          EXPECT={"France":{"fr","fra","fre","qaa","und",""},
+                  "Canada FR":{"fr","fra","fre","qaa","und",""},
+                  "Canada EN":{"en","eng","und",""},
+                  "USA":{"en","eng","und",""}}
+
+          def langs(u):
+              """codes de langue déclarés dans le manifeste (master + 1 variante)"""
+              found=set(); notes=[]
+              try:
+                  t,fin=get(u)
+              except urllib.error.HTTPError as e:
+                  return None, f"HTTP {e.code}"
+              except Exception as e:
+                  return None, type(e).__name__
+              for txt,src in ((t,fin),):
+                  for m in re.finditer(r'#EXT-X-MEDIA:[^\n]*', txt):
+                      line=m.group(0)
+                      lg=re.search(r'LANGUAGE="([^"]+)"', line)
+                      nm=re.search(r'NAME="([^"]+)"', line)
+                      if lg: found.add(lg.group(1).lower())
+                      elif nm: notes.append(nm.group(1))
+              # descendre d'un niveau si rien trouvé
+              if not found and "#EXT-X-STREAM-INF" in t:
+                  v=next((urljoin(fin,l.strip()) for l in t.split("\n") if l.strip() and not l.startswith("#")),None)
+                  if v:
+                      try:
+                          t2,fin2=get(v)
+                          for m in re.finditer(r'LANGUAGE="([^"]+)"', t2):
+                              found.add(m.group(1).lower())
+                      except Exception: pass
+              return found, ",".join(notes[:3])
+
+          lines=open("TV.m3u",encoding="utf-8").read().split("\n")
+          chans=[]
+          for i,l in enumerate(lines):
+              if l.startswith("#EXTINF"):
+                  g=(re.search(r'group-title="([^"]*)"',l) or [None,"?"])[1]
+                  n=l.split(",",1)[-1].strip()
+                  u=next((lines[j].strip() for j in range(i+1,min(i+4,len(lines))) if lines[j].strip().startswith("http")),"")
+                  if u: chans.append((g,n,u))
+
+          res={}
+          with cf.ThreadPoolExecutor(max_workers=16) as ex:
+              fut={ex.submit(langs,u):(g,n) for g,n,u in chans}
+              for f in cf.as_completed(fut):
+                  g,n=fut[f]
+                  try: res[(g,n)]=f.result()
+                  except Exception as e: res[(g,n)]=(None,type(e).__name__)
+
+          suspects=[]; nodata=0
+          print("########## LANGUES DÉCLARÉES ##########\n")
+          for g,n,u in chans:
+              found,note=res[(g,n)]
+              if found is None:
+                  nodata+=1; continue
+              if not found:
+                  nodata+=1; continue
+              ok = bool(found & EXPECT.get(g,set()))
+              tag = "✅" if ok else "⚠️ SUSPECT"
+              print(f"{tag:11} [{g:9}] {n[:30]:30} langues={sorted(found)}")
+              if not ok: suspects.append((g,n,sorted(found),u))
+
+          print(f"\n{nodata} chaînes ne déclarent aucune langue (indétectable par cette méthode)")
+          print(f"\n########## {len(suspects)} SUSPECTS ##########")
+          for g,n,f,u in suspects:
+              print(f"  ⚠️  [{g}] {n} -> {f}")
+              print(f"      {u[:100]}")
+          if not suspects: print("  (aucun)")
+          PY
