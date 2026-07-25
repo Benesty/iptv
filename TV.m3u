@@ -131,11 +131,11 @@ http://145.239.5.177/320/index.m3u8
 #========================================
 #EXTINF:-1 tvg-id="CKSH.ca2" tvg-logo="https://i.imgur.com/HsSi3NV.png" group-title="Canada FR", ICI Télé Estrie
 https://rcavlive.akamaized.net/hls/live/704016/cancksh/master.m3u8
-#EXTINF:-1 tvg-id="RadioCanadaJeunesse.ca" group-title="Canada FR", Radio-Canada Jeunesse
+#EXTINF:-1 tvg-id="RadioCanadaJeunesse.ca" tvg-logo="https://i.imgur.com/TxCWM5Q.jpeg" group-title="Canada FR", Radio-Canada Jeunesse
 https://amagi-streams.akamaized.net/hls/live/2120485/rcjeunesse/master.m3u8
-#EXTINF:-1 tvg-id="RadioCanadaINFO.ca" group-title="Canada FR", Radio-Canada INFO
+#EXTINF:-1 tvg-id="RadioCanadaINFO.ca" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/CABC2300010E4_20250121T095226SQUARE.png" group-title="Canada FR", Radio-Canada INFO
 https://d2pe0mcuntasoo.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-haex9tv0eft0g/Radio-Canada_INFO.m3u8
-#EXTINF:-1 tvg-id="NoovoCinema.ca" group-title="Canada FR", Noovo Cinéma
+#EXTINF:-1 tvg-id="NoovoCinema.ca" tvg-logo="https://i.imgur.com/FNzVlkT.png" group-title="Canada FR", Noovo Cinéma
 https://dk4ogs46bjxcw.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xr1ct045l70mz/Noovo_Cinema.m3u8
 #EXTINF:-1 tvg-id="NoovoComedies.ca" group-title="Canada FR", Noovo Comédies
 https://d2s8iafdyzconc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6x2p3ho0vw00a/Noovo_Comedies_Home.m3u8
@@ -170,7 +170,7 @@ https://hls.savoir.media/live/stream.m3u8
 # https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
 #EXTINF:-1 tvg-id="ICI.Tele.Quebec.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/ici-tele-ca.png" group-title="Canada FR", ICI Télé Québec
 https://rcavlive.akamaized.net/hls/live/664045/cancbvt/master_3000.m3u8
-#EXTINF:-1 tvg-id="RadioCanadaLAgentJean.ca" group-title="Canada FR", L'Agent Jean!
+#EXTINF:-1 tvg-id="RadioCanadaLAgentJean.ca" tvg-logo="https://i.imgur.com/mb1bZTP.jpeg" group-title="Canada FR", L'Agent Jean!
 https://amagi-streams.akamaized.net/hls/live/2120486/rclagentjean/master.m3u8
 # (Assemblée nationale retirée à la demande)
 # #EXTINF:-1 group-title="Canada FR", Assemblée nationale du Québec
@@ -187,7 +187,7 @@ https://amagi-streams.akamaized.net/hls/live/2120486/rclagentjean/master.m3u8
 # 403 hors Canada = géo-réservé, doit marcher chez toi.
 #EXTINF:-1 tvg-id="CBC.News.Network.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-news-network-ca.png" group-title="Canada EN", CBC News Network
 https://cbcrclinear-tor.akamaized.net/hls/live/2042769/geo_allow_ca/CBCRCLINEAR_TOR_15/master5.m3u8
-#EXTINF:-1 tvg-id="CBMT.Montreal.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/cbc-ca.png" group-title="Canada EN", CBC Montréal
+#EXTINF:-1 tvg-id="CBMT.Montreal.ca" tvg-logo="https://i.imgur.com/AeVRfbB.png" group-title="Canada EN", CBC Montréal
 https://cbcrclinear-tor.akamaized.net/hls/live/2042761/CBCRCLINEAR_TOR_7/master5.m3u8
 #EXTINF:-1 tvg-id="CBCNewsExplore.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" group-title="Canada EN", CBC News Explore
 https://amagi-streams.akamaized.net/hls/live/2110962/cbcexplore/master.m3u8
