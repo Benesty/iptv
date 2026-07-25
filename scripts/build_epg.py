@@ -82,6 +82,29 @@ def base(s):
     return norm(re.sub(r"(\.[a-zA-Z]{2}\d*)+$", "", s or ""))
 
 
+def ccode(s):
+    """Code pays d'un identifiant (« Disney.Channel.fr » -> « fr »), sinon "".
+
+    Indispensable : base() efface volontairement le suffixe pays pour apparier
+    « CTV.News.Channel.ca » à « CTV.News.Channel.ca2 ». Sans ce garde-fou,
+    « DisneyChannel.us » et « Disney.Channel.fr » se réduisent tous deux à
+    « disneychannel », et une chaîne américaine hérite du guide FRANÇAIS.
+    """
+    m = re.search(r"\.([a-zA-Z]{2})\d*(?:@[^.]*)?$", (s or "").strip())
+    return m.group(1).lower() if m else ""
+
+
+def compatible(tid, cid):
+    """Le guide `cid` peut-il servir la chaîne `tid` ? (pays non contradictoires)
+
+    Les identifiants FAST (Samsung/Pluto : « CA4600005WZ ») n'ont pas de suffixe
+    pays : on les accepte, on ne peut pas trancher. En revanche deux pays
+    explicitement différents = refus.
+    """
+    a, b = ccode(tid), ccode(cid)
+    return not (a and b and a != b)
+
+
 # 1) chaînes du m3u : (tvg-id, nom affiché)
 wanted = []
 rid = re.compile(r'tvg-id="([^"]*)"')
@@ -119,19 +142,36 @@ for url in EXTRA:
         print(f"!! {url} : {e}")
 
 # 3) passe 1 : index des chaînes du guide (par id et par nom normalisé)
+# On garde des LISTES de candidats : le bon sera choisi selon le pays, sinon une
+# chaîne américaine peut hériter du guide d'une homonyme française.
 chan_xml, name2id, baseid = {}, {}, {}
 for xml in feeds:
     for _ev, el in ET.iterparse(io.BytesIO(xml), events=("end",)):
         if el.tag == "channel":
             cid = el.get("id")
             chan_xml.setdefault(cid, ET.tostring(el, encoding="unicode"))
-            baseid.setdefault(base(cid), cid)
+            baseid.setdefault(base(cid), []).append(cid)
             for dn in el.findall("display-name"):
                 if dn.text:
-                    name2id.setdefault(norm(dn.text), cid)
+                    name2id.setdefault(norm(dn.text), []).append(cid)
             el.clear()
         elif el.tag == "programme":
             el.clear()
+
+
+def pick(cands, tid):
+    """Choisit le candidat du BON pays ; refuse plutôt que de se tromper."""
+    if not cands:
+        return None
+    # 1) même pays explicite
+    for c in cands:
+        if ccode(tid) and ccode(c) == ccode(tid):
+            return c
+    # 2) candidat sans pays (identifiants FAST) : acceptable
+    for c in cands:
+        if compatible(tid, c):
+            return c
+    return None
 
 # 4) rattachement : tvg-id du m3u -> id source dans le guide
 src_of = {}
@@ -142,9 +182,9 @@ for tid, name in wanted:
         src_of[tid] = ALIAS[tid]
         print(f"   alias {tid:24s} -> {ALIAS[tid]}")
     else:
-        sid = (baseid.get(base(tid)) or
-               name2id.get(norm(tid.split(".")[0])) or
-               name2id.get(norm(name)))
+        sid = (pick(baseid.get(base(tid)), tid) or
+               pick(name2id.get(norm(tid.split(".")[0])), tid) or
+               pick(name2id.get(norm(name)), tid))
         if sid:
             src_of[tid] = sid
             print(f"   nom→ {tid:24s} ~ {sid}")
