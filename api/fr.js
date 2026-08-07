@@ -5,9 +5,18 @@
  * tout le flux (manifeste + segments) est récupéré depuis une IP française
  * puis relayé à ton lecteur.
  *
- * Deux modes :
+ * Trois modes :
  *   /api/fr?id=<tvg-id>   -> résout l'URL ParaTV courante PUIS proxifie (1 saut)
+ *   /api/fr?dm=<video-id> -> résout le live Dailymotion PUIS proxifie (CSTAR…)
  *   /api/fr?u=<url>       -> proxifie une URL directe (France.tv, Canal+, segments…)
+ *
+ * Pourquoi dm= : les stubs ParaTV sourcés Dailymotion sont rafraîchis par un job
+ * quotidien (15:19 CEST) qui échoue régulièrement — le jeton dmcdn du stub gèle
+ * alors sur place, expire, et CHAQUE segment demandé devient un 502 (c'est la
+ * cause des alertes « 502 on /api/fr » du 22/07 et du 07/08). En mode dm= on
+ * demande un jeton frais à Dailymotion à chaque chargement du manifeste, donc
+ * plus aucune dépendance à ce job. &fb=<url> = repli si la résolution échoue
+ * (au pire on retrouve exactement le comportement stub d'avant).
  *
  * SÉCURITÉ — le dépôt est public, donc l'URL du proxy l'est aussi. Sans garde-fou,
  * n'importe qui pourrait s'en servir comme relais anonyme sur le quota Vercel.
@@ -129,6 +138,53 @@ async function targetAuthorized(rawUrl, providedSig) {
 /* ------------------------------------------------------------------ *
  * Résolution ParaTV + réécriture du manifeste
  * ------------------------------------------------------------------ */
+// Live Dailymotion -> URL master fraîchement signée. Renvoie {url} ou {error}
+// (l'erreur est reprise telle quelle dans le corps du 502 : elle nomme l'étape
+// exacte qui a échoué, ce qui évite de deviner depuis les logs Vercel).
+async function resolveDailymotion(videoId, embedder) {
+  if (!/^[a-zA-Z0-9]{5,12}$/.test(videoId)) return { error: "id dailymotion invalide" };
+  let meta;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    const qs = embedder ? "?embedder=" + encodeURIComponent(embedder) : "";
+    const res = await fetch(
+      "https://www.dailymotion.com/player/metadata/video/" + videoId + qs,
+      {
+        headers: {
+          "user-agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+          referer: embedder || "https://www.dailymotion.com/",
+        },
+        signal: ctrl.signal,
+      }
+    );
+    if (!res.ok) return { error: "metadata http " + res.status };
+    meta = await res.json();
+  } catch (e) {
+    return { error: "metadata fetch: " + e };
+  } finally {
+    clearTimeout(timer);
+  }
+  if (meta?.error)
+    return { error: "metadata: " + (meta.error.title || meta.error.message || "refusée") };
+  // Premier flux HLS parmi toutes les qualités : certains lives listent du DASH
+  // en premier, et un .mpd proxifié brut est illisible pour le lecteur.
+  let fallback = null;
+  for (const arr of Object.values(meta?.qualities || {})) {
+    if (!Array.isArray(arr)) continue;
+    for (const q of arr) {
+      const u = q && typeof q.url === "string" && q.url.startsWith("http") ? q.url : null;
+      if (!u) continue;
+      fallback = fallback || u;
+      if ((q.type || "").toLowerCase().includes("mpegurl") || u.includes(".m3u8"))
+        return { url: u };
+    }
+  }
+  if (fallback) return { url: fallback };
+  return { error: "aucun flux (onair=" + (meta?.onair ?? "?") + ")" };
+}
+
 async function resolveParaTV(id) {
   const res = await fetch(PLAYLIST, { headers: { "cache-control": "max-age=60" } });
   if (!res.ok) return null;
@@ -186,11 +242,23 @@ export default async function handler(req) {
   const sig = reqUrl.searchParams.get("s") || "";
   let target = reqUrl.searchParams.get("u");
 
+  const dm = reqUrl.searchParams.get("dm");
+
   if (id && !target) {
     target = await resolveParaTV(id);
     if (!target) return new Response("id introuvable: " + id, { status: 404 });
   }
-  if (!target) return new Response("usage: /api/fr?id=<tvg-id> ou ?u=<url>", { status: 400 });
+  if (dm && !target) {
+    const r = await resolveDailymotion(dm, reqUrl.searchParams.get("ref"));
+    // Repli sur fb= (typiquement le stub ParaTV) : le mode dm= ne peut donc
+    // jamais faire pire que l'ancien comportement. fb= repasse par les mêmes
+    // garde-fous que u= juste en dessous.
+    target = r.url || reqUrl.searchParams.get("fb");
+    if (!target)
+      return new Response("dailymotion " + dm + " irrésoluble — " + r.error, { status: 502 });
+  }
+  if (!target)
+    return new Response("usage: /api/fr?id=<tvg-id>, ?dm=<video-id> ou ?u=<url>", { status: 400 });
 
   const refus = await targetAuthorized(target, sig);
   if (refus) return new Response(refus, { status: 403 });

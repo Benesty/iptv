@@ -36,7 +36,10 @@ https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcnews-clair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
+https://iptv-lake-three.vercel.app/api/fr?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8
+# CSTAR : jeton Dailymotion résolu à chaque zap (dm=), car le stub ParaTV gèle dès que
+# leur job de 15:19 CEST échoue -> jeton expiré -> 502 en boucle (alertes Vercel 22/07 et 07/08).
+# fb= = ancien stub en repli si la résolution échoue.
 # ALT CSTAR (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/361/index.m3u8
 #EXTINF:-1 tvg-chno="22" tvg-id="6ter.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png" group-title="France", 6TER
 http://145.239.5.177/314/index.m3u8
@@ -77,11 +80,14 @@ http://145.239.5.177/332/index.m3u8
 https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
-# T18 — source Dailymotion (jetons expirants). Servie EN DIRECT (sans le proxy Paris)
-# car Dailymotion bloque les IP datacenter Vercel : ça ne marche que depuis ta connexion
-# résidentielle. Si ça ne joue pas chez toi, dis-le-moi et je la commente.
-#EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
-https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/res/t18-dm-highest.m3u8
+# ⚠️ T18 — retirée le 2026-08-07 : ParaTV a déclaré la chaîne indisponible (leur playlist
+# sert désormais un clip « indisponible » à la place du flux) et le stub Dailymotion n'a plus
+# été rafraîchi depuis le 03/08 : l'URL ci-dessous ne pointe que sur un jeton mort.
+# T18 n'existe qu'en Dailymotion, il faut donc l'id du live COURANT pour la relancer :
+# ouvre https://www.dailymotion.com/t18/videos, lance le direct, et donne-moi le « xXXXXXX »
+# de l'URL — je le mets dans la ligne ALT ci-dessous (dm=) et la chaîne se réparera seule.
+# #EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
+# ALT T18 (résolveur Dailymotion — remplace x9jhhyc par l'id du live courant): https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
