@@ -1,4 +1,0 @@
-# Signet (client X) est déployé par un projet Vercel SÉPARÉ, dont la racine
-# est le dossier signet/. On l'exclut ici pour qu'il ne soit pas servi une
-# deuxième fois sous le domaine de l'IPTV.
-signet
