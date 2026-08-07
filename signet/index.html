@@ -1,3 +1,17 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- viewport-fit=cover : sans ça env(safe-area-inset-bottom) vaut 0 sur iOS
+     et la barre d'onglets passe sous l'indicateur d'accueil. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Client tiers, déployé sur un dépôt public : pas d'indexation. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E9EAEC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1218" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Client de lecture pour X : fil chronologique, marqueur de lecture synchronisé, compteurs de coût et de données.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23A9661A'/%3E%3Cpath d='M11 8h10a1 1 0 0 1 1 1v15l-6-4-6 4V9a1 1 0 0 1 1-1z' fill='%23fff'/%3E%3C/svg%3E">
 <title>Signet — client X</title>
 <style>
   /* ============================================================
@@ -194,7 +208,10 @@
   .chip { font-family:var(--mono); font-size:.6875rem; padding:.1875rem .5rem; border-radius:999px; border:1px solid var(--rule); color:var(--ink-2); display:inline-flex; align-items:center; gap:.375rem; white-space:nowrap; }
   .dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex:none; }
 
-  .jump { position:sticky; top:3.375rem; z-index:5; margin:.5rem auto 0; width:max-content; display:block; padding:.3125rem .875rem; border-radius:999px; background:var(--amber); color:var(--on-amber); font-size:.8125rem; font-weight:600; box-shadow:var(--shadow); }
+  /* --head-h est publié par ResizeObserver : l'en-tête grandit quand il se replie
+     (mobile) ou quand la taille du texte change dans les réglages. Un offset codé
+     en dur ferait passer la pastille derrière l'en-tête. */
+  .jump { position:sticky; top:calc(var(--head-h, 3.375rem) + .375rem); z-index:5; margin:.5rem auto 0; width:max-content; display:block; padding:.3125rem .875rem; border-radius:999px; background:var(--amber); color:var(--on-amber); font-size:.8125rem; font-weight:600; box-shadow:var(--shadow); }
   .jump[hidden] { display:none; }
 
   /* ============================================================
@@ -643,6 +660,8 @@
     .lb-stage { padding:0 .5rem; }
   }
 </style>
+</head>
+<body>
 
 <div class="app">
 
@@ -2529,3 +2548,22 @@ $('gapBtn') && $('gapBtn').addEventListener('click', function () {
 });
 })();
 </script>
+
+<script>
+// Hauteur réelle de l'en-tête collant -> --head-h, pour que la pastille
+// « Revenir aux nouveaux » se pose juste dessous à toute largeur et à toute
+// taille de texte.
+(function () {
+  var head = document.querySelector('.stream-head');
+  if (!head) return;
+  function publish() {
+    document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px');
+  }
+  publish();
+  if (window.ResizeObserver) new ResizeObserver(publish).observe(head);
+  else addEventListener('resize', publish);
+})();
+</script>
+
+</body>
+</html>
