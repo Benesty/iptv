@@ -29,7 +29,7 @@ https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
 https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
 # ALT TFX (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/315/index.m3u8
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
-https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8
+http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 # ALT LCI (secours pool, décommenter si le flux ci-dessus est HS): http://151.80.18.177:86/LCI_HD/index.m3u8
