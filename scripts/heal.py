@@ -25,12 +25,16 @@ DRY = "--dry-run" in sys.argv
 # Résolveurs / redirecteurs qui se réparent seuls : on n'y touche jamais.
 SKIP_HOSTS = ("iptv-lake-three.vercel.app", "jmp2.uk")
 
-# Playlists sources maintenues (agrégateurs FR). On y cherche un remplaçant.
+# Playlists sources maintenues (agrégateurs FR + CA/US). On y cherche un remplaçant.
+# CA/US ajoutés le 2026-08-14 : les pools nord-américains (TSN, Corus, Disney…)
+# meurent aussi, et sans source CA/US le bot ne pouvait JAMAIS les réparer.
 SOURCES = [
     "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_france.m3u8",
     "https://iptv-org.github.io/iptv/countries/fr.m3u",
     "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/playlists/paratv/main/paratv-highest.m3u",
     "https://raw.githubusercontent.com/schumijo/iptv/main/fr.m3u8",
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ca.m3u",
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us.m3u",
 ]
 
 # Registre de candidats par tvg-id. Les chaînes commerciales/payantes FR (M6,
@@ -75,6 +79,25 @@ REGISTRY = {
         "http://cdn.haititivi.com/TELETOON-HD/index.m3u8",
     ],
     "Cherie25.fr": ["https://cherie25.nrjaudio.fm/hls/live/2038375/c25/master.m3u8"],
+    # USA — pools validés au banc d'essai du 2026-08-14 (les anciens pools
+    # 40.160.24.53 et 206.212.244.63 sont morts en bloc ce jour-là).
+    "History.us": [
+        "http://212.5.144.156:8080/history/index.m3u8",
+        "https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8",
+    ],
+    "NationalGeographic.us": [
+        "http://198.58.104.90:8989/natgeo/index.m3u8",
+        "http://212.5.144.156:8080/natgeo/index.m3u8",
+    ],
+    "NatGeoWild.us": ["http://198.58.104.90:8989/natgeowild/index.m3u8"],
+    "DisneyChannel.us": [
+        "http://190.14.10.19:16000/play/a06z/index.m3u8",
+        "http://212.5.144.156/disney/index.m3u8",
+    ],
+    "DisneyJunior.us": [
+        "http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8",
+        "http://212.5.144.156/disneyjr/index.m3u8",
+    ],
 }
 
 
@@ -264,6 +287,9 @@ def build_index():
         for tid, name, url, _idx in pairs:
             if not url.startswith("http"):
                 continue
+            # iptv-org suffixe ses tvg-id (« TSN1.ca@SD », « History.us@East ») :
+            # sans ce strip, aucun id de TV.m3u ne matche jamais ces sources.
+            tid = tid.split("@", 1)[0].strip()
             if tid:
                 by_id.setdefault(tid, [])
                 if url not in [u for u, _ in by_id[tid]]:

@@ -97,8 +97,15 @@ Certaines chaînes n'ont **aucune** source libre exploitable, ce n'est pas un bu
 - **Teletoon+, Foot+** — payantes, aucun restream vivant ;
 - **Chérie 25** — l'identifiant du flux officiel NRJ a changé ; attention, la seule
   source « qui joue » chez les agrégateurs est en réalité *RMC Life* mal étiquetée ;
-- **Télé-Québec** — DRM Widevine confirmé côté Brightcove ;
-- **T18** — source Dailymotion à jetons expirants, refusée aux IP de datacenter.
+- **Télé-Québec** — DRM Widevine confirmé côté Brightcove (et sur QC-TV : `playlist_wv`) ;
+- **TSN 1-5, W Network, Slice, Much, Home Network, Super Channel Vault** — les
+  pools nord-américains qui les portaient sont morts en bloc le 2026-08-14 ;
+  chaînes payantes Bell/Corus, aucun autre restream public (iptv-org liste
+  encore les IP mortes). Commentées dans `TV.m3u`, à décommenter quand un pool
+  réapparaît (le bot sait maintenant chercher côté CA/US).
+
+*(T18, longtemps sans source, est revenue le 2026-08-14 : ParaTV a relancé son
+stub Dailymotion et le proxy résout le jeton à chaque zap, comme CSTAR.)*
 
 ## Utilisation manuelle
 
