@@ -1,98 +1,74 @@
 [
  {
-  "name": "Much — fl1.moveonjoy.com (lu dans une playlist GitHub)",
-  "url": "https://fl1.moveonjoy.com/MUCH/index.m3u8",
+  "name": "fl1 en HTTP port 80 (le refus portait sur le 443)",
+  "url": "http://fl1.moveonjoy.com/MUCH/index.m3u8",
   "langue": "en",
   "pour": "Much"
  },
  {
-  "name": "TSN 1 — fl1 (chemin déduit : fl5 est mort, fl1 vit)",
-  "url": "https://fl1.moveonjoy.com/TSN_1/index.m3u8",
+  "name": "fl1 port 80 — TSN 1",
+  "url": "http://fl1.moveonjoy.com/TSN_1/index.m3u8",
   "langue": "en",
   "pour": "TSN 1"
  },
  {
-  "name": "TSN 2 — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/TSN_2/index.m3u8",
+  "name": "fl2 (autre noeud) HTTPS — TSN 1",
+  "url": "https://fl2.moveonjoy.com/TSN_1/index.m3u8",
   "langue": "en",
-  "pour": "TSN 2"
+  "pour": "TSN 1"
  },
  {
-  "name": "TSN 3 — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/TSN_3/index.m3u8",
+  "name": "fl2 (autre noeud) HTTP — TSN 1",
+  "url": "http://fl2.moveonjoy.com/TSN_1/index.m3u8",
   "langue": "en",
-  "pour": "TSN 3"
+  "pour": "TSN 1"
  },
  {
-  "name": "TSN 4 — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/TSN_4/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 4"
- },
- {
-  "name": "TSN 5 — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/TSN_5/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 5"
- },
- {
-  "name": "W Network — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/W_NETWORK/index.m3u8",
+  "name": "fl7 (autre noeud) HTTPS — W Network",
+  "url": "https://fl7.moveonjoy.com/W_NETWORK/index.m3u8",
   "langue": "en",
   "pour": "W Network"
  },
  {
-  "name": "Slice — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/SLICE/index.m3u8",
+  "name": "fl12 (autre noeud) HTTPS — Much",
+  "url": "https://fl12.moveonjoy.com/MUCH/index.m3u8",
+  "langue": "en",
+  "pour": "Much"
+ },
+ {
+  "name": "fl13 (autre noeud) HTTPS — Slice",
+  "url": "https://fl13.moveonjoy.com/SLICE/index.m3u8",
   "langue": "en",
   "pour": "Slice"
  },
  {
-  "name": "Home Network/HGTV — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/HGTV/index.m3u8",
+  "name": "fl31 (autre noeud) HTTPS — HGTV",
+  "url": "https://fl31.moveonjoy.com/HGTV/index.m3u8",
   "langue": "en",
   "pour": "Home Network"
  },
  {
-  "name": "Disney Channel US (secours) — fl1 (chemin déduit)",
-  "url": "https://fl1.moveonjoy.com/DISNEY_CHANNEL/index.m3u8",
+  "name": "fl41 (autre noeud) HTTPS — TSN 2",
+  "url": "https://fl41.moveonjoy.com/TSN_2/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 2"
+ },
+ {
+  "name": "fl51 (autre noeud) HTTPS — TSN 3",
+  "url": "https://fl51.moveonjoy.com/TSN_3/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 3"
+ },
+ {
+  "name": "fl61 (autre noeud) HTTPS — Disney Channel US",
+  "url": "https://fl61.moveonjoy.com/DISNEY_CHANNEL/index.m3u8",
   "langue": "en",
   "pour": "Disney Channel US"
  },
  {
-  "name": "Slice — pool OVH Canada 167.114.157.40 (wowza flu555)",
-  "url": "http://167.114.157.40:1935/flu555/_definst_/slice/playlist.m3u8?token=",
+  "name": "pool OVH en HTTP port 80 (au lieu de 1935) — Slice",
+  "url": "http://167.114.157.40/flu555/_definst_/slice/playlist.m3u8?token=",
   "langue": "en",
   "pour": "Slice"
- },
- {
-  "name": "Home Network/HGTV — pool OVH Canada 192.99.39.240",
-  "url": "http://192.99.39.240:1935/flu555/_definst_/jhgtv/playlist.m3u8?token=",
-  "langue": "en",
-  "pour": "Home Network"
- },
- {
-  "name": "ATTENTION Super Channel 1 (≠ Vault) — pool OVH 167.114.157.40",
-  "url": "http://167.114.157.40:1935/flu555/_definst_/superchannel1/playlist.m3u8?token=",
-  "langue": "en",
-  "pour": "Super Channel 1 (chaîne différente de Vault)"
- },
- {
-  "name": "Teletoon (Canada, ≠ Teletoon+ FR) — pool OVH 192.99.39.240",
-  "url": "http://192.99.39.240:1935/flu555/_definst_/teletoon/playlist.m3u8?token=",
-  "langue": "en",
-  "pour": "Teletoon Canada"
- },
- {
-  "name": "RDS 2 (Canada FR) — pool OVH 167.114.157.40",
-  "url": "http://167.114.157.40:1935/flu555/_definst_/rds2/playlist.m3u8?token=",
-  "langue": "fr",
-  "pour": "RDS 2"
- },
- {
-  "name": "Vrak (Canada FR) — pool OVH 167.114.157.40",
-  "url": "http://167.114.157.40:1935/flu555/_definst_/vrak/playlist.m3u8?token=",
-  "langue": "fr",
-  "pour": "Vrak"
  }
 ]
