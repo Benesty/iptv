@@ -1,152 +1,98 @@
 [
  {
-  "name": "TSN 1 (moveonjoy fl5) — chaîne MORTE",
-  "url": "https://fl5.moveonjoy.com/TSN_1/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 1"
- },
- {
-  "name": "TSN 2 (moveonjoy fl5) — chaîne MORTE",
-  "url": "https://fl5.moveonjoy.com/TSN_2/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 2"
- },
- {
-  "name": "TSN 3 (moveonjoy fl5) — chaîne MORTE",
-  "url": "https://fl5.moveonjoy.com/TSN_3/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 3"
- },
- {
-  "name": "TSN 4 (moveonjoy fl5) — chaîne MORTE",
-  "url": "https://fl5.moveonjoy.com/TSN_4/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 4"
- },
- {
-  "name": "TSN 5 (moveonjoy fl5) — chaîne MORTE",
-  "url": "https://fl5.moveonjoy.com/TSN_5/index.m3u8",
-  "langue": "en",
-  "pour": "TSN 5"
- },
- {
-  "name": "W Network (moveonjoy fl3) — chaîne MORTE",
-  "url": "https://fl3.moveonjoy.com/W_NETWORK/index.m3u8",
-  "langue": "en",
-  "pour": "W Network"
- },
- {
-  "name": "Much (moveonjoy fl1) — chaîne MORTE",
+  "name": "Much — fl1.moveonjoy.com (lu dans une playlist GitHub)",
   "url": "https://fl1.moveonjoy.com/MUCH/index.m3u8",
   "langue": "en",
   "pour": "Much"
  },
  {
-  "name": "SONDE Slice (moveonjoy fl3, chemin déduit)",
-  "url": "https://fl3.moveonjoy.com/SLICE/index.m3u8",
+  "name": "TSN 1 — fl1 (chemin déduit : fl5 est mort, fl1 vit)",
+  "url": "https://fl1.moveonjoy.com/TSN_1/index.m3u8",
   "langue": "en",
-  "pour": "Slice"
+  "pour": "TSN 1"
  },
  {
-  "name": "SONDE Slice (moveonjoy fl1, chemin déduit)",
+  "name": "TSN 2 — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/TSN_2/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 2"
+ },
+ {
+  "name": "TSN 3 — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/TSN_3/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 3"
+ },
+ {
+  "name": "TSN 4 — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/TSN_4/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 4"
+ },
+ {
+  "name": "TSN 5 — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/TSN_5/index.m3u8",
+  "langue": "en",
+  "pour": "TSN 5"
+ },
+ {
+  "name": "W Network — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/W_NETWORK/index.m3u8",
+  "langue": "en",
+  "pour": "W Network"
+ },
+ {
+  "name": "Slice — fl1 (chemin déduit)",
   "url": "https://fl1.moveonjoy.com/SLICE/index.m3u8",
   "langue": "en",
   "pour": "Slice"
  },
  {
-  "name": "SONDE HGTV/Home Network (moveonjoy fl3, chemin déduit)",
-  "url": "https://fl3.moveonjoy.com/HGTV/index.m3u8",
-  "langue": "en",
-  "pour": "Home Network"
- },
- {
-  "name": "SONDE HGTV/Home Network (moveonjoy fl1, chemin déduit)",
+  "name": "Home Network/HGTV — fl1 (chemin déduit)",
   "url": "https://fl1.moveonjoy.com/HGTV/index.m3u8",
   "langue": "en",
   "pour": "Home Network"
  },
  {
-  "name": "Slice (pool flu555 167.114.157.40)",
+  "name": "Disney Channel US (secours) — fl1 (chemin déduit)",
+  "url": "https://fl1.moveonjoy.com/DISNEY_CHANNEL/index.m3u8",
+  "langue": "en",
+  "pour": "Disney Channel US"
+ },
+ {
+  "name": "Slice — pool OVH Canada 167.114.157.40 (wowza flu555)",
   "url": "http://167.114.157.40:1935/flu555/_definst_/slice/playlist.m3u8?token=",
   "langue": "en",
   "pour": "Slice"
  },
  {
-  "name": "HGTV/Home Network (pool flu555 192.99.39.240)",
+  "name": "Home Network/HGTV — pool OVH Canada 192.99.39.240",
   "url": "http://192.99.39.240:1935/flu555/_definst_/jhgtv/playlist.m3u8?token=",
   "langue": "en",
   "pour": "Home Network"
  },
  {
-  "name": "ATTENTION Super Channel 1 (flu555) — PAS Vault, chaîne différente",
+  "name": "ATTENTION Super Channel 1 (≠ Vault) — pool OVH 167.114.157.40",
   "url": "http://167.114.157.40:1935/flu555/_definst_/superchannel1/playlist.m3u8?token=",
   "langue": "en",
-  "pour": "Super Channel (à vérifier)"
+  "pour": "Super Channel 1 (chaîne différente de Vault)"
  },
  {
-  "name": "TSN 1 (tvpass.org, autre fournisseur)",
-  "url": "https://tvpass.org/live/tsn1/sd",
+  "name": "Teletoon (Canada, ≠ Teletoon+ FR) — pool OVH 192.99.39.240",
+  "url": "http://192.99.39.240:1935/flu555/_definst_/teletoon/playlist.m3u8?token=",
   "langue": "en",
-  "pour": "TSN 1"
+  "pour": "Teletoon Canada"
  },
  {
-  "name": "Télé-Québec (CDN officiel Limelight, hors Brightcove/DRM)",
-  "url": "https://teleqmmd.mmdlive.lldns.net/teleqmmd/f386e3b206814e1f8c8c1c71c0f8e748/chunklist.m3u8",
+  "name": "RDS 2 (Canada FR) — pool OVH 167.114.157.40",
+  "url": "http://167.114.157.40:1935/flu555/_definst_/rds2/playlist.m3u8?token=",
   "langue": "fr",
-  "pour": "Télé-Québec"
+  "pour": "RDS 2"
  },
  {
-  "name": "Gulli 3e source (CDN officiel M6/lbcdn)",
-  "url": "https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext",
+  "name": "Vrak (Canada FR) — pool OVH 167.114.157.40",
+  "url": "http://167.114.157.40:1935/flu555/_definst_/vrak/playlist.m3u8?token=",
   "langue": "fr",
-  "pour": "Gulli"
- },
- {
-  "name": "Gulli 4e source (origin Bedrock/6play)",
-  "url": "https://origin-live-6play.video.bedrock.tech/6play/short/clr/gulli/sdindex.m3u8",
-  "langue": "fr",
-  "pour": "Gulli"
- },
- {
-  "name": "W9 (pool tntendirect s13)",
-  "url": "https://s13.tntendirect.com/w9/live/playlist.m3u8",
-  "langue": "fr",
-  "pour": "W9"
- },
- {
-  "name": "Chérie 25 (CDN officiel NRJ, chemin FHD au lieu de master)",
-  "url": "https://cherie25.nrjaudio.fm/hls/live/2038375/c25/FHD.m3u8",
-  "langue": "fr",
-  "pour": "Chérie 25"
- },
- {
-  "name": "Chérie 25 (pool tntendirect s13)",
-  "url": "https://s13.tntendirect.com/cherie25/live/playlist.m3u8",
-  "langue": "fr",
-  "pour": "Chérie 25"
- },
- {
-  "name": "Teletoon+ (pool 144.217.253.140, variante playlist)",
-  "url": "http://144.217.253.140/Teletoon/playlist.m3u8",
-  "langue": "fr",
-  "pour": "Teletoon+"
- },
- {
-  "name": "SECOURS M6 (pool tntendirect s13, hôte différent du pool actuel)",
-  "url": "https://s13.tntendirect.com/m6/live/playlist.m3u8",
-  "langue": "fr",
-  "pour": "M6"
- },
- {
-  "name": "SECOURS Disney Channel US (moveonjoy fl5)",
-  "url": "https://fl5.moveonjoy.com/DISNEY_CHANNEL/index.m3u8",
-  "langue": "en",
-  "pour": "Disney Channel US"
- },
- {
-  "name": "SECOURS Disney Junior US (moveonjoy fl3)",
-  "url": "https://fl3.moveonjoy.com/DISNEY_JR/index.m3u8",
-  "langue": "en",
-  "pour": "Disney Junior US"
+  "pour": "Vrak"
  }
 ]
