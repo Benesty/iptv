@@ -70,14 +70,51 @@ le proxy Vercel (voir README).
 > d'un coup. D'où l'intérêt de **varier les hôtes** entre chaînes voisines
 > plutôt que de tout mettre sur le même pool.
 
+## Fouille GitHub élargie (2026-08-14, 2ᵉ passe)
+
+Les 5 agrégateurs habituels étant épuisés, une seconde recherche a ratissé
+GitHub au-delà : ~50 dépôts et gists lus, **6 832 URLs FR/CA** récoltées, puis
+diagnostiquées couche par couche par le workflow `diag-hosts`.
+
+**Ce qu'elle a changé :** la conclusion « aucun remplaçant pour le câble
+canadien » ci-dessous est **caduque** — des candidats existent, mais ils sont
+*indécidables depuis un runner* (voir tableau).
+
+| Hôte | Chaînes visées | Verdict du runner | Ce que ça veut dire |
+|---|---|---|---|
+| `fl1.moveonjoy.com` | Much, et par déduction TSN 1-5, W_NETWORK, SLICE, HGTV | **TCP filtré** (le DNS résout, la connexion est refusée) | serveur VIVANT qui refuse les IP de datacenter → **à tester depuis le Québec** |
+| `fl3` / `fl5.moveonjoy.com` | TSN 1-5, W Network, Disney | DNS-KO | sous-domaines retirés (moveonjoy fait tourner ses `flN`) |
+| `167.114.157.40`, `192.99.39.240`, `167.114.101.188`, `167.114.156.30` (OVH Canada, wowza `flu555`) | Slice, HGTV, Super Channel 1-2, Teletoon CA, RDS 2, Vrak, YTV, Treehouse, CHCH | **TCP filtré** | même profil → **à tester depuis le Québec** |
+| `s13.tntendirect.com` | W9, Chérie 25, M6, tout le TNT | DNS-KO | le sous-domaine `s13` n'existe plus |
+| `cherie25.nrjaudio.fm` | Chérie 25 | DNS-KO | confirme que le CDN officiel NRJ de Chérie 25 est retiré |
+| `teleqmmd.mmdlive.lldns.net` | Télé-Québec | DNS-KO | l'ancien CDN Limelight de Télé-Québec est retiré |
+| `lbcdn.6cloud.fr`, `origin-live-6play.video.bedrock.tech` | Gulli | HTTP 404 / 502 | serveurs vivants, chemins Gulli périmés |
+| `144.217.253.140` | Teletoon+ | HTTP 404 | serveur vivant, chemin `/Teletoon/playlist.m3u8` périmé |
+
+**Écartés volontairement :** les gros « pools » à identifiants intégrés
+(`connect.ottplus.biz`, `bestott.net`, `tvservice.pro`, `vip-max.com`,
+`x.rprotv.com`… — plus de 4 000 URLs) sont des panneaux Xtream d'abonnements
+payants dont les identifiants ont fuité. Ils sont hors sujet ici : ce dépôt
+n'assemble que des flux ouverts.
+
+### Les trois outils qui vont avec
+
+- `diag-hosts` (workflow) — sépare **DNS-KO / TCP-KO / TLS / HTTP** au lieu de
+  tout classer « mort ». C'est lui qui a révélé que `test-candidates` déclarait
+  morts des serveurs simplement filtrés.
+- `scripts/test_local.py` — **le seul moyen de trancher** pour les TCP-KO :
+  il rejoue le test profond du bot depuis ta connexion résidentielle.
+  `python3 scripts/test_local.py` puis renvoie-moi la sortie.
+- `scripts/discover_hosts.py` — refait le regroupement par hôte.
+
 ## Ce que cette recherche n'a PAS donné
 
 À noter pour ne pas refaire le travail :
 
-- **aucun remplaçant pour le câble canadien** (TSN 1-5, W Network, Slice, Much,
-  Home Network, Super Channel Vault). Les agrégateurs pointent tous encore sur
-  les IP mortes, et le seul pool canadien vivant trouvé (`185.246.209.113`) ne
-  sert que ses 4 chaînes ;
+- ~~aucun remplaçant pour le câble canadien~~ → **corrigé par la 2ᵉ passe
+  ci-dessus** : des pistes existent (`fl1.moveonjoy.com`, pools OVH Canada),
+  elles attendent un test depuis le Québec. Le seul pool canadien joignable
+  d'un runner (`185.246.209.113`) ne sert, lui, que ses 4 chaînes ;
 - **deviner des chemins ne marche pas** sur ces pools : ils ne servent que les
   chemins réellement provisionnés (20/20 sondes en 404) ;
 - les pools FR découverts n'apportent **pas de secours utilisable** aux chaînes
