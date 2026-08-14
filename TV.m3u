@@ -30,6 +30,10 @@ https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
 # ALT TFX (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/315/index.m3u8
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
 https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8
+# GULLI n'a que 2 sources connues et les DEUX ont des pannes intermittentes (le
+# 2026-08-14 à midi les deux étaient HS en même temps) : le bot alterne entre
+# elles toutes les 3 h, c'est normal — pas de source stable connue à ce jour.
+# ALT GULLI (pool M6, l'autre moitié du ping-pong): http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
 # ALT LCI (secours pool, décommenter si le flux ci-dessus est HS): http://151.80.18.177:86/LCI_HD/index.m3u8
@@ -80,14 +84,14 @@ http://145.239.5.177/332/index.m3u8
 https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
-# ⚠️ T18 — retirée le 2026-08-07 : ParaTV a déclaré la chaîne indisponible (leur playlist
-# sert désormais un clip « indisponible » à la place du flux) et le stub Dailymotion n'a plus
-# été rafraîchi depuis le 03/08 : l'URL ci-dessous ne pointe que sur un jeton mort.
-# T18 n'existe qu'en Dailymotion, il faut donc l'id du live COURANT pour la relancer :
-# ouvre https://www.dailymotion.com/t18/videos, lance le direct, et donne-moi le « xXXXXXX »
-# de l'URL — je le mets dans la ligne ALT ci-dessous (dm=) et la chaîne se réparera seule.
-# #EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
-# ALT T18 (résolveur Dailymotion — remplace x9jhhyc par l'id du live courant): https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F
+# T18 — réactivée le 2026-08-14 : ParaTV a relancé son stub Dailymotion
+# (streams/t18/t18-dm.m3u8, live id x9jhhyc — le même que notre résolveur), et le
+# stub jouait au banc d'essai du jour. Primaire = résolveur dm= (jeton frais à
+# chaque zap, même mécanique que CSTAR), stub ParaTV en repli (fb=). Si le live
+# change d'id, remplace x9jhhyc par l'id courant (https://www.dailymotion.com/t18/videos).
+#EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
+https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Ft18-dm.m3u8
+# ALT T18 (stub ParaTV direct, jouait aussi sans proxy au test du 2026-08-14): https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/t18-dm.m3u8
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
@@ -217,29 +221,36 @@ https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #EXTINF:-1 tvg-id="KnowledgeNetwork.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/knowledge-network-ca.png" group-title="Canada EN", Knowledge Network
 https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
-# Sport et divertissement canadiens (câble Bell/Corus), validés le 2026-07-25.
-# Mêmes serveurs « pool » que les thématiques françaises : même fragilité, le
-# bot d'auto-réparation les surveille toutes les 3 h.
-#EXTINF:-1 tvg-id="TSN1.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-1-ca.png" group-title="Canada EN", TSN 1
-http://40.160.24.55/TSN_1/index.m3u8
-#EXTINF:-1 tvg-id="TSN2.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-2-ca.png" group-title="Canada EN", TSN 2
-http://40.160.24.55/TSN_2/index.m3u8
-#EXTINF:-1 tvg-id="TSN3.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-3-ca.png" group-title="Canada EN", TSN 3
-http://40.160.24.55/TSN_3/index.m3u8
-#EXTINF:-1 tvg-id="TSN4.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-4-ca.png" group-title="Canada EN", TSN 4
-http://40.160.24.55/TSN_4/index.m3u8
-#EXTINF:-1 tvg-id="TSN5.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-5-ca.png" group-title="Canada EN", TSN 5
-http://40.160.24.55/TSN_5/index.m3u8
-#EXTINF:-1 tvg-id="WNetwork.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/w-network-ca.png" group-title="Canada EN", W Network
-http://40.160.24.55/W_NETWORK/index.m3u8
-#EXTINF:-1 tvg-id="Slice.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/slice-ca.png" group-title="Canada EN", Slice
-http://40.160.24.55/SLICE/index.m3u8
-#EXTINF:-1 tvg-id="Much.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/much-ca.png" group-title="Canada EN", Much
-http://40.160.24.53/MUCH/index.m3u8
-#EXTINF:-1 tvg-id="HGTV.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/hgtv-ca.png" group-title="Canada EN", Home Network
-http://40.160.24.53/HGTV/index.m3u8
-#EXTINF:-1 tvg-id="SuperChannelVault.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/super-channel-ca.png" group-title="Canada EN", Super Channel Vault
-http://206.212.244.63/6142/index.m3u8
+# ⚠️ Câble canadien (TSN 1-5, W Network, Slice, Much, Home Network, Super
+# Channel Vault) — retiré le 2026-08-14 : les pools 40.160.24.53/.55 et
+# 206.212.244.63 sont morts EN BLOC (confirmé par 2 vérifications profondes
+# indépendantes le même jour ; 206.212.244.63 ne répond même plus). Aucun
+# remplaçant public trouvé : iptv-org et les autres agrégateurs pointent
+# encore sur ces mêmes IP mortes. Ces chaînes payantes (Bell/Corus) n'existent
+# qu'en restream de pool — elles reviendront quand un pool réapparaîtra.
+# heal.py sait maintenant chercher côté Canada/USA (sources iptv-org ca/us) :
+# décommente une chaîne (les 2 lignes) pour que le bot la re-surveille toutes
+# les 3 h, ou relance le workflow test-candidates pour re-tester des candidats.
+# #EXTINF:-1 tvg-id="TSN1.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-1-ca.png" group-title="Canada EN", TSN 1
+# http://40.160.24.55/TSN_1/index.m3u8
+# #EXTINF:-1 tvg-id="TSN2.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-2-ca.png" group-title="Canada EN", TSN 2
+# http://40.160.24.55/TSN_2/index.m3u8
+# #EXTINF:-1 tvg-id="TSN3.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-3-ca.png" group-title="Canada EN", TSN 3
+# http://40.160.24.55/TSN_3/index.m3u8
+# #EXTINF:-1 tvg-id="TSN4.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-4-ca.png" group-title="Canada EN", TSN 4
+# http://40.160.24.55/TSN_4/index.m3u8
+# #EXTINF:-1 tvg-id="TSN5.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/tsn-5-ca.png" group-title="Canada EN", TSN 5
+# http://40.160.24.55/TSN_5/index.m3u8
+# #EXTINF:-1 tvg-id="WNetwork.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/w-network-ca.png" group-title="Canada EN", W Network
+# http://40.160.24.55/W_NETWORK/index.m3u8
+# #EXTINF:-1 tvg-id="Slice.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/slice-ca.png" group-title="Canada EN", Slice
+# http://40.160.24.55/SLICE/index.m3u8
+# #EXTINF:-1 tvg-id="Much.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/much-ca.png" group-title="Canada EN", Much
+# http://40.160.24.53/MUCH/index.m3u8
+# #EXTINF:-1 tvg-id="HGTV.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/hgtv-ca.png" group-title="Canada EN", Home Network
+# http://40.160.24.53/HGTV/index.m3u8
+# #EXTINF:-1 tvg-id="SuperChannelVault.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/super-channel-ca.png" group-title="Canada EN", Super Channel Vault
+# http://206.212.244.63/6142/index.m3u8
 #========================================
 # 🇺🇸 USA
 #========================================
@@ -253,19 +264,24 @@ https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_35
 #    (canal FAST géo-réservé aux États-Unis).
 # #EXTINF:-1 tvg-logo="https://i.imgur.com/3NQRvTc.png" group-title="USA", LiveNOW from FOX
 # https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
-# Chaînes câblées américaines (versions anglaises), validées le 2026-07-25 :
-# segments horodatés du jour et chemins conformes (HISTORY_CHANNEL, NAT_GEO…).
+# Chaînes câblées américaines (versions anglaises). Les pools du 2026-07-25
+# (40.160.24.53 et 206.212.244.63) sont morts en bloc — remplacées le
+# 2026-08-14 par les restreams d'iptv-org, validés au banc d'essai (test
+# master → variante → segment). Hôtes volontairement VARIÉS d'une chaîne à
+# l'autre : la prochaine panne de pool n'emportera pas tout le groupe.
 # Le suffixe « US » les distingue de Disney Channel/Junior FR déjà présentes —
 # sans lui, le bot d'auto-réparation pourrait confondre les deux versions.
 #EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-channel-us.png" group-title="USA", History
-http://40.160.24.53/HISTORY_CHANNEL/index.m3u8
+http://212.5.144.156:8080/history/index.m3u8
+# ALT History (restream Cloudflare Stream): https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
 #EXTINF:-1 tvg-id="NationalGeographic.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/national-geographic-us.png" group-title="USA", National Geographic
-http://40.160.24.53/NAT_GEO/index.m3u8
-# ALT National Geographic (secours, flux West décalé de 3 h): http://206.212.244.63/122/index.m3u8
+http://198.58.104.90:8989/natgeo/index.m3u8
+# ALT National Geographic (autre pool, East aussi): http://212.5.144.156:8080/natgeo/index.m3u8
 #EXTINF:-1 tvg-id="NatGeoWild.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nat-geo-wild-us.png" group-title="USA", Nat Geo Wild
-http://40.160.24.53/NAT_GEO_WILD/index.m3u8
+http://198.58.104.90:8989/natgeowild/index.m3u8
 #EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
-http://206.212.244.63/650/index.m3u8
-# ALT Disney Channel US (secours, flux West décalé de 3 h): http://206.212.244.63/3146/index.m3u8
+http://190.14.10.19:16000/play/a06z/index.m3u8
+# ALT Disney Channel US (autre pool): http://212.5.144.156/disney/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-jr-us.png" group-title="USA", Disney Junior US
-http://206.212.244.63/655/index.m3u8
+http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8
+# ALT Disney Junior US (autre pool): http://212.5.144.156/disneyjr/index.m3u8
