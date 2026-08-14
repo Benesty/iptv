@@ -90,7 +90,10 @@ https://live-20minutestv.digiteka.com/1961167769/index.m3u8
 http://145.239.5.177/332/index.m3u8
 # ALT AB1 (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/332/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
-https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
+http://151.80.18.177:86/RTL9/index.m3u8
+# RTL9 : le flux freetv.fun s'est GELÉ (détecté par le nouveau test du bot le
+# 2026-08-14) ; remplacé par le pool, validé avec la nouvelle preuve de vie.
+# ALT RTL9 (freetv.fun, peut dégeler): https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
 # T18 — réactivée le 2026-08-14 : ParaTV a relancé son stub Dailymotion
