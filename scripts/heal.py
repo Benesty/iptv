@@ -12,9 +12,14 @@ changement (ce qui relance l'EPG + le déploiement).
   python3 scripts/heal.py --dry-run  # rapport seulement, n'écrit rien
 
 Classement d'un flux (depuis un runner US) :
-  ok   = HTTP 200 + manifeste #EXTM3U            -> on garde
+  ok   = manifeste valide + segment lisible + la playlist AVANCE  -> on garde
   geo  = HTTP 403/401 (géo-bloqué CA/FR)         -> on garde (marche chez toi)
-  dead = 000/404/timeout/HTML/…                  -> on répare
+  dead = 000/404/timeout/HTML/gelé/VOD/DRM/…     -> on répare
+
+Un remplaçant n'est adopté que s'il passe le test profond PUIS prouve,
+LIVE_GAP s plus tard, que sa playlist média avance (validate_candidate) —
+l'ancien test unique adoptait des flux gelés ou éphémères, d'où des
+« réparations » vers des liens morts.
 """
 import re, sys, time, unicodedata, urllib.request, urllib.error, urllib.parse
 
@@ -145,40 +150,124 @@ def _first_uri(text, base):
     return None
 
 
-def classify(url):
-    """ok | geo | dead
+# Attente entre deux lectures de la playlist média pour prouver qu'elle
+# AVANCE (segments ~4-10 s : 25 s suffisent à voir bouger la séquence).
+LIVE_GAP = 25
+
+
+def _fingerprint(text):
+    """(media-sequence, dernier segment, targetduration) d'une playlist média.
+
+    Les deux premiers identifient l'état du direct : si ni la séquence ni le
+    dernier segment ne changent entre deux lectures, le flux est GELÉ.
+    """
+    seq = re.search(r"#EXT-X-MEDIA-SEQUENCE:(\d+)", text)
+    td = re.search(r"#EXT-X-TARGETDURATION:(\d+)", text)
+    last = None
+    for ln in text.split("\n"):
+        ln = ln.strip()
+        if ln and not ln.startswith("#"):
+            last = ln
+    return (seq.group(1) if seq else None, last, int(td.group(1)) if td else None)
+
+
+def probe(url):
+    """(status, raison, url_playlist_média, empreinte)  — status: ok|geo|dead
 
     Test PROFOND : master -> variante -> premier segment vidéo. Un flux dont le
     manifeste répond 200 mais dont les segments sont morts est bien classé
     « dead » (un simple test du manifeste le déclarait vivant à tort, et le bot
     ne réparait donc jamais ce cas — le plus fréquent en pratique).
+
+    Depuis le 2026-08-14, on refuse aussi : les VOD/clips servis à la place
+    d'un direct (#EXT-X-ENDLIST — cas réel : le clip « indisponible » de
+    ParaTV passait pour un flux vivant) et les manifestes chiffrés (DRM).
+    L'empreinte retournée sert au test de gel (voir playlist_progress).
     """
     try:
         st, body, ct, final = http_full(url)
         if st not in (200, 206) or not body.lstrip().startswith("#EXT"):
-            return "dead"
+            return ("dead", f"HTTP {st}, pas un manifeste HLS", None, None)
 
         cur, text = final, body
         # master (plusieurs qualités) -> on descend d'un niveau
         if "#EXT-X-STREAM-INF" in text:
             v = _first_uri(text, cur)
             if not v:
-                return "dead"
+                return ("dead", "master sans variante", None, None)
             st, text, ct, cur = http_full(v)
             if st not in (200, 206) or not text.lstrip().startswith("#EXT"):
-                return "dead"
+                return ("dead", f"variante HTTP {st}", None, None)
+
+        low = text.lower()
+        if "#ext-x-endlist" in low:
+            return ("dead", "VOD/clip (ENDLIST), pas un direct", None, None)
+        if any(k in low for k in ("skd:", "sample-aes", "widevine", "playready")):
+            return ("dead", "DRM référencé", None, None)
 
         seg = _first_uri(text, cur)
         if not seg:
-            return "dead"
+            return ("dead", "playlist sans segment", None, None)
         st, chunk, ct, _ = http_full(seg, rng="bytes=0-2000")
         if st in (200, 206) and len(chunk) > 200 and "html" not in (ct or "").lower():
-            return "ok"
-        return "dead"
+            return ("ok", "", cur, _fingerprint(text))
+        return ("dead", f"segment HTTP {st}", None, None)
     except urllib.error.HTTPError as e:
-        return "geo" if e.code in (401, 403) else "dead"
+        if e.code in (401, 403):
+            return ("geo", f"HTTP {e.code}", None, None)
+        return ("dead", f"HTTP {e.code}", None, None)
+    except Exception as e:
+        return ("dead", type(e).__name__, None, None)
+
+
+def playlist_progress(media_url, fp):
+    """La playlist média a-t-elle avancé depuis l'empreinte fp ?
+
+    -> "avance" | "gele" | "inconnu"
+
+    « inconnu » (re-lecture impossible, ou segments plus longs que LIVE_GAP)
+    n'est PAS une preuve de gel : on ne condamne une chaîne en place que sur
+    un « gele » franc, et on n'adopte un candidat que sur un « avance » franc.
+    Cette asymétrie évite les deux erreurs qui coûtent cher : condamner un
+    flux vivant (churn de commits) et adopter un flux mort (chaîne en panne
+    dans le lecteur alors que le bot dit avoir réparé).
+    """
+    try:
+        st, text, ct, _ = http_full(media_url)
+        if st not in (200, 206) or not text.lstrip().startswith("#EXT"):
+            return "inconnu"
+        if "#ext-x-endlist" in text.lower():
+            return "gele"
+        seq2, last2, _td2 = _fingerprint(text)
+        if (seq2, last2) != (fp[0], fp[1]):
+            return "avance"
+        td = fp[2]
+        if td and td > LIVE_GAP:
+            return "inconnu"        # segments trop longs pour juger en LIVE_GAP s
+        return "gele"
     except Exception:
-        return "dead"
+        return "inconnu"
+
+
+def classify(url):
+    """ok | geo | dead — test profond SANS le test de gel (compat)."""
+    return probe(url)[0]
+
+
+def validate_candidate(url):
+    """Validation RENFORCÉE d'un remplaçant (2026-08-14).
+
+    L'ancien test unique laissait passer trois familles de faux vivants,
+    d'où des « réparations » vers des liens morts : les flux qui meurent au
+    bout d'une minute, les flux gelés, et les clips VOD. On exige maintenant
+    un test profond OK **puis**, LIVE_GAP s plus tard, la preuve que la
+    playlist média avance réellement.
+    """
+    st, _reason, media, fp = probe(url)
+    if st != "ok":
+        return False
+    time.sleep(LIVE_GAP)
+    return playlist_progress(media, fp) == "avance"
 
 
 def norm(s):
@@ -323,7 +412,7 @@ def find_replacement(tid, name, current, by_id, by_name):
             continue
         if any(h in u for h in SKIP_HOSTS):
             continue
-        if classify(u) == "ok":
+        if validate_candidate(u):
             return u
     return None
 
@@ -338,30 +427,51 @@ def main():
     print(f"{len(pairs)} chaînes ; {len(direct)} à URL directe à vérifier ; "
           f"{len(pairs) - len(direct)} via résolveur (ignorées).\n")
 
+    # Passe 1 : sonde profonde de chaque chaîne (master -> variante -> segment).
+    results = {}
+    for tid, name, url, j in direct:
+        results[j] = probe(url)
+
+    # Passe 2 (gel) : LIVE_GAP s plus tard, une playlist média qui n'a pas
+    # avancé = flux gelé (serveur qui répond mais vidéo morte — le lecteur
+    # affiche « Lecture impossible » alors que le test simple disait vivant).
+    if any(st == "ok" for st, _r, _m, _f in results.values()):
+        time.sleep(LIVE_GAP)
+        for j, (st, reason, media, fp) in list(results.items()):
+            if st == "ok" and playlist_progress(media, fp) == "gele":
+                results[j] = ("dead", "gelé (la playlist média n'avance plus)", None, None)
+
     dead = []
     stats = {"ok": 0, "geo": 0, "dead": 0}
     for tid, name, url, j in direct:
-        c = classify(url)
+        c, reason = results[j][0], results[j][1]
         stats[c] += 1
         tag = {"ok": "✅", "geo": "🌍", "dead": "💀"}[c]
-        print(f"  {tag} {name:24s} {c}")
+        print(f"  {tag} {name:24s} {c}" + (f" ({reason})" if reason and c != "ok" else ""))
         if c == "dead":
             dead.append((tid, name, url, j))
 
     # Deuxième chance : ces flux « pirates » ont des micro-coupures. Sans ce
     # re-test, un hoquet de quelques secondes suffit à remplacer définitivement
     # une bonne URL (on l'a vu : RTL9 déclarée morte puis vivante 2 min après).
+    # Le re-test applique les mêmes exigences que la passe 1 : un flux qui
+    # re-répond mais reste gelé demeure condamné.
     if dead:
         print(f"\nRe-test dans 60 s des {len(dead)} chaîne(s) déclarées mortes…")
         time.sleep(60)
         confirmees = []
         for tid, name, url, j in dead:
-            if classify(url) == "dead":
-                confirmees.append((tid, name, url, j))
-            else:
+            st, _reason, media, fp = probe(url)
+            vivante = st == "geo"
+            if st == "ok":
+                time.sleep(LIVE_GAP)
+                vivante = playlist_progress(media, fp) != "gele"
+            if vivante:
                 stats["dead"] -= 1
                 stats["ok"] += 1
                 print(f"  ↩️  {name:24s} en fait vivante (hoquet passager)")
+            else:
+                confirmees.append((tid, name, url, j))
         dead = confirmees
 
     print(f"\nRésumé direct : {stats['ok']} ok · {stats['geo']} géo · {stats['dead']} morts")

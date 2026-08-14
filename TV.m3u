@@ -74,6 +74,15 @@ https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_5000.m3u8
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fott.tv5monde.com%2FContent%2FHLS%2FLive%2Fchannel%28info%29%2Fvariant.m3u8
 #EXTINF:-1 tvg-id="FR1800004EP" tvg-logo="https://i.imgur.com/TQbobOv.png" group-title="France", TV5Monde+ Voyage
 https://jmp2.uk/stvp-FR1800004EP
+# ─── Ajouts du 2026-08-14 (validés au banc d'essai). Euronews et BFM Business
+# passent par Samsung TV Plus via jmp2 (auto-réparant), même famille que
+# RMC Découverte qui joue déjà depuis le Québec. 20 Minutes TV = flux officiel.
+#EXTINF:-1 tvg-id="EuronewsFrench.fr" tvg-logo="https://tvpnlogopeu.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/FR2600004SS_20260707T051656SQUARE.png" group-title="France", Euronews
+https://jmp2.uk/stvp-FR2600004SS
+#EXTINF:-1 tvg-id="BFMBusiness.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-business-fr.png" group-title="France", BFM Business
+https://jmp2.uk/stvp-FRBD4100006OC
+#EXTINF:-1 tvg-id="20MinutesTV.fr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/20_Minutes_TV_IDF_logo_%282023%29.png/960px-20_Minutes_TV_IDF_logo_%282023%29.png" group-title="France", 20 Minutes TV
+https://live-20minutestv.digiteka.com/1961167769/index.m3u8
 #========================================
 # 🇫🇷 FRANCE — Thématiques
 #========================================
@@ -131,6 +140,14 @@ http://145.239.5.177/337/index.m3u8
 http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
 #EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-music-fr.png" group-title="France", M6 Music
 http://145.239.5.177/320/index.m3u8
+# ─── Ajouts du 2026-08-14 (validés au banc d'essai).
+# TV Breizh : identité d'après iptv-org (chemin /318 du pool) — signale-moi si
+# le contenu diffusé ne correspond pas. MTV Classics : Pluto TV via jmp2
+# (auto-réparant), identité confirmée par l'id de chaîne Pluto du logo.
+#EXTINF:-1 tvg-id="TVBreizh.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tv-breizh-fr.png" group-title="France", TV Breizh
+http://145.239.5.177/318/index.m3u8
+#EXTINF:-1 tvg-logo="https://images.pluto.tv/channels/5f92b56a367e170007cd43f4/colorLogoPNG.png" group-title="France", MTV Classics
+https://jmp2.uk/plu-5f92b56a367e170007cd43f4.m3u8
 # ⚠️ Foot+ — retirée le 2026-07-24 : flux mort (confirmé par 2 tests profonds
 # indépendants) et aucun remplaçant valide (chaîne payante Canal+, pas de source
 # libre). Décommente les 2 lignes ci-dessous si une source réapparaît.
@@ -160,6 +177,12 @@ https://tvalive-dai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-
 https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8
 #EXTINF:-1 tvg-id="Savoir.média.ca2" tvg-logo="https://i.imgur.com/pa4wOVY.png" group-title="Canada FR", Savoir Média
 https://hls.savoir.media/live/stream.m3u8
+# ─── Ajouts du 2026-08-14 (validés au banc d'essai) : TV5 Québec Canada et
+# Unis TV, sur un pool distinct des autres (23.133.220.149).
+#EXTINF:-1 tvg-id="TV5QuebecCanada.ca" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/TV5_%28logo%29.svg/960px-TV5_%28logo%29.svg.png" group-title="Canada FR", TV5 Québec Canada
+http://23.133.220.149/TV5/index.m3u8
+#EXTINF:-1 tvg-id="TV5Unis.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/unis-tv-ca.png" group-title="Canada FR", Unis TV
+http://23.133.220.149/Unis_TV/index.m3u8
 # ─── Trouvées sur les CDN OFFICIELS des diffuseurs (recherche GitHub 2026-07-25).
 # La plupart renvoient 403 hors Canada : c'est NORMAL et attendu, elles sont
 # géo-réservées au Canada — donc elles doivent marcher depuis ton réseau, comme
@@ -258,6 +281,10 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
 #EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cnn-us.png" group-title="USA", CNN
 https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
+# ─── Ajout du 2026-08-14 (validé au banc d'essai). Flux FAST Xumo : si un jour
+# il ne joue pas depuis le Québec (précédent LiveNOW from FOX), dis-le-moi.
+#EXTINF:-1 tvg-id="NBCNewsNOW.us" tvg-logo="https://i.imgur.com/JZt2qh5.png" group-title="USA", NBC News NOW
+https://d1si3n1st4nkgb.cloudfront.net/10502/88896001/hls/master.m3u8?ads.xumo_channelId=88896001
 # Le flux est « LiveNOW from FOX » (canal FAST), pas Fox News Channel :
 # tvg-id retiré — pas d'EPG vaut mieux qu'un EPG faux.
 # ⚠️ LiveNOW from FOX — retirée 2026-07-25 : ne joue pas depuis le Québec
