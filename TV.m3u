@@ -231,6 +231,11 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 # remplaçant public trouvé : iptv-org et les autres agrégateurs pointent
 # encore sur ces mêmes IP mortes. Ces chaînes payantes (Bell/Corus) n'existent
 # qu'en restream de pool — elles reviendront quand un pool réapparaîtra.
+# 2026-08-14, 2e recherche (50 dépôts GitHub, 6832 URLs, tests depuis le Québec) :
+# piste moveonjoy creusée à fond et close. Preuve : sur fl2.moveonjoy.com, la
+# sonde /CNN/ répond 403 (serveur vivant, bonne convention de chemins) alors que
+# /TSN_1/, /W_NETWORK/, /MUCH/, /SLICE/ et /HGTV/ répondent tous 404 — le
+# service ne provisionne plus ces chaînes. Détail complet dans SERVEURS.md.
 # heal.py sait maintenant chercher côté Canada/USA (sources iptv-org ca/us) :
 # décommente une chaîne (les 2 lignes) pour que le bot la re-surveille toutes
 # les 3 h, ou relance le workflow test-candidates pour re-tester des candidats.
