@@ -1,0 +1,104 @@
+name: diag-hosts
+
+# Diagnostic FIN des URLs de candidates.json.
+#
+# Pourquoi : le workflow test-candidates classe « MORT » tout ce qui échoue, y
+# compris quand la connexion n'aboutit même pas (URLError). Or « le serveur
+# refuse l'IP du runner GitHub » et « le flux est mort » sont deux choses très
+# différentes : la première marche peut-être très bien depuis une connexion
+# résidentielle au Québec (c'est déjà le cas des pools 145.239.5.177 et
+# 151.80.18.177 vis-à-vis du proxy Vercel).
+#
+# Ce workflow sépare donc les causes :
+#   DNS-KO      -> le domaine n'existe plus       = vraiment mort
+#   TCP-KO      -> connexion refusée / filtrée    = probablement blocage d'IP
+#   TLS-KO      -> handshake refusé               = blocage ou certif cassé
+#   HTTP <code> -> le serveur a répondu           = on sait quoi en penser
+# et retente avec un User-Agent navigateur + Referer, que certains restreams
+# exigent.
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Diagnostic par couche
+        run: |
+          python3 - <<'PY'
+          import json, socket, subprocess, re
+          from urllib.parse import urlparse
+
+          UA_BROWSER = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+          UA_VLC = "VLC/3.0.20 LibVLC/3.0.20"
+
+          cands = json.load(open("candidates.json", encoding="utf-8"))
+          print(f"{len(cands)} URLs à diagnostiquer\n")
+
+          def dns(host):
+              try:
+                  return socket.getaddrinfo(host, None)[0][4][0]
+              except Exception as e:
+                  return f"KO({type(e).__name__})"
+
+          def tcp(host, port, timeout=8):
+              try:
+                  s = socket.create_connection((host, port), timeout=timeout)
+                  s.close()
+                  return "OK"
+              except Exception as e:
+                  return f"KO({type(e).__name__})"
+
+          def http(url, ua, referer=None):
+              cmd = ["curl", "-sS", "-o", "/dev/null", "-m", "15", "-L",
+                     "-A", ua, "-w", "%{http_code}"]
+              if referer:
+                  cmd += ["-e", referer]
+              cmd.append(url)
+              p = subprocess.run(cmd, capture_output=True, text=True)
+              code = (p.stdout or "").strip()
+              err = (p.stderr or "").strip().replace("curl: ", "")[:60]
+              return code if code and code != "000" else f"000 {err}"
+
+          rows = []
+          for c in cands:
+              url = c["url"]
+              u = urlparse(url)
+              host = u.hostname or ""
+              port = u.port or (443 if u.scheme == "https" else 80)
+              ip = dns(host)
+              t = tcp(host, port) if not ip.startswith("KO") else "-"
+              origin = f"{u.scheme}://{u.netloc}/"
+              h1 = http(url, UA_BROWSER)
+              h2 = http(url, UA_BROWSER, referer=origin) if h1.startswith("000") else ""
+              h3 = http(url, UA_VLC) if h1.startswith("000") and h2.startswith("000") else ""
+              rows.append((c.get("pour", "?"), host, ip, t, h1, h2, h3, c["name"]))
+
+          print(f"{'CIBLE':22} {'HÔTE':34} {'DNS':16} {'TCP':22} {'HTTP(nav)':26} {'+Referer':14} {'VLC'}")
+          print("=" * 165)
+          verdicts = {}
+          for pour, host, ip, t, h1, h2, h3, name in rows:
+              print(f"{pour[:22]:22} {host[:34]:34} {ip[:16]:16} {t[:22]:22} {h1[:26]:26} {h2[:14]:14} {h3[:20]}")
+              if ip.startswith("KO"):
+                  v = "DNS-KO (domaine mort)"
+              elif t.startswith("KO"):
+                  v = "TCP-KO (bloqué/filtré)"
+              elif not h1.startswith("000") or not h2.startswith("000") or (h3 and not h3.startswith("000")):
+                  best = [x for x in (h1, h2, h3) if x and not x.startswith("000")]
+                  v = f"HTTP {best[0]}"
+              else:
+                  v = "TLS/HTTP-KO"
+              verdicts.setdefault(v, []).append(f"{pour} [{host}]")
+
+          print("\n\n########## SYNTHÈSE ##########")
+          for v, lst in sorted(verdicts.items(), key=lambda x: -len(x[1])):
+              print(f"\n{v} : {len(lst)}")
+              for x in lst:
+                  print(f"   - {x}")
+          print("\nLecture : DNS-KO = vraiment mort · TCP-KO/TLS = le serveur refuse "
+                "le runner GitHub (à retester depuis le réseau de l'utilisateur) · "
+                "HTTP 200/403 = le serveur répond (403 = géo).")
+          PY
