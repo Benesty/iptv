@@ -18,6 +18,13 @@ name: diag-hosts
 # exigent.
 on:
   workflow_dispatch:
+  # Déclenché aussi au push : un workflow n'est dispatchable manuellement que
+  # s'il existe déjà sur la branche par défaut — ce déclencheur permet de s'en
+  # servir depuis une branche de travail avant toute fusion.
+  push:
+    paths:
+      - 'candidates.json'
+      - '.github/workflows/diag-hosts.yml'
 
 jobs:
   diag:
