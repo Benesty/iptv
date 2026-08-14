@@ -59,22 +59,26 @@ def diagnostic(url):
             with socket.create_connection((host, port), timeout=8) as s:
                 ctx.wrap_socket(s, server_hostname=host).close()
         except ssl.SSLCertVerificationError:
-            return ("SSL-KO : certificat rejeté par CE Python (souvent le Python d'Apple "
-                    "sans magasin de certificats) — le flux peut être bon, voir curl ci-dessous")
+            pass          # certificat non conforme : on continue, curl tranchera
         except Exception as e:
             return f"TLS-KO ({type(e).__name__})"
 
-    try:
-        p = subprocess.run(
-            ["curl", "-sS", "-o", "/dev/null", "-m", "12", "-L",
-             "-A", "VLC/3.0.20 LibVLC/3.0.20", "-w", "%{http_code}", url],
-            capture_output=True, text=True, timeout=20)
+    for insecure in (False, True):
+        cmd = ["curl", "-sS", "-o", "/dev/null", "-m", "12", "-L",
+               "-A", "VLC/3.0.20 LibVLC/3.0.20", "-w", "%{http_code}"]
+        if insecure:
+            cmd.append("-k")          # certificat non vérifié, comme le font les lecteurs
+        cmd.append(url)
+        try:
+            p = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+        except Exception as e:
+            return f"connexion établie mais requête KO ({type(e).__name__})"
         code = (p.stdout or "").strip()
         if code and code != "000":
-            return f"TCP+TLS OK, curl obtient HTTP {code} (Python a échoué : problème côté Python)"
-        return f"curl échoue aussi : {(p.stderr or '').strip()[:70]}"
-    except Exception as e:
-        return f"connexion établie mais requête KO ({type(e).__name__})"
+            suffixe = " [certificat non vérifié]" if insecure else ""
+            return f"curl obtient HTTP {code}{suffixe}"
+        err = (p.stderr or "").strip()[:70]
+    return f"curl échoue aussi : {err}"
 
 RAPIDE = "--rapide" in sys.argv
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
@@ -99,6 +103,23 @@ def main():
         url = c.get("url", "")
         nom = c.get("name") or c.get("pour") or url
         st, raison, media, fp = probe(url)
+
+        # Beaucoup de restreams servent un certificat qui ne correspond pas à
+        # leur nom d'hôte. Les lecteurs (VLC…) l'acceptent, Python le refuse et
+        # le flux paraît mort à tort. On refait donc l'essai sans vérification :
+        # on ne transmet aucun secret ici, on constate seulement si ça diffuse.
+        if st == "dead" and url.startswith("https://") and raison in (
+                "URLError", "SSLError", "SSLCertVerificationError", "OSError"):
+            ancien = ssl._create_default_https_context
+            try:
+                ssl._create_default_https_context = ssl._create_unverified_context
+                st2, raison2, media2, fp2 = probe(url)
+            finally:
+                ssl._create_default_https_context = ancien
+            if st2 != "dead":
+                st, media, fp = st2, media2, fp2
+                raison = (raison2 + " " if raison2 else "") + "[certificat non vérifié]"
+                c["_insecure"] = True
 
         if st == "ok" and not RAPIDE:
             time.sleep(LIVE_GAP)
