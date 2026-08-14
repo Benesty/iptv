@@ -1,68 +1,8 @@
 [
  {
-  "name": "NOUVELLE: TiJi (kids, pool 145.239.5.177)",
-  "url": "http://145.239.5.177/318/index.m3u8",
+  "name": "NOUVELLE: TiJi (CDN Shahid, source schumijo)",
+  "url": "https://shls-tiji-tv-prod-dub.shahid.net/out/v1/98f46736bd8c4404b67e4b7a38cc8976/index.m3u8",
   "langue": "fr",
   "pour": "TiJi"
- },
- {
-  "name": "NOUVELLE: TV Breizh (Pluto FR via jmp2)",
-  "url": "https://jmp2.uk/plu-5f92b56a367e170007cd43f4.m3u8",
-  "langue": "fr",
-  "pour": "TV Breizh"
- },
- {
-  "name": "NOUVELLE: Euronews FR (Samsung TV+ via jmp2, comme RMC Decouverte)",
-  "url": "https://jmp2.uk/stvp-FRBD4100006OC",
-  "langue": "fr",
-  "pour": "Euronews FR"
- },
- {
-  "name": "NOUVELLE: Euronews FR (officiel Rakuten FAST)",
-  "url": "https://euronews-live-fre-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6564/bitok/e/26032/euronews-fr.m3u8",
-  "langue": "fr",
-  "pour": "Euronews FR"
- },
- {
-  "name": "NOUVELLE: BFM Business (Samsung TV+ via jmp2)",
-  "url": "https://jmp2.uk/stvp-FR2600004SS",
-  "langue": "fr",
-  "pour": "BFM Business"
- },
- {
-  "name": "NOUVELLE: 20 Minutes TV (officiel Digiteka)",
-  "url": "https://live-20minutestv.digiteka.com/1961167769/index.m3u8",
-  "langue": "fr",
-  "pour": "20 Minutes TV"
- },
- {
-  "name": "NOUVELLE: MTV Classics FR (Samsung TV+ via jmp2)",
-  "url": "https://jmp2.uk/stvp-FRAJ38000050Z",
-  "langue": "fr",
-  "pour": "MTV Classics"
- },
- {
-  "name": "NOUVELLE: TV5 Quebec Canada (pool 23.133.220.149)",
-  "url": "http://23.133.220.149/TV5/index.m3u8",
-  "langue": "fr",
-  "pour": "TV5 Quebec"
- },
- {
-  "name": "NOUVELLE: Unis TV (pool 23.133.220.149)",
-  "url": "http://23.133.220.149/Unis_TV/index.m3u8",
-  "langue": "fr",
-  "pour": "Unis TV"
- },
- {
-  "name": "NOUVELLE: ABC News Live (officiel Akamai)",
-  "url": "https://abcnews-streams.akamaized.net/hls/live/2023560/abcnewshudson1/master.m3u8",
-  "langue": "en",
-  "pour": "ABC News Live"
- },
- {
-  "name": "NOUVELLE: NBC News NOW (Xumo cloudfront)",
-  "url": "https://d1si3n1st4nkgb.cloudfront.net/10502/88896001/hls/master.m3u8?ads.xumo_channelId=88896001",
-  "langue": "en",
-  "pour": "NBC News NOW"
  }
 ]
