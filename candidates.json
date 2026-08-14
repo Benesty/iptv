@@ -1,176 +1,158 @@
 [
  {
-  "name": "[185.246.209.113] CHCH-DT (720p)",
-  "url": "http://185.246.209.113/CHCHHD/index.m3u8",
-  "langue": "fr",
-  "pour": "185.246.209.113"
+  "name": "[185.246.209.113] sonde TSN1",
+  "url": "http://185.246.209.113/TSN1/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[185.246.209.113] Cottage Life (720p)",
-  "url": "http://185.246.209.113/CottageLife/index.m3u8",
-  "langue": "fr",
-  "pour": "185.246.209.113"
+  "name": "[185.246.209.113] sonde TSN_1",
+  "url": "http://185.246.209.113/TSN_1/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[185.246.209.113] CTV Life Channel (720p)",
-  "url": "http://185.246.209.113/ANIMALPLANETHD/index.m3u8",
-  "langue": "fr",
-  "pour": "185.246.209.113"
+  "name": "[185.246.209.113] sonde TSN1HD",
+  "url": "http://185.246.209.113/TSN1HD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[194.163.157.137:8080] TV Alsace (1080p)",
-  "url": "http://194.163.157.137:8080/hls/radioalsace.m3u8",
-  "langue": "fr",
-  "pour": "194.163.157.137:8080"
+  "name": "[185.246.209.113] sonde TSN",
+  "url": "http://185.246.209.113/TSN/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[194.163.157.137:8080] TV Mulhouse (1080p)",
-  "url": "http://194.163.157.137:8080/hls/radiomulhouse.m3u8",
-  "langue": "fr",
-  "pour": "194.163.157.137:8080"
+  "name": "[185.246.209.113] sonde WNETWORK",
+  "url": "http://185.246.209.113/WNETWORK/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[5.180.164.197:8080] France 3 Lorraine (1080p)",
-  "url": "http://5.180.164.197:8080/FRANCE3/index.m3u8",
-  "langue": "fr",
-  "pour": "5.180.164.197:8080"
+  "name": "[185.246.209.113] sonde W_NETWORK",
+  "url": "http://185.246.209.113/W_NETWORK/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[5.180.164.197:8080] TV5Monde Europe (1080p)",
-  "url": "http://5.180.164.197:8080/TV5MONDE/index.m3u8",
-  "langue": "fr",
-  "pour": "5.180.164.197:8080"
+  "name": "[185.246.209.113] sonde WNetwork",
+  "url": "http://185.246.209.113/WNetwork/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[89.187.185.76:8080] France 3 Cote d'Azur",
-  "url": "http://89.187.185.76:8080/France3/index.m3u8",
-  "langue": "fr",
-  "pour": "89.187.185.76:8080"
+  "name": "[185.246.209.113] sonde SLICE",
+  "url": "http://185.246.209.113/SLICE/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[176.65.146.100:8047] France 4",
-  "url": "http://176.65.146.100:8047/play/a074/index.m3u8",
-  "langue": "fr",
-  "pour": "176.65.146.100:8047"
+  "name": "[185.246.209.113] sonde Slice",
+  "url": "http://185.246.209.113/Slice/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[89.33.29.118] MCM Top (1080p)",
-  "url": "http://89.33.29.118/MCM/index.m3u8",
-  "langue": "fr",
-  "pour": "89.33.29.118"
+  "name": "[185.246.209.113] sonde MUCH",
+  "url": "http://185.246.209.113/MUCH/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[streamtv.cdn.dvmr.fr] TV78 (720p)",
-  "url": "https://streamtv.cdn.dvmr.fr/TV78/ngrp:tv78.stream_all/master.m3u8",
-  "langue": "fr",
-  "pour": "streamtv.cdn.dvmr.fr"
+  "name": "[185.246.209.113] sonde Much",
+  "url": "http://185.246.209.113/Much/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[streamtv.cdn.dvmr.fr] TVR (Bretagne) (720p)",
-  "url": "https://streamtv.cdn.dvmr.fr/TVR/ngrp:tvr.stream_all/master.m3u8",
-  "langue": "fr",
-  "pour": "streamtv.cdn.dvmr.fr"
+  "name": "[185.246.209.113] sonde HGTV",
+  "url": "http://185.246.209.113/HGTV/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[live.creacast.com] CNA (360p) [Not 24/7]",
-  "url": "https://live.creacast.com/cna/stream/playlist.m3u8",
-  "langue": "fr",
-  "pour": "live.creacast.com"
+  "name": "[185.246.209.113] sonde HGTVHD",
+  "url": "http://185.246.209.113/HGTVHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[live.creacast.com] ILTV (720p)",
-  "url": "https://live.creacast.com/iltv/smil:iltv.smil/playlist.m3u8",
-  "langue": "fr",
-  "pour": "live.creacast.com"
+  "name": "[185.246.209.113] sonde HISTORY",
+  "url": "http://185.246.209.113/HISTORY/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[live.creacast.com] Littoral FM (720p)",
-  "url": "https://live.creacast.com/littoralfm-ch1/stream/playlist.m3u8",
-  "langue": "fr",
-  "pour": "live.creacast.com"
+  "name": "[185.246.209.113] sonde HISTORYHD",
+  "url": "http://185.246.209.113/HISTORYHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[lotus.stingray.com] Stingray Classica (1080p)",
-  "url": "https://lotus.stingray.com/manifest/classica-cla008-montreal/samsungtvplus/master.m3u8",
-  "langue": "fr",
-  "pour": "lotus.stingray.com"
+  "name": "[185.246.209.113] sonde DISCOVERYHD",
+  "url": "http://185.246.209.113/DISCOVERYHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[lotus.stingray.com] Qello Concerts by Stingray (1080p)",
-  "url": "https://lotus.stingray.com/manifest/qello-qello001-montreal/samsungtvplus/master.m3u8",
-  "langue": "fr",
-  "pour": "lotus.stingray.com"
+  "name": "[185.246.209.113] sonde FOODHD",
+  "url": "http://185.246.209.113/FOODHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[lotus.stingray.com] Stingray Classic Rock (1080p)",
-  "url": "https://lotus.stingray.com/manifest/ose-101ads-montreal/samsungtvplus/master.m3u8",
-  "langue": "fr",
-  "pour": "lotus.stingray.com"
+  "name": "[185.246.209.113] sonde SHOWCASEHD",
+  "url": "http://185.246.209.113/SHOWCASEHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[cdn-ue1-prod.tsv2.amagi.tv] Museum TV [Geo-blocked]",
-  "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01492-secomsasmediart-museumtv-eng-samsungit/playlist.m3u8",
-  "langue": "fr",
-  "pour": "cdn-ue1-prod.tsv2.amagi.tv"
+  "name": "[185.246.209.113] sonde CTVHD",
+  "url": "http://185.246.209.113/CTVHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[cdn-ue1-prod.tsv2.amagi.tv] MyZen TV (1080p)",
-  "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01255-secomcofites-my-myzen-en-plex/playlist.m3u8",
-  "langue": "fr",
-  "pour": "cdn-ue1-prod.tsv2.amagi.tv"
+  "name": "[185.246.209.113] sonde GLOBALHD",
+  "url": "http://185.246.209.113/GLOBALHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[ott.tv5monde.com] TiVi5 Monde [Geo-blocked]",
-  "url": "https://ott.tv5monde.com/Content/HLS/Live/channel(tivi5)/variant.m3u8",
-  "langue": "fr",
-  "pour": "ott.tv5monde.com"
+  "name": "[185.246.209.113] sonde SPORTSNET",
+  "url": "http://185.246.209.113/SPORTSNET/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[ott.tv5monde.com] TV5Monde France Belgique Suisse Mona",
-  "url": "https://ott.tv5monde.com/Content/HLS/Live/channel(fbs)/variant.m3u8",
-  "langue": "fr",
-  "pour": "ott.tv5monde.com"
+  "name": "[185.246.209.113] sonde SNONE",
+  "url": "http://185.246.209.113/SNONE/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[ott.tv5monde.com] TV5Monde Info (1080p) [Geo-blocked]",
-  "url": "https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8",
-  "langue": "fr",
-  "pour": "ott.tv5monde.com"
+  "name": "[185.246.209.113] sonde TELETOONHD",
+  "url": "http://185.246.209.113/TELETOONHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[event.vedge.infomaniak.com] Generations TV (576p)",
-  "url": "https://event.vedge.infomaniak.com/livecast/ik:generation-tv/manifest.m3u8",
-  "langue": "fr",
-  "pour": "event.vedge.infomaniak.com"
+  "name": "[185.246.209.113] sonde YTVHD",
+  "url": "http://185.246.209.113/YTVHD/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[event.vedge.infomaniak.com] Puissance TV",
-  "url": "https://event.vedge.infomaniak.com/livecast/ik:puissancetelevision/manifest.m3u8",
-  "langue": "fr",
-  "pour": "event.vedge.infomaniak.com"
+  "name": "[185.246.209.113] T+E (confirmé listé)",
+  "url": "http://185.246.209.113/T+E/index.m3u8",
+  "langue": "en",
+  "pour": "pool CA"
  },
  {
-  "name": "[streamer01.myvideoplace.tv] ViàATV (1080p) [Geo-blocked]",
-  "url": "https://streamer01.myvideoplace.tv/streamer02/hls/ATV_DIRECT_EV_111018.m3u8",
+  "name": "[23.133.220.149] TV5 (re-test)",
+  "url": "http://23.133.220.149/TV5/index.m3u8",
   "langue": "fr",
-  "pour": "streamer01.myvideoplace.tv"
- },
- {
-  "name": "[streamer01.myvideoplace.tv] viàOccitanie (540p) [Not 24/7]",
-  "url": "https://streamer01.myvideoplace.tv/streamer02/hls/MDS_VIA_PAD_301117.m3u8",
-  "langue": "fr",
-  "pour": "streamer01.myvideoplace.tv"
- },
- {
-  "name": "[streamer01.myvideoplace.tv] TV VENDÉE",
-  "url": "https://streamer01.myvideoplace.tv/streamer02/hls/VDE_EVEN_PAD_130923.m3u8",
-  "langue": "fr",
-  "pour": "streamer01.myvideoplace.tv"
- },
- {
-  "name": "[edge-fast3.evrideo.tv] FashionTV Paris L'Original (1080p)",
-  "url": "https://edge-fast3.evrideo.tv/bfdbb576-83f7-11f0-9f89-0200170e3e04_1000028043_HLS/manifest.m3u8",
-  "langue": "fr",
-  "pour": "edge-fast3.evrideo.tv"
+  "pour": "pool CA"
  }
 ]
