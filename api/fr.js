@@ -25,9 +25,13 @@
  *   2. allowlist : seuls les hôtes d'entrée de la playlist sont acceptés « nus » ;
  *   3. signature : les URLs de variantes/segments/clés que CE proxy génère sont
  *      signées (HMAC-SHA256), donc lui seul peut fabriquer un lien vers un hôte
- *      arbitraire. Activée dès que la variable d'env PROXY_SECRET est définie.
- * Sans PROXY_SECRET, le proxy reste fonctionnel (rien ne casse) mais en mode
- * permissif : définis la variable dans Vercel pour fermer complètement l'accès.
+ *      arbitraire. Activée dès que la variable d'env PROXY_SECRET est définie ;
+ *   4. redirections suivies à la main, chaque saut revérifié (voir
+ *      fetchFollowingSafely) : un hôte autorisé ne peut pas renvoyer le proxy
+ *      vers une adresse interne.
+ * Sans PROXY_SECRET, rien ne s'ouvre — au contraire : les liens signés sont
+ * alors refusés et seuls les hôtes de la liste blanche passent. La variable
+ * sert à ÉLARGIR aux CDN de segments, pas à fermer l'accès.
  */
 
 export const config = { runtime: "edge", regions: ["cdg1"] };
@@ -106,9 +110,25 @@ function hostAllowed(host) {
 // et l'IP de métadonnées cloud (169.254.169.254).
 function isBlockedTarget(u) {
   if (u.protocol !== "http:" && u.protocol !== "https:") return true;
-  const h = u.hostname.toLowerCase();
+  // `URL.hostname` GARDE les crochets d'une adresse IPv6 : « http://[::1]/ »
+  // donne « [::1] », qui ne valait aucune des comparaisons ci-dessous — le
+  // loopback IPv6 passait donc au travers. On les retire d'abord.
+  const h = u.hostname.toLowerCase().replace(/^\[|\]$/g, "");
   if (h === "localhost" || h.endsWith(".localhost") || h.endsWith(".internal")) return true;
-  const m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  // Forme IPv4 encapsulée dans de l'IPv6 : on ne juge que la partie v4, sinon
+  // elle échapperait aux deux familles de tests. Attention, `URL` normalise
+  // « ::ffff:127.0.0.1 » en « ::ffff:7f00:1 » — c'est cette écriture-là qu'on
+  // rencontre en pratique, il faut donc la reconvertir.
+  let v4 = h;
+  const mapped = h.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/);
+  if (mapped) {
+    const hi = parseInt(mapped[1], 16);
+    const lo = parseInt(mapped[2], 16);
+    v4 = `${hi >> 8}.${hi & 255}.${lo >> 8}.${lo & 255}`;
+  } else if (h.startsWith("::ffff:")) {
+    v4 = h.slice(7);
+  }
+  const m = v4.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
   if (m) {
     const [a, b] = [Number(m[1]), Number(m[2])];
     if (a === 127 || a === 10 || a === 0) return true;
@@ -116,8 +136,41 @@ function isBlockedTarget(u) {
     if (a === 192 && b === 168) return true;
     if (a === 169 && b === 254) return true;
   }
-  if (h === "::1" || h.startsWith("fc") || h.startsWith("fd") || h.startsWith("fe80")) return true;
+  if (h === "::1" || h === "::" || h.startsWith("fc") || h.startsWith("fd") || h.startsWith("fe80")) return true;
   return false;
+}
+
+/**
+ * Suit les redirections À LA MAIN, en revérifiant chaque saut.
+ *
+ * `redirect: "follow"` laissait le garde-fou derrière : seule la PREMIÈRE URL
+ * était contrôlée, et un hôte autorisé qui répond « 302 vers 169.254.169.254 »
+ * faisait relayer une adresse interne par le proxy. Le dépôt étant public,
+ * l'astuce est lisible par quiconque.
+ *
+ * Ce qu'on revérifie à chaque saut : l'adresse ne doit jamais être interne.
+ * Ce qu'on ne revérifie PAS : l'appartenance à la liste blanche — une
+ * redirection vers un autre CDN est le fonctionnement normal d'un flux, et
+ * la cible du saut est choisie par l'hôte amont, pas par l'appelant. Le seul
+ * choix laissé à l'appelant, l'URL de départ, est resté sous contrôle.
+ */
+const MAX_REDIRECTS = 5;
+async function fetchFollowingSafely(target, headers, signal) {
+  let url = target;
+  for (let hop = 0; ; hop++) {
+    const res = await fetch(url, { headers, redirect: "manual", signal });
+    const loc = res.status >= 300 && res.status < 400 ? res.headers.get("location") : null;
+    if (!loc) return res;
+    if (hop >= MAX_REDIRECTS) throw new Error("trop de redirections");
+    let next;
+    try {
+      next = new URL(loc, url);
+    } catch {
+      throw new Error("redirection invalide");
+    }
+    if (isBlockedTarget(next)) throw new Error("redirection vers une cible interdite");
+    url = next.toString();
+  }
 }
 
 async function targetAuthorized(rawUrl, providedSig) {
@@ -279,7 +332,7 @@ export default async function handler(req) {
     const range = req.headers.get("range");
     if (range) h.range = range;
 
-    upstream = await fetch(target, { headers: h, redirect: "follow", signal: ctrl.signal });
+    upstream = await fetchFollowingSafely(target, h, ctrl.signal);
   } catch (e) {
     clearTimeout(timer);
     return new Response("fetch error: " + e, { status: 502 });
