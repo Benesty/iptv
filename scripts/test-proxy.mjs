@@ -60,6 +60,9 @@ for (const cible of [
   "http://[::ffff:127.0.0.1]/",
   "http://[::]/",
   "http://[fd00::1]/",
+  "http://[fe80::1]/",
+  "http://[fe90::1]/",
+  "http://[feb0::1]/",
   "file:///etc/passwd",
 ]) {
   ROUTES = { "https://cdn-a.example/x.m3u8": cible };

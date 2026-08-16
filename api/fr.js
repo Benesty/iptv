@@ -136,7 +136,13 @@ function isBlockedTarget(u) {
     if (a === 192 && b === 168) return true;
     if (a === 169 && b === 254) return true;
   }
-  if (h === "::1" || h === "::" || h.startsWith("fc") || h.startsWith("fd") || h.startsWith("fe80")) return true;
+  if (h.includes(":")) {
+    if (h === "::" || h === "::1" || h.startsWith("fc") || h.startsWith("fd")) return true;
+    // Lien-local, c'est fe80::/10 — donc fe80 A febf, pas seulement « fe80 ».
+    // Un simple prefixe de chaine laissait passer fe90::, fea0::, feb0::…
+    const first = parseInt(h.split(":")[0] || "0", 16);
+    if (first >= 0xfe80 && first <= 0xfebf) return true;
+  }
   return false;
 }
 
