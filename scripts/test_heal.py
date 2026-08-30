@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Test local de la nouvelle logique heal.py avec un faux serveur HLS.
+
+Cas couverts :
+  1. flux vivant qui avance          -> ok, candidat ACCEPTÉ
+  2. flux gelé (manifeste figé)      -> sweep: dead "gelé", candidat REFUSÉ
+  3. VOD/clip avec ENDLIST           -> dead direct (cas ParaTV « indisponible »)
+  4. master -> variante -> segments  -> descente correcte
+  5. DRM                             -> dead
+  6. re-lecture en échec             -> "inconnu" (ne condamne pas)
+"""
+import http.server, threading, time, sys, os
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
+import heal
+heal.LIVE_GAP = 2  # accélère le test (25 s en prod)
+
+STATE = {"seq": 100, "advance": True, "fail_refetch": False, "hits": {}}
+
+def media_playlist():
+    if STATE["advance"]:
+        STATE["seq"] += 1
+    s = STATE["seq"]
+    return (f"#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n"
+            f"#EXT-X-MEDIA-SEQUENCE:{s}\n"
+            f"#EXTINF:1.0,\nseg{s}.ts\n#EXTINF:1.0,\nseg{s+1}.ts\n")
+
+class H(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a): pass
+    def send(self, code, body, ct="application/vnd.apple.mpegurl"):
+        data = body.encode() if isinstance(body, str) else body
+        self.send_response(code)
+        self.send_header("Content-Type", ct)
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+    def do_GET(self):
+        p = self.path
+        STATE["hits"][p] = STATE["hits"].get(p, 0) + 1
+        if p == "/master.m3u8":
+            self.send(200, "#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=2000000,RESOLUTION=1280x720\n/media.m3u8\n")
+        elif p == "/media.m3u8":
+            if STATE["fail_refetch"] and STATE["hits"][p] > 1:
+                self.send(500, "boom", ct="text/plain")
+            else:
+                self.send(200, media_playlist())
+        elif p == "/audio_only.m3u8":
+            self.send(200, '#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=64000,CODECS="mp4a.40.2"\n/media.m3u8\n')
+        elif p == "/vod.m3u8":
+            self.send(200, "#EXTM3U\n#EXT-X-TARGETDURATION:6\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:6.0,\nclip0.ts\n#EXT-X-ENDLIST\n")
+        elif p == "/drm.m3u8":
+            self.send(200, '#EXTM3U\n#EXT-X-KEY:METHOD=SAMPLE-AES,URI="skd://key"\n#EXTINF:6.0,\nseg.ts\n')
+        elif p.endswith(".ts"):
+            self.send(200, b"G" * 1500, ct="video/mp2t")
+        else:
+            self.send(404, "nope", ct="text/plain")
+
+srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), H)
+port = srv.server_address[1]
+threading.Thread(target=srv.serve_forever, daemon=True).start()
+base = f"http://127.0.0.1:{port}"
+ok = True
+
+def check(label, got, want):
+    global ok
+    good = got == want
+    ok &= good
+    print(f"  {'✅' if good else '❌'} {label}: {got!r} (attendu {want!r})")
+
+print("1. flux vivant (avance) :")
+st, r, media, fp = heal.probe(f"{base}/master.m3u8")
+check("probe.status", st, "ok")
+check("media résolue", media, f"{base}/media.m3u8")
+time.sleep(2)
+check("progress", heal.playlist_progress(media, fp), "avance")
+check("validate_candidate", heal.validate_candidate(f"{base}/master.m3u8"), True)
+
+print("2. flux gelé :")
+STATE["advance"] = False
+st, r, media, fp = heal.probe(f"{base}/master.m3u8")
+check("probe.status (le gel ne se voit pas en 1 lecture)", st, "ok")
+time.sleep(2)
+check("progress", heal.playlist_progress(media, fp), "gele")
+check("validate_candidate refuse", heal.validate_candidate(f"{base}/master.m3u8"), False)
+STATE["advance"] = True
+
+print("2bis. flux AUDIO SEUL (cas M6 signale par l'utilisateur) :")
+st, r, _m, _f = heal.probe(f"{base}/audio_only.m3u8")
+check("probe.status", st, "dead")
+check("raison mentionne l'image", "image" in r or "vid" in r, True)
+
+print("3. VOD/clip ENDLIST :")
+st, r, _m, _f = heal.probe(f"{base}/vod.m3u8")
+check("probe.status", st, "dead")
+check("raison mentionne ENDLIST/VOD", "VOD" in r or "ENDLIST" in r, True)
+
+print("4. DRM :")
+st, r, _m, _f = heal.probe(f"{base}/drm.m3u8")
+check("probe.status", st, "dead")
+
+print("5. re-lecture en échec -> inconnu (on ne condamne pas) :")
+STATE["fail_refetch"] = True
+STATE["hits"]["/media.m3u8"] = 0
+st, r, media, fp = heal.probe(f"{base}/master.m3u8")
+check("probe.status", st, "ok")
+check("progress sur erreur", heal.playlist_progress(media, fp), "inconnu")
+STATE["fail_refetch"] = False
+
+print("6. 404 :")
+st, r, _m, _f = heal.probe(f"{base}/absent.m3u8")
+check("probe.status", st, "dead")
+
+srv.shutdown()
+print("\nRÉSULTAT GLOBAL :", "✅ tout passe" if ok else "❌ ÉCHECS")
+sys.exit(0 if ok else 1)

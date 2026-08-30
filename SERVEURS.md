@@ -70,14 +70,75 @@ le proxy Vercel (voir README).
 > d'un coup. D'où l'intérêt de **varier les hôtes** entre chaînes voisines
 > plutôt que de tout mettre sur le même pool.
 
+## Fouille GitHub élargie (2026-08-14, 2ᵉ passe)
+
+Les 5 agrégateurs habituels étant épuisés, une seconde recherche a ratissé
+GitHub au-delà : ~50 dépôts et gists lus, **6 832 URLs FR/CA** récoltées, puis
+diagnostiquées couche par couche par le workflow `diag-hosts`.
+
+**Résultat : la conclusion « aucun remplaçant pour le câble canadien » est
+CONFIRMÉE**, cette fois avec une preuve directe et non plus par absence de
+trouvaille. Le cheminement mérite d'être gardé, parce qu'il évite de refaire
+trois fois la même erreur :
+
+1. des playlists GitHub annonçaient TSN 1-5, W Network, Much, Slice et HGTV sur
+   `moveonjoy` — le nom des chemins (`/TSN_1/index.m3u8`, `/W_NETWORK/…`) étant
+   identique à celui de l'ancien pool `40.160.24.x`, la piste semblait excellente ;
+2. testées depuis un runner GitHub : tout échouait. Mais le workflow
+   `test-candidates` classait ça « MORT » sans distinguer les causes — verdict
+   inexploitable ;
+3. testées depuis la connexion de l'utilisateur au Québec : `fl1` refuse la
+   connexion (80 et 443), les pools OVH sont en timeout, plusieurs nœuds
+   présentent un certificat non conforme qui faisait échouer Python à tort ;
+4. **preuve finale** — sur `fl2`, la sonde témoin `/CNN/index.m3u8` renvoie
+   **403 (géo-bloqué)** : le serveur fonctionne et la convention de chemins est
+   la bonne. Or `/TSN_1/`, `/TSN1/`, `/TSN_1_CA/`, `/W_NETWORK/`, `/MUCH/`,
+   `/SLICE/`, `/HGTV/` renvoient tous **404** sur ce même serveur.
+
+Donc : moveonjoy est vivant mais **ne porte plus ces chaînes**. Ce n'est ni un
+blocage d'IP, ni un problème de nommage — elles ne sont plus provisionnées. Les
+playlists GitHub qui les listent encore sont périmées.
+
+| Hôte | Chaînes visées | Verdict final (runner + Québec) | Ce que ça veut dire |
+|---|---|---|---|
+| `fl2` / `fl12` / `fl31` / `fl41` / `fl51` / `fl61.moveonjoy.com` | TSN, W Network, Much, Slice, HGTV, Disney | **HTTP 404** sur les chaînes CA, **403** sur `/CNN/` | serveur VIVANT, chaînes canadiennes **non provisionnées** → piste close |
+| `fl1.moveonjoy.com` | idem | ConnectionRefused sur 80 **et** 443, depuis les deux réseaux | nœud éteint |
+| `fl3` / `fl5.moveonjoy.com` | TSN 1-5, W Network, Disney | DNS-KO | sous-domaines retirés (moveonjoy fait tourner ses `flN`) |
+| `167.114.157.40`, `192.99.39.240`, `167.114.101.188`, `167.114.156.30` (OVH Canada, wowza `flu555`) | Slice, HGTV, Super Channel 1-2, Teletoon CA, RDS 2, Vrak, YTV, Treehouse, CHCH | **timeout** sur 1935 et 80, depuis les deux réseaux | pool éteint |
+| `s13.tntendirect.com` | W9, Chérie 25, M6, tout le TNT | DNS-KO | le sous-domaine `s13` n'existe plus |
+| `cherie25.nrjaudio.fm` | Chérie 25 | DNS-KO | confirme que le CDN officiel NRJ de Chérie 25 est retiré |
+| `teleqmmd.mmdlive.lldns.net` | Télé-Québec | DNS-KO | l'ancien CDN Limelight de Télé-Québec est retiré |
+| `lbcdn.6cloud.fr`, `origin-live-6play.video.bedrock.tech` | Gulli | HTTP 404 / 502 | serveurs vivants, chemins Gulli périmés |
+| `144.217.253.140` | Teletoon+ | HTTP 404 | serveur vivant, chemin `/Teletoon/playlist.m3u8` périmé |
+
+**Écartés volontairement :** les gros « pools » à identifiants intégrés
+(`connect.ottplus.biz`, `bestott.net`, `tvservice.pro`, `vip-max.com`,
+`x.rprotv.com`… — plus de 4 000 URLs) sont des panneaux Xtream d'abonnements
+payants dont les identifiants ont fuité. Ils sont hors sujet ici : ce dépôt
+n'assemble que des flux ouverts.
+
+### Les trois outils qui vont avec
+
+- `diag-hosts` (workflow) — sépare **DNS-KO / TCP-KO / TLS / HTTP** au lieu de
+  tout classer « mort ». C'est lui qui a révélé que `test-candidates` déclarait
+  morts des serveurs simplement filtrés.
+- `scripts/test_local.py` — **le seul moyen de trancher** pour les TCP-KO :
+  il rejoue le test profond du bot depuis ta connexion résidentielle.
+  `python3 scripts/test_local.py` puis renvoie-moi la sortie.
+- `scripts/discover_hosts.py` — refait le regroupement par hôte.
+
 ## Ce que cette recherche n'a PAS donné
 
 À noter pour ne pas refaire le travail :
 
 - **aucun remplaçant pour le câble canadien** (TSN 1-5, W Network, Slice, Much,
-  Home Network, Super Channel Vault). Les agrégateurs pointent tous encore sur
-  les IP mortes, et le seul pool canadien vivant trouvé (`185.246.209.113`) ne
-  sert que ses 4 chaînes ;
+  Home Network, Super Channel Vault) — désormais **prouvé** et non plus supposé,
+  par la 2ᵉ passe ci-dessus : les agrégateurs pointent sur des IP mortes, le
+  dernier réseau crédible (moveonjoy) ne provisionne plus ces chaînes (404 alors
+  que `/CNN/` répond), les pools OVH sont éteints, et le seul pool canadien
+  joignable (`185.246.209.113`) ne sert que ses 4 chaînes. **Ne pas re-tenter
+  sans indice neuf** : ces chaînes sont payantes (Bell/Corus) et n'existaient
+  qu'en restream ;
 - **deviner des chemins ne marche pas** sur ces pools : ils ne servent que les
   chemins réellement provisionnés (20/20 sondes en 404) ;
 - les pools FR découverts n'apportent **pas de secours utilisable** aux chaînes
