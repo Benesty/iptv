@@ -21,7 +21,8 @@ LIVE_GAP s plus tard, que sa playlist média avance (validate_candidate) —
 l'ancien test unique adoptait des flux gelés ou éphémères, d'où des
 « réparations » vers des liens morts.
 """
-import re, sys, time, unicodedata, urllib.request, urllib.error, urllib.parse
+import re, sys, time, shutil, subprocess, unicodedata
+import urllib.request, urllib.error, urllib.parse
 
 TIMEOUT = 15
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
@@ -29,6 +30,25 @@ DRY = "--dry-run" in sys.argv
 
 # Résolveurs / redirecteurs qui se réparent seuls : on n'y touche jamais.
 SKIP_HOSTS = ("iptv-lake-three.vercel.app", "jmp2.uk")
+
+# CDN OFFICIELS de diffuseurs : un 403 y est un vrai géo-blocage, la chaîne
+# marche depuis sa zone. On ne les remplace JAMAIS sur la foi d'un 403.
+CDN_OFFICIELS = (
+    "akamaized.net", "akamaihd.net", "ftven.fr", "tf1.fr", "canalplus-cdn.net",
+    "nextradiotv.com", "6cloud.fr", "bedrock.tech", "france24.com", "tv5monde.com",
+    "savoir.media", "cloudfront.net", "corusdigitaldev.com", "cbsnews.com",
+    "warnermediacdn.com", "amagi.tv", "mediatailor", "nrjaudio.fm",
+)
+
+# Un 403 venant d'un pool de restream anonyme (une IP nue) ne veut PAS dire
+# « géo-bloqué mais bon chez toi » : c'est le plus souvent le pool qui a fermé.
+# Cas vécu le 2026-08-30 : 6ter répondait 403 au runner et était bel et bien
+# morte chez l'utilisateur. Pour ces hôtes-là on cherche donc un remplaçant —
+# mais on ne l'adopte que s'il joue VRAIMENT (validate_candidate), sinon on
+# garde l'existant : on ne troque jamais un doute contre une certitude de panne.
+def hote_officiel(url):
+    h = urllib.parse.urlparse(url).hostname or ""
+    return any(d in h for d in CDN_OFFICIELS)
 
 # Playlists sources maintenues (agrégateurs FR + CA/US). On y cherche un remplaçant.
 # CA/US ajoutés le 2026-08-14 : les pools nord-américains (TSN, Corus, Disney…)
@@ -48,7 +68,15 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # M6 : le flux du pool 99.27.51.147 servait le SON SANS L'IMAGE
+    # (signalé le 2026-08-30). Pistes trouvées lors de la fouille GitHub,
+    # essayées en premier ; le bot vérifie la présence d'une piste vidéo avant
+    # d'en adopter une, donc un flux audio seul ne peut plus être retenu.
     "M6.fr": [
+        "https://shls-m6-france-prod-dub.shahid.net/out/v1/c8a9f6e000cd4ebaa4d2fc7d18c15988/index.m3u8",
+        "https://144.217.253.140/M6/tracks-v1a1/index.m3u8",
+        "http://144.217.253.140/M6/playlist.m3u8",
+        "https://sslhls.m6tv.cdn.sfr.net/hls-live/livepkgr/_definst_/m6_hls_aes/m6_hls_aes_856.m3u8",
         "http://cdn.haititivi.com/M6-HD/index.m3u8",
         "http://99.27.51.147:8080/M6/index.m3u8",
     ],
@@ -171,6 +199,44 @@ def _fingerprint(text):
     return (seq.group(1) if seq else None, last, int(td.group(1)) if td else None)
 
 
+VIDEO_CODECS = ("avc1", "avc3", "hvc1", "hev1", "av01", "vp09", "mp4v")
+FFPROBE = shutil.which("ffprobe")
+
+
+def a_de_la_video(url, texte_master=None):
+    """Y a-t-il une PISTE VIDÉO ?  True | False | None (indéterminé)
+
+    Cas signalé par l'utilisateur le 2026-08-30 : M6 avait le son mais pas
+    l'image. Le test profond validait ce flux sans rien voir, puisqu'un flux
+    audio seul sert des segments parfaitement valides. On refuse maintenant.
+
+    ffprobe (installé sur les runners GitHub) donne la réponse certaine ;
+    sinon on lit les attributs du master. None = on ne sait pas, et dans le
+    doute on ne condamne pas une chaîne.
+    """
+    if FFPROBE:
+        try:
+            p = subprocess.run(
+                [FFPROBE, "-v", "error", "-select_streams", "v",
+                 "-show_entries", "stream=codec_name", "-of", "csv=p=0", url],
+                capture_output=True, text=True, timeout=40)
+            if (p.stdout or "").strip():
+                return True
+            if p.returncode == 0:
+                return False
+        except Exception:
+            pass
+    if texte_master and "#EXT-X-STREAM-INF" in texte_master:
+        for attrs in re.findall(r"#EXT-X-STREAM-INF:([^\n]*)", texte_master):
+            if "RESOLUTION=" in attrs:
+                return True
+            m = re.search(r'CODECS="([^"]*)"', attrs)
+            if m and any(c in m.group(1).lower() for c in VIDEO_CODECS):
+                return True
+        return False
+    return None
+
+
 def probe(url):
     """(status, raison, url_playlist_média, empreinte)  — status: ok|geo|dead
 
@@ -189,6 +255,7 @@ def probe(url):
         if st not in (200, 206) or not body.lstrip().startswith("#EXT"):
             return ("dead", f"HTTP {st}, pas un manifeste HLS", None, None)
 
+        master = body
         cur, text = final, body
         # master (plusieurs qualités) -> on descend d'un niveau
         if "#EXT-X-STREAM-INF" in text:
@@ -210,6 +277,9 @@ def probe(url):
             return ("dead", "playlist sans segment", None, None)
         st, chunk, ct, _ = http_full(seg, rng="bytes=0-2000")
         if st in (200, 206) and len(chunk) > 200 and "html" not in (ct or "").lower():
+            # Le son sans l'image est une panne, pas un flux valide.
+            if a_de_la_video(url, master) is False:
+                return ("dead", "son sans image (aucune piste vidéo)", None, None)
             return ("ok", "", cur, _fingerprint(text))
         return ("dead", f"segment HTTP {st}", None, None)
     except urllib.error.HTTPError as e:
@@ -417,6 +487,51 @@ def find_replacement(tid, name, current, by_id, by_name):
     return None
 
 
+def ecrire_etat(pairs, results, direct):
+    """Publie ETAT.md : l'état de chaque chaîne, lisible depuis un téléphone.
+
+    L'utilisateur consulte le dépôt depuis son iPhone : il n'a aucun moyen de
+    lancer un script. Ce fichier, committé à chaque passage du bot, est donc
+    son tableau de bord.
+    """
+    par_ligne = {j: (st, raison) for j, (st, raison, _m, _f) in results.items()}
+    icone = {"ok": "✅", "geo": "🌍", "dead": "💀"}
+    groupes = {}
+    for tid, name, url, j in pairs:
+        if any(h in url for h in SKIP_HOSTS):
+            st, raison = "resolveur", "via proxy/redirecteur (se répare seul)"
+        else:
+            st, raison = par_ligne.get(j, ("?", "non testée"))
+        groupes.setdefault(st, []).append((name, raison, url))
+
+    horo = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
+    out = [f"# État des chaînes\n",
+           f"_Mis à jour automatiquement par le bot le {horo}._\n",
+           "Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN "
+           "officiel d'un diffuseur est un géo-blocage normal : la chaîne "
+           "fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le "
+           "bot cherche alors un remplaçant.\n"]
+    ordre = [("dead", "💀 En panne"), ("geo", "🌍 Géo-bloquées (403)"),
+             ("ok", "✅ Fonctionnelles"), ("resolveur", "🔁 Via résolveur"),
+             ("?", "❔ Non testées")]
+    total = sum(len(v) for v in groupes.values())
+    out.append(f"**{total} chaînes** — " + " · ".join(
+        f"{lab.split()[0]} {len(groupes.get(cle, []))}" for cle, lab in ordre
+        if groupes.get(cle)) + "\n")
+    for cle, libelle in ordre:
+        lst = groupes.get(cle)
+        if not lst:
+            continue
+        out.append(f"\n## {libelle} ({len(lst)})\n")
+        out.append("| Chaîne | Détail |")
+        out.append("|---|---|")
+        for name, raison, _url in sorted(lst):
+            out.append(f"| {name} | {raison or '—'} |")
+    with open("ETAT.md", "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    print(f"\nETAT.md écrit ({total} chaînes).")
+
+
 def main():
     with open("TV.m3u", encoding="utf-8") as f:
         text = f.read()
@@ -474,12 +589,23 @@ def main():
                 confirmees.append((tid, name, url, j))
         dead = confirmees
 
+    # 403 sur un pool anonyme : on tente une mise à niveau (voir hote_officiel).
+    suspects = [(t, n, u, j) for (t, n, u, j) in direct
+                if results[j][0] == "geo" and not hote_officiel(u)]
+    if suspects:
+        print(f"\n{len(suspects)} chaîne(s) en 403 sur un pool anonyme — "
+              "on cherche mieux (remplacement seulement si le candidat JOUE) :")
+        for _t, n, _u, _j in suspects:
+            print(f"    · {n}")
+
     print(f"\nRésumé direct : {stats['ok']} ok · {stats['geo']} géo · {stats['dead']} morts")
-    if not dead:
+    if not dead and not suspects:
         print("Rien à réparer. 🎉")
+        ecrire_etat(pairs, results, direct)
         return 0
 
-    print(f"\nRecherche de remplaçants pour {len(dead)} chaîne(s) mortes…")
+    print(f"\nRecherche de remplaçants pour {len(dead)} morte(s) "
+          f"et {len(suspects)} suspecte(s)…")
     by_id, by_name = build_index()
 
     healed, unresolved = [], []
@@ -493,9 +619,26 @@ def main():
             unresolved.append(name)
             print(f"  ⚠️  {name}: aucun remplaçant valide trouvé")
 
+    # Les suspectes ne sont remplacées que si l'on trouve un flux qui joue
+    # réellement : un flux vérifié vaut mieux qu'un 403 invérifiable, mais un
+    # 403 vaut mieux que rien, donc en l'absence de candidat on ne touche pas.
+    for tid, name, url, j in suspects:
+        rep = find_replacement(tid, name, url, by_id, by_name)
+        if rep:
+            lines[j] = rep
+            healed.append((name, url, rep))
+            print(f"  ⬆️  {name} (403 -> flux vérifié): {url}  ->  {rep}")
+
     print(f"\nRéparées : {len(healed)} · Sans solution : {len(unresolved)}")
     if unresolved:
         print("  non résolues:", ", ".join(unresolved))
+
+    # Le tableau de bord reflète l'état APRÈS réparation.
+    for name, _avant, _apres in healed:
+        for _t, n, _u, j in direct:
+            if n == name and j in results:
+                results[j] = ("ok", "réparée à l'instant", None, None)
+    ecrire_etat(pairs, results, direct)
 
     if healed and not DRY:
         # Verrou de sûreté : deux chaînes ne doivent JAMAIS viser la même ligne
