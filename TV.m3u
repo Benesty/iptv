@@ -14,6 +14,14 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-5-highest.m3u8
 #EXTINF:-1 tvg-chno="6" tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" group-title="France", M6
 http://99.27.51.147:8080/M6/index.m3u8
+# ⚠️ M6 — SON SANS IMAGE signalé depuis le Québec le 2026-08-30. Le bot ne peut
+# pas le corriger seul : depuis un runner GitHub ce même flux renvoie bien une
+# piste vidéo (le pool sert donc un flux dégradé selon la région), et les 5
+# alternatives trouvées sont toutes injoignables d'un runner :
+#   CDN Shahid officiel, 144.217.253.140 (http et https), SFR, latvdefrance.
+# Le CDN officiel du groupe M6 est hors de portée : 6cloud refuse les IP de
+# datacenter (502 via le proxy Paris, cf. api/fr.js).
+# Si l'une de ces URLs marche chez toi, dis-le-moi et je bascule dessus.
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
 # ALT Arte (2e source OFFICIELLE France TV, stub schumijo — validée 2026-08-30): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Farte.m3u8
