@@ -47,7 +47,7 @@ https://iptv-lake-three.vercel.app/api/fr?dm=x5gv5v0&fb=https%3A%2F%2Fraw.github
 # fb= = ancien stub en repli si la résolution échoue.
 # ALT CSTAR (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/361/index.m3u8
 #EXTINF:-1 tvg-chno="22" tvg-id="6ter.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png" group-title="France", 6TER
-http://145.239.5.177/314/index.m3u8
+http://151.80.18.177:86/6ter/index.m3u8
 # ALT 6TER (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/314/index.m3u8
 #EXTINF:-1 tvg-chno="23" tvg-id="Numero23.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png" group-title="France", RMC Story
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fd15aro46bnpfm8.cloudfront.net%2Fv1%2Fmaster%2F3722c60a815c199d9c0ef36c5b73da68a62b09d1%2Fcc-fqkqiax1078up%2FRMC_Story_FR.m3u8
@@ -79,7 +79,7 @@ https://jmp2.uk/stvp-FR1800004EP
 # 🇫🇷 FRANCE — Thématiques
 #========================================
 #EXTINF:-1 tvg-chno="51" tvg-id="AB1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/ab1-fr.png" group-title="France", AB1
-http://145.239.5.177/332/index.m3u8
+http://151.80.18.177:86/AB1/index.m3u8
 # ALT AB1 (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/332/index.m3u8
 #EXTINF:-1 tvg-chno="29" tvg-id="RTL9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png" group-title="France", RTL9
 http://151.80.18.177:86/RTL9/index.m3u8
