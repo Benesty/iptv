@@ -16,6 +16,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 http://99.27.51.147:8080/M6/index.m3u8
 #EXTINF:-1 tvg-chno="7" tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png" group-title="France", Arte
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
+# ALT Arte (2e source OFFICIELLE France TV, stub schumijo — validée 2026-08-30): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Farte.m3u8
 # ALT Arte (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/300/index.m3u8
 # ⚠️ W9 — retirée (confirmé injouable depuis le Québec le 2026-07-20 : « Lecture
 # impossible »). Flux officiel M6/6cloud géo-restreint FR (403 hors-France) ; le proxy
@@ -87,6 +88,16 @@ http://151.80.18.177:86/RTL9/index.m3u8
 # ALT RTL9 (freetv.fun, peut dégeler): https://stream1.freetv.fun/2a569fd6415093249fce62ab816170066135e2812d78362b181bcfd75824626d.m3u8
 #EXTINF:-1 tvg-id="Franceinfo.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png" group-title="France", franceinfo
 https://iptv-lake-three.vercel.app/api/fr?id=FranceInfo.fr
+# ALT franceinfo (2e source OFFICIELLE France TV, stub schumijo — validée 2026-08-30): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Ffranceinfo.m3u8
+# ─── Nouvelles chaînes OFFICIELLES ajoutées le 2026-08-30 (validées au banc
+# d'essai : flux France TV, mêmes CDN que France 2/3/4/5, donc aussi stables).
+# Retire les 2 lignes d'une chaîne si elle ne t'intéresse pas.
+#EXTINF:-1 tvg-id="LCP.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lcp-fr.png" group-title="France", LCP - Public Sénat
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Flcpps.m3u8
+# France TV Sport : pas de tvg-id (chaîne événementielle, aucun EPG fiable) —
+# pas d'EPG vaut mieux qu'un faux EPG, conformément aux conventions du dépôt.
+#EXTINF:-1 group-title="France", France TV Sport
+https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Fsport.m3u8
 # T18 — réactivée le 2026-08-14 : ParaTV a relancé son stub Dailymotion
 # (streams/t18/t18-dm.m3u8, live id x9jhhyc — le même que notre résolveur), et le
 # stub jouait au banc d'essai du jour. Primaire = résolveur dm= (jeton frais à

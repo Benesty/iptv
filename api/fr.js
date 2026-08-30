@@ -61,9 +61,12 @@ const ALLOW_HOSTS = [
   ".nextradiotv.com",                   // BFM TV
   ".canalplus-cdn.net",                 // CANAL+ en clair, CNews
   ".dmcdn.net",                         // CSTAR (Dailymotion)
-  ".6cloud.fr",                         // groupe M6 officiel : M6, W9, 6ter, Gulli
-  ".bedrock.tech",                      // idem (origine 6play)
 ];
+// N'AJOUTE PAS .6cloud.fr / .bedrock.tech : essayé le 2026-08-30, les 6 flux
+// officiels du groupe M6 (M6, W9, 6ter, Gulli, Paris Première) renvoient 502
+// à travers le proxy — 6cloud refuse les IP de datacenter Vercel, quelle que
+// soit l'allowlist. Le blocage est côté CDN, pas côté proxy : ouvrir ces
+// domaines n'apporterait rien et élargirait la surface pour rien.
 
 const SECRET = (typeof process !== "undefined" && process.env && process.env.PROXY_SECRET) || "";
 
