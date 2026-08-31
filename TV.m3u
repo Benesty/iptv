@@ -299,7 +299,7 @@ https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_35
 # Le suffixe « US » les distingue de Disney Channel/Junior FR déjà présentes —
 # sans lui, le bot d'auto-réparation pourrait confondre les deux versions.
 #EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-channel-us.png" group-title="USA", History
-http://212.5.144.156:8080/history/index.m3u8
+https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
 # ALT History (restream Cloudflare Stream): https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
 #EXTINF:-1 tvg-id="NationalGeographic.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/national-geographic-us.png" group-title="USA", National Geographic
 http://198.58.104.90:8989/natgeo/index.m3u8

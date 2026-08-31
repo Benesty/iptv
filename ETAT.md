@@ -1,20 +1,21 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-08-31 13:17 UTC._
+_Mis à jour automatiquement par le bot le 2026-08-31 20:47 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant.
 
-**73 chaînes** — 💀 2 · 🌍 16 · ✅ 27 · 🔁 28
+**73 chaînes** — 💀 3 · 🌍 18 · ✅ 24 · 🔁 28
 
 
-## 💀 En panne (2)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
+| CANAL+ Cinéma | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
 
-## 🌍 Géo-bloquées (403) (16)
+## 🌍 Géo-bloquées (403) (18)
 
 | Chaîne | Détail |
 |---|---|
@@ -24,38 +25,37 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CBC News Explore | HTTP 403 |
 | CBC News Network | HTTP 403 |
 | Ciné+ Émotion | HTTP 403 |
+| Disney Channel US | HTTP 403 |
 | ICI RDI | HTTP 403 |
 | ICI Télé Estrie | HTTP 403 |
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
+| M6 | HTTP 403 |
 | M6 Music | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | Série Club | HTTP 403 |
 | TVA | HTTP 403 |
 | Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (27)
+## ✅ Fonctionnelles (24)
 
 | Chaîne | Détail |
 |---|---|
 | 6TER | — |
 | AB1 | — |
 | Bloomberg TV | — |
-| CANAL+ Cinéma | — |
 | CBS News 24/7 | — |
 | CityNews | — |
-| Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
 | France 24 (FR) | — |
 | GULLI | — |
 | Global News Montréal | — |
 | Gusto TV | — |
-| History | — |
+| History | réparée à l'instant |
 | Knowledge Network | — |
 | La Chaîne L'Équipe | — |
-| M6 | — |
 | National Geographic | — |
 | Nickelodeon | — |
 | Nickelodeon Junior | — |
