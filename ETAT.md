@@ -1,17 +1,16 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-01 18:19 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-01 23:13 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant.
 
-**73 chaînes** — 💀 3 · 🌍 16 · ✅ 26 · 🔁 28
+**73 chaînes** — 💀 2 · 🌍 16 · ✅ 27 · 🔁 28
 
 
-## 💀 En panne (3)
+## 💀 En panne (2)
 
 | Chaîne | Détail |
 |---|---|
-| AB1 | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
 
@@ -36,11 +35,12 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TVA | HTTP 403 |
 | Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (26)
+## ✅ Fonctionnelles (27)
 
 | Chaîne | Détail |
 |---|---|
 | 6TER | — |
+| AB1 | — |
 | Bloomberg TV | — |
 | CANAL+ Cinéma | — |
 | CBS News 24/7 | — |
