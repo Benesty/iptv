@@ -1,10 +1,10 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-01 00:32 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-01 08:31 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant.
 
-**73 chaînes** — 💀 4 · 🌍 17 · ✅ 24 · 🔁 28
+**73 chaînes** — 💀 4 · 🌍 16 · ✅ 25 · 🔁 28
 
 
 ## 💀 En panne (4)
@@ -13,10 +13,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 |---|---|
 | CANAL+ Cinéma | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
+| Disney Channel US | HTTP 404 |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
-| RTL9 | HTTP 404 |
 
-## 🌍 Géo-bloquées (403) (17)
+## 🌍 Géo-bloquées (403) (16)
 
 | Chaîne | Détail |
 |---|---|
@@ -26,7 +26,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CBC News Explore | HTTP 403 |
 | CBC News Network | HTTP 403 |
 | Ciné+ Émotion | HTTP 403 |
-| Disney Channel US | HTTP 403 |
 | ICI RDI | HTTP 403 |
 | ICI Télé Estrie | HTTP 403 |
 | ICI Télé Québec | HTTP 403 |
@@ -38,7 +37,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TVA | HTTP 403 |
 | Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (24)
+## ✅ Fonctionnelles (25)
 
 | Chaîne | Détail |
 |---|---|
@@ -64,6 +63,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Noovo Comédies | — |
 | Noovo Téléréalités | — |
 | Paris Première | — |
+| RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
 
