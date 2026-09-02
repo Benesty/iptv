@@ -1,20 +1,21 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-02 15:14 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-02 15:56 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**73 chaînes** — 💀 2 · 🌍 19 · ✅ 52
+**74 chaînes** — 💀 3 · 🌍 13 · ✅ 58
 
 
-## 💀 En panne (2)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
 | CNN | VOD/clip (ENDLIST), pas un direct |
+| M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
 
-## 🌍 Géo-bloquées (403) (19)
+## 🌍 Géo-bloquées (403) (13)
 
 | Chaîne | Détail |
 |---|---|
@@ -24,21 +25,15 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CBC News Explore | HTTP 403 |
 | CBC News Montréal | HTTP 403 · via redirecteur |
 | CBC News Network | HTTP 403 |
-| Ciné+ Émotion | HTTP 403 |
-| Disney Channel US | HTTP 403 |
 | ICI RDI | HTTP 403 |
 | ICI Télé Estrie | HTTP 403 |
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
-| M6 | HTTP 403 |
-| M6 Music | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
-| Série Club | HTTP 403 |
 | TVA | HTTP 403 |
-| Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (52)
+## ✅ Fonctionnelles (58)
 
 | Chaîne | Détail |
 |---|---|
@@ -53,7 +48,9 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CNews | via proxy Paris |
 | CSTAR | via proxy Paris · secours ✅ |
 | CTV News | via redirecteur |
+| Ciné+ Émotion | — |
 | CityNews | — |
+| Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
 | France 2 | via proxy Paris |
@@ -69,9 +66,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Gusto TV | — |
 | History | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
+| LCI | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
+| M6 | — |
 | National Geographic | — |
 | Nickelodeon | — |
 | Nickelodeon Junior | — |
@@ -86,11 +84,14 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
+| Série Club | — |
 | T18 | via proxy Paris · secours ✅ |
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
-| TFX | via proxy Paris · secours 🌍 (HTTP 403) |
+| TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
+| Teva | — |
+| W9 | — |
 | franceinfo | via proxy Paris |
