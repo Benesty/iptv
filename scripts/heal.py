@@ -28,8 +28,28 @@ TIMEOUT = 15
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 DRY = "--dry-run" in sys.argv
 
-# Résolveurs / redirecteurs qui se réparent seuls : on n'y touche jamais.
+# Résolveurs / redirecteurs qui se réparent seuls : on ne remplace jamais leur
+# URL. Depuis le 2026-09-02 on les SONDE quand même (à travers le proxy, comme
+# le ferait le lecteur) pour que ETAT.md dise la vérité — la panne TF1 du
+# 2026-09-01 au soir était invisible ici : « via proxy (se répare seul) ».
 SKIP_HOSTS = ("iptv-lake-three.vercel.app", "jmp2.uk")
+PROXY_HOST = "iptv-lake-three.vercel.app"
+
+
+def fb_of(url):
+    """Adresse de secours (&fb=…) portée par un lien proxy, ou None."""
+    if PROXY_HOST not in url:
+        return None
+    q = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
+    return (q.get("fb") or [None])[0]
+
+
+def avec_fb(url, fb):
+    """Le même lien proxy, avec son &fb= remplacé (ou ajouté)."""
+    p = urllib.parse.urlparse(url)
+    q = [(k, v) for k, v in urllib.parse.parse_qsl(p.query, keep_blank_values=True)
+         if k != "fb"] + [("fb", fb)]
+    return urllib.parse.urlunparse(p._replace(query=urllib.parse.urlencode(q)))
 
 # CDN OFFICIELS de diffuseurs : un 403 y est un vrai géo-blocage, la chaîne
 # marche depuis sa zone. On ne les remplace JAMAIS sur la foi d'un 403.
@@ -68,6 +88,22 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Groupe TF1 : la chaîne elle-même passe par le proxy (stub ParaTV, jeton
+    # relu à chaque lecture). Ces adresses servent de SECOURS (&fb= du lien
+    # proxy) : le lecteur y est renvoyé si le stub est introuvable, expiré ou
+    # refusé par le CDN. Validées au banc d'essai du 2026-09-02 ; le bot les
+    # sonde à chaque passage et remplace un secours mort par le suivant.
+    "TF1.fr": ["http://151.80.18.177:86/TF1_HD/index.m3u8"],
+    "TMC.fr": ["http://151.80.18.177:86/TMC/index.m3u8"],
+    "NT1.fr": ["http://145.239.5.177/315/index.m3u8"],                 # TFX
+    "LCI.fr": [
+        # stub GitHub tiers (jeton TF1 rafraîchi par son mainteneur) : jouait
+        # même depuis un runner US le 2026-09-02
+        "https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8",
+        "http://145.239.5.177/368/index.m3u8",
+    ],
+    # TF1SeriesFilms.fr : aucun secours connu (9 chemins de pool et netplus
+    # essayés le 2026-09-02, tous morts ou géo-bloqués).
     # M6 : le flux du pool 99.27.51.147 servait le SON SANS L'IMAGE
     # (signalé le 2026-08-30). Pistes trouvées lors de la fouille GitHub,
     # essayées en premier ; le bot vérifie la présence d'une piste vidéo avant
@@ -487,21 +523,22 @@ def find_replacement(tid, name, current, by_id, by_name):
     return None
 
 
-def ecrire_etat(pairs, results, direct):
+def ecrire_etat(pairs, results, notes=None):
     """Publie ETAT.md : l'état de chaque chaîne, lisible depuis un téléphone.
 
     L'utilisateur consulte le dépôt depuis son iPhone : il n'a aucun moyen de
     lancer un script. Ce fichier, committé à chaque passage du bot, est donc
-    son tableau de bord.
+    son tableau de bord. `notes` : précision par ligne (« via proxy », état
+    du secours…) ajoutée au détail.
     """
+    notes = notes or {}
     par_ligne = {j: (st, raison) for j, (st, raison, _m, _f) in results.items()}
     icone = {"ok": "✅", "geo": "🌍", "dead": "💀"}
     groupes = {}
     for tid, name, url, j in pairs:
-        if any(h in url for h in SKIP_HOSTS):
-            st, raison = "resolveur", "via proxy/redirecteur (se répare seul)"
-        else:
-            st, raison = par_ligne.get(j, ("?", "non testée"))
+        st, raison = par_ligne.get(j, ("?", "non testée"))
+        if j in notes:
+            raison = " · ".join(x for x in (raison, notes[j]) if x)
         groupes.setdefault(st, []).append((name, raison, url))
 
     horo = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
@@ -510,10 +547,12 @@ def ecrire_etat(pairs, results, direct):
            "Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN "
            "officiel d'un diffuseur est un géo-blocage normal : la chaîne "
            "fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le "
-           "bot cherche alors un remplaçant.\n"]
+           "bot cherche alors un remplaçant. Les chaînes « via proxy » sont "
+           "testées à travers le proxy Paris, comme le fait ton lecteur ; leur "
+           "« secours » est l'adresse vers laquelle le proxy bascule tout seul "
+           "si le flux officiel lâche.\n"]
     ordre = [("dead", "💀 En panne"), ("geo", "🌍 Géo-bloquées (403)"),
-             ("ok", "✅ Fonctionnelles"), ("resolveur", "🔁 Via résolveur"),
-             ("?", "❔ Non testées")]
+             ("ok", "✅ Fonctionnelles"), ("?", "❔ Non testées")]
     total = sum(len(v) for v in groupes.values())
     out.append(f"**{total} chaînes** — " + " · ".join(
         f"{lab.split()[0]} {len(groupes.get(cle, []))}" for cle, lab in ordre
@@ -539,40 +578,55 @@ def main():
 
     direct = [(t, n, u, j) for (t, n, u, j) in pairs
               if not any(h in u for h in SKIP_HOSTS)]
+    resolus = [(t, n, u, j) for (t, n, u, j) in pairs
+               if any(h in u for h in SKIP_HOSTS)]
     print(f"{len(pairs)} chaînes ; {len(direct)} à URL directe à vérifier ; "
-          f"{len(pairs) - len(direct)} via résolveur (ignorées).\n")
+          f"{len(resolus)} via résolveur (sondées, jamais remplacées).\n")
 
     # Passe 1 : sonde profonde de chaque chaîne (master -> variante -> segment).
+    # Les chaînes via proxy sont sondées à travers le proxy, comme le lecteur.
     results = {}
-    for tid, name, url, j in direct:
+    for tid, name, url, j in direct + resolus:
         results[j] = probe(url)
+    # Secours (&fb=) des liens proxy : sondés eux aussi, avec leurs propres
+    # verdicts, pour remplacer un secours mort AVANT qu'on en ait besoin.
+    secours = {j: fb for (_t, _n, u, j) in resolus for fb in [fb_of(u)] if fb}
+    res_fb = {j: probe(fb) for j, fb in secours.items()}
 
     # Passe 2 (gel) : LIVE_GAP s plus tard, une playlist média qui n'a pas
     # avancé = flux gelé (serveur qui répond mais vidéo morte — le lecteur
     # affiche « Lecture impossible » alors que le test simple disait vivant).
-    if any(st == "ok" for st, _r, _m, _f in results.values()):
+    if any(st == "ok" for st, _r, _m, _f in list(results.values()) + list(res_fb.values())):
         time.sleep(LIVE_GAP)
-        for j, (st, reason, media, fp) in list(results.items()):
-            if st == "ok" and playlist_progress(media, fp) == "gele":
-                results[j] = ("dead", "gelé (la playlist média n'avance plus)", None, None)
+        for table in (results, res_fb):
+            for j, (st, reason, media, fp) in list(table.items()):
+                if st == "ok" and playlist_progress(media, fp) == "gele":
+                    table[j] = ("dead", "gelé (la playlist média n'avance plus)", None, None)
 
     dead = []
     stats = {"ok": 0, "geo": 0, "dead": 0}
-    for tid, name, url, j in direct:
+    for tid, name, url, j in direct + resolus:
         c, reason = results[j][0], results[j][1]
         stats[c] += 1
         tag = {"ok": "✅", "geo": "🌍", "dead": "💀"}[c]
-        print(f"  {tag} {name:24s} {c}" + (f" ({reason})" if reason and c != "ok" else ""))
+        via = " (via proxy)" if (tid, name, url, j) in resolus else ""
+        print(f"  {tag} {name:24s} {c}{via}" + (f" ({reason})" if reason and c != "ok" else ""))
         if c == "dead":
             dead.append((tid, name, url, j))
+    for j, fb in secours.items():
+        c, reason = res_fb[j][0], res_fb[j][1]
+        nom = next(n for (_t, n, _u, jj) in resolus if jj == j)
+        tag = {"ok": "✅", "geo": "🌍", "dead": "💀"}[c]
+        print(f"  {tag} {nom:24s} secours {fb[:60]}" + (f" ({reason})" if reason and c != "ok" else ""))
 
     # Deuxième chance : ces flux « pirates » ont des micro-coupures. Sans ce
     # re-test, un hoquet de quelques secondes suffit à remplacer définitivement
     # une bonne URL (on l'a vu : RTL9 déclarée morte puis vivante 2 min après).
     # Le re-test applique les mêmes exigences que la passe 1 : un flux qui
     # re-répond mais reste gelé demeure condamné.
-    if dead:
-        print(f"\nRe-test dans 60 s des {len(dead)} chaîne(s) déclarées mortes…")
+    fb_morts = [j for j, (st, _r, _m, _f) in res_fb.items() if st == "dead"]
+    if dead or fb_morts:
+        print(f"\nRe-test dans 60 s des {len(dead) + len(fb_morts)} flux déclarés morts…")
         time.sleep(60)
         confirmees = []
         for tid, name, url, j in dead:
@@ -584,10 +638,35 @@ def main():
             if vivante:
                 stats["dead"] -= 1
                 stats["ok"] += 1
+                results[j] = (st, "", None, None)
                 print(f"  ↩️  {name:24s} en fait vivante (hoquet passager)")
             else:
                 confirmees.append((tid, name, url, j))
         dead = confirmees
+        for j in list(fb_morts):
+            st, _reason, media, fp = probe(secours[j])
+            vivante = st == "geo"
+            if st == "ok":
+                time.sleep(LIVE_GAP)
+                vivante = playlist_progress(media, fp) != "gele"
+            if vivante:
+                res_fb[j] = (st, "", None, None)
+                fb_morts.remove(j)
+
+    # Les chaînes via proxy ne se remplacent pas : c'est le proxy qui bascule
+    # seul sur le secours. Le bot signale seulement.
+    dead = [(t, n, u, j) for (t, n, u, j) in dead if (t, n, u, j) in direct]
+
+    # Notes pour ETAT.md : provenance et état du secours.
+    ic = {"ok": "✅", "geo": "🌍", "dead": "💀"}
+    notes = {}
+    for tid, name, url, j in resolus:
+        note = "via proxy Paris" if PROXY_HOST in url else "via redirecteur"
+        if j in secours:
+            note += f" · secours {ic[res_fb[j][0]]}"
+            if res_fb[j][0] != "ok" and res_fb[j][1]:
+                note += f" ({res_fb[j][1]})"
+        notes[j] = note
 
     # 403 sur un pool anonyme : on tente une mise à niveau (voir hote_officiel).
     suspects = [(t, n, u, j) for (t, n, u, j) in direct
@@ -598,14 +677,15 @@ def main():
         for _t, n, _u, _j in suspects:
             print(f"    · {n}")
 
-    print(f"\nRésumé direct : {stats['ok']} ok · {stats['geo']} géo · {stats['dead']} morts")
-    if not dead and not suspects:
+    print(f"\nRésumé : {stats['ok']} ok · {stats['geo']} géo · {stats['dead']} morts"
+          + (f" · secours morts : {len(fb_morts)}" if fb_morts else ""))
+    if not dead and not suspects and not fb_morts:
         print("Rien à réparer. 🎉")
-        ecrire_etat(pairs, results, direct)
+        ecrire_etat(pairs, results, notes)
         return 0
 
-    print(f"\nRecherche de remplaçants pour {len(dead)} morte(s) "
-          f"et {len(suspects)} suspecte(s)…")
+    print(f"\nRecherche de remplaçants pour {len(dead)} morte(s), "
+          f"{len(suspects)} suspecte(s) et {len(fb_morts)} secours mort(s)…")
     by_id, by_name = build_index()
 
     healed, unresolved = [], []
@@ -618,6 +698,19 @@ def main():
         else:
             unresolved.append(name)
             print(f"  ⚠️  {name}: aucun remplaçant valide trouvé")
+
+    # Secours mort d'un lien proxy : on le remplace par le suivant qui JOUE
+    # (registre puis agrégateurs), sans toucher au reste du lien.
+    for j in fb_morts:
+        tid, name, url = next((t, n, u) for (t, n, u, jj) in resolus if jj == j)
+        rep = find_replacement(tid, name, secours[j], by_id, by_name)
+        if rep:
+            lines[j] = avec_fb(url, rep)
+            healed.append((name, secours[j], rep))
+            notes[j] = notes[j].split(" · secours")[0] + " · secours ✅ (remplacé à l'instant)"
+            print(f"  🛟 {name} secours: {secours[j]}  ->  {rep}")
+        else:
+            print(f"  ⚠️  {name}: secours mort et aucun autre secours valide")
 
     # Les suspectes ne sont remplacées que si l'on trouve un flux qui joue
     # réellement : un flux vérifié vaut mieux qu'un 403 invérifiable, mais un
@@ -634,11 +727,11 @@ def main():
         print("  non résolues:", ", ".join(unresolved))
 
     # Le tableau de bord reflète l'état APRÈS réparation.
-    for name, _avant, _apres in healed:
-        for _t, n, _u, j in direct:
-            if n == name and j in results:
+    for name, avant, _apres in healed:
+        for _t, n, u, j in direct:
+            if n == name and u == avant and j in results:
                 results[j] = ("ok", "réparée à l'instant", None, None)
-    ecrire_etat(pairs, results, direct)
+    ecrire_etat(pairs, results, notes)
 
     if healed and not DRY:
         # Verrou de sûreté : deux chaînes ne doivent JAMAIS viser la même ligne

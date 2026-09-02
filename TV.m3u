@@ -3,7 +3,15 @@
 # 🇫🇷 FRANCE — TNT
 #========================================
 #EXTINF:-1 tvg-chno="1" tvg-id="TF1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" group-title="France", TF1
-https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr
+https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8
+# Groupe TF1 (TF1, TMC, TFX, LCI, TF1 Séries Films) — panne du 2026-09-01 au soir.
+# Ces chaînes lisent un « stub » ParaTV dont chaque variante porte un jeton TF1
+# valable 4 h, et ParaTV déplace ses stubs toutes les ~3 h en supprimant l'ancien.
+# Le proxy figeait le jeton au moment du zap : un jeton déjà vieux de 3 h coupait
+# la chaîne 1 h plus tard. Depuis le 2026-09-02, le proxy relit le stub à chaque
+# lecture (jeton toujours frais) et, si le stub est introuvable/expiré/refusé,
+# renvoie le lecteur vers le « fb= » (secours lu en direct, validé au banc
+# d'essai ; le bot le sonde toutes les 3 h et le remplace s'il meurt).
 #EXTINF:-1 tvg-chno="2" tvg-id="France2.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" group-title="France", France 2
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8
 #EXTINF:-1 tvg-chno="3" tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" group-title="France", France 3
@@ -33,9 +41,9 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 # #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
 # https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
-https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr
+https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
-https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr
+https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr&fb=http%3A%2F%2F145.239.5.177%2F315%2Findex.m3u8
 # ALT TFX (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/315/index.m3u8
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
 http://99.27.51.147:8080/Gulli/index.m3u8
@@ -44,8 +52,9 @@ http://99.27.51.147:8080/Gulli/index.m3u8
 # elles toutes les 3 h, c'est normal — pas de source stable connue à ce jour.
 # ALT GULLI (pool M6, l'autre moitié du ping-pong): http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
-https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr
-# ALT LCI (secours pool, décommenter si le flux ci-dessus est HS): http://151.80.18.177:86/LCI_HD/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr&fb=https%3A%2F%2Fraw.githubusercontent.com%2Fpinkisso%2Fmored%2Frefs%2Fheads%2Fmain%2Fres%2F26-1%2Flci1.m3u8
+# ALT LCI (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/368/index.m3u8
+# (l'ancien secours http://151.80.18.177:86/LCI_HD/index.m3u8 répond 404 depuis le 2026-09-02)
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcnews-clair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="17" tvg-id="CStar.fr" tvg-logo="https://picserve.netplus.ch/channels/d17.png" group-title="France", CSTAR
@@ -66,6 +75,9 @@ https://jmp2.uk/stvp-FR4000003O1
 # ALT RMC Life (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/333/index.m3u8
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
 https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
+# TF1 Séries Films : aucun secours connu (2026-09-02 : 9 chemins de pool et le
+# CDN netplus essayés, tous morts ou géo-bloqués). Seule la relecture du jeton
+# par le proxy la protège.
 #EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs

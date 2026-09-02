@@ -18,6 +18,23 @@
  * plus aucune dépendance à ce job. &fb=<url> = repli si la résolution échoue
  * (au pire on retrouve exactement le comportement stub d'avant).
  *
+ * JETONS QUI EXPIRENT EN COURS DE LECTURE (constat du 2026-09-02, panne TF1
+ * « hier soir ») : les stubs ParaTV ne sont pas des flux, ce sont des manifestes
+ * maîtres dont chaque variante porte un JETON à durée limitée — JWT de 4 h chez
+ * TF1 (dossier renouvelé toutes les ~3 h et l'ancien SUPPRIMÉ), « exp=… » chez
+ * France TV, « __token__exp=… » chez Canal+. Le proxy réécrivait ces variantes en
+ * liens signés qui figeaient le jeton : un lecteur qui zappait sur un jeton déjà
+ * vieux de 3 h était coupé 1 h plus tard, et rien ne le relançait. Désormais,
+ * pour un stub GitHub, chaque variante devient « &v=<n> » : à CHAQUE relecture de
+ * la playlist média (toutes les ~6 s) le proxy relit le stub — mis en cache
+ * quelques dizaines de secondes — et repart du jeton le plus frais. Un stub
+ * disparu (dossier TF1 renouvelé) est suivi via la playlist ParaTV, et le
+ * dernier stub encore valide sert de secours le temps que GitHub rafraîchisse.
+ *
+ * &fb=<url .m3u8> (modes id= et u=) : si le stub est introuvable, expiré ou
+ * refusé par le CDN, le manifeste maître répond 302 vers cette adresse de
+ * secours — le lecteur la lit alors EN DIRECT (rien ne transite par Vercel).
+ *
  * SÉCURITÉ — le dépôt est public, donc l'URL du proxy l'est aussi. Sans garde-fou,
  * n'importe qui pourrait s'en servir comme relais anonyme sur le quota Vercel.
  * Trois protections :
@@ -32,6 +49,8 @@
  * Sans PROXY_SECRET, rien ne s'ouvre — au contraire : les liens signés sont
  * alors refusés et seuls les hôtes de la liste blanche passent. La variable
  * sert à ÉLARGIR aux CDN de segments, pas à fermer l'accès.
+ * Le repli fb= n'est jamais relayé (302 seulement) et n'accepte qu'une adresse
+ * http(s) de manifeste .m3u8 : pas de redirection ouverte vers n'importe quoi.
  */
 
 export const config = { runtime: "edge", regions: ["cdg1"] };
@@ -67,6 +86,10 @@ const ALLOW_HOSTS = [
 // à travers le proxy — 6cloud refuse les IP de datacenter Vercel, quelle que
 // soit l'allowlist. Le blocage est côté CDN, pas côté proxy : ouvrir ces
 // domaines n'apporterait rien et élargirait la surface pour rien.
+
+// Hôte des stubs (manifestes maîtres à jetons, rafraîchis par leur mainteneur) :
+// c'est pour eux que la relecture « &v=<n> » a un sens.
+const STUB_HOST = "raw.githubusercontent.com";
 
 const SECRET = (typeof process !== "undefined" && process.env && process.env.PROXY_SECRET) || "";
 
@@ -184,7 +207,7 @@ async function fetchFollowingSafely(target, headers, signal) {
   }
 }
 
-async function targetAuthorized(rawUrl, providedSig) {
+async function targetAuthorized(rawUrl, providedSig, derived = false) {
   let u;
   try {
     u = new URL(rawUrl);
@@ -196,6 +219,9 @@ async function targetAuthorized(rawUrl, providedSig) {
   // Lien signé par le proxy lui-même (permet n'importe quel CDN sans rouvrir
   // le proxy) — actif seulement si PROXY_SECRET est défini.
   if (SECRET && providedSig && safeEqual(providedSig, await sign(rawUrl))) return null;
+  // Variante « &v=<n> » : l'URL a été lue par le proxy lui-même dans un stub
+  // qu'il vient de récupérer — même confiance qu'un lien signé, mêmes conditions.
+  if (SECRET && derived) return null;
   return `hôte non autorisé: ${u.hostname}`;
 }
 
@@ -249,8 +275,28 @@ async function resolveDailymotion(videoId, embedder) {
   return { error: "aucun flux (onair=" + (meta?.onair ?? "?") + ")" };
 }
 
+// Cache mémoire très court. L'isolate Edge survit d'une requête à l'autre, et
+// chaque lecteur relit sa playlist média toutes les ~6 s : sans ce cache, chaque
+// relecture irait rechercher la playlist ParaTV (150 Ko) et le stub sur GitHub.
+const RESOLVE_TTL_MS = 45_000;
+const memo = new Map();
+async function memoized(key, fn) {
+  const hit = memo.get(key);
+  if (hit && hit.until > Date.now()) return hit.value;
+  const value = await fn();
+  // Un échec n'est jamais mis en cache : la prochaine requête retente.
+  if (value !== null && value !== undefined) memo.set(key, { value, until: Date.now() + RESOLVE_TTL_MS });
+  return value;
+}
+
 async function resolveParaTV(id) {
-  const res = await fetch(PLAYLIST, { headers: { "cache-control": "max-age=60" } });
+  // Le CDN de raw.githubusercontent.com peut servir une copie vieille de
+  // quelques minutes ; or ParaTV déplace ses stubs TF1 toutes les ~3 h et
+  // supprime l'ancien dossier. La minute courante dans l'URL force une copie
+  // fraîche à chaque minute (paramètre ignoré par GitHub, mais pas par son cache).
+  const res = await fetch(PLAYLIST + "?_=" + Math.floor(Date.now() / 60000), {
+    headers: { "user-agent": UA, "cache-control": "max-age=60" },
+  });
   if (!res.ok) return null;
   const lines = (await res.text()).split("\n");
   const needle = `tvg-id="${id}"`;
@@ -261,6 +307,164 @@ async function resolveParaTV(id) {
     }
   }
   return null;
+}
+
+// Manifeste maître d'un stub : {text, base} ou null s'il ne répond pas / n'est
+// pas un manifeste (dossier ParaTV supprimé -> 404).
+async function fetchStub(stubUrl) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch(stubUrl, { headers: { "user-agent": UA }, signal: ctrl.signal });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trimStart().startsWith("#EXTM3U")) return null;
+    return { text, base: res.url || stubUrl };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// Toutes les URI d'un manifeste maître, dans l'ordre du document : les lignes
+// nues (variantes) ET les attributs URI="…" (#EXT-X-MEDIA audio/sous-titres,
+// #EXT-X-KEY…). rewriteStub numérote dans le même ordre : « &v=<n> » désigne
+// donc toujours la même entrée, quel que soit le moment où le stub est relu.
+function urisOf(text, base) {
+  const out = [];
+  for (const line of text.split("\n")) {
+    const t = line.trim();
+    if (!t) continue;
+    if (t.startsWith("#")) {
+      for (const m of line.matchAll(/URI="([^"]+)"/g)) out.push(new URL(m[1], base).href);
+    } else {
+      out.push(new URL(t, base).href);
+    }
+  }
+  return out;
+}
+
+// Date d'expiration (secondes epoch) du jeton porté par une URI, ou null.
+// Formes connues : JWT dans le chemin (TF1 : « /eyJ….eyJ…./ », champ exp),
+// segment base64 « exp=…~acl=…~hmac=… » (France TV), « __token__exp=… »
+// (Canal+), « hdnts=exp=… » / « hdnea=exp=… » (Akamai).
+function tokenExp(uri) {
+  let m = /\/eyJ[\w-]*\.(eyJ[\w-]*)\./.exec(uri);
+  if (m) {
+    try {
+      const payload = m[1].replace(/-/g, "+").replace(/_/g, "/");
+      const p = JSON.parse(atob(payload + "=".repeat((4 - (payload.length % 4)) % 4)));
+      if (typeof p.exp === "number") return p.exp;
+    } catch {}
+  }
+  m = /(?:__token__|hdnts=|hdnea=)exp(?:=|%3D)(\d{9,10})/i.exec(uri);
+  if (m) return Number(m[1]);
+  for (const seg of uri.split("/")) {
+    if (!seg.startsWith("ZXhwPT")) continue; // base64 de « exp= »
+    try {
+      const d = atob(seg.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (seg.length % 4)) % 4));
+      const e = /^exp=(\d{9,10})/.exec(d);
+      if (e) return Number(e[1]);
+    } catch {}
+  }
+  return null;
+}
+
+// Expiration la plus proche parmi les URI d'un stub (null si aucun jeton).
+function earliestExp(uris) {
+  let min = null;
+  for (const u of uris) {
+    const e = tokenExp(u);
+    if (e !== null && (min === null || e < min)) min = e;
+  }
+  return min;
+}
+
+// Manifeste maître réécrit : chaque URI devient « <même requête>&v=<n> ».
+// `self` = origin + « /api/fr?id=… » ou « /api/fr?u=… » (sans v).
+function rewriteStub(text, self) {
+  let n = 0;
+  const link = () => `${self}&v=${n++}`;
+  return text
+    .split("\n")
+    .map((line) => {
+      const t = line.trim();
+      if (!t) return line;
+      if (t.startsWith("#")) return line.replace(/URI="([^"]+)"/g, () => `URI="${link()}"`);
+      return link();
+    })
+    .join("\n");
+}
+
+// Dernier stub valide par clé (id= ou URL de stub) : sert de secours quand le
+// stub frais est introuvable — typiquement les quelques minutes où le cache de
+// GitHub sert encore l'ancienne playlist ParaTV alors que l'ancien dossier a
+// déjà été supprimé. Les jetons de l'ancien stub restent valables jusqu'à exp.
+const lastGood = new Map();
+
+// Résout le stub d'une chaîne : {text, base, uris, exp} ou {error}.
+//   id  : tvg-id ParaTV (l'URL du stub est relue dans la playlist), sinon
+//   url : URL de stub directe (mode u=)
+async function resolveStub(id, url) {
+  const key = id ? "id:" + id : "u:" + url;
+  const stubUrlOf = () => (id ? memoized("pl:" + id, () => resolveParaTV(id)) : Promise.resolve(url));
+  let stubUrl = await stubUrlOf();
+  let stub = stubUrl ? await memoized("stub:" + stubUrl, () => fetchStub(stubUrl)) : null;
+  if (!stub && id) {
+    // Dossier ParaTV renouvelé entre-temps ? On repart d'une playlist fraîche.
+    memo.delete("pl:" + id);
+    const fresh = await stubUrlOf();
+    if (fresh && fresh !== stubUrl) {
+      stubUrl = fresh;
+      stub = await memoized("stub:" + stubUrl, () => fetchStub(stubUrl));
+    }
+  }
+  const now = Date.now() / 1000;
+  if (stub) {
+    const uris = urisOf(stub.text, stub.base);
+    const exp = earliestExp(uris);
+    if (!uris.length) return { error: "stub sans flux: " + stubUrl };
+    if (exp !== null && exp < now) {
+      // Le mainteneur du stub n'a pas rafraîchi son jeton : inutile d'insister.
+      const old = lastGood.get(key);
+      if (old && old.exp !== null && old.exp > now) return old;
+      return { error: `jeton du stub expiré depuis ${Math.round((now - exp) / 60)} min: ${stubUrl}` };
+    }
+    const r = { text: stub.text, base: stub.base, uris, exp };
+    lastGood.set(key, r);
+    return r;
+  }
+  const old = lastGood.get(key);
+  if (old && (old.exp === null || old.exp > now)) return old;
+  return { error: stubUrl ? "stub injoignable: " + stubUrl : "id introuvable: " + id };
+}
+
+// Adresse de repli acceptable : http(s), manifeste .m3u8, pas une cible interne.
+// Le proxy ne la relaie jamais (302 seulement) — le lecteur la lit en direct.
+function fallbackTarget(fb) {
+  if (!fb) return null;
+  let u;
+  try {
+    u = new URL(fb);
+  } catch {
+    return null;
+  }
+  if (u.protocol !== "http:" && u.protocol !== "https:") return null;
+  if (!u.pathname.toLowerCase().endsWith(".m3u8")) return null;
+  if (isBlockedTarget(u)) return null;
+  return u.toString();
+}
+
+function failOrFallback(reason, fb) {
+  const t = fallbackTarget(fb);
+  if (t) {
+    return new Response(null, {
+      status: 302,
+      headers: { location: t, "cache-control": "no-store", "x-fr-fallback": "1" },
+    });
+  }
+  return new Response(reason, { status: 502 });
 }
 
 // Toute URL réécrite est signée : c'est ce qui permet de proxifier les segments
@@ -298,58 +502,119 @@ async function rewriteManifest(text, baseUrl, origin) {
   return out.join("\n");
 }
 
+const MANIFEST_HEADERS = {
+  "content-type": "application/vnd.apple.mpegurl",
+  "access-control-allow-origin": "*",
+  "cache-control": "no-cache",
+  "x-content-type-options": "nosniff",
+  "content-security-policy": "sandbox",
+};
+
+function upstreamHeaders(target, req) {
+  const tOrigin = new URL(target).origin;
+  const h = {
+    "user-agent": UA,
+    // certains CDN telco (netplus…) exigent un Referer/Origin
+    referer: tOrigin + "/",
+    origin: tOrigin,
+  };
+  // Transmet le Range du lecteur : nécessaire pour que certains players
+  // récupèrent les segments par morceaux (et pour le seek).
+  const range = req && req.headers.get("range");
+  if (range) h.range = range;
+  return h;
+}
+
 /* ------------------------------------------------------------------ */
 export default async function handler(req) {
   const reqUrl = new URL(req.url);
   const origin = reqUrl.origin;
   const id = reqUrl.searchParams.get("id");
   const sig = reqUrl.searchParams.get("s") || "";
+  const v = reqUrl.searchParams.get("v");
+  const fb = reqUrl.searchParams.get("fb");
   let target = reqUrl.searchParams.get("u");
 
   const dm = reqUrl.searchParams.get("dm");
 
   if (id && !target) {
-    target = await resolveParaTV(id);
-    if (!target) return new Response("id introuvable: " + id, { status: 404 });
+    if (!/^[A-Za-z0-9._-]{1,64}$/.test(id)) return new Response("id invalide", { status: 400 });
+  }
+
+  // Stub GitHub (mode id=, ou u= pointant sur un stub) : manifeste maître
+  // réécrit en « &v=<n> », et chaque « v= » relu depuis le stub du moment.
+  let stubHost = false;
+  if (target && v !== null) {
+    try {
+      stubHost = new URL(target).hostname === STUB_HOST;
+    } catch {}
+  }
+  let derived = false; // target lu par le proxy dans un stub (variante « v= »)
+  if ((id && !target) || (stubHost && v !== null)) {
+    const r = id && !target ? await resolveStub(id, null) : await resolveStub(null, target);
+    if (r.error) return v === null ? failOrFallback(r.error, fb) : new Response(r.error, { status: 502 });
+    if (v !== null) {
+      const i = Number(v);
+      if (!Number.isInteger(i) || i < 0 || i >= r.uris.length)
+        return new Response("variante inconnue: " + v, { status: 404 });
+      target = r.uris[i]; // puis chemin normal : garde-fous, fetch, réécriture des segments
+      derived = true;
+    } else {
+      // Manifeste maître. On sonde d'abord la première entrée : un CDN qui
+      // refuse l'IP du proxy (403) se voit ici, et le repli peut jouer —
+      // plutôt qu'un manifeste dont chaque variante donnerait 502.
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+      try {
+        const res = await fetchFollowingSafely(r.uris[0], upstreamHeaders(r.uris[0]), ctrl.signal);
+        if (res.body) res.body.cancel().catch(() => {});
+        if (!res.ok) return failOrFallback("variante upstream " + res.status, fb);
+      } catch (e) {
+        return failOrFallback("variante: " + e, fb);
+      } finally {
+        clearTimeout(timer);
+      }
+      const self = id ? `${origin}/api/fr?id=${encodeURIComponent(id)}` : `${origin}${SELF}${encodeURIComponent(target)}`;
+      return new Response(rewriteStub(r.text, self), { status: 200, headers: MANIFEST_HEADERS });
+    }
   }
   if (dm && !target) {
     const r = await resolveDailymotion(dm, reqUrl.searchParams.get("ref"));
     // Repli sur fb= (typiquement le stub ParaTV) : le mode dm= ne peut donc
     // jamais faire pire que l'ancien comportement. fb= repasse par les mêmes
     // garde-fous que u= juste en dessous.
-    target = r.url || reqUrl.searchParams.get("fb");
+    target = r.url || fb;
     if (!target)
       return new Response("dailymotion " + dm + " irrésoluble — " + r.error, { status: 502 });
   }
   if (!target)
     return new Response("usage: /api/fr?id=<tvg-id>, ?dm=<video-id> ou ?u=<url>", { status: 400 });
 
-  const refus = await targetAuthorized(target, sig);
+  const refus = await targetAuthorized(target, sig, derived);
   if (refus) return new Response(refus, { status: 403 });
 
   let upstream;
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const tOrigin = new URL(target).origin;
-    const h = {
-      "user-agent": UA,
-      // certains CDN telco (netplus…) exigent un Referer/Origin
-      referer: tOrigin + "/",
-      origin: tOrigin,
-    };
-    // Transmet le Range du lecteur : nécessaire pour que certains players
-    // récupèrent les segments par morceaux (et pour le seek).
-    const range = req.headers.get("range");
-    if (range) h.range = range;
-
-    upstream = await fetchFollowingSafely(target, h, ctrl.signal);
+    upstream = await fetchFollowingSafely(target, upstreamHeaders(target, req), ctrl.signal);
   } catch (e) {
     clearTimeout(timer);
     return new Response("fetch error: " + e, { status: 502 });
   }
   clearTimeout(timer);
-  if (!upstream.ok) return new Response("upstream " + upstream.status, { status: 502 });
+  if (!upstream.ok) {
+    // Un stub GitHub demandé en u= sans v= (manifeste maître) qui ne répond
+    // pas : c'est le cas du repli, pas celui d'un segment.
+    if (v === null && !dm) {
+      let isStub = false;
+      try {
+        isStub = new URL(target).hostname === STUB_HOST;
+      } catch {}
+      if (isStub) return failOrFallback("upstream " + upstream.status, fb);
+    }
+    return new Response("upstream " + upstream.status, { status: 502 });
+  }
 
   const ct = (upstream.headers.get("content-type") || "").toLowerCase();
   // Le chemin seul, pas l'URL entière : sinon un « ?x=.m3u8 » dans la query
@@ -368,17 +633,29 @@ export default async function handler(req) {
 
   if (isManifest) {
     const text = await upstream.text();
+    // Un stub GitHub lu en u= (France TV, Canal+…) : ses variantes portent des
+    // jetons qui expirent ; on les sert en « &v=<n> » pour les relire à chaque
+    // fois plutôt que de figer le jeton dans des liens signés.
+    let isStub = false;
+    try {
+      isStub = v === null && !dm && new URL(target).hostname === STUB_HOST && text.includes("#EXT-X-STREAM-INF");
+    } catch {}
+    if (isStub) {
+      const uris = urisOf(text, upstream.url || target);
+      const exp = earliestExp(uris);
+      if (exp !== null && exp < Date.now() / 1000)
+        return failOrFallback(`jeton du stub expiré depuis ${Math.round((Date.now() / 1000 - exp) / 60)} min`, fb);
+      if (uris.length) {
+        lastGood.set("u:" + target, { text, base: upstream.url || target, uris, exp });
+        memo.set("stub:" + target, { value: { text, base: upstream.url || target }, until: Date.now() + RESOLVE_TTL_MS });
+        return new Response(rewriteStub(text, `${origin}${SELF}${encodeURIComponent(target)}`), {
+          status: 200,
+          headers: MANIFEST_HEADERS,
+        });
+      }
+    }
     const out = await rewriteManifest(text, upstream.url || target, origin);
-    return new Response(out, {
-      status: 200,
-      headers: {
-        "content-type": "application/vnd.apple.mpegurl",
-        "access-control-allow-origin": "*",
-        "cache-control": "no-cache",
-        "x-content-type-options": "nosniff",
-        "content-security-policy": "sandbox",
-      },
-    });
+    return new Response(out, { status: 200, headers: MANIFEST_HEADERS });
   }
 
   // Liste blanche des types renvoyés : le proxy ne doit servir que du média.
@@ -387,7 +664,8 @@ export default async function handler(req) {
   // couperait toutes les chaînes proxifiées).
   const MEDIA_OK = ["video/", "audio/", "application/octet-stream",
                     "application/x-mpegurl", "application/vnd.apple.mpegurl",
-                    "binary/octet-stream", "application/mp4", "image/"];
+                    "binary/octet-stream", "application/mp4", "image/",
+                    "text/vtt"];                       // sous-titres WebVTT
   if (ct && !MEDIA_OK.some((t) => ct.includes(t))) {
     return new Response("type de contenu non autorisé", { status: 415 });
   }
@@ -396,8 +674,8 @@ export default async function handler(req) {
   const pct = upstream.headers.get("content-type");
   if (pct) h.set("content-type", pct);
   for (const k of ["content-range", "accept-ranges", "content-length"]) {
-    const v = upstream.headers.get(k);
-    if (v) h.set(k, v);
+    const val = upstream.headers.get(k);
+    if (val) h.set(k, val);
   }
   h.set("access-control-allow-origin", "*");
   h.set("x-content-type-options", "nosniff");

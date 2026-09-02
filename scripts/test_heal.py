@@ -110,6 +110,22 @@ print("6. 404 :")
 st, r, _m, _f = heal.probe(f"{base}/absent.m3u8")
 check("probe.status", st, "dead")
 
+print("7. secours (&fb=) d'un lien proxy :")
+lien = "https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"
+check("fb_of lit le secours", heal.fb_of(lien), "http://151.80.18.177:86/TF1_HD/index.m3u8")
+check("fb_of sans secours", heal.fb_of("https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr"), None)
+check("fb_of hors proxy", heal.fb_of("http://151.80.18.177:86/TMC/index.m3u8"), None)
+nouveau = heal.avec_fb(lien, "http://145.239.5.177/368/index.m3u8")
+check("avec_fb remplace le secours", heal.fb_of(nouveau), "http://145.239.5.177/368/index.m3u8")
+check("avec_fb garde l'id", "id=TF1.fr" in nouveau, True)
+u_lien = ("https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com"
+          "%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8")
+ajout = heal.avec_fb(u_lien, "http://89.187.185.76:8080/France2/index.m3u8")
+check("avec_fb ajoute un secours sans altérer u=", ajout.startswith(u_lien + "&fb="), True)
+check("avec_fb est idempotent", heal.avec_fb(ajout, "http://89.187.185.76:8080/France2/index.m3u8"), ajout)
+pairs, _lines = heal.parse_pairs("#EXTM3U\n#EXTINF:-1 tvg-id=\"TF1.fr\",TF1\n" + lien + "\n")
+check("parse_pairs conserve le lien avec fb=", pairs[0][2], lien)
+
 srv.shutdown()
 print("\nRÉSULTAT GLOBAL :", "✅ tout passe" if ok else "❌ ÉCHECS")
 sys.exit(0 if ok else 1)
