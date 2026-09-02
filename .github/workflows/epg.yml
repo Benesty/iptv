@@ -8,7 +8,12 @@ on:
     - cron: "30 4 * * *"   # tous les jours 04:30 UTC
   push:
     branches: [main]
-    paths: ["TV.m3u"]      # reconstruit l'EPG à chaque ajout/retrait de chaîne
+    paths:                 # reconstruit l'EPG à chaque ajout/retrait de chaîne…
+      - "TV.m3u"
+      - "scripts/build_epg.py"        # …et dès qu'on corrige le constructeur :
+      - ".github/workflows/epg.yml"   # sinon la réparation n'est prouvée qu'au
+                                      # prochain passage nocturne, et le dernier
+                                      # run visible sur main reste un échec.
   workflow_dispatch:
 
 permissions:
