@@ -79,7 +79,11 @@ const ALLOW_HOSTS = [
   ".ftven.fr",                          // France 2/3/4/5, Arte, franceinfo, FTV Docs/Séries
   ".nextradiotv.com",                   // BFM TV
   ".canalplus-cdn.net",                 // CANAL+ en clair, CNews
-  ".dmcdn.net",                         // CSTAR (Dailymotion)
+  ".dmcdn.net",                         // CSTAR, T18 (Dailymotion, segments)
+  ".dailymotion.com",                   // CSTAR, T18 : depuis 2026-09 le manifeste
+                                        // résolu vit sur cdndirector.dailymotion.com
+                                        // (qui redirige vers dmcdn) — sans lui, le
+                                        // mode dm= répondait « hôte non autorisé »
 ];
 // N'AJOUTE PAS .6cloud.fr / .bedrock.tech : essayé le 2026-08-30, les 6 flux
 // officiels du groupe M6 (M6, W9, 6ter, Gulli, Paris Première) renvoient 502
@@ -582,10 +586,12 @@ export default async function handler(req) {
     const r = await resolveDailymotion(dm, reqUrl.searchParams.get("ref"));
     // Repli sur fb= (typiquement le stub ParaTV) : le mode dm= ne peut donc
     // jamais faire pire que l'ancien comportement. fb= repasse par les mêmes
-    // garde-fous que u= juste en dessous.
-    target = r.url || fb;
+    // garde-fous que u= juste en dessous. Une URL résolue mais refusée par la
+    // liste blanche (Dailymotion change parfois d'hôte) compte comme un échec
+    // de résolution : on préfère le stub à un 403 sec.
+    target = r.url && !(await targetAuthorized(r.url, "")) ? r.url : fb;
     if (!target)
-      return new Response("dailymotion " + dm + " irrésoluble — " + r.error, { status: 502 });
+      return new Response("dailymotion " + dm + " irrésoluble — " + (r.error || "hôte refusé"), { status: 502 });
   }
   if (!target)
     return new Response("usage: /api/fr?id=<tvg-id>, ?dm=<video-id> ou ?u=<url>", { status: 400 });
