@@ -1,1 +1,57 @@
-[]
+[
+ {
+  "name": "6TER (pool 151.80 6ter)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6ter/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6TER)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6TER/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6ter_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6ter_HD/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6TER_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6TER_HD/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6Ter)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6Ter/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6ter_hd)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6ter_hd/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 SIXTER)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/SIXTER/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 151.80 6TER_FR)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/6TER_FR/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 145.239 /314)",
+  "langue": "fr",
+  "url": "http://145.239.5.177/314/index.m3u8"
+ },
+ {
+  "name": "6TER (netplus, direct)",
+  "langue": "fr",
+  "url": "https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8"
+ },
+ {
+  "name": "6TER (netplus via proxy)",
+  "langue": "fr",
+  "url": "https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fviamotionhsi.netplus.ch%2Flive%2Feds%2F6ter%2Fbrowser-HLS8%2F6ter.m3u8"
+ }
+]

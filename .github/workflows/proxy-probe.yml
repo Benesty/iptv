@@ -64,4 +64,40 @@ jobs:
           montre("LCI — manifeste maître", f"{P}?id=LCI.fr&fb=http%3A%2F%2F145.239.5.177%2F368%2Findex.m3u8", 4)
           montre("CSTAR — manifeste maître (mode dm=)",
                  f"{P}?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8", 4)
+
+          # Descente complète : maître -> première variante -> premier segment,
+          # avec le code et le Content-Type à chaque étape. C'est là qu'on voit
+          # un 415 (« type de contenu non autorisé ») ou un 502 de segment.
+          def premiere_uri(body):
+              for l in body.splitlines():
+                  l = l.strip()
+                  if l and not l.startswith("#"):
+                      return l
+              return None
+
+          def descente(titre, url):
+              print(f"\n##### DESCENTE {titre}")
+              st, h, body = get(url)
+              print(f"  maître   HTTP {st} {h.get('Content-Type','')}")
+              if st != 200: print("  | " + body[:200]); return
+              v = premiere_uri(body)
+              if not v: print("  (pas de variante)"); return
+              st, h, body = get(v)
+              print(f"  variante HTTP {st} {h.get('Content-Type','')}\n           {v[:150]}")
+              if st != 200: print("  | " + body[:200]); return
+              for l in body.splitlines()[:6]: print("  | " + l[:140])
+              s = premiere_uri(body)
+              if not s: print("  (pas de segment)"); return
+              req = urllib.request.Request(s, headers={"User-Agent": UA, "Range": "bytes=0-1500"})
+              try:
+                  r = opener.open(req, timeout=30); data = r.read(2000)
+                  print(f"  segment  HTTP {r.status} {r.headers.get('Content-Type','')}  {len(data)} octets\n           {s[:150]}")
+              except urllib.error.HTTPError as e:
+                  print(f"  segment  HTTP {e.code} {e.headers.get('Content-Type','')}  | {e.read(200).decode('utf-8','replace')}\n           {s[:150]}")
+              except Exception as e:
+                  print(f"  segment  {type(e).__name__}: {e}")
+
+          descente("CSTAR (dm=)", f"{P}?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8")
+          descente("T18 (dm=)", f"{P}?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Fres%2Ft18-dm-highest.m3u8")
+          descente("TF1 (id=)", f"{P}?id=TF1.fr")
           PY
