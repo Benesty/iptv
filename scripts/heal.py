@@ -97,10 +97,12 @@ REGISTRY = {
     "TMC.fr": ["http://151.80.18.177:86/TMC/index.m3u8"],
     "NT1.fr": ["http://145.239.5.177/315/index.m3u8"],                 # TFX
     "LCI.fr": [
-        # stub GitHub tiers (jeton TF1 rafraîchi par son mainteneur) : jouait
-        # même depuis un runner US le 2026-09-02
-        "https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8",
         "http://145.239.5.177/368/index.m3u8",
+        # stub GitHub tiers (jeton TF1 rafraîchi par son mainteneur) : ses
+        # segments se lisent depuis un runner US, mais sa playlist média n'y
+        # AVANCE pas (test de gel du 2026-09-02) — le bot ne l'adoptera que
+        # s'il prouve un jour qu'il avance.
+        "https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8",
     ],
     # TF1SeriesFilms.fr : aucun secours connu (9 chemins de pool et netplus
     # essayés le 2026-09-02, tous morts ou géo-bloqués).
@@ -498,6 +500,18 @@ def build_index():
     return by_id, by_name
 
 
+# Stubs dont l'ADRESSE change (ParaTV déplace ses dossiers TF1 toutes les ~3 h
+# et supprime l'ancien) : valables uniquement derrière le proxy en mode id=,
+# qui relit la playlist. En lien direct — ou en secours fb= — ils meurent en
+# quelques heures. Le dry-run du 2026-09-02 a failli remplacer le secours de
+# LCI par l'un d'eux, c'est-à-dire par la source même que le secours protège.
+STUBS_ROTATIFS = ("raw.githubusercontent.com/Paradise-91/ParaTV/",)
+
+
+def est_stub_rotatif(url):
+    return any(s in url for s in STUBS_ROTATIFS)
+
+
 def find_replacement(tid, name, current, by_id, by_name):
     seen, cands = set(), []
     # 1) registre de secours spécifique à la chaîne (vérifié à la main : sûr)
@@ -516,7 +530,7 @@ def find_replacement(tid, name, current, by_id, by_name):
     for u in cands:
         if u == current:
             continue
-        if any(h in u for h in SKIP_HOSTS):
+        if any(h in u for h in SKIP_HOSTS) or est_stub_rotatif(u):
             continue
         if validate_candidate(u):
             return u

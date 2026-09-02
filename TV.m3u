@@ -52,8 +52,8 @@ http://99.27.51.147:8080/Gulli/index.m3u8
 # elles toutes les 3 h, c'est normal — pas de source stable connue à ce jour.
 # ALT GULLI (pool M6, l'autre moitié du ping-pong): http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
-https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr&fb=https%3A%2F%2Fraw.githubusercontent.com%2Fpinkisso%2Fmored%2Frefs%2Fheads%2Fmain%2Fres%2F26-1%2Flci1.m3u8
-# ALT LCI (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/368/index.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr&fb=http%3A%2F%2F145.239.5.177%2F368%2Findex.m3u8
+# ALT LCI (stub GitHub tiers, jeton TF1 ; ses segments se lisent mais sa playlist n'avançait pas au test du bot le 2026-09-02): https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8
 # (l'ancien secours http://151.80.18.177:86/LCI_HD/index.m3u8 répond 404 depuis le 2026-09-02)
 #EXTINF:-1 tvg-chno="16" tvg-id="CNews.fr" tvg-logo="https://picserve.netplus.ch/channels/itele.png" group-title="France", CNews
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcnews-clair-hd-highest.m3u8

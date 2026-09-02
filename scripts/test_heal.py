@@ -126,6 +126,20 @@ check("avec_fb est idempotent", heal.avec_fb(ajout, "http://89.187.185.76:8080/F
 pairs, _lines = heal.parse_pairs("#EXTM3U\n#EXTINF:-1 tvg-id=\"TF1.fr\",TF1\n" + lien + "\n")
 check("parse_pairs conserve le lien avec fb=", pairs[0][2], lien)
 
+print("8. un stub ParaTV (adresse qui change) n'est jamais adopté :")
+paratv = "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/ZtgO26U8M1wh/res/vsLoGemTfenj9qX-highest.m3u8"
+check("est_stub_rotatif ParaTV", heal.est_stub_rotatif(paratv), True)
+check("est_stub_rotatif pool", heal.est_stub_rotatif("http://145.239.5.177/368/index.m3u8"), False)
+essayes = []
+_vrai = heal.validate_candidate
+heal.validate_candidate = lambda u: essayes.append(u) or _vrai(u)
+rep = heal.find_replacement("LCI.fr", "LCI",
+                            "https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8",
+                            {"LCI.fr": [(paratv, "15. LCI [720p-tf1.fr]"), (f"{base}/master.m3u8", "LCI")]}, {})
+heal.validate_candidate = _vrai
+check("le stub ParaTV n'est même pas essayé", paratv in essayes, False)
+check("le flux vivant suivant est retenu", rep, f"{base}/master.m3u8")
+
 srv.shutdown()
 print("\nRÉSULTAT GLOBAL :", "✅ tout passe" if ok else "❌ ÉCHECS")
 sys.exit(0 if ok else 1)

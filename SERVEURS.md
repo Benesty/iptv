@@ -157,12 +157,14 @@ leurs secours à chaque passage.
 | TF1 | `151.80.18.177:86/TF1_HD` (JOUE) | `/TF1/` : 404 |
 | TMC | `151.80.18.177:86/TMC` (JOUE) | `/TMC_HD/` : 404 |
 | TFX | `145.239.5.177/315` (GÉO depuis les USA) | `151.80…/TFX`, `/TFX_HD` : 404 |
-| LCI | stub `pinkisso/mored` `res/26-1/lci1.m3u8` (JOUE, jeton TF1 rafraîchi par un tiers) | `145.239.5.177/368` (GÉO) ; `151.80…/LCI_HD` : **404** |
+| LCI | `145.239.5.177/368` (GÉO depuis les USA) | stub `pinkisso/mored` `res/26-1/lci1.m3u8` : segments lisibles depuis un runner US mais playlist média **gelée** au test du bot (jeton lié à une autre IP ?) ; `151.80…/LCI_HD` : **404** |
 | TF1 Séries Films | **aucun** | 9 chemins de pool en 404, `viamotionhsi.netplus.ch` en timeout / 403 via proxy |
 
-> Un stub GitHub tiers (pinkisso) est un secours acceptable mais pas une source
-> principale : son rythme de rafraîchissement n'est pas connu, et un secours ne
-> sert que quelques minutes ou heures, le temps que ParaTV reprenne.
+> Un stub ParaTV n'est **jamais** un secours ni un remplaçant en lien direct :
+> son adresse change toutes les ~3 h. Le bot les écarte (`est_stub_rotatif`).
+> Un stub GitHub tiers (pinkisso) n'est acceptable que s'il prouve que sa
+> playlist avance, et seulement en secours : son rythme de rafraîchissement
+> n'est pas connu.
 
 ## Ce que cette recherche n'a PAS donné
 
