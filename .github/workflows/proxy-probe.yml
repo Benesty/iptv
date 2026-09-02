@@ -1,0 +1,67 @@
+name: proxy-probe
+
+# Montre ce que le proxy Paris RÉPOND réellement (pas seulement s'il répond) :
+# les premières lignes de chaque manifeste, la relecture « &v=<n> », et le
+# repli fb= (302). À lancer quand une chaîne proxifiée se comporte bizarrement
+# — depuis un téléphone, il n'y a pas d'autre moyen de voir ces réponses.
+# Ne modifie rien.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/proxy-probe.yml"
+
+jobs:
+  sonde:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sonder le proxy
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re
+          from urllib.parse import quote
+          P = "https://iptv-lake-three.vercel.app/api/fr"
+          UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, *a, **k): return None
+          opener = urllib.request.build_opener(NoRedirect)
+
+          def get(url):
+              req = urllib.request.Request(url, headers={"User-Agent": UA})
+              try:
+                  r = opener.open(req, timeout=30)
+                  return r.status, dict(r.headers), r.read(200000).decode("utf-8", "replace")
+              except urllib.error.HTTPError as e:
+                  return e.code, dict(e.headers), e.read(2000).decode("utf-8", "replace")
+              except Exception as e:
+                  return 0, {}, f"{type(e).__name__}: {e}"
+
+          def montre(titre, url, lignes=8):
+              st, h, body = get(url)
+              print(f"\n=== {titre}\n    {url}\n    HTTP {st}  {h.get('Content-Type','')}  {('-> ' + h['Location']) if 'Location' in h else ''}")
+              for l in body.splitlines()[:lignes]:
+                  print("    | " + l[:150])
+              return st, h, body
+
+          ftv = "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/france-2-highest.m3u8"
+          st, h, body = montre("TF1 — manifeste maître (mode id=)", f"{P}?id=TF1.fr")
+          vs = re.findall(r"[?&]v=(\d+)", body)
+          print(f"    -> {len(vs)} variantes « &v= »" + ("" if vs else "   !! ANCIEN PROXY (liens signés) ou erreur"))
+          if vs:
+              montre("TF1 — playlist média (v=0, relecture du stub)", f"{P}?id=TF1.fr&v={vs[0]}", 6)
+              # dernière variante = en général la vidéo la plus haute
+              montre("TF1 — playlist média (dernière variante)", f"{P}?id=TF1.fr&v={vs[-1]}", 6)
+          st, h, body = montre("France 2 — manifeste maître (mode u=)", f"{P}?u={quote(ftv, safe='')}")
+          vs2 = re.findall(r"[?&]v=(\d+)", body)
+          print(f"    -> {len(vs2)} variantes « &v= »")
+          if vs2:
+              montre("France 2 — playlist média (v=dernière)", f"{P}?u={quote(ftv, safe='')}&v={vs2[-1]}", 6)
+          montre("Repli — id inconnu + fb= (attendu : 302 vers le secours)",
+                 f"{P}?id=Inconnue.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8", 2)
+          montre("Repli refusé — fb= vers une page web (attendu : 502, pas de redirection)",
+                 f"{P}?id=Inconnue.fr&fb=https%3A%2F%2Fexample.com%2F", 2)
+          montre("LCI — manifeste maître", f"{P}?id=LCI.fr&fb=http%3A%2F%2F145.239.5.177%2F368%2Findex.m3u8", 4)
+          montre("CSTAR — manifeste maître (mode dm=)",
+                 f"{P}?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8", 4)
+          PY
