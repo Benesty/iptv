@@ -41,7 +41,13 @@ MIN_NATIONAUX = 3
 #    tvg-id exact puisque le m3u porte déjà l'identifiant Samsung.
 EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
          "https://i.mjh.nz/SamsungTVPlus/fr.xml",
-         "https://i.mjh.nz/SamsungTVPlus/ca.xml"]
+         "https://i.mjh.nz/SamsungTVPlus/ca.xml",
+         # open-epg publie plusieurs fichiers par pays ; ceux-ci portent des
+         # chaînes absentes des premiers (relevé epg-sources du 2026-09-02) :
+         #  - france4 : France TV Docs, France TV Séries ;
+         #  - unitedstates3 : National Geographic US (flux Est).
+         "https://www.open-epg.com/files/france4.xml",
+         "https://www.open-epg.com/files/unitedstates3.xml"]
 
 # Alias explicites : tvg-id du m3u -> id EXACT d'une chaîne dans un guide source,
 # pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
@@ -61,6 +67,23 @@ ALIAS = {
     "Cable.News.Network.ca2": "CNN.ca",
     "Le.Canal.Nouvelles.TVA.ca2": "LCN.ca",
     "NatGeoWild.us": "NGWILD.us",
+    # 2026-09-02, identifiants RÉELS relevés dans les fichiers open-epg par le
+    # workflow epg-sources (et non devinés par ressemblance). L'indicatif
+    # d'appel (CFTM, CKMI, CBVT…) lève toute ambiguïté. open-epg écrit les
+    # accents en échappement littéral (« Montru00e9al ») : l'id est repris
+    # tel quel, c'est bien la chaîne de la clé.
+    "CFTM.Montreal.ca2": "TVA (CFTM) Montru00e9al.ca",          # TVA Montréal  (canada2)
+    "ICI.RDI.HD.ca2": "RDI (News) HD.ca",                         # ICI RDI       (canada1/3)
+    "Global.Montreal.HD.ca2": "Global (CKMI) Quebec HD.ca",       # CKMI-DT = Global Montréal (canada3)
+    "ICI.Tele.Quebec.ca2": "ICI (CBVT) Quebec, QC - Digital.ca",  # ICI Télé Québec (canada2)
+    # ICI Télé Estrie (CKSH Sherbrooke) n'existe dans aucune source : on lui
+    # donne la grille du réseau ICI Télé via la station de Montréal (même
+    # programmation, seuls les bulletins régionaux diffèrent). Retirer cette
+    # ligne si cet écart gêne.
+    "CKSH.ca2": "ICI (CBFT) Montreal, QC.ca",
+    "FranceTVDocs.fr": "France.TV.Docs.fr",                       # france4
+    "FranceTVSeries.fr": "France.TV.Séries.fr",                   # france4
+    "NationalGeographic.us": "National Geographic US - Eastern (265).us",  # unitedstates3
 }
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
