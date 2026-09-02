@@ -126,7 +126,7 @@ jobs:
           MOTS = ["TVA", "CFTM", "RDI", "Noovo", "Global", "CBC Kids", "CBCKids", "Kids",
                   "CKSH", "Estrie", "Sherbrooke", "ICI", "Radio-Canada", "Radio Canada",
                   "Disney", "National Geographic", "Nat Geo", "Knowledge", "CityNews", "City News",
-                  "France TV", "France.tv", "Jeunesse", "Agent Jean", "Explore"]
+                  "France TV", "France.tv", "Jeunesse", "Agent Jean", "Explore", "CBC", "News", "Comedy", "Gem"]
           for nom, url in CANDIDATS:
               if not (url.startswith("https://www.open-epg.com/files/") or "xmltvfr" in url or "SamsungTVPlus" in url):
                   continue
