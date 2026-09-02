@@ -1,18 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-01 23:13 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-02 03:58 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant.
 
-**73 chaînes** — 💀 2 · 🌍 16 · ✅ 27 · 🔁 28
+**73 chaînes** — 💀 4 · 🌍 16 · ✅ 25 · 🔁 28
 
 
-## 💀 En panne (2)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
+| AB1 | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
+| Nickelodeon Junior | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (16)
 
@@ -35,12 +37,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TVA | HTTP 403 |
 | Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (27)
+## ✅ Fonctionnelles (25)
 
 | Chaîne | Détail |
 |---|---|
 | 6TER | — |
-| AB1 | — |
 | Bloomberg TV | — |
 | CANAL+ Cinéma | — |
 | CBS News 24/7 | — |
@@ -58,7 +59,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | M6 | — |
 | National Geographic | — |
 | Nickelodeon | — |
-| Nickelodeon Junior | — |
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Téléréalités | — |
