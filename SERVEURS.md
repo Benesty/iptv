@@ -20,7 +20,7 @@ le proxy Vercel (voir README).
 | Serveur | Zone | Statut | Chaînes connues | Utilisé par `TV.m3u` |
 |---|---|---|---|---|
 | `145.239.5.177` | FR | JOUE | ~24 (6ter, AB1, Arte, CStar, Ciné+, LCI, M6 Music, RMC Life, RTL9, Série Club, Teva, TFX, TV Breizh…) | oui, largement |
-| `151.80.18.177:86` | FR | JOUE | Canal+ Cinéma, Disney Jr, Nickelodeon Jr, TF1, TMC | oui |
+| `151.80.18.177:86` | FR | JOUE | Canal+ Cinéma, Disney Jr, Nickelodeon Jr, TF1 (`/TF1_HD/`), TMC (`/TMC/`) — `/LCI_HD/` est en 404 depuis le 2026-09-02 | oui (dont secours du groupe TF1) |
 | `99.27.51.147:8080` | FR | JOUE | M6, Gulli, MTV, SYFY, CinéFrisson | oui |
 | `185.246.209.113` | **CA** | **GÉO-CA** | CHCH-DT, Cottage Life, CTV Life Channel, T+E — et **rien d'autre** : 20 chemins sondés (TSN*, W_NETWORK, SLICE, MUCH, HGTV, SPORTSNET, HISTORY…) renvoient tous 404 | non |
 | `23.133.220.149` | CA | JOUE | TV5 Québec Canada, Unis TV | non |
@@ -126,6 +126,43 @@ n'assemble que des flux ouverts.
   il rejoue le test profond du bot depuis ta connexion résidentielle.
   `python3 scripts/test_local.py` puis renvoie-moi la sortie.
 - `scripts/discover_hosts.py` — refait le regroupement par hôte.
+
+## Les « stubs » à jetons (groupe TF1, France TV, Canal+) — panne du 2026-09-01
+
+Les chaînes officielles passées par le proxy Paris ne lisent pas un flux mais un
+**stub** : un manifeste maître hébergé sur GitHub (`raw.githubusercontent.com`,
+dépôt ParaTV) dont chaque variante porte un **jeton à durée limitée** délivré par
+le CDN de l'éditeur. Constaté en lisant l'historique git de ParaTV (clone en
+lecture seule) après la panne des cinq chaînes TF1 du 2026-09-01 au soir :
+
+| Éditeur | Forme du jeton | Durée | Rafraîchi par ParaTV |
+|---|---|---|---|
+| TF1 (`alive-*.cdn-0.diff.tf1.fr`) | JWT dans le chemin (`/eyJ….eyJ…./`, champ `exp`) | 4 h | toutes les 1 à 3 h — et le **dossier du stub change toutes les ~3 h, l'ancien est supprimé** |
+| France TV (`.ftven.fr`) | segment base64 `exp=…~acl=…~hmac=…` | ~4 h | toutes les heures |
+| Canal+ (`.canalplus-cdn.net`) | `__token__exp=…~acl=…` dans le chemin | ~4 h | toutes les heures |
+
+Les jetons étaient valides à chaque commit de la nuit du 1ᵉʳ au 2 : ParaTV n'a
+pas lâché. Le défaut était dans le proxy, qui figeait le jeton du moment du zap
+dans les liens de variantes : un jeton déjà vieux de 3 h coupait la chaîne une
+heure plus tard, et le lecteur ne relit jamais le manifeste maître tout seul.
+Depuis le 2026-09-02, `api/fr.js` relit le stub à chaque lecture de playlist
+média (« `&v=<n>` ») et bascule sur un secours (« `&fb=` », lu en direct) si le
+stub est introuvable, expiré ou refusé par le CDN. Le bot sonde ces chaînes et
+leurs secours à chaque passage.
+
+**Secours vérifiés le 2026-09-02** (banc d'essai depuis un runner US) :
+
+| Chaîne | Secours retenu | Autres pistes |
+|---|---|---|
+| TF1 | `151.80.18.177:86/TF1_HD` (JOUE) | `/TF1/` : 404 |
+| TMC | `151.80.18.177:86/TMC` (JOUE) | `/TMC_HD/` : 404 |
+| TFX | `145.239.5.177/315` (GÉO depuis les USA) | `151.80…/TFX`, `/TFX_HD` : 404 |
+| LCI | stub `pinkisso/mored` `res/26-1/lci1.m3u8` (JOUE, jeton TF1 rafraîchi par un tiers) | `145.239.5.177/368` (GÉO) ; `151.80…/LCI_HD` : **404** |
+| TF1 Séries Films | **aucun** | 9 chemins de pool en 404, `viamotionhsi.netplus.ch` en timeout / 403 via proxy |
+
+> Un stub GitHub tiers (pinkisso) est un secours acceptable mais pas une source
+> principale : son rythme de rafraîchissement n'est pas connu, et un secours ne
+> sert que quelques minutes ou heures, le temps que ParaTV reprenne.
 
 ## Ce que cette recherche n'a PAS donné
 
