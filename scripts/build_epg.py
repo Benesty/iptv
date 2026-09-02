@@ -51,6 +51,16 @@ ALIAS = {
     "CBMT.Montreal.News.ca": "CA4600005WZ",   # CBC News Montréal -> Samsung « CBC News Quebec »
     "CanalPlusCinemas.fr": "Canal+.Cinéma(s).fr",  # Canal+ Cinéma -> guide « Canal+ Cinéma(s) »
     "NoovoComedies.ca": "CA1300001DN",        # Noovo Comédies -> Samsung « Noovo Ça c'est drôle »
+    # Ajoutés au passage à open-epg (2026-09-02). Retenus parce que le guide
+    # désigne SANS AMBIGUÏTÉ la même chaîne, à la graphie près. Les autres
+    # suggestions automatiques ont été écartées : elles proposaient TVA -> RTVi,
+    # Knowledge Network -> NFL Network et Radio-Canada Jeunesse -> l'id de
+    # Radio-Canada INFO. Un EPG faux est pire que pas d'EPG.
+    "CBMT.Montreal.ca": "CBC (CBMT) Montreal, QC.ca",   # CBMT = l'indicatif réel
+    "CinePlusEmotion.fr": "Ciné+ Emotion.fr",           # accent en moins côté guide
+    "Cable.News.Network.ca2": "CNN.ca",
+    "Le.Canal.Nouvelles.TVA.ca2": "LCN.ca",
+    "NatGeoWild.us": "NGWILD.us",
 }
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
@@ -252,7 +262,10 @@ if orphelines:
         if n and cands:
             noms_guide.setdefault(n, cands[0])
 
-    print(f"\n   {len(orphelines)} chaîne(s) sans guide — suggestions d'ALIAS :")
+    print(f"\n   {len(orphelines)} chaîne(s) sans guide — suggestions d'ALIAS."
+          "\n   À VÉRIFIER UNE PAR UNE avant de coller : la ressemblance de nom"
+          "\n   se trompe (vu : TVA -> RTVi, Knowledge Network -> NFL Network)."
+          "\n   Un EPG faux est pire que pas d'EPG.")
     for tid, nom in sorted(orphelines, key=lambda x: x[1].lower()):
         cle = norm(nom) or base(tid)
         proches = difflib.get_close_matches(cle, noms_guide.keys(), n=3, cutoff=0.6)
