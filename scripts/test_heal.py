@@ -58,6 +58,8 @@ class H(http.server.BaseHTTPRequestHandler):
             self.send(200, b"\x01" * 16, ct="application/pgp-keys")
         elif p == "/key_refusee.bin":
             self.send(415, "type de contenu non autorisé", ct="text/plain")
+        elif p == "/geo.m3u8":
+            self.send(403, "forbidden", ct="text/plain")
         elif p.endswith(".ts"):
             self.send(200, b"G" * 1500, ct="video/mp2t")
         else:
@@ -124,6 +126,16 @@ check("clé lisible -> ok", st, "ok")
 st, r, _m, _f = heal.probe(f"{base}/aes_badkey.m3u8")
 check("clé refusée -> dead", st, "dead")
 check("raison mentionne la clé", "clé" in r, True)
+
+print("6ter. 403 : géo par défaut, MORT sur un pool confirmé injouable :")
+st, r, _m, _f = heal.probe(f"{base}/geo.m3u8")
+check("403 ordinaire -> geo", st, "geo")
+_pools = heal.POOLS_403_MORTS
+heal.POOLS_403_MORTS = ("127.0.0.1",)
+st, r, _m, _f = heal.probe(f"{base}/geo.m3u8")
+heal.POOLS_403_MORTS = _pools
+check("403 sur un pool confirmé -> dead", st, "dead")
+check("raison le dit", "Québec" in r, True)
 
 print("7. secours (&fb=) d'un lien proxy :")
 lien = "https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"

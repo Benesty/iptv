@@ -70,6 +70,20 @@ def hote_officiel(url):
     h = urllib.parse.urlparse(url).hostname or ""
     return any(d in h for d in CDN_OFFICIELS)
 
+
+# Pools dont le 403 est PROUVÉ injouable depuis le Québec (retour de
+# l'utilisateur) : là, 403 = mort, pas « géo-bloqué mais bon chez toi ».
+#   145.239.5.177  — Teva, Ciné+ Émotion, M6 Music, Série Club : le 2026-09-02
+#                    (et déjà 6ter le 2026-08-30).
+#   212.5.144.156  — Disney Channel US : flux réservé aux États-Unis.
+#   190.14.10.19   — ancien pool Disney (en réalité Disney Latin America).
+POOLS_403_MORTS = ("145.239.5.177", "212.5.144.156", "190.14.10.19")
+
+
+def pool_403_mort(url):
+    h = urllib.parse.urlparse(url).hostname or ""
+    return h in POOLS_403_MORTS
+
 # Playlists sources maintenues (agrégateurs FR + CA/US). On y cherche un remplaçant.
 # CA/US ajoutés le 2026-08-14 : les pools nord-américains (TSN, Corus, Disney…)
 # meurent aussi, et sans source CA/US le bot ne pouvait JAMAIS les réparer.
@@ -340,6 +354,9 @@ def probe(url):
         return ("dead", f"segment HTTP {st}", None, None)
     except urllib.error.HTTPError as e:
         if e.code in (401, 403):
+            if pool_403_mort(url):
+                return ("dead", f"HTTP {e.code} sur un pool confirmé injouable depuis le Québec",
+                        None, None)
             return ("geo", f"HTTP {e.code}", None, None)
         return ("dead", f"HTTP {e.code}", None, None)
     except Exception as e:
