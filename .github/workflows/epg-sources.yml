@@ -42,10 +42,20 @@ jobs:
               ("iptv-org CA",             "https://iptv-org.github.io/epg/guides/ca.xml"),
               ("iptv-org US",             "https://iptv-org.github.io/epg/guides/us.xml"),
               ("iptv-org FR (gz)",        "https://iptv-org.github.io/epg/guides/fr.xml.gz"),
-              # --- open-epg : fournisseur public par pays
-              ("open-epg France",         "https://www.open-epg.com/files/france1.xml"),
-              ("open-epg Canada",         "https://www.open-epg.com/files/canada1.xml"),
-              ("open-epg USA",            "https://www.open-epg.com/files/unitedstates1.xml"),
+              # --- open-epg : fournisseur public par pays. Plusieurs fichiers
+              # par pays : canada1 ne porte pas les chaînes québécoises, il faut
+              # savoir si canada2/3/4 les contiennent.
+              ("open-epg France 1",       "https://www.open-epg.com/files/france1.xml"),
+              ("open-epg France 2",       "https://www.open-epg.com/files/france2.xml"),
+              ("open-epg France 3",       "https://www.open-epg.com/files/france3.xml"),
+              ("open-epg France 4",       "https://www.open-epg.com/files/france4.xml"),
+              ("open-epg Canada 1",       "https://www.open-epg.com/files/canada1.xml"),
+              ("open-epg Canada 2",       "https://www.open-epg.com/files/canada2.xml"),
+              ("open-epg Canada 3",       "https://www.open-epg.com/files/canada3.xml"),
+              ("open-epg Canada 4",       "https://www.open-epg.com/files/canada4.xml"),
+              ("open-epg USA 1",          "https://www.open-epg.com/files/unitedstates1.xml"),
+              ("open-epg USA 2",          "https://www.open-epg.com/files/unitedstates2.xml"),
+              ("open-epg USA 3",          "https://www.open-epg.com/files/unitedstates3.xml"),
               # --- xmltv.fr : guide TNT française de référence
               ("xmltvfr TNT",             "https://xmltvfr.fr/xmltv/xmltv_tnt.xml"),
               ("xmltvfr TNT (gz)",        "https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz"),
@@ -75,8 +85,16 @@ jobs:
                   texte = brut.decode("utf-8", "replace")
               ch = len(re.findall(r"<channel\b", texte))
               pr = len(re.findall(r"<programme\b", texte))
+              # Les chaînes qui manquent aujourd'hui : c'est leur présence qui
+              # décide, pas le nombre total de chaînes du fichier.
+              CHERCHEES = ["TVA", "LCN", "RDI", "Savoir", "Noovo", "Télé-Québec",
+                           "Global", "Knowledge", "National Geographic"]
+              trouvees = [c for c in CHERCHEES
+                          if re.search(re.escape(c), texte, re.I)]
               if ch or pr:
-                  detail = f"{ch} chaînes, {pr} programmes (sur l'extrait lu)"
+                  detail = f"{ch} ch., {pr} progr."
+                  if trouvees:
+                      detail += "  ⟵ " + ", ".join(trouvees[:6])
               elif "<html" in texte[:400].lower():
                   detail = "page HTML, pas du XMLTV"
               else:
