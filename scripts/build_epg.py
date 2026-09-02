@@ -201,9 +201,30 @@ for tid, sid in src_of.items():
 # corriger. C'est elle qui dit quels ALIAS ajouter quand un fournisseur change.
 orphelines = [(tid, nom) for tid, nom in wanted if tid not in src_of]
 if orphelines:
-    print(f"\n   {len(orphelines)} chaîne(s) sans guide :")
+    # On ne se contente pas de dire « pas de guide » : on propose les entrées
+    # les plus proches trouvées dans les sources, prêtes à coller dans ALIAS.
+    # Sans ça, chaque changement de fournisseur oblige à fouiller les guides
+    # à la main pour retrouver les identifiants.
+    import difflib
+    noms_guide = {}                       # nom normalisé -> id (1er vu)
+    for n, cands in name2id.items():
+        if n and cands:
+            noms_guide.setdefault(n, cands[0])
+
+    print(f"\n   {len(orphelines)} chaîne(s) sans guide — suggestions d'ALIAS :")
     for tid, nom in sorted(orphelines, key=lambda x: x[1].lower()):
-        print(f"     · {nom[:28]:28} (tvg-id: {tid})")
+        cle = norm(nom) or base(tid)
+        proches = difflib.get_close_matches(cle, noms_guide.keys(), n=3, cutoff=0.6)
+        # on ne propose que des candidats du bon pays
+        propositions = [noms_guide[p] for p in proches
+                        if compatible(tid, noms_guide[p])]
+        if propositions:
+            print(f'     "{tid}": "{propositions[0]}",'
+                  f'   # {nom[:24]}'
+                  + (f"  (autres : {', '.join(propositions[1:])})"
+                     if len(propositions) > 1 else ""))
+        else:
+            print(f"     · {nom[:28]:28} (tvg-id: {tid}) — rien d'approchant")
     print()
 
 # 5) passe 2 : <channel> (réétiquetés sur le tvg-id m3u) + programmes
