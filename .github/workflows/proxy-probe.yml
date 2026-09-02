@@ -111,6 +111,29 @@ jobs:
                   except Exception as e:
                       print(f"  (direct) {type(e).__name__}: {e}")
 
+          # France TV : la playlist média porte une clé AES (#EXT-X-KEY) que le
+          # lecteur va chercher via le proxy — on la demande aussi.
+          def descente_ftv(nom):
+              stub = f"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/francetv/res/{nom}-highest.m3u8"
+              url = f"{P}?u={quote(stub, safe='')}"
+              descente(f"{nom} (u=)", url)
+              st, h, body = get(url)
+              vs = re.findall(r"[?&]v=(\d+)", body)
+              if not vs: return
+              st, h, media = get(f"{url}&v={vs[-1]}")
+              k = re.search(r'#EXT-X-KEY:[^\n]*URI="([^"]+)"', media)
+              if not k: print("  (pas de clé dans la playlist média)"); return
+              try:
+                  r = opener.open(urllib.request.Request(k.group(1), headers={"User-Agent": UA}), timeout=30)
+                  data = r.read(100)
+                  print(f"  clé AES  HTTP {r.status} {r.headers.get('Content-Type','')}  {len(data)} octets")
+              except urllib.error.HTTPError as e:
+                  print(f"  clé AES  HTTP {e.code} {e.headers.get('Content-Type','')}  | {e.read(200).decode('utf-8','replace')}")
+              except Exception as e:
+                  print(f"  clé AES  {type(e).__name__}: {e}")
+
+          descente_ftv("france-2")
+          descente_ftv("france-3")
           descente("CSTAR (dm=)", f"{P}?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8")
           descente("T18 (dm=)", f"{P}?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Fres%2Ft18-dm-highest.m3u8")
           descente("TF1 (id=)", f"{P}?id=TF1.fr")
