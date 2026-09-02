@@ -50,6 +50,14 @@ class H(http.server.BaseHTTPRequestHandler):
             self.send(200, "#EXTM3U\n#EXT-X-TARGETDURATION:6\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:6.0,\nclip0.ts\n#EXT-X-ENDLIST\n")
         elif p == "/drm.m3u8":
             self.send(200, '#EXTM3U\n#EXT-X-KEY:METHOD=SAMPLE-AES,URI="skd://key"\n#EXTINF:6.0,\nseg.ts\n')
+        elif p in ("/aes.m3u8", "/aes_badkey.m3u8"):
+            key = "/key.bin" if p == "/aes.m3u8" else "/key_refusee.bin"
+            self.send(200, f'#EXTM3U\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:1\n'
+                           f'#EXT-X-KEY:METHOD=AES-128,URI="{key}"\n#EXTINF:1.0,\nseg1.ts\n#EXTINF:1.0,\nseg2.ts\n')
+        elif p == "/key.bin":
+            self.send(200, b"\x01" * 16, ct="application/pgp-keys")
+        elif p == "/key_refusee.bin":
+            self.send(415, "type de contenu non autorisé", ct="text/plain")
         elif p.endswith(".ts"):
             self.send(200, b"G" * 1500, ct="video/mp2t")
         else:
@@ -109,6 +117,13 @@ STATE["fail_refetch"] = False
 print("6. 404 :")
 st, r, _m, _f = heal.probe(f"{base}/absent.m3u8")
 check("probe.status", st, "dead")
+
+print("6bis. flux chiffré AES-128 (cas France TV du 2026-09-02) :")
+st, r, _m, _f = heal.probe(f"{base}/aes.m3u8")
+check("clé lisible -> ok", st, "ok")
+st, r, _m, _f = heal.probe(f"{base}/aes_badkey.m3u8")
+check("clé refusée -> dead", st, "dead")
+check("raison mentionne la clé", "clé" in r, True)
 
 print("7. secours (&fb=) d'un lien proxy :")
 lien = "https://iptv-lake-three.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"

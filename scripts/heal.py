@@ -313,6 +313,24 @@ def probe(url):
         seg = _first_uri(text, cur)
         if not seg:
             return ("dead", "playlist sans segment", None, None)
+        # Flux chiffré (AES-128) : la clé doit être lisible, sinon le lecteur
+        # affiche un écran noir alors que les segments répondent — c'est ainsi
+        # que France 2/3/5 sont passées inaperçues le 2026-09-02 (le proxy
+        # refusait la clé, les segments passaient).
+        cle = re.search(r'#EXT-X-KEY:[^\n]*METHOD=AES-128[^\n]*URI="([^"]+)"', text)
+        if cle:
+            kreq = urllib.request.Request(urllib.parse.urljoin(cur, cle.group(1)),
+                                          headers={"User-Agent": UA, "Accept": "*/*"})
+            try:
+                kr = urllib.request.urlopen(kreq, timeout=TIMEOUT)
+                if kr.status != 200 or len(kr.read(64)) < 16:
+                    return ("dead", f"clé AES illisible (HTTP {kr.status})", None, None)
+            except urllib.error.HTTPError as e:
+                if e.code in (401, 403):
+                    return ("geo", f"clé HTTP {e.code}", None, None)
+                return ("dead", f"clé AES illisible (HTTP {e.code})", None, None)
+            except Exception as e:
+                return ("dead", f"clé AES illisible ({type(e).__name__})", None, None)
         st, chunk, ct, _ = http_full(seg, rng="bytes=0-2000")
         if st in (200, 206) and len(chunk) > 200 and "html" not in (ct or "").lower():
             # Le son sans l'image est une panne, pas un flux valide.

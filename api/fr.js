@@ -510,14 +510,17 @@ async function rewriteManifest(text, baseUrl, origin) {
 // un Content-Type fantaisiste (Dailymotion, 2026-09-02 : « text/vnd.trolltech.
 // linguist » sur du MPEG-TS — CSTAR et T18 étaient refusées en 415). Renvoie
 // le type à servir, ou null si ce n'est manifestement pas du média.
-function sniffMedia(head, path) {
+function sniffMedia(head, path, declaredLength = 0) {
   const b = head || new Uint8Array();
   const ascii = (i, n) => String.fromCharCode(...b.subarray(i, i + n));
   if (b.length >= 1 && b[0] === 0x47 && (b.length < 189 || b[188] === 0x47)) return "video/mp2t";
   if (b.length >= 8 && ["ftyp", "styp", "moof", "sidx", "moov"].includes(ascii(4, 4))) return "video/mp4";
   if (b.length >= 6 && ascii(0, 6) === "WEBVTT") return "text/vtt";
   if (b.length >= 2 && b[0] === 0xff && (b[1] & 0xf6) === 0xf0 && path.endsWith(".aac")) return "audio/aac";
-  if (path.endsWith(".key") && b.length === 16) return "application/octet-stream";
+  // Clé AES-128 : 16 octets, quel que soit le chemin — France TV la sert sous
+  // « application/pgp-keys » depuis une URL sans extension (2026-09-02 : France
+  // 2/3/4/5 et Arte injouables, le lecteur ne pouvait pas déchiffrer).
+  if (b.length === 16 || declaredLength === 16) return "application/octet-stream";
   return null;
 }
 
@@ -554,7 +557,12 @@ const MANIFEST_HEADERS = {
 };
 
 function upstreamHeaders(target, req) {
-  const tOrigin = new URL(target).origin;
+  const t = new URL(target);
+  let tOrigin = t.origin;
+  // Dailymotion : le directeur de CDN et les edges dmcdn attendent la
+  // provenance du site, pas leur propre nom.
+  if (t.hostname.endsWith(".dailymotion.com") || t.hostname.endsWith(".dmcdn.net"))
+    tOrigin = "https://www.dailymotion.com";
   const h = {
     "user-agent": UA,
     // certains CDN telco (netplus…) exigent un Referer/Origin
@@ -643,6 +651,14 @@ export default async function handler(req) {
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
     upstream = await fetchFollowingSafely(target, upstreamHeaders(target, req), ctrl.signal);
+    // Mode dm= : le manifeste résolu peut être refusé par le CDN (jeton lié à
+    // une autre adresse de sortie, 403 vu le 2026-09-02) — on retombe sur le
+    // stub fb= plutôt que de renvoyer l'erreur au lecteur.
+    if (dm && !upstream.ok && fb && target !== fb && !(await targetAuthorized(fb, ""))) {
+      if (upstream.body) upstream.body.cancel().catch(() => {});
+      target = fb;
+      upstream = await fetchFollowingSafely(target, upstreamHeaders(target, req), ctrl.signal);
+    }
   } catch (e) {
     clearTimeout(timer);
     return new Response("fetch error: " + e, { status: 502 });
@@ -710,7 +726,8 @@ export default async function handler(req) {
   const MEDIA_OK = ["video/", "audio/", "application/octet-stream",
                     "application/x-mpegurl", "application/vnd.apple.mpegurl",
                     "binary/octet-stream", "application/mp4", "image/",
-                    "text/vtt"];                       // sous-titres WebVTT
+                    "text/vtt",                        // sous-titres WebVTT
+                    "application/pgp-keys"];           // clés AES France TV
   let body = upstream.body;
   let pct = upstream.headers.get("content-type");
   if (ct && !MEDIA_OK.some((t) => ct.includes(t))) {
@@ -719,7 +736,7 @@ export default async function handler(req) {
     // text/html) ; tout le reste est refusé, en nommant le type (voir le
     // workflow proxy-probe).
     const p = await peek(upstream.body);
-    const vrai = sniffMedia(p.head, path);
+    const vrai = sniffMedia(p.head, path, len);
     if (!vrai) {
       if (p.rest) p.rest.cancel().catch(() => {});
       return new Response("type de contenu non autorisé: " + ct, { status: 415 });

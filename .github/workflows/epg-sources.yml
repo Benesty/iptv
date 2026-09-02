@@ -118,4 +118,30 @@ jobs:
                   print(f"     {url}")
           else:
               print("  Aucune source ne renvoie de XMLTV exploitable.")
+
+          # Chaînes de TV.m3u encore sans guide : on cherche leurs identifiants
+          # RÉELS dans les sources retenues (id + display-name), pour écrire des
+          # alias sûrs dans build_epg.py au lieu de deviner par ressemblance.
+          print("\n\n########## IDENTIFIANTS À CHERCHER (chaînes sans guide) ##########")
+          MOTS = ["TVA", "CFTM", "RDI", "Noovo", "Global", "CBC Kids", "CBCKids", "Kids",
+                  "CKSH", "Estrie", "Sherbrooke", "ICI", "Radio-Canada", "Radio Canada",
+                  "Disney", "National Geographic", "Nat Geo", "Knowledge", "CityNews", "City News",
+                  "France TV", "France.tv", "Jeunesse", "Agent Jean", "Explore"]
+          for nom, url in CANDIDATS:
+              if not (url.startswith("https://www.open-epg.com/files/") or "xmltvfr" in url or "SamsungTVPlus" in url):
+                  continue
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": UA})
+                  brut = urllib.request.urlopen(req, timeout=60).read(30_000_000)
+              except Exception as e:
+                  print(f"\n--- {nom}: injoignable ({type(e).__name__})"); continue
+              if url.endswith(".gz") or brut[:2] == b"\x1f\x8b":
+                  try: brut = gzip.GzipFile(fileobj=io.BytesIO(brut)).read(60_000_000)
+                  except Exception: pass
+              texte = brut.decode("utf-8", "replace")
+              chans = re.findall(r'<channel id="([^"]+)">\s*<display-name[^>]*>([^<]*)</display-name>', texte)
+              hits = [(cid, dn) for cid, dn in chans if any(m.lower() in (cid + " " + dn).lower() for m in MOTS)]
+              print(f"\n--- {nom} ({len(chans)} chaînes) : {len(hits)} candidates")
+              for cid, dn in hits[:80]:
+                  print(f"    {cid:40} {dn}")
           PY

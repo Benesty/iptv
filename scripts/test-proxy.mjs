@@ -229,8 +229,10 @@ const fmp4 = new Uint8Array([0, 0, 0, 0x18, 0x73, 0x74, 0x79, 0x70, 0, 0, 0, 0])
 check("sniffMedia : fMP4 (styp)", sn.sniffMedia(fmp4, "/x.m4s") === "video/mp4");
 check("sniffMedia : WebVTT", sn.sniffMedia(new TextEncoder().encode("WEBVTT\n\n00:00.000"), "/s.vtt") === "text/vtt");
 check("sniffMedia : clé AES de 16 octets", sn.sniffMedia(new Uint8Array(16), "/k.key") === "application/octet-stream");
+check("sniffMedia : clé AES France TV (16 octets, URL sans extension)", sn.sniffMedia(new Uint8Array(16), "/ZXhw/dai/key/abc") === "application/octet-stream");
+check("sniffMedia : clé annoncée par Content-Length: 16", sn.sniffMedia(new Uint8Array(8), "/k", 16) === "application/octet-stream");
 check("sniffMedia : du HTML est refusé même sous un nom .ts", sn.sniffMedia(new TextEncoder().encode("<html><script>"), "/evil.ts") === null);
-check("sniffMedia : 16 octets quelconques hors .key sont refusés", sn.sniffMedia(new Uint8Array(16), "/x.bin") === null);
+check("sniffMedia : 17 octets quelconques sont refusés", sn.sniffMedia(new Uint8Array(17), "/x.bin") === null);
 check("sniffMedia : corps vide refusé", sn.sniffMedia(new Uint8Array(), "/x.ts") === null);
 // peek : rien n'est perdu, le flux reconstitué est identique
 const morceaux = [new Uint8Array([0x47, 1, 2]), new Uint8Array([3, 4]), new Uint8Array([5])];

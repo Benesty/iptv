@@ -39,6 +39,11 @@ jobs:
                       st,b,ct,fin=fetch(v); t=b.decode("utf-8","replace"); cur=fin
                   seg=first_uri(t,cur)
                   if not seg: return "dead"
+                  # clé AES-128 : elle doit se lire, sinon écran noir chez le lecteur
+                  k=re.search(r'#EXT-X-KEY:[^\n]*METHOD=AES-128[^\n]*URI="([^"]+)"',t)
+                  if k:
+                      kst,kb,kct,_=fetch(urljoin(cur,k.group(1)))
+                      if kst!=200 or len(kb)<16: return "dead"
                   st,b,ct,fin=fetch(seg,rng="bytes=0-2000")
                   return "PLAYS" if (st in (200,206) and len(b)>200 and "html" not in ct.lower()) else "dead"
               except urllib.error.HTTPError as e:
