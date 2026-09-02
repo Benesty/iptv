@@ -21,7 +21,7 @@ jobs:
   bancs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Proxy (api/fr.js)
         run: node scripts/test-proxy.mjs
       - name: Bot (scripts/heal.py)
