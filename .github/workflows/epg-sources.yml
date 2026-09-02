@@ -1,0 +1,103 @@
+name: epg-sources
+
+# Sonde les fournisseurs de guide EPG et dit lesquels répondent.
+#
+# Pourquoi : le 2026-09-02, epgshare01.online s'est mis à renvoyer 404 sur son
+# index ET sur les trois guides nationaux (FR1/CA1/US1). Le garde-fou de
+# build_epg.py a bien fait son travail — refuser de publier un guide incomplet
+# et garder le dernier valide — mais il faut retrouver une source qui marche.
+#
+# Ce workflow ne modifie rien : il teste une liste de candidats et affiche,
+# pour chacun, le code HTTP, la taille et le nombre de chaînes/programmes
+# réellement présents. On choisit ensuite en connaissance de cause.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/epg-sources.yml'
+
+jobs:
+  sonde:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sonder les fournisseurs EPG
+        run: |
+          python3 - <<'PY'
+          import gzip, io, urllib.request, urllib.error, re
+
+          UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+
+          CANDIDATS = [
+              # --- epgshare01 : l'actuel, dans ses variantes plausibles
+              ("epgshare01 index",        "https://epgshare01.online/epgshare01/"),
+              ("epgshare01 FR1",          "https://epgshare01.online/epgshare01/epg_ripper_FR1.xml.gz"),
+              ("epgshare01 FR1 (racine)", "https://epgshare01.online/epg_ripper_FR1.xml.gz"),
+              ("epgshare01 FR1 (http)",   "http://epgshare01.online/epgshare01/epg_ripper_FR1.xml.gz"),
+              ("epgshare01 accueil",      "https://epgshare01.online/"),
+              # --- iptv-org : guides par pays, maintenus publiquement
+              ("iptv-org FR",             "https://iptv-org.github.io/epg/guides/fr.xml"),
+              ("iptv-org CA",             "https://iptv-org.github.io/epg/guides/ca.xml"),
+              ("iptv-org US",             "https://iptv-org.github.io/epg/guides/us.xml"),
+              ("iptv-org FR (gz)",        "https://iptv-org.github.io/epg/guides/fr.xml.gz"),
+              # --- open-epg : fournisseur public par pays
+              ("open-epg France",         "https://www.open-epg.com/files/france1.xml"),
+              ("open-epg Canada",         "https://www.open-epg.com/files/canada1.xml"),
+              ("open-epg USA",            "https://www.open-epg.com/files/unitedstates1.xml"),
+              # --- xmltv.fr : guide TNT française de référence
+              ("xmltvfr TNT",             "https://xmltvfr.fr/xmltv/xmltv_tnt.xml"),
+              ("xmltvfr TNT (gz)",        "https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz"),
+              # --- déjà utilisés en complément (témoins : doivent répondre)
+              ("TÉMOIN Samsung FR",       "https://i.mjh.nz/SamsungTVPlus/fr.xml"),
+              ("TÉMOIN Samsung CA",       "https://i.mjh.nz/SamsungTVPlus/ca.xml"),
+          ]
+
+          def sonde(url):
+              req = urllib.request.Request(url, headers={"User-Agent": UA})
+              try:
+                  r = urllib.request.urlopen(req, timeout=45)
+              except urllib.error.HTTPError as e:
+                  return f"HTTP {e.code}", ""
+              except Exception as e:
+                  return f"KO {type(e).__name__}", ""
+              brut = r.read(6_000_000)
+              taille = len(brut)
+              texte = ""
+              if url.endswith(".gz") or brut[:2] == b"\x1f\x8b":
+                  try:
+                      texte = gzip.GzipFile(fileobj=io.BytesIO(brut)).read(
+                          20_000_000).decode("utf-8", "replace")
+                  except Exception as e:
+                      return f"OK {taille//1024} Ko", f"gzip illisible ({type(e).__name__})"
+              else:
+                  texte = brut.decode("utf-8", "replace")
+              ch = len(re.findall(r"<channel\b", texte))
+              pr = len(re.findall(r"<programme\b", texte))
+              if ch or pr:
+                  detail = f"{ch} chaînes, {pr} programmes (sur l'extrait lu)"
+              elif "<html" in texte[:400].lower():
+                  detail = "page HTML, pas du XMLTV"
+              else:
+                  detail = texte[:60].replace("\n", " ")
+              return f"OK {taille//1024} Ko", detail
+
+          print(f"{'SOURCE':26} {'RÉSULTAT':16} DÉTAIL")
+          print("=" * 100)
+          vivants = []
+          for nom, url in CANDIDATS:
+              etat, detail = sonde(url)
+              print(f"{nom:26} {etat:16} {detail[:60]}")
+              print(f"{'':26} {url}")
+              if etat.startswith("OK") and ("chaînes" in detail):
+                  vivants.append((nom, url, detail))
+
+          print("\n\n########## UTILISABLES ##########")
+          if vivants:
+              for nom, url, detail in vivants:
+                  print(f"  ✅ {nom:24} {detail}")
+                  print(f"     {url}")
+          else:
+              print("  Aucune source ne renvoie de XMLTV exploitable.")
+          PY
