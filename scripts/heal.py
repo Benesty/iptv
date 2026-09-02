@@ -58,6 +58,7 @@ CDN_OFFICIELS = (
     "nextradiotv.com", "6cloud.fr", "bedrock.tech", "france24.com", "tv5monde.com",
     "savoir.media", "cloudfront.net", "corusdigitaldev.com", "cbsnews.com",
     "warnermediacdn.com", "amagi.tv", "mediatailor", "nrjaudio.fm",
+    "bloomberg.com",
 )
 
 # Un 403 venant d'un pool de restream anonyme (une IP nue) ne veut PAS dire

@@ -166,6 +166,28 @@ leurs secours à chaque passage.
 > playlist avance, et seulement en secours : son rythme de rafraîchissement
 > n'est pas connu.
 
+## Sources officielles : bilan chaîne par chaîne (2026-09-02)
+
+Question posée : pour chaque chaîne servie par un pool anonyme, existe-t-il un
+flux officiel ? Relevé fait en croisant les cinq agrégateurs (ParaTV, schumijo,
+Free-TV, iptv-org fr/ca/us) et les tests déjà menés via le proxy Paris.
+
+| Chaîne (source actuelle) | Flux officiel ? | Pourquoi on ne l'utilise pas |
+|---|---|---|
+| **Bloomberg TV** (restream mongol) | **oui, `bloomberg.com`** | **basculée le 2026-09-02** (flux US ; Europe et Samsung en ALT) |
+| M6, W9, 6TER, GULLI, M6 Music | oui, `6cloud.fr` (6play) | géo-FR **et** refus des IP de datacenter : 502 via le proxy Paris (testé le 2026-08-30 sur les 6 flux du groupe). Le CDN netplus (Suisse) est réservé à la Suisse |
+| Teva, Paris Première | non | chaînes payantes du groupe M6, aucun flux public |
+| Ciné+ Émotion | non | chaîne payante Canal+ |
+| AB1, RTL9 | non | payantes (AB / RTL) ; RTL9 n'existe qu'en restream |
+| Nickelodeon, Nickelodeon Junior, Disney Junior | non | payantes (Paramount / Disney), aucun flux public FR |
+| History, National Geographic, Nat Geo Wild | non | payantes (A+E / Disney), seuls des restreams existent |
+| Disney Channel US, Disney Junior US | non | idem ; la seule source vivante de Disney Channel US est réservée aux États-Unis |
+| CNN | déjà officiel (`warnermediacdn.com`) | c'est ce flux qui sert une boucle VOD par moments |
+
+Règle qui en découle : un pool n'est remplacé par un flux officiel que quand ce
+flux existe **et** passe le proxy. Pour le groupe M6, seul 6cloud changerait la
+donne ; il faudrait qu'il cesse de bloquer les IP de datacenter.
+
 ## Ce que cette recherche n'a PAS donné
 
 À noter pour ne pas refaire le travail :

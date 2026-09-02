@@ -273,7 +273,11 @@ https://citynewsregional.akamaized.net/hls/live/1024053/Regional_Live_8/master.m
 # Le flux est Bloomberg TV international (restream), pas BNN Bloomberg (Bell) :
 # tvg-id retiré — pas d'EPG vaut mieux qu'un EPG faux.
 #EXTINF:-1 tvg-logo="https://i.imgur.com/ZkN8AUc.png" group-title="Canada EN", Bloomberg TV
-https://cdn4.skygo.mn/live/disk1/Bloomberg/HLSv3-FTA/Bloomberg.m3u8
+https://bloomberg.com/media-manifest/streams/phoenix-us.m3u8
+# Bloomberg TV : source OFFICIELLE (bloomberg.com, flux US) depuis le 2026-09-02, à la
+# place d'un restream mongol (cdn4.skygo.mn). Validée au banc d'essai.
+# ALT Bloomberg (officiel, flux Europe, validé 2026-09-02): https://bloomberg.com/media-manifest/streams/eu.m3u8
+# ALT Bloomberg (Samsung TV Plus FR, validé 2026-09-02): https://jmp2.uk/stvp-FR1400004VF
 #EXTINF:-1 tvg-id="CABB2500021YQ" tvg-logo="https://i.imgur.com/k0InwrS.jpeg" group-title="Canada EN", Gusto TV
 https://e75fc053c0d2406fb74cdd71d77e1a7f.mediatailor.us-east-1.amazonaws.com/v1/master/f4e8c53a8367a5b58e20ce054ea3ce25a3e904d3/RakutenTV-eu_GustoTV/playlist.m3u8
 #EXTINF:-1 tvg-id="KnowledgeNetwork.ca" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/canada/knowledge-network-ca.png" group-title="Canada EN", Knowledge Network
