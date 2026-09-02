@@ -1,26 +1,36 @@
 #!/usr/bin/env python3
 """
-Construit un EPG unique en fusionnant les guides FR + CA + US (epgshare01),
+Construit un EPG unique en fusionnant les guides FR + CA + US,
 filtré sur les chaînes réellement présentes dans TV.m3u (pour rester léger).
 
 Chaque chaîne du m3u est rattachée à son guide :
-  1) par tvg-id exact si epgshare01 utilise le même id ;
+  1) par tvg-id exact si la source utilise le même id ;
   2) sinon par correspondance du NOM de la chaîne (normalisé).
 Les programmes trouvés sont réétiquetés sur le tvg-id du m3u, donc le lecteur
-les affiche même si l'id interne d'epgshare01 diffère.
+les affiche même si l'id interne de la source diffère.
 
 Sortie : epg.xml  (le workflow le gzip + publie sur la branche `epg`).
 """
 import io, gzip, re, time, unicodedata, urllib.request
 import xml.etree.ElementTree as ET
+from urllib.parse import urlparse
 
-BASE = "https://epgshare01.online/epgshare01/"
-WANT = ("FR", "CA", "US")                       # flux nationaux voulus
-FALLBACK = [BASE + f"epg_ripper_{c}1.xml.gz" for c in WANT]
-# Guides XMLTV supplémentaires (non-gzip) pour les chaînes FAST Samsung TV Plus
-# absentes des flux nationaux epgshare01 (RMC Life, TV5Monde Chefs/Voyage/Info,
-# Noovo, CBC Comedy, Gusto…). Matchés par tvg-id exact = l'id Samsung.
-EXTRA = ["https://i.mjh.nz/SamsungTVPlus/fr.xml",
+# Guides nationaux. epgshare01.online, la source d'origine, s'est mise à
+# renvoyer 404 sur son index ET sur ses trois guides le 2026-09-02 : l'EPG
+# n'était donc plus reconstruit. open-epg la remplace — mesuré le même jour par
+# le workflow `epg-sources` : France 325 chaînes, Canada 127, USA 663.
+NATIONAUX = [
+    "https://www.open-epg.com/files/france1.xml",
+    "https://www.open-epg.com/files/canada1.xml",
+    "https://www.open-epg.com/files/unitedstates1.xml",
+]
+# Guides supplémentaires :
+#  - xmltvfr : peu de chaînes (la TNT française) mais très détaillé sur elles ;
+#  - Samsung TV Plus : les chaînes FAST absentes des guides nationaux
+#    (RMC Life, TV5Monde Voyage, Noovo, CBC Comedy, Gusto…), appariées par
+#    tvg-id exact puisque le m3u porte déjà l'identifiant Samsung.
+EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
+         "https://i.mjh.nz/SamsungTVPlus/fr.xml",
          "https://i.mjh.nz/SamsungTVPlus/ca.xml"]
 
 # Alias explicites : tvg-id du m3u -> id EXACT d'une chaîne dans un guide source,
@@ -37,13 +47,18 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 
 def get(url, tries=4):
-    """GET brut avec User-Agent navigateur + retry (epgshare01 renvoie
-    403/404 sans UA navigateur ou sur requêtes rapprochées)."""
+    """GET brut avec User-Agent navigateur + retry.
+
+    Certains fournisseurs refusent les requêtes sans UA navigateur ou trop
+    rapprochées ; le Referer est calé sur l'origine de l'URL demandée.
+    """
+    p = urlparse(url)
     last = None
     for n in range(tries):
         try:
             req = urllib.request.Request(url, headers={
-                "User-Agent": UA, "Accept": "*/*", "Referer": BASE})
+                "User-Agent": UA, "Accept": "*/*",
+                "Referer": f"{p.scheme}://{p.netloc}/"})
             return urllib.request.urlopen(req, timeout=180).read()
         except Exception as e:
             last = e
@@ -51,24 +66,13 @@ def get(url, tries=4):
     raise last
 
 
-def discover():
-    """Choisit, pour chaque pays, le 1er flux national epg_ripper_XX<n>.xml.gz
-    (sans _LOCALS). Robuste aux renommages côté epgshare01 (CA1->CA2, etc.)."""
-    try:
-        html = get(BASE).decode("utf-8", "replace")
-    except Exception as e:
-        print(f"!! index epgshare01 injoignable ({e}) -> fallback")
-        return FALLBACK
-    files = set(re.findall(r"epg_ripper_[A-Z0-9_]+\.xml\.gz", html))
-    chosen = []
-    for c in WANT:
-        cands = sorted(f for f in files
-                       if re.fullmatch(rf"epg_ripper_{c}\d+\.xml\.gz", f))
-        if cands:
-            chosen.append(BASE + cands[0])
-        else:
-            print(f"!! aucun flux national '{c}' dans l'index")
-    return chosen or FALLBACK
+def decompresse(brut):
+    """Rend le XML en clair, que la source soit gzippée ou non.
+
+    Les fournisseurs mélangent les deux (open-epg sert du .xml nu, xmltvfr du
+    .xml.gz) : on se fie aux octets magiques plutôt qu'à l'extension.
+    """
+    return gzip.decompress(brut) if brut[:2] == b"\x1f\x8b" else brut
 
 
 def norm(s):
@@ -119,24 +123,24 @@ ids = {t for t, _ in wanted}
 print(f"{len(wanted)} chaînes avec tvg-id dans TV.m3u")
 
 # 2) télécharge les flux (gardés en mémoire pour 2 passes)
-SOURCES = discover()
+SOURCES = NATIONAUX
 print("Sources EPG :", ", ".join(s.split("/")[-1] for s in SOURCES))
 feeds = []
 for i, url in enumerate(SOURCES):
     if i:
         time.sleep(4)
     try:
-        feeds.append(gzip.decompress(get(url)))
+        feeds.append(decompresse(get(url)))
     except Exception as e:
         print(f"!! {url} : {e}")
 
 n_nationaux = len(feeds)   # combien de guides nationaux ont réellement été chargés
 
-# guides XMLTV supplémentaires (déjà en clair, pas de gunzip)
+# guides supplémentaires
 for url in EXTRA:
     time.sleep(2)
     try:
-        feeds.append(get(url))
+        feeds.append(decompresse(get(url)))
         print(f"   + extra : {url.split('/')[-2]}/{url.split('/')[-1]}")
     except Exception as e:
         print(f"!! {url} : {e}")
@@ -216,8 +220,10 @@ for xml in feeds:
 # Le workflow force-push la branche `epg` : si on écrivait un fichier vide ou
 # partiel, il écraserait le dernier bon guide, irrécupérable, et toutes les
 # chaînes perdraient leur programme jusqu'au prochain run réussi. Les erreurs
-# réseau étant avalées plus haut (epgshare01 renvoie des 403 sur requêtes
-# rapprochées), on vérifie ici que la moisson est plausible avant d'écrire.
+# réseau étant avalées plus haut (les fournisseurs renvoient des 403/404 sur
+# requêtes rapprochées, et epgshare01 a fini par disparaître le 2026-09-02),
+# on vérifie ici que la moisson est plausible avant d'écrire. C'est ce
+# garde-fou qui a préservé le guide ce jour-là.
 seuils = [
     (n_nationaux == len(SOURCES),
      f"guides nationaux manquants ({n_nationaux}/{len(SOURCES)})"),
