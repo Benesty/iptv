@@ -19,11 +19,21 @@ from urllib.parse import urlparse
 # renvoyer 404 sur son index ET sur ses trois guides le 2026-09-02 : l'EPG
 # n'était donc plus reconstruit. open-epg la remplace — mesuré le même jour par
 # le workflow `epg-sources` : France 325 chaînes, Canada 127, USA 663.
+# canada2 et canada3 sont indispensables : canada1 ne porte PAS les chaînes
+# québécoises (TVA, LCN, RDI, Savoir Média, Noovo), d'où seulement 47/71
+# chaînes appariées au premier essai.
 NATIONAUX = [
     "https://www.open-epg.com/files/france1.xml",
     "https://www.open-epg.com/files/canada1.xml",
+    "https://www.open-epg.com/files/canada2.xml",
+    "https://www.open-epg.com/files/canada3.xml",
     "https://www.open-epg.com/files/unitedstates1.xml",
 ]
+# Nombre minimal de guides nationaux à charger pour publier. On n'exige pas la
+# totalité : sinon le hoquet d'UN fournisseur sur cinq empêcherait toute mise à
+# jour, alors que les seuils de programmes et de chaînes appariées suffisent à
+# détecter une moisson réellement amputée.
+MIN_NATIONAUX = 3
 # Guides supplémentaires :
 #  - xmltvfr : peu de chaînes (la TNT française) mais très détaillé sur elles ;
 #  - Samsung TV Plus : les chaînes FAST absentes des guides nationaux
@@ -255,8 +265,9 @@ for xml in feeds:
 # on vérifie ici que la moisson est plausible avant d'écrire. C'est ce
 # garde-fou qui a préservé le guide ce jour-là.
 seuils = [
-    (n_nationaux == len(SOURCES),
-     f"guides nationaux manquants ({n_nationaux}/{len(SOURCES)})"),
+    (n_nationaux >= MIN_NATIONAUX,
+     f"guides nationaux manquants ({n_nationaux}/{len(SOURCES)}, "
+     f"minimum {MIN_NATIONAUX})"),
     (len(programmes) >= 5000,
      f"trop peu de programmes ({len(programmes)}, seuil 5000)"),
     (len(channels) >= 0.7 * len(ids),

@@ -108,7 +108,7 @@ jobs:
               etat, detail = sonde(url)
               print(f"{nom:26} {etat:16} {detail[:60]}")
               print(f"{'':26} {url}")
-              if etat.startswith("OK") and ("chaînes" in detail):
+              if etat.startswith("OK") and ("ch." in detail):
                   vivants.append((nom, url, detail))
 
           print("\n\n########## UTILISABLES ##########")
