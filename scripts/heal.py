@@ -134,8 +134,21 @@ REGISTRY = {
     ],
     "6ter.fr": [
         "http://151.80.18.177:86/6ter/index.m3u8",
+        "http://99.27.51.147:8080/6ter/index.m3u8",       # trouvé par sondage 2026-09-02
         "http://145.239.5.177/314/index.m3u8",
     ],
+    # Trouvés par sondage de chemins le 2026-09-02, quand le pool 145.239 a été
+    # confirmé injouable depuis le Québec. Validés au banc d'essai.
+    "Teva.fr": [
+        "http://151.80.18.177:86/Teva_HD/index.m3u8",
+        "http://99.27.51.147:8080/TEVA/index.m3u8",
+    ],
+    "CinePlusEmotion.fr": [
+        "http://151.80.18.177:86/Cine+_Emotion_HD/index.m3u8",
+        "http://99.27.51.147:8080/CineEmotion/index.m3u8",
+    ],
+    "SerieClub.fr": ["http://151.80.18.177:86/Serie_Club_HD/index.m3u8"],
+    "W9.fr": ["http://151.80.18.177:86/W9_HD/index.m3u8"],
     "Gulli.fr": [
         "https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8",
         "http://99.27.51.147:8080/Gulli/index.m3u8",
@@ -181,6 +194,8 @@ REGISTRY = {
     ],
     "DisneyJunior.us": [
         "http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8",
+        "http://tvsen5.aynascope.net/disney/index.m3u8",    # validés 2026-09-02
+        "http://tvsen7.aynascope.net/disneyjr/index.m3u8",
         "http://212.5.144.156/disneyjr/index.m3u8",
     ],
 }

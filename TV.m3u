@@ -34,12 +34,11 @@ http://99.27.51.147:8080/M6/index.m3u8
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Farte-highest.m3u8
 # ALT Arte (2e source OFFICIELLE France TV, stub schumijo — validée 2026-08-30): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Farte.m3u8
 # ALT Arte (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/300/index.m3u8
-# ⚠️ W9 — retirée (confirmé injouable depuis le Québec le 2026-07-20 : « Lecture
-# impossible »). Flux officiel M6/6cloud géo-restreint FR (403 hors-France) ; le proxy
-# Paris échoue car 6cloud bloque les IP datacenter Vercel (502) ; aucun restream vivant.
-# Retire le « # » des 2 lignes ci-dessous si une source qui marche réapparaît.
-# #EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
-# https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-w9/cmaf_q2hyb21h/hls-short-hd.m3u8
+#EXTINF:-1 tvg-chno="9" tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png" group-title="France", W9
+http://151.80.18.177:86/W9_HD/index.m3u8
+# W9 — réactivée le 2026-09-02 : un restream est apparu sur le pool 151.80 (validé au
+# banc d'essai). Retirée le 2026-07-20 faute de source : le flux officiel 6cloud est
+# géo-restreint FR et refuse le proxy Paris (502).
 #EXTINF:-1 tvg-chno="10" tvg-id="TMC.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png" group-title="France", TMC
 https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8
 #EXTINF:-1 tvg-chno="11" tvg-id="NT1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png" group-title="France", TFX
@@ -154,6 +153,9 @@ http://151.80.18.177:86/Nickelodeon_FR/index.m3u8
 http://151.80.18.177:86/Nickelodeon_Junior/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJunior.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/disney-jr-fr.png" group-title="France", Disney Junior
 http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
+# Disney Junior : « s'arrête au bout de 15 s » depuis le Québec (2026-09-02) alors
+# que le flux avance depuis un runner. Aucune autre source : 41.205.77.102, les
+# pools 99.27 / haititivi / 144.217 sont tous morts. Rien à faire de ce côté-ci.
 # ⚠️ Disney Channel (France) — retirée 2026-07-25 : le flux du pool est en
 # PORTUGAIS malgré son libellé « Disney Channel » chez l'agrégateur (constaté
 # par l'utilisateur). Mauvais étiquetage de langue, pas de source FR valide.
@@ -161,15 +163,24 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 # #EXTINF:-1 tvg-id="DisneyChannel.fr" tvg-logo="https://i.imgur.com/UxrAiAe.png" group-title="France", Disney Channel
 # http://151.80.18.177:86/Disney_Channel_HD/index.m3u8
 #EXTINF:-1 tvg-id="SerieClub.fr" tvg-logo="https://i.imgur.com/V8wRRg5.png" group-title="France", Série Club
-http://145.239.5.177/355/index.m3u8
+http://151.80.18.177:86/Serie_Club_HD/index.m3u8
+# Série Club, Teva, Ciné+ Émotion, M6 Music — le pool 145.239.5.177 répond 403 et
+# est confirmé injouable depuis le Québec (2026-09-02). Chemins trouvés sur les
+# pools 151.80 et 99.27 par sondage, validés au banc d'essai le 2026-09-02.
 #EXTINF:-1 tvg-id="Teva.fr" tvg-logo="https://i.imgur.com/kDW0hN5.png" group-title="France", Teva
-http://145.239.5.177/356/index.m3u8
+http://151.80.18.177:86/Teva_HD/index.m3u8
+# ALT Teva (pool M6, validé 2026-09-02): http://99.27.51.147:8080/TEVA/index.m3u8
 #EXTINF:-1 tvg-id="CinePlusEmotion.fr" tvg-logo="https://i.imgur.com/upYjPvc.jpeg" group-title="France", Ciné+ Émotion
-http://145.239.5.177/337/index.m3u8
+http://151.80.18.177:86/Cine+_Emotion_HD/index.m3u8
+# ALT Ciné+ Émotion (pool M6, validé 2026-09-02): http://99.27.51.147:8080/CineEmotion/index.m3u8
 #EXTINF:-1 tvg-id="CanalPlusCinemas.fr" tvg-logo="https://i.imgur.com/fvPoNEa.jpeg" group-title="France", CANAL+ Cinéma
 http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
+# CANAL+ Cinéma : seule source connue (10 autres chemins essayés le 2026-09-02, tous
+# en 404). Le pool a des trous de quelques minutes ; le bot le surveille.
 #EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-music-fr.png" group-title="France", M6 Music
 http://145.239.5.177/320/index.m3u8
+# M6 Music : aucune autre source (12 chemins essayés sur 151.80, 99.27, haititivi et
+# 144.217 le 2026-09-02, tous morts). Injouable tant que le pool 145.239 bloque.
 # ⚠️ Foot+ — retirée le 2026-07-24 : flux mort (confirmé par 2 tests profonds
 # indépendants) et aucun remplaçant valide (chaîne payante Canal+, pas de source
 # libre). Décommente les 2 lignes ci-dessous si une source réapparaît.
