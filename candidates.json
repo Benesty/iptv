@@ -1,8 +1,288 @@
 [
  {
+  "name": "Teva (pool 99.27 Teva)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Teva/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 151.80 Teva)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Teva/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 99.27 TEVA)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/TEVA/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 151.80 TEVA)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/TEVA/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 99.27 Teva_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Teva_HD/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 151.80 Teva_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Teva_HD/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 99.27 TEVA_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/TEVA_HD/index.m3u8"
+ },
+ {
+  "name": "Teva (pool 151.80 TEVA_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/TEVA_HD/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 CineEmotion)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/CineEmotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 CineEmotion)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/CineEmotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 Cine_Emotion)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Cine_Emotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 Cine_Emotion)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Cine_Emotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 CinePlusEmotion)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/CinePlusEmotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 CinePlusEmotion)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/CinePlusEmotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 Cine+_Emotion)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Cine+_Emotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 Cine+_Emotion)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Cine+_Emotion/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 Cine+_Emotion_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Cine+_Emotion_HD/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 Cine+_Emotion_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Cine+_Emotion_HD/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 99.27 CINE_EMOTION)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/CINE_EMOTION/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (pool 151.80 CINE_EMOTION)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/CINE_EMOTION/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 99.27 M6Music)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/M6Music/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 151.80 M6Music)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/M6Music/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 99.27 M6_Music)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/M6_Music/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 151.80 M6_Music)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/M6_Music/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 99.27 M6MUSIC)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/M6MUSIC/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 151.80 M6MUSIC)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/M6MUSIC/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 99.27 M6_Music_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/M6_Music_HD/index.m3u8"
+ },
+ {
+  "name": "M6 Music (pool 151.80 M6_Music_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/M6_Music_HD/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 99.27 SerieClub)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/SerieClub/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 151.80 SerieClub)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/SerieClub/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 99.27 Serie_Club)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Serie_Club/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 151.80 Serie_Club)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Serie_Club/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 99.27 SERIE_CLUB)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/SERIE_CLUB/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 151.80 SERIE_CLUB)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/SERIE_CLUB/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 99.27 Serie_Club_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Serie_Club_HD/index.m3u8"
+ },
+ {
+  "name": "Série Club (pool 151.80 Serie_Club_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Serie_Club_HD/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 99.27 DisneyJunior)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/DisneyJunior/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 151.80 DisneyJunior)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/DisneyJunior/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 99.27 Disney_Junior)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Disney_Junior/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 151.80 Disney_Junior)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Disney_Junior/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 99.27 Disney_Junior_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Disney_Junior_HD/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 151.80 Disney_Junior_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Disney_Junior_HD/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 99.27 DISNEY_JUNIOR)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/DISNEY_JUNIOR/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (pool 151.80 DISNEY_JUNIOR)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/DISNEY_JUNIOR/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 99.27 CanalCinema)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/CanalCinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 151.80 CanalCinema)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/CanalCinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 99.27 Canal_Cinema)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Canal_Cinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 151.80 Canal_Cinema)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Canal_Cinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 99.27 CanalPlusCinema)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/CanalPlusCinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 151.80 CanalPlusCinema)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/CanalPlusCinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 99.27 Canal+_Cinema)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Canal+_Cinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 151.80 Canal+_Cinema)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Canal+_Cinema/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 99.27 Canal+_cinema_HD)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/Canal+_cinema_HD/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (pool 151.80 Canal+_cinema_HD)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 99.27 6ter)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/6ter/index.m3u8"
+ },
+ {
   "name": "6TER (pool 151.80 6ter)",
   "langue": "fr",
   "url": "http://151.80.18.177:86/6ter/index.m3u8"
+ },
+ {
+  "name": "6TER (pool 99.27 6TER)",
+  "langue": "fr",
+  "url": "http://99.27.51.147:8080/6TER/index.m3u8"
  },
  {
   "name": "6TER (pool 151.80 6TER)",
@@ -10,48 +290,123 @@
   "url": "http://151.80.18.177:86/6TER/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 6ter_HD)",
+  "name": "6TER (pool 99.27 Sixter)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/6ter_HD/index.m3u8"
+  "url": "http://99.27.51.147:8080/Sixter/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 6TER_HD)",
+  "name": "6TER (pool 151.80 Sixter)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/6TER_HD/index.m3u8"
+  "url": "http://151.80.18.177:86/Sixter/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 6Ter)",
+  "name": "W9 (pool 99.27 W9)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/6Ter/index.m3u8"
+  "url": "http://99.27.51.147:8080/W9/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 6ter_hd)",
+  "name": "W9 (pool 151.80 W9)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/6ter_hd/index.m3u8"
+  "url": "http://151.80.18.177:86/W9/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 SIXTER)",
+  "name": "W9 (pool 99.27 W9_HD)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/SIXTER/index.m3u8"
+  "url": "http://99.27.51.147:8080/W9_HD/index.m3u8"
  },
  {
-  "name": "6TER (pool 151.80 6TER_FR)",
+  "name": "W9 (pool 151.80 W9_HD)",
   "langue": "fr",
-  "url": "http://151.80.18.177:86/6TER_FR/index.m3u8"
+  "url": "http://151.80.18.177:86/W9_HD/index.m3u8"
  },
  {
-  "name": "6TER (pool 145.239 /314)",
+  "name": "Teva (haititivi TEVA)",
   "langue": "fr",
-  "url": "http://145.239.5.177/314/index.m3u8"
+  "url": "http://cdn.haititivi.com/TEVA/index.m3u8"
  },
  {
-  "name": "6TER (netplus, direct)",
+  "name": "Ciné+ Émotion (haititivi CINE-EMOTION)",
   "langue": "fr",
-  "url": "https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8"
+  "url": "http://cdn.haititivi.com/CINE-EMOTION/index.m3u8"
  },
  {
-  "name": "6TER (netplus via proxy)",
+  "name": "M6 Music (haititivi M6-MUSIC)",
   "langue": "fr",
-  "url": "https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fviamotionhsi.netplus.ch%2Flive%2Feds%2F6ter%2Fbrowser-HLS8%2F6ter.m3u8"
+  "url": "http://cdn.haititivi.com/M6-MUSIC/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (haititivi DISNEY-JUNIOR)",
+  "langue": "fr",
+  "url": "http://cdn.haititivi.com/DISNEY-JUNIOR/index.m3u8"
+ },
+ {
+  "name": "CANAL+ Cinéma (haititivi CANAL-CINEMA)",
+  "langue": "fr",
+  "url": "http://cdn.haititivi.com/CANAL-CINEMA/index.m3u8"
+ },
+ {
+  "name": "Série Club (haititivi SERIE-CLUB)",
+  "langue": "fr",
+  "url": "http://cdn.haititivi.com/SERIE-CLUB/index.m3u8"
+ },
+ {
+  "name": "6TER (haititivi 6TER)",
+  "langue": "fr",
+  "url": "http://cdn.haititivi.com/6TER/index.m3u8"
+ },
+ {
+  "name": "W9 (haititivi W9)",
+  "langue": "fr",
+  "url": "http://cdn.haititivi.com/W9/index.m3u8"
+ },
+ {
+  "name": "Teva (144.217 Teva)",
+  "langue": "fr",
+  "url": "http://144.217.253.140/Teva/tracks-v1a1/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (144.217 Disney_Junior)",
+  "langue": "fr",
+  "url": "http://144.217.253.140/Disney_Junior/tracks-v1a1/index.m3u8"
+ },
+ {
+  "name": "M6 Music (144.217 M6_Music)",
+  "langue": "fr",
+  "url": "http://144.217.253.140/M6_Music/tracks-v1a1/index.m3u8"
+ },
+ {
+  "name": "Ciné+ Émotion (144.217 Cine_Emotion)",
+  "langue": "fr",
+  "url": "http://144.217.253.140/Cine_Emotion/tracks-v1a1/index.m3u8"
+ },
+ {
+  "name": "Disney Junior (41.205.77.102)",
+  "langue": "fr",
+  "url": "http://41.205.77.102/DISNEY-JUNIOR/index.m3u8"
+ },
+ {
+  "name": "M6 Music (proxy filegear, iptv-org)",
+  "langue": "fr",
+  "url": "https://test.946985.filegear-sg.me/proxy/803c517b325bfafc"
+ },
+ {
+  "name": "Disney Junior US (tvsen5)",
+  "langue": "fr",
+  "url": "http://tvsen5.aynascope.net/disney/index.m3u8"
+ },
+ {
+  "name": "Disney Junior US (tvsen7)",
+  "langue": "fr",
+  "url": "http://tvsen7.aynascope.net/disneyjr/index.m3u8"
+ },
+ {
+  "name": "TÉMOIN Teva actuelle (145.239/356)",
+  "langue": "fr",
+  "url": "http://145.239.5.177/356/index.m3u8"
+ },
+ {
+  "name": "TÉMOIN Disney Junior actuelle (151.80)",
+  "langue": "fr",
+  "url": "http://151.80.18.177:86/Disney_Junior_HD/index.m3u8"
  }
 ]
