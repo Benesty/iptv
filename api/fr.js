@@ -506,6 +506,45 @@ async function rewriteManifest(text, baseUrl, origin) {
   return out.join("\n");
 }
 
+// Reconnaît un vrai segment média à ses premiers octets, quand le CDN annonce
+// un Content-Type fantaisiste (Dailymotion, 2026-09-02 : « text/vnd.trolltech.
+// linguist » sur du MPEG-TS — CSTAR et T18 étaient refusées en 415). Renvoie
+// le type à servir, ou null si ce n'est manifestement pas du média.
+function sniffMedia(head, path) {
+  const b = head || new Uint8Array();
+  const ascii = (i, n) => String.fromCharCode(...b.subarray(i, i + n));
+  if (b.length >= 1 && b[0] === 0x47 && (b.length < 189 || b[188] === 0x47)) return "video/mp2t";
+  if (b.length >= 8 && ["ftyp", "styp", "moof", "sidx", "moov"].includes(ascii(4, 4))) return "video/mp4";
+  if (b.length >= 6 && ascii(0, 6) === "WEBVTT") return "text/vtt";
+  if (b.length >= 2 && b[0] === 0xff && (b[1] & 0xf6) === 0xf0 && path.endsWith(".aac")) return "audio/aac";
+  if (path.endsWith(".key") && b.length === 16) return "application/octet-stream";
+  return null;
+}
+
+// Lit le premier morceau d'un flux et rend un flux équivalent (le morceau lu
+// suivi du reste), pour pouvoir regarder les octets sans rien perdre.
+async function peek(body) {
+  if (!body) return { head: new Uint8Array(), rest: null };
+  const reader = body.getReader();
+  const first = await reader.read();
+  const head = first.value || new Uint8Array();
+  const rest = new ReadableStream({
+    start(c) {
+      if (head.length) c.enqueue(head);
+      if (first.done) c.close();
+    },
+    async pull(c) {
+      const r = await reader.read();
+      if (r.done) c.close();
+      else c.enqueue(r.value);
+    },
+    cancel(reason) {
+      return reader.cancel(reason);
+    },
+  });
+  return { head, rest };
+}
+
 const MANIFEST_HEADERS = {
   "content-type": "application/vnd.apple.mpegurl",
   "access-control-allow-origin": "*",
@@ -672,14 +711,24 @@ export default async function handler(req) {
                     "application/x-mpegurl", "application/vnd.apple.mpegurl",
                     "binary/octet-stream", "application/mp4", "image/",
                     "text/vtt"];                       // sous-titres WebVTT
+  let body = upstream.body;
+  let pct = upstream.headers.get("content-type");
   if (ct && !MEDIA_OK.some((t) => ct.includes(t))) {
-    // Le type refusé est nommé : c'est ce qui permet de l'ajouter ci-dessus
-    // en connaissance de cause (voir le workflow proxy-probe).
-    return new Response("type de contenu non autorisé: " + ct, { status: 415 });
+    // Type annoncé inconnu : on regarde les octets. Un vrai segment est servi
+    // sous SON type (jamais sous l'étiquette du CDN, qui pourrait être
+    // text/html) ; tout le reste est refusé, en nommant le type (voir le
+    // workflow proxy-probe).
+    const p = await peek(upstream.body);
+    const vrai = sniffMedia(p.head, path);
+    if (!vrai) {
+      if (p.rest) p.rest.cancel().catch(() => {});
+      return new Response("type de contenu non autorisé: " + ct, { status: 415 });
+    }
+    body = p.rest;
+    pct = vrai;
   }
 
   const h = new Headers();
-  const pct = upstream.headers.get("content-type");
   if (pct) h.set("content-type", pct);
   for (const k of ["content-range", "accept-ranges", "content-length"]) {
     const val = upstream.headers.get(k);
@@ -692,5 +741,5 @@ export default async function handler(req) {
   // on les met en cache sur le CDN Vercel (PoP proche du lecteur) pour
   // éviter un aller-retour jusqu'à Paris à chaque segment → moins de buffering.
   h.set("cache-control", "public, max-age=300, s-maxage=300");
-  return new Response(upstream.body, { status: upstream.status, headers: h });
+  return new Response(body, { status: upstream.status, headers: h });
 }

@@ -212,5 +212,35 @@ calls = [];
 r = await st.resolveStub(null, FTV);
 check("resolveStub : u= -> stub lu directement, sans la playlist", !r.error && r.uris.length === 4 && !calls.includes(PLAYLIST), calls);
 
+/* ------------------------------------------------------------------ *
+ * C. Segments au Content-Type fantaisiste : reconnus aux octets
+ * ------------------------------------------------------------------ */
+console.log("\nC. Reconnaissance des segments (sniffMedia / peek)");
+const code3 = `
+  ${grab("sniffMedia")}
+  ${grab("peek")}
+  export { sniffMedia, peek };
+`;
+const sn = await import("data:text/javascript," + encodeURIComponent(code3));
+const ts = new Uint8Array(376); ts[0] = 0x47; ts[188] = 0x47;
+check("sniffMedia : MPEG-TS (octet de synchro 0x47 tous les 188)", sn.sniffMedia(ts, "/x/seg.ts") === "video/mp2t");
+check("sniffMedia : MPEG-TS court (moins d'un paquet)", sn.sniffMedia(new Uint8Array([0x47, 0x40, 0x11]), "/frag") === "video/mp2t");
+const fmp4 = new Uint8Array([0, 0, 0, 0x18, 0x73, 0x74, 0x79, 0x70, 0, 0, 0, 0]); // ....styp
+check("sniffMedia : fMP4 (styp)", sn.sniffMedia(fmp4, "/x.m4s") === "video/mp4");
+check("sniffMedia : WebVTT", sn.sniffMedia(new TextEncoder().encode("WEBVTT\n\n00:00.000"), "/s.vtt") === "text/vtt");
+check("sniffMedia : clé AES de 16 octets", sn.sniffMedia(new Uint8Array(16), "/k.key") === "application/octet-stream");
+check("sniffMedia : du HTML est refusé même sous un nom .ts", sn.sniffMedia(new TextEncoder().encode("<html><script>"), "/evil.ts") === null);
+check("sniffMedia : 16 octets quelconques hors .key sont refusés", sn.sniffMedia(new Uint8Array(16), "/x.bin") === null);
+check("sniffMedia : corps vide refusé", sn.sniffMedia(new Uint8Array(), "/x.ts") === null);
+// peek : rien n'est perdu, le flux reconstitué est identique
+const morceaux = [new Uint8Array([0x47, 1, 2]), new Uint8Array([3, 4]), new Uint8Array([5])];
+const flux = new ReadableStream({ start(c) { for (const m of morceaux) c.enqueue(m); c.close(); } });
+const pk = await sn.peek(flux);
+const lu = new Uint8Array(await new Response(pk.rest).arrayBuffer());
+check("peek : le premier morceau est visible", pk.head[0] === 0x47 && pk.head.length === 3, pk.head);
+check("peek : le flux reconstitué est complet et dans l'ordre", JSON.stringify([...lu]) === JSON.stringify([0x47, 1, 2, 3, 4, 5]), [...lu]);
+const pkv = await sn.peek(null);
+check("peek : corps absent -> tête vide", pkv.head.length === 0 && pkv.rest === null);
+
 console.log(fails === 0 ? "\nPROXY : TOUT PASSE" : `\n${fails} ÉCHEC(S)`);
 process.exit(fails === 0 ? 0 : 1);
