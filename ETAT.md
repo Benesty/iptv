@@ -1,20 +1,23 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-02 11:01 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-02 13:30 UTC._
 
-Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant.
+Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**73 chaînes** — 💀 2 · 🌍 16 · ✅ 27 · 🔁 28
+**73 chaînes** — 💀 5 · 🌍 17 · ✅ 51
 
 
-## 💀 En panne (2)
+## 💀 En panne (5)
 
 | Chaîne | Détail |
 |---|---|
+| 6TER | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
+| CSTAR | HTTP 415 · via proxy Paris · secours ✅ |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
+| T18 | HTTP 415 · via proxy Paris · secours ✅ |
 
-## 🌍 Géo-bloquées (403) (16)
+## 🌍 Géo-bloquées (403) (17)
 
 | Chaîne | Détail |
 |---|---|
@@ -22,6 +25,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CBC Kids | HTTP 403 |
 | CBC Montréal | HTTP 403 |
 | CBC News Explore | HTTP 403 |
+| CBC News Montréal | HTTP 403 · via redirecteur |
 | CBC News Network | HTTP 403 |
 | Ciné+ Émotion | HTTP 403 |
 | ICI RDI | HTTP 403 |
@@ -35,25 +39,38 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TVA | HTTP 403 |
 | Teva | HTTP 403 |
 
-## ✅ Fonctionnelles (27)
+## ✅ Fonctionnelles (51)
 
 | Chaîne | Détail |
 |---|---|
-| 6TER | — |
 | AB1 | — |
+| Arte | via proxy Paris |
+| BFM TV | via proxy Paris |
 | Bloomberg TV | — |
 | CANAL+ Cinéma | — |
+| CANAL+ en clair | via proxy Paris |
 | CBS News 24/7 | — |
+| CNews | via proxy Paris |
+| CTV News | via redirecteur |
 | CityNews | — |
 | Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
+| France 2 | via proxy Paris |
 | France 24 (FR) | — |
+| France 3 | via proxy Paris |
+| France 4 | via proxy Paris |
+| France 5 | via proxy Paris |
+| France TV Docs | via proxy Paris |
+| France TV Sport | via proxy Paris |
+| France TV Séries | via proxy Paris |
 | GULLI | — |
 | Global News Montréal | — |
 | Gusto TV | — |
 | History | — |
 | Knowledge Network | — |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
+| LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | M6 | — |
 | National Geographic | — |
@@ -62,40 +79,18 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Téléréalités | — |
+| Novo 19 | via proxy Paris |
 | Paris Première | — |
+| RMC Découverte | via redirecteur |
+| RMC Life | via redirecteur |
+| RMC Story | via proxy Paris |
 | RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
-
-## 🔁 Via résolveur (28)
-
-| Chaîne | Détail |
-|---|---|
-| Arte | via proxy/redirecteur (se répare seul) |
-| BFM TV | via proxy/redirecteur (se répare seul) |
-| CANAL+ en clair | via proxy/redirecteur (se répare seul) |
-| CBC News Montréal | via proxy/redirecteur (se répare seul) |
-| CNews | via proxy/redirecteur (se répare seul) |
-| CSTAR | via proxy/redirecteur (se répare seul) |
-| CTV News | via proxy/redirecteur (se répare seul) |
-| France 2 | via proxy/redirecteur (se répare seul) |
-| France 3 | via proxy/redirecteur (se répare seul) |
-| France 4 | via proxy/redirecteur (se répare seul) |
-| France 5 | via proxy/redirecteur (se répare seul) |
-| France TV Docs | via proxy/redirecteur (se répare seul) |
-| France TV Sport | via proxy/redirecteur (se répare seul) |
-| France TV Séries | via proxy/redirecteur (se répare seul) |
-| LCI | via proxy/redirecteur (se répare seul) |
-| LCP - Public Sénat | via proxy/redirecteur (se répare seul) |
-| Novo 19 | via proxy/redirecteur (se répare seul) |
-| RMC Découverte | via proxy/redirecteur (se répare seul) |
-| RMC Life | via proxy/redirecteur (se répare seul) |
-| RMC Story | via proxy/redirecteur (se répare seul) |
-| T18 | via proxy/redirecteur (se répare seul) |
-| TF1 | via proxy/redirecteur (se répare seul) |
-| TF1 Séries Films | via proxy/redirecteur (se répare seul) |
-| TFX | via proxy/redirecteur (se répare seul) |
-| TMC | via proxy/redirecteur (se répare seul) |
-| TV5Monde Info | via proxy/redirecteur (se répare seul) |
-| TV5Monde+ Voyage | via proxy/redirecteur (se répare seul) |
-| franceinfo | via proxy/redirecteur (se répare seul) |
+| TF1 | via proxy Paris · secours ✅ |
+| TF1 Séries Films | via proxy Paris |
+| TFX | via proxy Paris · secours 🌍 (HTTP 403) |
+| TMC | via proxy Paris · secours ✅ |
+| TV5Monde Info | via proxy Paris |
+| TV5Monde+ Voyage | via redirecteur |
+| franceinfo | via proxy Paris |
