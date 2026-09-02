@@ -96,6 +96,20 @@ jobs:
                   print(f"  segment  HTTP {e.code} {e.headers.get('Content-Type','')}  | {e.read(200).decode('utf-8','replace')}\n           {s[:150]}")
               except Exception as e:
                   print(f"  segment  {type(e).__name__}: {e}")
+              # Le même segment demandé DIRECTEMENT au CDN (sans le proxy) : ses
+              # en-têtes réels, pour comprendre un refus du proxy.
+              from urllib.parse import urlparse, parse_qs, unquote
+              brut = (parse_qs(urlparse(s).query).get("u") or [None])[0]
+              if brut:
+                  try:
+                      r = opener.open(urllib.request.Request(brut, headers={"User-Agent": UA, "Range": "bytes=0-1500"}), timeout=30)
+                      data = r.read(2000)
+                      print(f"  (direct) HTTP {r.status} Content-Type={r.headers.get('Content-Type','')!r} "
+                            f"Content-Length={r.headers.get('Content-Length','')} {len(data)} octets, début={data[:8]!r}")
+                  except urllib.error.HTTPError as e:
+                      print(f"  (direct) HTTP {e.code} Content-Type={e.headers.get('Content-Type','')!r}")
+                  except Exception as e:
+                      print(f"  (direct) {type(e).__name__}: {e}")
 
           descente("CSTAR (dm=)", f"{P}?dm=x5gv5v0&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcstar-dm-highest.m3u8")
           descente("T18 (dm=)", f"{P}?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Fres%2Ft18-dm-highest.m3u8")

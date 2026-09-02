@@ -673,7 +673,9 @@ export default async function handler(req) {
                     "binary/octet-stream", "application/mp4", "image/",
                     "text/vtt"];                       // sous-titres WebVTT
   if (ct && !MEDIA_OK.some((t) => ct.includes(t))) {
-    return new Response("type de contenu non autorisé", { status: 415 });
+    // Le type refusé est nommé : c'est ce qui permet de l'ajouter ci-dessus
+    // en connaissance de cause (voir le workflow proxy-probe).
+    return new Response("type de contenu non autorisé: " + ct, { status: 415 });
   }
 
   const h = new Headers();
