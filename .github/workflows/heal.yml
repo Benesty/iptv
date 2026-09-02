@@ -64,7 +64,15 @@ jobs:
                 msg="Auto-heal: remplacement de liens morts $(date -u +%F)"
               fi
               git commit -m "$msg"
-              git push
-              echo "Poussé : $msg"
+              # main peut avoir bougé pendant les 3-4 min du passage (fusion,
+              # autre bot) : on rejoue notre commit par-dessus avant de pousser,
+              # sinon le push est refusé et le tableau de bord n'est pas publié
+              # (arrivé le 2026-09-02 13:24).
+              for essai in 1 2 3; do
+                git pull --rebase -q origin main || true
+                if git push; then echo "Poussé : $msg"; break; fi
+                if [ "$essai" = 3 ]; then echo "Push refusé 3 fois"; exit 1; fi
+                sleep $((essai * 10))
+              done
             fi
           fi
