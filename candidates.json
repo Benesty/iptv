@@ -1,1 +1,47 @@
-[]
+[
+ {
+  "name": "PREVIEW TF1 id= (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"
+ },
+ {
+  "name": "PREVIEW France 2 u= (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8"
+ },
+ {
+  "name": "PREVIEW repli id inconnu (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?id=Inconnue.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8"
+ },
+ {
+  "name": "PREVIEW TF1 id= (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benesty.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"
+ },
+ {
+  "name": "PREVIEW France 2 u= (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benesty.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8"
+ },
+ {
+  "name": "PREVIEW repli id inconnu (iptv-git-claude-iptv-urls-chec)",
+  "langue": "fr",
+  "url": "https://iptv-git-claude-iptv-urls-check-pjuass-benesty.vercel.app/api/fr?id=Inconnue.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8"
+ },
+ {
+  "name": "PREVIEW TF1 id= (iptv-lake-three-git-claude-ipt)",
+  "langue": "fr",
+  "url": "https://iptv-lake-three-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?id=TF1.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTF1_HD%2Findex.m3u8"
+ },
+ {
+  "name": "PREVIEW France 2 u= (iptv-lake-three-git-claude-ipt)",
+  "langue": "fr",
+  "url": "https://iptv-lake-three-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8"
+ },
+ {
+  "name": "PREVIEW repli id inconnu (iptv-lake-three-git-claude-ipt)",
+  "langue": "fr",
+  "url": "https://iptv-lake-three-git-claude-iptv-urls-check-pjuass-benestys-projects.vercel.app/api/fr?id=Inconnue.fr&fb=http%3A%2F%2F151.80.18.177%3A86%2FTMC%2Findex.m3u8"
+ }
+]
