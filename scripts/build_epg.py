@@ -86,9 +86,35 @@ def decompresse(brut):
 
 
 def norm(s):
-    """Nom normalisé pour le matching : minuscules, sans accents ni ponctuation."""
-    s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
+    """Nom normalisé pour le matching : minuscules, sans accents ni ponctuation.
+
+    open-epg publie des identifiants où les accents sont restés sous forme
+    d'échappement littéral (« Savoir Mu00e9dia.ca ») : on les redécode d'abord,
+    sinon « savoirmu00e9dia » ne rejoint jamais « savoirmedia ». Restreint à
+    u00XX (latin-1) pour ne pas réécrire par accident un vrai bout de nom.
+    """
+    s = re.sub(r"u00([0-9a-fA-F]{2})",
+               lambda m: chr(int(m.group(1), 16)), s or "")
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "", s.lower())
+
+
+# Mentions de qualité collées au nom dans les guides : « LCN HD », « TVA HD »,
+# « Savoir Média HD ». Elles ne changent pas la chaîne désignée.
+QUALITES = ("hdtv", "fhd", "uhd", "hd", "sd", "4k")
+
+
+def coeur(s):
+    """Nom réduit à son cœur : « LCN HD » -> « lcn ».
+
+    Sans ça, aucune chaîne nommée avec un suffixe de qualité dans le guide ne
+    peut être appariée, alors qu'il s'agit bien de la même chaîne.
+    """
+    n = norm(s)
+    for q in QUALITES:
+        if n.endswith(q) and len(n) > len(q) + 2:
+            return n[: -len(q)]
+    return n
 
 
 def base(s):
@@ -168,6 +194,10 @@ for xml in feeds:
             for dn in el.findall("display-name"):
                 if dn.text:
                     name2id.setdefault(norm(dn.text), []).append(cid)
+                    # même chaîne, mention de qualité en moins
+                    c = coeur(dn.text)
+                    if c and c != norm(dn.text):
+                        name2id.setdefault(c, []).append(cid)
             el.clear()
         elif el.tag == "programme":
             el.clear()
@@ -198,7 +228,8 @@ for tid, name in wanted:
     else:
         sid = (pick(baseid.get(base(tid)), tid) or
                pick(name2id.get(norm(tid.split(".")[0])), tid) or
-               pick(name2id.get(norm(name)), tid))
+               pick(name2id.get(norm(name)), tid) or
+               pick(name2id.get(coeur(name)), tid))
         if sid:
             src_of[tid] = sid
             print(f"   nom→ {tid:24s} ~ {sid}")
