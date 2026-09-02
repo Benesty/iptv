@@ -162,8 +162,13 @@ http://151.80.18.177:86/Disney_Junior_HD/index.m3u8
 # Disney Channel US (groupe USA) reste disponible, lui est bien en anglais.
 # #EXTINF:-1 tvg-id="DisneyChannel.fr" tvg-logo="https://i.imgur.com/UxrAiAe.png" group-title="France", Disney Channel
 # http://151.80.18.177:86/Disney_Channel_HD/index.m3u8
-#EXTINF:-1 tvg-id="SerieClub.fr" tvg-logo="https://i.imgur.com/V8wRRg5.png" group-title="France", Série Club
-http://151.80.18.177:86/Serie_Club_HD/index.m3u8
+# ⚠️ Série Club — retirée à ta demande le 2026-09-02 : le flux du pool 151.80 joue
+# depuis un runner mais pas depuis le Québec ; l'ancien (145.239.5.177/355) est
+# confirmé injouable aussi. Retire le « # » des 2 lignes ci-dessous si une source
+# qui marche réapparaît (ALT 99.27.51.147:8080/SerieClub/index.m3u8 jouait au banc
+# d'essai du 2026-09-02, non essayée chez toi).
+# #EXTINF:-1 tvg-id="SerieClub.fr" tvg-logo="https://i.imgur.com/V8wRRg5.png" group-title="France", Série Club
+# http://151.80.18.177:86/Serie_Club_HD/index.m3u8
 # Série Club, Teva, Ciné+ Émotion, M6 Music — le pool 145.239.5.177 répond 403 et
 # est confirmé injouable depuis le Québec (2026-09-02). Chemins trouvés sur les
 # pools 151.80 et 99.27 par sondage, validés au banc d'essai le 2026-09-02.
@@ -173,10 +178,12 @@ http://151.80.18.177:86/Teva_HD/index.m3u8
 #EXTINF:-1 tvg-id="CinePlusEmotion.fr" tvg-logo="https://i.imgur.com/upYjPvc.jpeg" group-title="France", Ciné+ Émotion
 http://151.80.18.177:86/Cine+_Emotion_HD/index.m3u8
 # ALT Ciné+ Émotion (pool M6, validé 2026-09-02): http://99.27.51.147:8080/CineEmotion/index.m3u8
-#EXTINF:-1 tvg-id="CanalPlusCinemas.fr" tvg-logo="https://i.imgur.com/fvPoNEa.jpeg" group-title="France", CANAL+ Cinéma
-http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
-# CANAL+ Cinéma : seule source connue (10 autres chemins essayés le 2026-09-02, tous
-# en 404). Le pool a des trous de quelques minutes ; le bot le surveille.
+# ⚠️ CANAL+ Cinéma — retirée à ta demande le 2026-09-02 : injouable depuis le Québec
+# (le pool 151.80 joue depuis un runner mais a des trous ; 10 autres chemins essayés,
+# tous en 404 ; aucune source officielle gratuite). Retire le « # » des 2 lignes
+# ci-dessous si une source qui marche réapparaît.
+# #EXTINF:-1 tvg-id="CanalPlusCinemas.fr" tvg-logo="https://i.imgur.com/fvPoNEa.jpeg" group-title="France", CANAL+ Cinéma
+# http://151.80.18.177:86/Canal+_cinema_HD/index.m3u8
 #EXTINF:-1 tvg-id="M6Music.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-music-fr.png" group-title="France", M6 Music
 http://145.239.5.177/320/index.m3u8
 # M6 Music : aucune autre source (12 chemins essayés sur 151.80, 99.27, haititivi et
