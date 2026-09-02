@@ -197,6 +197,15 @@ tids_for_src = {}
 for tid, sid in src_of.items():
     tids_for_src.setdefault(sid, []).append(tid)
 
+# Les non-appariées : sans cette liste, un seuil qui échoue n'indique pas QUOI
+# corriger. C'est elle qui dit quels ALIAS ajouter quand un fournisseur change.
+orphelines = [(tid, nom) for tid, nom in wanted if tid not in src_of]
+if orphelines:
+    print(f"\n   {len(orphelines)} chaîne(s) sans guide :")
+    for tid, nom in sorted(orphelines, key=lambda x: x[1].lower()):
+        print(f"     · {nom[:28]:28} (tvg-id: {tid})")
+    print()
+
 # 5) passe 2 : <channel> (réétiquetés sur le tvg-id m3u) + programmes
 channels = []
 for tid, sid in src_of.items():
