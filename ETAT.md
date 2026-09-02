@@ -1,10 +1,10 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-02 16:24 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-02 20:54 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**74 chaînes** — 💀 3 · 🌍 13 · ✅ 58
+**72 chaînes** — 💀 3 · 🌍 13 · ✅ 56
 
 
 ## 💀 En panne (3)
@@ -33,7 +33,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (58)
+## ✅ Fonctionnelles (56)
 
 | Chaîne | Détail |
 |---|---|
@@ -42,7 +42,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Arte | via proxy Paris |
 | BFM TV | via proxy Paris |
 | Bloomberg TV | — |
-| CANAL+ Cinéma | — |
 | CANAL+ en clair | via proxy Paris |
 | CBS News 24/7 | — |
 | CNews | via proxy Paris |
@@ -84,7 +83,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
-| Série Club | — |
 | T18 | via proxy Paris · secours ✅ |
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
