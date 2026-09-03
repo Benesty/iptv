@@ -322,8 +322,17 @@ https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/in
 #========================================
 #EXTINF:-1 tvg-id="CBS.News.National.Stream.us2" tvg-logo="https://i.imgur.com/dbgAoN3.png" group-title="USA", CBS News 24/7
 https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
-#EXTINF:-1 tvg-id="Cable.News.Network.ca2" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cnn-us.png" group-title="USA", CNN
-https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
+# CNN — 2026-09-03 : le flux officiel warnermediacdn (chemin « cnn_slate ») ne sert
+# qu'une MIRE en boucle VOD (ENDLIST) depuis le 2026-09-01 au moins ; le direct CNN
+# US exige un abonnement TV, il n'existe pas en clair. Remplacée par CNN Headlines
+# International, canal FAST OFFICIEL de CNN sur Samsung TV Plus FR — même mécanique
+# (redirecteur jmp2, EPG Samsung) que RMC Life et TV5Monde+ Voyage, qui jouent chez
+# toi. Nom et tvg-id alignés sur ce qui est réellement diffusé : pas d'EPG faux.
+# Signale-moi si ça ne joue pas depuis le Québec.
+#EXTINF:-1 tvg-id="FRBD190001055" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cnn-us.png" group-title="USA", CNN Headlines International
+https://jmp2.uk/stvp-FRBD190001055
+# ALT CNN Headlines (Pluto TV US, jouait au banc d'essai du 2026-09-03, non essayé depuis le Québec): https://jmp2.uk/plu-5421f71da6af422839419cb3.m3u8
+# (ancien flux officiel, mire VOD depuis le 2026-09-01 : https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8)
 # Le flux est « LiveNOW from FOX » (canal FAST), pas Fox News Channel :
 # tvg-id retiré — pas d'EPG vaut mieux qu'un EPG faux.
 # ⚠️ LiveNOW from FOX — retirée 2026-07-25 : ne joue pas depuis le Québec
@@ -344,7 +353,12 @@ https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75
 http://198.58.104.90:8989/natgeo/index.m3u8
 # ALT National Geographic (autre pool, East aussi): http://212.5.144.156:8080/natgeo/index.m3u8
 #EXTINF:-1 tvg-id="NatGeoWild.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nat-geo-wild-us.png" group-title="USA", Nat Geo Wild
-http://198.58.104.90:8989/natgeowild/index.m3u8
+http://23.237.104.106:8080/USA_NAT_GEO_WILD/index.m3u8
+# Nat Geo Wild — 2026-09-03 : le pool 198.58 ne servait plus qu'une boucle VOD (ENDLIST)
+# depuis le 2026-09-01 et aucun agrégateur n'offrait d'autre URL. Trouvée par sondage
+# sur le pool 23.237 (celui de Disney Junior US, chemins « USA_<NOM> »), validée au
+# banc d'essai. Hôte différent de National Geographic (198.58) : voulu.
+# ALT Nat Geo Wild (pool 198.58, en boucle VOD depuis le 2026-09-01, peut revenir): http://198.58.104.90:8989/natgeowild/index.m3u8
 #EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
 http://212.5.144.156/disney/index.m3u8
 # ALT Disney Channel US (autre pool): http://212.5.144.156/disney/index.m3u8

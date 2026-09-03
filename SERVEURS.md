@@ -24,6 +24,7 @@ le proxy Vercel (voir README).
 | `99.27.51.147:8080` | FR | JOUE | M6, Gulli, MTV, SYFY, CinéFrisson | oui |
 | `185.246.209.113` | **CA** | **GÉO-CA** | CHCH-DT, Cottage Life, CTV Life Channel, T+E — et **rien d'autre** : 20 chemins sondés (TSN*, W_NETWORK, SLICE, MUCH, HGTV, SPORTSNET, HISTORY…) renvoient tous 404 | non |
 | `23.133.220.149` | CA | JOUE | TV5 Québec Canada, Unis TV | non |
+| `23.237.104.106:8080` | **US** | JOUE | ~40 chaînes câblées US, chemins `USA_<NOM>` (Disney Junior, Nickelodeon, FX, Syfy, Starz, Bloomberg, Comedy Central…) — **Nat Geo Wild** y répond (`/USA_NAT_GEO_WILD/`) alors qu'aucun agrégateur ne la liste ; `/USA_CNN/` et `/USA_NATIONAL_GEOGRAPHIC/` en 404 | oui (Disney Junior US, Nat Geo Wild) |
 | `5.180.164.197:8080` | FR | JOUE | France 3 Lorraine, TV5Monde Europe | non |
 | `89.187.185.76:8080` | FR | JOUE | France 3 Côte d'Azur | non |
 | `89.33.29.118` | FR | JOUE | MCM Top | non |
@@ -180,13 +181,36 @@ Free-TV, iptv-org fr/ca/us) et les tests déjà menés via le proxy Paris.
 | Ciné+ Émotion | non | chaîne payante Canal+ |
 | AB1, RTL9 | non | payantes (AB / RTL) ; RTL9 n'existe qu'en restream |
 | Nickelodeon, Nickelodeon Junior, Disney Junior | non | payantes (Paramount / Disney), aucun flux public FR |
-| History, National Geographic, Nat Geo Wild | non | payantes (A+E / Disney), seuls des restreams existent |
+| History, National Geographic | non | payantes (A+E / Disney), seuls des restreams existent |
+| Nat Geo Wild | non | idem ; le pool 198.58 ne sert qu'une boucle VOD depuis le 2026-09-01 → **basculée le 2026-09-03** sur le pool 23.237 (trouvée par sondage, voir ci-dessous) |
 | Disney Channel US, Disney Junior US | non | idem ; la seule source vivante de Disney Channel US est réservée aux États-Unis |
-| CNN | déjà officiel (`warnermediacdn.com`) | c'est ce flux qui sert une boucle VOD par moments |
+| CNN | officiel (`warnermediacdn.com`)… **mais c'est une mire** | le chemin `cnn_slate` ne sert qu'une boucle VOD (ENDLIST) depuis le 2026-09-01 ; le direct CNN US exige un abonnement TV. **Basculée le 2026-09-03 sur CNN Headlines International**, canal FAST officiel de CNN (Samsung TV Plus FR, via jmp2) ; CNN Headlines (Pluto US) en ALT |
 
 Règle qui en découle : un pool n'est remplacé par un flux officiel que quand ce
 flux existe **et** passe le proxy. Pour le groupe M6, seul 6cloud changerait la
 donne ; il faudrait qu'il cesse de bloquer les IP de datacenter.
+
+## Banc d'essai du 2026-09-03 : CNN et Nat Geo Wild
+
+Toutes deux « 💀 VOD/clip (ENDLIST) » depuis le 2026-09-01 sans que le bot
+trouve mieux : ses six sources n'offrent qu'une seule URL pour chacune (celle
+qui est en panne). 19 sondes lancées via `test-candidates` + `diag-hosts` :
+
+| Piste | Verdict | Conclusion |
+|---|---|---|
+| `jmp2.uk/stvp-FRBD190001055` — CNN Headlines International (Samsung TV Plus FR) | **JOUE** | **adoptée** : canal FAST officiel de CNN, même mécanique que RMC Life / TV5Monde+ Voyage (EPG Samsung `FRBD190001055`) |
+| `jmp2.uk/plu-5421f71da6af422839419cb3` — CNN Headlines (Pluto TV US) | JOUE | en ALT (Pluto US non essayé depuis le Québec) |
+| `cnn-cnninternational-1-*.{rakuten,samsung,plex}.wurl.tv` (4 hôtes cités par des playlists GitHub) | **DNS-KO** | les feeds wurl de CNN International n'existent plus |
+| `viamotionhsi.netplus.ch/…/cnn` | timeout | réservé à la Suisse, comme le reste de netplus |
+| `/cnn/` sur 198.58, 212.5 et `/USA_CNN/` sur 23.237 | 404 | aucun pool US connu ne porte CNN |
+| `23.237.104.106:8080/USA_NAT_GEO_WILD/` | **JOUE** | **adoptée** pour Nat Geo Wild (hôte différent de National Geographic, qui reste sur 198.58) |
+| `/ngwild/`, `/natgeowild/` sur 198.58 et 212.5 ; `/USA_NATGEO_WILD/`, `/USA_NATIONAL_GEOGRAPHIC_WILD/` sur 23.237 | 404 | — |
+| `198.58.104.90:8989/natgeowild/` (l'ancienne) | 200 mais ENDLIST | en ALT, peut revenir |
+
+Nuance à la règle « deviner des chemins ne marche pas » : ça a marché ici parce
+que la convention du pool 23.237 (`USA_<NOM_EN_MAJUSCULES>`) est connue par ses
+~40 chemins publiés — un seul essai sur trois a répondu, et seulement là. Sur un
+pool dont on ne connaît pas la convention, la règle reste vraie.
 
 ## Ce que cette recherche n'a PAS donné
 
