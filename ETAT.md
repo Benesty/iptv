@@ -1,6 +1,6 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-04 03:59 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-04 11:01 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
@@ -87,7 +87,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
-| TMC | via proxy Paris · secours 💀 (son sans image (aucune piste vidéo)) |
+| TMC | via proxy Paris · secours 💀 (HTTP 404) |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
 | Teva | — |
