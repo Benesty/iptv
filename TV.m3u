@@ -349,5 +349,5 @@ http://198.58.104.90:8989/natgeowild/index.m3u8
 http://212.5.144.156/disney/index.m3u8
 # ALT Disney Channel US (autre pool): http://212.5.144.156/disney/index.m3u8
 #EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-jr-us.png" group-title="USA", Disney Junior US
-http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8
+http://tvsen5.aynascope.net/disney/index.m3u8
 # ALT Disney Junior US (autre pool): http://212.5.144.156/disneyjr/index.m3u8
