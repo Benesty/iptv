@@ -1,6 +1,6 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-03 23:12 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-04 03:59 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
