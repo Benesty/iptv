@@ -1,20 +1,19 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-08 23:23 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-09 04:10 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 4 · 🌍 14 · ✅ 54
+**72 chaînes** — 💀 3 · 🌍 14 · ✅ 55
 
 
-## 💀 En panne (4)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
-| RTL9 | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -35,7 +34,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (54)
+## ✅ Fonctionnelles (55)
 
 | Chaîne | Détail |
 |---|---|
@@ -66,7 +65,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Gusto TV | — |
 | History | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours ✅ |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | M6 | — |
@@ -81,6 +80,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
+| RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
 | T18 | via proxy Paris · secours ✅ |
