@@ -1,16 +1,17 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-10 04:08 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-10 11:02 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 3 · 🌍 14 · ✅ 55
+**72 chaînes** — 💀 4 · 🌍 14 · ✅ 54
 
 
-## 💀 En panne (3)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
+| AB1 | HTTP 404 |
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
@@ -34,12 +35,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (55)
+## ✅ Fonctionnelles (54)
 
 | Chaîne | Détail |
 |---|---|
 | 6TER | — |
-| AB1 | — |
 | Arte | via proxy Paris |
 | BFM TV | via proxy Paris |
 | Bloomberg TV | — |
@@ -87,7 +87,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
-| TMC | via proxy Paris · secours 💀 (son sans image (aucune piste vidéo)) |
+| TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
 | Teva | — |
