@@ -241,11 +241,10 @@ mais le diagnostic les a mis au jour et ils valent pour la prochaine :
    descend jusqu'au segment.
 
 > **Ce qui reste ouvert.** Le vrai correctif pour Novo 19 et TF1 Séries Films
-> serait un `fb=`, seul mécanisme qui rattrape un jeton mort. Elles sont les deux
-> seules chaînes proxifiées à n'en avoir aucun : pour TF1 Séries Films, 9 chemins
-> de pool et netplus ont été essayés en vain le 2026-09-02 ; pour Novo 19, rien
-> n'a encore été tenté. Tant qu'elles n'en ont pas, l'alerte Vercel resonnera à
-> chaque fois que ParaTV laissera passer un jeton périmé.
+> serait un `fb=`. Recherche menée à fond le 2026-09-12, **sans résultat** : voir
+> « Novo 19 et TF1 Séries Films n'ont aucun repli possible » plus bas. Tant
+> qu'elles n'en ont pas, elles renverront 502 à chaque fenêtre de rotation de
+> ParaTV, et l'alerte Vercel resonnera quand le bot tombera dedans.
 >
 > France 2, elle, a désormais une seconde source officielle indépendante en `ALT`
 > dans `TV.m3u` : le stub schumijo `playlists/francetv/france2.m3u8`, sur
@@ -296,6 +295,57 @@ Nuance à la règle « deviner des chemins ne marche pas » : ça a marché ici 
 que la convention du pool 23.237 (`USA_<NOM_EN_MAJUSCULES>`) est connue par ses
 ~40 chemins publiés — un seul essai sur trois a répondu, et seulement là. Sur un
 pool dont on ne connaît pas la convention, la règle reste vraie.
+
+## Novo 19 et TF1 Séries Films n'ont aucun repli possible (2026-09-12)
+
+Ce sont les deux seules chaînes proxifiées sans `fb=`, et c'est précisément ce
+qui les fait renvoyer **502** là où TF1, TMC, TFX et LCI basculent en silence.
+
+**Le phénomène, observé en direct le 2026-09-12 à 20:56 UTC** (`diag-502`), une
+heure et demie après l'incident qui a déclenché l'alerte Vercel. ParaTV venait de
+basculer vers le dossier `g01P8ypvxhi` ; ses fichiers n'étaient pas encore
+publiés, donc les 6 stubs TF1 répondaient 404 :
+
+| Chaîne | `fb=` | Réponse du proxy |
+|---|---|---|
+| TMC | oui | **302** → `151.80.18.177:86/TMC` |
+| TFX | oui | **302** → `145.239.5.177/315` |
+| LCI | oui | **302** → stub pinkisso |
+| TF1 Séries Films | **non** | **502** « stub injoignable » |
+| Novo 19 | **non** | **502** « stub injoignable » |
+
+Cette fenêtre s'ouvre à **chaque** rotation ParaTV (playlist publiée avant les
+fichiers) et dure 1 à 2 min ; l'historique git de ParaTV donne par exemple
+13:25:16 → 13:26:33, 14:29:19 → 14:31:33, 16:27:23 → 16:28:44. Le filet
+`lastGood` du proxy ne joue que si l'isolate Edge est chaud ; à froid, il n'a
+rien en mémoire.
+
+**Recherche d'un repli — 4 pistes, toutes fermées :**
+
+| Piste | Verdict |
+|---|---|
+| Les 4 agrégateurs (Free-TV, iptv-org `fr`, schumijo, ParaTV) | **aucune** entrée hors ParaTV pour ces deux chaînes |
+| `viamotionhsi.netplus.ch` (`/hd1/`, `/novo19/`) | timeout depuis un runner — réservé à la Suisse, comme tout netplus |
+| `pinkisso/mored`, le dépôt tiers qui fournit le secours de LCI | ne contient **que** LCI : 15 noms de fichiers essayés (`tf11`, `tmc1`, `tfx1`, `hd11`, `novo191`, `tsf1`…), tous 404 |
+| Les pools, par leur convention de nommage | **12 chemins sondés, 12 × HTTP 404** |
+
+Le détail des chemins de pool essayés, pour ne pas les refaire : sur
+`151.80.18.177:86` — `TF1_Series_Films_HD`, `TF1_Series_Films`, `HD1_HD`, `HD1`,
+`NOVO19_HD`, `NOVO19`, `Novo_19_HD` ; sur `99.27.51.147:8080` —
+`TF1SeriesFilms`, `HD1`, `NOVO19`, `Novo19`.
+
+> **La preuve que ces 404 sont des « non provisionné » et pas un blocage d'IP :**
+> la sonde témoin `151.80.18.177:86/TF1_HD` (le secours de TF1) a répondu **JOUE**
+> dans le même lot. Le pool est vivant et la convention de nommage est la bonne —
+> il ne porte simplement pas ces deux chaînes. Même raisonnement que pour
+> moveonjoy en 2ᵉ passe.
+
+**Conclusion.** Aujourd'hui, ces deux chaînes ne peuvent PAS avoir de filet :
+elles n'existent, en clair, que via le CDN TF1, auquel on n'accède qu'à travers
+un stub ParaTV. Ne pas relancer cette recherche sans indice neuf — un nouveau
+pool, ou un mainteneur de stubs tiers qui les ajouterait. Les deux seules
+options réelles restent : les **accepter telles quelles** (elles échouent 1 à
+2 min par heure, un re-zap suffit), ou les **retirer**.
 
 ## Ce que cette recherche n'a PAS donné
 

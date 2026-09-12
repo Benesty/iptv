@@ -85,9 +85,15 @@ https://jmp2.uk/stvp-FR4000003O1
 # ALT RMC Life (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/333/index.m3u8
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
 https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
-# TF1 Séries Films : aucun secours connu (2026-09-02 : 9 chemins de pool et le
-# CDN netplus essayés, tous morts ou géo-bloqués). Seule la relecture du jeton
-# par le proxy la protège.
+# TF1 Séries Films et Novo 19 : aucun secours possible, prouvé le 2026-09-12.
+# Ce sont les 2 seules chaînes proxifiées sans « fb= », et c'est ce qui les fait
+# renvoyer 502 pendant la fenêtre de rotation de ParaTV (1-2 min par heure, la
+# playlist étant publiée avant les fichiers) là où TF1/TMC/TFX/LCI basculent en
+# silence sur leur repli. 4 pistes fermées : les 4 agrégateurs ne les servent pas
+# hors ParaTV ; netplus est réservé à la Suisse ; le dépôt tiers qui sauve LCI ne
+# contient que LCI ; et 12 chemins de pool répondent 404 alors que la sonde
+# témoin TF1_HD joue — le pool est vivant, il ne les porte pas. Détail complet
+# dans SERVEURS.md. Si tu croises une source qui marche, dis-le-moi.
 #EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs
