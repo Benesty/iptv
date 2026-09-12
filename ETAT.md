@@ -1,22 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-12 20:27 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-12 22:58 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 4 · 🌍 15 · ✅ 53
+**72 chaînes** — 💀 2 · 🌍 14 · ✅ 56
 
 
-## 💀 En panne (4)
+## 💀 En panne (2)
 
 | Chaîne | Détail |
 |---|---|
-| CNN | VOD/clip (ENDLIST), pas un direct |
-| Disney Channel US | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
-| Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
+| RTL9 | HTTP 404 |
 
-## 🌍 Géo-bloquées (403) (15)
+## 🌍 Géo-bloquées (403) (14)
 
 | Chaîne | Détail |
 |---|---|
@@ -32,11 +30,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
-| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (53)
+## ✅ Fonctionnelles (56)
 
 | Chaîne | Détail |
 |---|---|
@@ -47,10 +44,12 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Bloomberg TV | — |
 | CANAL+ en clair | via proxy Paris |
 | CBS News 24/7 | — |
+| CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
 | CSTAR | via proxy Paris · secours ✅ |
 | Ciné+ Émotion | — |
 | CityNews | — |
+| Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
 | France 2 | via proxy Paris |
@@ -69,6 +68,8 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
+| M6 | — |
+| Nat Geo Wild | — |
 | National Geographic | — |
 | Nickelodeon | — |
 | Nickelodeon Junior | — |
@@ -80,7 +81,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
-| RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
 | T18 | via proxy Paris · secours ✅ |
