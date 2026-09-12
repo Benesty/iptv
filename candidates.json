@@ -1,1 +1,6 @@
-[]
+[
+  {"name": "France 2 (2e source officielle, stub schumijo, via proxy)", "langue": "fr", "url": "https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Ffrance2.m3u8"},
+  {"name": "France 2 (source actuelle ParaTV, via proxy, temoin)", "langue": "fr", "url": "https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-2-highest.m3u8"},
+  {"name": "Novo 19 (via proxy, temoin)", "langue": "fr", "url": "https://iptv-lake-three.vercel.app/api/fr?id=NOVO19.fr"},
+  {"name": "TF1 Series Films (via proxy, temoin)", "langue": "fr", "url": "https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr"}
+]

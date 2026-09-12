@@ -167,6 +167,56 @@ leurs secours à chaque passage.
 > playlist avance, et seulement en secours : son rythme de rafraîchissement
 > n'est pas connu.
 
+## Le 502 sec des chaînes sans repli — alerte Vercel du 2026-09-12 15:20
+
+Alerte Vercel : « 5xx error spike on /api/fr », 6 requêtes en échec en 5 minutes
+alors que la moyenne des 24 h précédentes était de 0. Diagnostic complet mené le
+jour même ; le workflow `diag-502` en est sorti (il sépare les quatre étages).
+
+**Ce qui s'est passé.** Le passage du bot a démarré à 15:20:39 UTC — l'heure
+exacte de l'alerte. Son journal montre cinq chaînes proxifiées en défaut à cette
+minute-là : France 2, Novo 19 et TF1 Séries Films en **502**, TMC en **404**,
+TFX en 403. Les 6 requêtes en échec de l’alerte sont donc **les sondes du bot
+lui-même** : 3 chaînes en 502 × 2 passages (la sonde initiale, puis le re-test
+60 s plus tard). Aucun trafic spectateur n'est impliqué — et TMC, re-testée, est
+revenue « en fait vivante (hoquet passager) ».
+
+**La panne était réelle mais passagère.** Cinq heures plus tard, `diag-502`
+trouve les **23 chaînes proxifiées à 200**, France 2, Novo 19 et TF1 Séries Films
+comprises, avec des jetons frais partout.
+
+**Pourquoi ces trois-là et pas les autres.** Avant de servir un manifeste maître,
+le proxy sonde une URI en amont ; si elle échoue il appelle `failOrFallback()`,
+qui redirige (302) vers le `fb=` quand il y en a un, et renvoie **502 sec** quand
+il n'y en a pas. Or France 2, Novo 19 et TF1 Séries Films sont exactement les
+trois chaînes proxifiées **sans `fb=`**. Les autres (TF1, TMC, TFX, LCI, CSTAR,
+T18) ont basculé sur leur repli sans produire le moindre 5xx. Le hoquet a
+probablement touché tout le groupe TF1 — TMC l'a laissé voir par son 404 — mais
+seules les deux sans repli l'ont transformé en erreur.
+
+**Deux défauts corrigés le 2026-09-12** (`api/fr.js`) :
+
+1. *la sonde visait l'audio.* `urisOf()` rend les URI dans l'ordre du document, et
+   dans tous les stubs relevés (france-2, france-3, novo19, tmc) les trois
+   premières sont des pistes **audio** et la quatrième un sous-titre : la vidéo
+   n'arrive qu'en cinquième. Sonder `uris[0]`, c'était juger la chaîne sur son
+   audio — la condamner quand seul l'audio hoquette, et ne jamais vérifier le
+   flux réellement regardé. La sonde vise désormais la première variante
+   `#EXT-X-STREAM-INF` (`uriVideo()`), avec repli sur `uris[0]` s'il n'y en a pas.
+2. *le 502 sec.* Quand la sonde échoue et qu'il n'y a **pas** de repli, le proxy
+   sert maintenant le manifeste quand même. Un 502 ne laisse aucune chance au
+   lecteur ; le manifeste lui en laisse une, puisque les autres variantes sont
+   peut-être saines et que chaque « `&v=` » est relu en direct sur un stub frais.
+   Le comportement avec `fb=` est inchangé — c'est tout l'intérêt de la sonde.
+   Le bot continue de voir la panne : son test profond descend jusqu'au segment.
+
+> Ce que ça ne corrige pas : Novo 19 et TF1 Séries Films restent les seules
+> chaînes proxifiées sans aucun repli connu (pour TF1 Séries Films, 9 chemins de
+> pool et netplus ont été essayés en vain le 2026-09-02). France 2 a désormais
+> une seconde source officielle indépendante en `ALT` dans `TV.m3u` : le stub
+> schumijo `playlists/francetv/france2.m3u8`, sur `simulcast-p.ftven.fr` et sans
+> insertion publicitaire, là où ParaTV sert `live-ssai-p.ftven.fr`.
+
 ## Sources officielles : bilan chaîne par chaîne (2026-09-02)
 
 Question posée : pour chaque chaîne servie par un pool anonyme, existe-t-il un

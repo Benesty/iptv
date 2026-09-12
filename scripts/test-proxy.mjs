@@ -110,12 +110,13 @@ const code2 = `
   ${grab("resolveParaTV")}
   ${grab("fetchStub")}
   ${grab("urisOf")}
+  ${grab("uriVideo")}
   ${grab("tokenExp")}
   ${grab("earliestExp")}
   ${grab("rewriteStub")}
   ${grab("resolveStub")}
   ${grab("fallbackTarget")}
-  export { memo, lastGood, urisOf, tokenExp, earliestExp, rewriteStub, resolveStub, fallbackTarget };
+  export { memo, lastGood, urisOf, uriVideo, tokenExp, earliestExp, rewriteStub, resolveStub, fallbackTarget };
 `;
 const st = await import("data:text/javascript," + encodeURIComponent(code2));
 
@@ -139,6 +140,29 @@ const stubText = (exp, cdn = "alive-tf1-hls.cdn-0.diff.tf1.fr") => [
 const uris = st.urisOf(stubText(NOW + 3600), "https://raw.githubusercontent.com/P/T/main/streams/x/res/a.m3u8");
 check("urisOf : 4 URI dans l'ordre du document", uris.length === 4 && uris[0].endsWith("/audio.m3u8") && uris[1].endsWith("/sub.m3u8") && uris[2].endsWith("/720p.m3u8"), uris);
 check("urisOf : une URI relative est résolue contre le stub", uris[3] === "https://raw.githubusercontent.com/P/T/main/streams/x/res/relative/360p.m3u8", uris[3]);
+
+// 1 bis. uriVideo : la sonde doit viser la VIDÉO, pas la piste audio.
+// C'est la correction du 2026-09-12 : sonder uris[0] revenait à juger la chaîne
+// sur son audio (les stubs France TV et TF1 listent l'audio et les sous-titres
+// AVANT la vidéo), donc à la condamner quand seul l'audio hoquetait.
+const BASE = "https://raw.githubusercontent.com/P/T/main/streams/x/res/a.m3u8";
+const vid = st.uriVideo(stubText(NOW + 3600), BASE);
+check("uriVideo : vise la 1re variante vidéo, pas l'audio", vid.endsWith("/720p.m3u8"), vid);
+check("uriVideo : ce n'est PAS uris[0] (qui est l'audio)", vid !== st.urisOf(stubText(NOW + 3600), BASE)[0], vid);
+check(
+  "uriVideo : une cible relative est résolue contre le stub",
+  st.uriVideo(['#EXTM3U', '#EXT-X-STREAM-INF:BANDWIDTH=1', 'relative/360p.m3u8'].join("\n"), BASE) ===
+    "https://raw.githubusercontent.com/P/T/main/streams/x/res/relative/360p.m3u8"
+);
+check(
+  "uriVideo : saute les commentaires entre STREAM-INF et sa cible",
+  st.uriVideo(['#EXTM3U', '#EXT-X-STREAM-INF:BANDWIDTH=1', '# note', 'https://c/v.m3u8'].join("\n"), BASE) ===
+    "https://c/v.m3u8"
+);
+check(
+  "uriVideo : null sans variante vidéo (le sondage retombe alors sur uris[0])",
+  st.uriVideo('#EXTM3U\n#EXT-X-MEDIA:TYPE=AUDIO,URI="https://c/a.m3u8"\n', BASE) === null
+);
 
 // 2. rewriteStub : mêmes numéros que urisOf, lignes de commentaire conservées.
 const rw = st.rewriteStub(stubText(NOW + 3600), "https://p.example/api/fr?id=TF1.fr");

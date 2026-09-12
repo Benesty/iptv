@@ -349,6 +349,34 @@ function urisOf(text, base) {
   return out;
 }
 
+// La variante VIDEO d'un manifeste maître — celle qu'il faut sonder.
+//
+// urisOf() rend les URI dans l'ordre du document, et dans TOUS les stubs
+// observés (France TV comme TF1) les premières sont les pistes AUDIO, puis les
+// sous-titres ; la vidéo n'arrive qu'ensuite. Sonder uris[0] revenait donc à
+// juger la chaîne sur sa piste audio : on la condamnait quand seul l'audio
+// hoquetait, et on ne vérifiait jamais le flux réellement regardé. Relevé le
+// 2026-09-12 sur france-2, france-3, novo19 et tmc : URI 0 à 2 = audio,
+// URI 3 = sous-titres, la vidéo est en 4.
+function uriVideo(text, base) {
+  const lignes = text.split("\n");
+  for (let i = 0; i < lignes.length; i++) {
+    if (!lignes[i].startsWith("#EXT-X-STREAM-INF")) continue;
+    // La cible d'un #EXT-X-STREAM-INF est la première ligne non-commentaire
+    // qui le suit.
+    for (let j = i + 1; j < lignes.length; j++) {
+      const t = lignes[j].trim();
+      if (!t || t.startsWith("#")) continue;
+      try {
+        return new URL(t, base).href;
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+
 // Date d'expiration (secondes epoch) du jeton porté par une URI, ou null.
 // Formes connues : JWT dans le chemin (TF1 : « /eyJ….eyJ…./ », champ exp),
 // segment base64 « exp=…~acl=…~hmac=… » (France TV), « __token__exp=… »
@@ -611,20 +639,33 @@ export default async function handler(req) {
       target = r.uris[i]; // puis chemin normal : garde-fous, fetch, réécriture des segments
       derived = true;
     } else {
-      // Manifeste maître. On sonde d'abord la première entrée : un CDN qui
+      // Manifeste maître. On sonde d'abord une variante VIDEO : un CDN qui
       // refuse l'IP du proxy (403) se voit ici, et le repli peut jouer —
       // plutôt qu'un manifeste dont chaque variante donnerait 502.
+      const sonde = uriVideo(r.text, r.base) || r.uris[0];
+      let sondeKO = null;
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
       try {
-        const res = await fetchFollowingSafely(r.uris[0], upstreamHeaders(r.uris[0]), ctrl.signal);
+        const res = await fetchFollowingSafely(sonde, upstreamHeaders(sonde), ctrl.signal);
         if (res.body) res.body.cancel().catch(() => {});
-        if (!res.ok) return failOrFallback("variante upstream " + res.status, fb);
+        if (!res.ok) sondeKO = "variante upstream " + res.status;
       } catch (e) {
-        return failOrFallback("variante: " + e, fb);
+        sondeKO = "variante: " + e;
       } finally {
         clearTimeout(timer);
       }
+      // Sonde en échec AVEC un repli : on bascule dessus — c'est tout l'intérêt
+      // de la sonde, et le comportement reste celui d'avant.
+      // Sonde en échec SANS repli : on sert quand même le manifeste. Un 502 ne
+      // laisse aucune chance au lecteur ; le manifeste lui en laisse une, car
+      // les autres variantes sont peut-être saines et chaque « &v= » est relu
+      // en direct sur un stub frais. Le bot, lui, continue de voir la panne :
+      // son test profond descend jusqu'au segment et récolte l'erreur là.
+      // C'est ce 502 sec qui a fait sonner Vercel le 2026-09-12 à 15:20 pour
+      // France 2, Novo 19 et TF1 Séries Films — les trois seules chaînes
+      // proxifiées sans repli — alors qu'elles rejouaient dans la minute.
+      if (sondeKO && fallbackTarget(fb)) return failOrFallback(sondeKO, fb);
       const self = id ? `${origin}/api/fr?id=${encodeURIComponent(id)}` : `${origin}${SELF}${encodeURIComponent(target)}`;
       return new Response(rewriteStub(r.text, self), { status: 200, headers: MANIFEST_HEADERS });
     }
