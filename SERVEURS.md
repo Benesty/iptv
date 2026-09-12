@@ -167,89 +167,84 @@ leurs secours à chaque passage.
 > playlist avance, et seulement en secours : son rythme de rafraîchissement
 > n'est pas connu.
 
-## Jeton ParaTV périmé + absence de repli — alerte Vercel du 2026-09-12 15:20
+## Retard de publication ParaTV + absence de repli — alerte Vercel du 2026-09-12
 
-Alerte Vercel : « 5xx error spike on /api/fr », 6 requêtes en échec en 5 minutes
-alors que la moyenne des 24 h précédentes était de 0. Le workflow `diag-502` est
-sorti de ce diagnostic (il sépare les quatre étages : playlist → stub → CDN → proxy).
+Alerte : « 5xx error spike on /api/fr », 6 requêtes en échec en 5 min, moyenne
+des 24 h précédentes à 0. Le workflow `diag-502` est sorti de ce diagnostic.
 
-**Les 6 requêtes sont les sondes du bot.** Le passage d'auto-réparation a démarré
-à 15:20:39 UTC — l'heure exacte de l'alerte — et s'est terminé à 15:24:44, donc
-entièrement dans le même seau de 5 minutes. Trois chaînes en 502 × 2 passages
-(sonde initiale, puis re-test 60 s plus tard) = 6. Aucun trafic spectateur n'est
-nécessaire pour expliquer le chiffre, et il l'exclut même : un lecteur qui zappe
-sur une de ces chaînes génère à lui seul bien plus de 6 échecs.
+> ⚠️ Une première version de cette section, écrite le soir même, attribuait la
+> panne à des jetons recopiés périmés et affirmait que la rotation de dossier
+> n'était pas en cause. **C'était faux** : la vérification portait sur le
+> *dossier* et non sur les *fichiers réellement référencés*. Corrigé ci-dessous,
+> chaque fait revérifié un par un sur un clone de ParaTV.
 
-**Cause racine, vérifiée dans l'historique git de ParaTV** (clone en lecture
-seule). ParaTV a fait tourner son dossier de stubs TF1 à 14:29:19 UTC
-(`52BX255xYe6c` → `q9E0AXUKJqPG`), et les fichiers du nouveau dossier sont bien
-arrivés 2 min plus tard, à 14:31:33 — la rotation n'est PAS en cause. Le défaut
-est ailleurs : **les JWT que ces fichiers contenaient avaient été émis à 11:18:19
-et expiraient à 15:18:19 UTC**, et le rafraîchissement suivant (15:26:32) les a
-recopiés tels quels, toujours `iat 11:18:19 / exp 15:18:19`. Il y a donc eu une
-fenêtre à découvert de **15:18:19 à 15:26:32** où tout le groupe TF1 portait un
-jeton mort. Le bot est passé à 15:20:39, soit 2 minutes après l'expiration.
+**Les 6 requêtes sont les sondes du bot.** Son passage a démarré à 15:20:39 UTC
+— l'heure de l'alerte — et s'est terminé à 15:24:44, donc entièrement dans le
+même seau de 5 min. Trois chaînes en 502 × 2 passages (sonde initiale, puis
+re-test à 60 s) = 6. Aucun trafic spectateur n'est nécessaire pour l'expliquer.
+
+**Cause racine : ParaTV a annoncé des fichiers avant de les publier.**
+À 14:29:19 UTC, sa playlist bascule les 6 chaînes du groupe TF1 vers le dossier
+`q9E0AXUKJqPG` avec de NOUVEAUX noms de fichiers (`cB7M5Wd7oGhfcQOw` pour TF1,
+`GarmBeaCpoZ0GeS` pour Novo 19, `prGGUrfeWnv0wK` pour TF1 Séries Films…). Ces
+fichiers-là sont **absents de l'arbre git jusqu'à 15:26:32** — le commit
+intermédiaire de 14:31:33 ne fait que recopier les ANCIENS noms dans le nouveau
+dossier. Pendant 57 minutes, l'adresse du stub répond donc 404.
+
+Le filet `lastGood` du proxy a tenu tant que le jeton du stub précédent était
+valide : il expirait à **15:18:27 UTC**. D'où une fenêtre à découvert de
+15:18:27 à 15:26:32, dans laquelle le bot est passé à 15:20:39.
 
 | Moment (UTC) | Événement |
 |---|---|
-| 14:29:19 | ParaTV publie une playlist pointant vers `q9E0AXUKJqPG` |
-| 14:31:33 | les fichiers du dossier arrivent (jetons `iat 11:18:19 / exp 15:18:19`) |
-| **15:18:19** | **les jetons TF1 expirent** |
+| 14:29:19 | la playlist annonce `q9E0AXUKJqPG` — fichiers pas encore publiés |
+| 14:31:33 | commit intermédiaire : seuls les ANCIENS noms sont recopiés |
+| **15:18:27** | **le jeton du stub précédent expire → `lastGood` ne couvre plus** |
 | 15:20:39 | le bot passe → 502 → l'alerte Vercel sonne |
-| 15:26:32 | ParaTV rafraîchit… en recopiant les MÊMES jetons périmés |
-| 16:28:44 | rafraîchissement suivant : jetons neufs, tout rejoue |
+| 15:26:32 | les fichiers annoncés arrivent enfin ; tout rejoue |
 
-**Pourquoi seulement trois chaînes.** Jeton périmé → `resolveStub()` renvoie
-« jeton du stub expiré » → `failOrFallback()`, qui **redirige (302) vers le `fb=`
-quand il y en a un et renvoie 502 sec sinon**. TF1, TMC, TFX et LCI ont un repli
-et ont basculé sans bruit ; Novo 19 et TF1 Séries Films n'en ont pas. C'est la
-seule différence entre les deux groupes — les 6 stubs TF1 sont par ailleurs
-rigoureusement identiques (même dossier, même `cip`, même fraîcheur).
+**C'était un mauvais jour chez ParaTV, pas son régime normal.** Sur les 142
+commits touchant `france-2-highest.m3u8` depuis le 2026-08-31, l'écart entre la
+génération du fichier (ligne `#Last refreshed`) et sa publication a une **médiane
+de 6,2 min**. Les trois pires valeurs de toute la période sont toutes du
+2026-09-12 : **60,5 · 65,4 · 68,3 min**. La quatrième ne fait que 15,5 min.
 
-**France 2 est une panne distincte**, simultanée par coïncidence. Son stub est
-structurellement identique à ceux de France 3 et France 5 (mêmes 5 URI dans le
-même ordre, même hôte `live-ssai-p.ftven.fr`, même chemin SSAI `/dai/`), et
-celles-ci allaient bien. En mode `u=` sans `v=`, le proxy ne passe jamais par la
-sonde du manifeste maître (la condition exige `id`, ou `stubHost && v !== null`) :
-son 502 vient donc soit de la lecture du stub, soit du chargement d'une variante
-— le message du bot (« HTTP 502 » sec) ne permet pas de trancher entre les deux,
-les deux appels étant dans le même `try`. Ce qui est sûr : c'était passager, et
-France 2 rejouait le soir même.
+**Pourquoi seulement deux chaînes du groupe TF1.** Stub en 404 →
+`resolveStub()` renvoie une erreur → `failOrFallback()`, qui **redirige (302)
+vers le `fb=` quand il y en a un et renvoie 502 sec sinon**. TF1, TMC, TFX et
+LCI ont un repli et ont basculé sans bruit ; Novo 19 et TF1 Séries Films n'en
+ont pas.
 
-**Fausse piste écartée — le champ `cip` des jetons TF1.** Ces JWT contiennent
-`"cip": "159.26.112.8"`, l'IP du client qui les a demandés (ParaTV). On pouvait
-en conclure que le groupe TF1 n'est pas proxifiable. **C'est faux** : depuis une
-troisième adresse, celle d'un runner GitHub, ces mêmes URI répondent 200. TF1
-n'impose pas ce champ. Ne pas repartir sur cette piste.
+> ⚠️ Ne pas dire « les seules chaînes proxifiées sans repli » : sur les 23
+> chaînes proxifiées, **6 ont un `fb=` et 17 n'en ont pas**. Ce qui distingue
+> Novo 19 et TF1 Séries Films, c'est d'être les deux chaînes **du groupe TF1**
+> sans repli — donc les seules que cette panne-là pouvait atteindre.
 
-**Ce qui a été corrigé dans `api/fr.js` le 2026-09-12.** Aucun des deux points
-ci-dessous n'aurait évité cette panne-là — un jeton mort ne se rattrape pas —
-mais le diagnostic les a mis au jour et ils valent pour la prochaine :
+**France 2 : cause indéterminée**, simultanée par coïncidence. Son stub est
+structurellement identique à ceux de France 3 et France 5, qui allaient bien au
+même instant. En mode `u=` sans `v=`, le proxy ne passe pas par la sonde du
+manifeste maître : son 502 vient soit de la lecture du stub, soit d'une variante,
+et le message du bot (« HTTP 502 » sec) ne permet pas de trancher — les deux
+appels sont dans le même `try`. Ce qui est sûr : c'était passager.
 
-1. *la sonde visait l'audio.* Avant de servir un manifeste maître en mode `id=`,
-   le proxy sondait `uris[0]`. Or `urisOf()` rend les URI dans l'ordre du
-   document, et dans tous les stubs relevés (france-2, france-3, novo19, tmc) les
-   trois premières sont des pistes **audio** et la quatrième un sous-titre : la
-   vidéo n'arrive qu'en cinquième. On jugeait donc la chaîne sur son audio sans
-   jamais vérifier le flux regardé. `uriVideo()` vise désormais la première
-   variante `#EXT-X-STREAM-INF`, avec repli sur `uris[0]` s'il n'y en a pas.
-2. *le 502 sec après une sonde ratée.* Quand la sonde échoue et qu'il n'y a pas
-   de repli, le proxy sert maintenant le manifeste quand même : un 502 ne laisse
-   aucune chance au lecteur, alors que les autres variantes sont peut-être saines
-   et que chaque « `&v=` » est relu en direct sur un stub frais. Le comportement
-   avec `fb=` est inchangé. Le bot continue de voir la panne : son test profond
-   descend jusqu'au segment.
+**Fausse piste écartée — le champ `cip` des jetons TF1.** Ces JWT portent
+`"cip": "159.26.112.8"`, l'IP du client qui les a demandés. On pouvait en
+conclure que le groupe TF1 n'est pas proxifiable. **C'est faux** : depuis une
+troisième adresse, celle d'un runner GitHub, ces mêmes URI répondent 200.
 
-> **Ce qui reste ouvert.** Le vrai correctif pour Novo 19 et TF1 Séries Films
-> serait un `fb=`. Recherche menée à fond le 2026-09-12, **sans résultat** : voir
-> « Novo 19 et TF1 Séries Films n'ont aucun repli possible » plus bas. Tant
-> qu'elles n'en ont pas, elles renverront 502 à chaque fenêtre de rotation de
-> ParaTV, et l'alerte Vercel resonnera quand le bot tombera dedans.
->
-> France 2, elle, a désormais une seconde source officielle indépendante en `ALT`
-> dans `TV.m3u` : le stub schumijo `playlists/francetv/france2.m3u8`, sur
-> `simulcast-p.ftven.fr` et sans insertion publicitaire, là où ParaTV sert
-> `live-ssai-p.ftven.fr`.
+**Corrigé dans `api/fr.js` le 2026-09-12.** Aucun des deux points n'aurait évité
+cette panne — un stub absent ne se rattrape pas — mais le diagnostic les a mis
+au jour :
+
+1. *la sonde visait l'audio.* `urisOf()` rend les URI dans l'ordre du document et
+   dans tous les stubs relevés les trois premières sont des pistes **audio**, la
+   quatrième un sous-titre ; la vidéo n'arrive qu'en cinquième. On jugeait la
+   chaîne sur son audio sans jamais vérifier le flux regardé. `uriVideo()` vise
+   désormais la première variante `#EXT-X-STREAM-INF`.
+2. *le 502 sec après une sonde ratée.* Sans repli, le proxy sert maintenant le
+   manifeste plutôt que rien : les autres variantes sont peut-être saines et
+   chaque « `&v=` » est relu en direct. Comportement avec `fb=` inchangé ; le bot
+   voit toujours la panne, son test profond descendant jusqu'au segment.
 
 ## Sources officielles : bilan chaîne par chaîne (2026-09-02)
 
@@ -298,13 +293,13 @@ pool dont on ne connaît pas la convention, la règle reste vraie.
 
 ## Novo 19 et TF1 Séries Films n'ont aucun repli possible (2026-09-12)
 
-Ce sont les deux seules chaînes proxifiées sans `fb=`, et c'est précisément ce
-qui les fait renvoyer **502** là où TF1, TMC, TFX et LCI basculent en silence.
+Ce sont les deux chaînes **du groupe TF1** sans `fb=` (sur 23 chaînes
+proxifiées, 17 n'ont pas de repli — mais les 15 autres ne dépendent pas du
+dossier tournant de ParaTV). C'est ce qui les fait renvoyer 502 quand TF1, TMC,
+TFX et LCI basculent en silence.
 
-**Le phénomène, observé en direct le 2026-09-12 à 20:56 UTC** (`diag-502`), une
-heure et demie après l'incident qui a déclenché l'alerte Vercel. ParaTV venait de
-basculer vers le dossier `g01P8ypvxhi` ; ses fichiers n'étaient pas encore
-publiés, donc les 6 stubs TF1 répondaient 404 :
+**Le phénomène, observé en direct le 2026-09-12 à 20:56 UTC** (`diag-502`).
+ParaTV venait d'annoncer le dossier `g01P8ypvxhi` sans l'avoir publié :
 
 | Chaîne | `fb=` | Réponse du proxy |
 |---|---|---|
@@ -314,38 +309,35 @@ publiés, donc les 6 stubs TF1 répondaient 404 :
 | TF1 Séries Films | **non** | **502** « stub injoignable » |
 | Novo 19 | **non** | **502** « stub injoignable » |
 
-Cette fenêtre s'ouvre à **chaque** rotation ParaTV (playlist publiée avant les
-fichiers) et dure 1 à 2 min ; l'historique git de ParaTV donne par exemple
-13:25:16 → 13:26:33, 14:29:19 → 14:31:33, 16:27:23 → 16:28:44. Le filet
-`lastGood` du proxy ne joue que si l'isolate Edge est chaud ; à froid, il n'a
-rien en mémoire.
+**C'est épisodique, pas systématique.** Le passage du bot de 20:23 le même jour
+— avant tout correctif — ne montre **aucun** 502 : les trois chaînes y sont ✅.
+La fenêtre ne s'ouvre que lorsque ParaTV tarde à publier ce qu'il a annoncé, et
+que le jeton du stub précédent expire entre-temps. En régime normal l'écart est
+de ~6 min (médiane sur 142 commits) et `lastGood` absorbe tout.
 
 **Recherche d'un repli — 4 pistes, toutes fermées :**
 
 | Piste | Verdict |
 |---|---|
-| Les 4 agrégateurs (Free-TV, iptv-org `fr`, schumijo, ParaTV) | **aucune** entrée hors ParaTV pour ces deux chaînes |
-| `viamotionhsi.netplus.ch` (`/hd1/`, `/novo19/`) | timeout depuis un runner — réservé à la Suisse, comme tout netplus |
-| `pinkisso/mored`, le dépôt tiers qui fournit le secours de LCI | ne contient **que** LCI : 15 noms de fichiers essayés (`tf11`, `tmc1`, `tfx1`, `hd11`, `novo191`, `tsf1`…), tous 404 |
-| Les pools, par leur convention de nommage | **12 chemins sondés, 12 × HTTP 404** |
+| Les 4 agrégateurs (Free-TV, iptv-org `fr`, schumijo, ParaTV) | **aucune** entrée hors ParaTV |
+| `viamotionhsi.netplus.ch` (`/hd1/`, `/novo19/`) | timeout depuis un runner — réservé à la Suisse |
+| `pinkisso/mored`, le dépôt tiers qui fournit le secours de LCI | ne contient **que** LCI : 15 noms essayés (`tf11`, `tmc1`, `tfx1`, `hd11`, `novo191`, `tsf1`…) |
+| Les pools, par convention de nommage | **12 chemins sondés, 12 × HTTP 404** |
 
-Le détail des chemins de pool essayés, pour ne pas les refaire : sur
-`151.80.18.177:86` — `TF1_Series_Films_HD`, `TF1_Series_Films`, `HD1_HD`, `HD1`,
-`NOVO19_HD`, `NOVO19`, `Novo_19_HD` ; sur `99.27.51.147:8080` —
-`TF1SeriesFilms`, `HD1`, `NOVO19`, `Novo19`.
+Chemins de pool essayés, pour ne pas les refaire : sur `151.80.18.177:86` —
+`TF1_Series_Films_HD`, `TF1_Series_Films`, `HD1_HD`, `HD1`, `NOVO19_HD`,
+`NOVO19`, `Novo_19_HD` ; sur `99.27.51.147:8080` — `TF1SeriesFilms`, `HD1`,
+`NOVO19`, `Novo19`.
 
 > **La preuve que ces 404 sont des « non provisionné » et pas un blocage d'IP :**
-> la sonde témoin `151.80.18.177:86/TF1_HD` (le secours de TF1) a répondu **JOUE**
-> dans le même lot. Le pool est vivant et la convention de nommage est la bonne —
-> il ne porte simplement pas ces deux chaînes. Même raisonnement que pour
-> moveonjoy en 2ᵉ passe.
+> la sonde témoin `151.80.18.177:86/TF1_HD` (le secours de TF1) a répondu
+> **JOUE** dans le même lot. Le pool est vivant et la convention est la bonne —
+> il ne porte simplement pas ces deux chaînes. Même raisonnement que moveonjoy.
 
-**Conclusion.** Aujourd'hui, ces deux chaînes ne peuvent PAS avoir de filet :
-elles n'existent, en clair, que via le CDN TF1, auquel on n'accède qu'à travers
-un stub ParaTV. Ne pas relancer cette recherche sans indice neuf — un nouveau
-pool, ou un mainteneur de stubs tiers qui les ajouterait. Les deux seules
-options réelles restent : les **accepter telles quelles** (elles échouent 1 à
-2 min par heure, un re-zap suffit), ou les **retirer**.
+**Conclusion.** Ces deux chaînes n'existent en clair que via le CDN TF1, auquel
+on n'accède qu'à travers un stub ParaTV : un seul chemin, donc aucun filet. Ne
+pas relancer cette recherche sans indice neuf — un nouveau pool, ou un
+mainteneur de stubs tiers qui les ajouterait.
 
 ## Ce que cette recherche n'a PAS donné
 

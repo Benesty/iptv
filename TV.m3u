@@ -18,7 +18,7 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 # (source indépendante de ParaTV : autre hôte — simulcast-p.ftven.fr au lieu de
 # live-ssai-p.ftven.fr — et sans insertion publicitaire. France 2 a été la seule
 # chaîne France TV en 502 le 2026-09-12 à 15:20, alors que France 3 et 5, dont
-# les stubs lui sont identiques, allaient bien : panne passagère côté amont.
+# les stubs lui sont identiques, allaient bien : cause indéterminée, passagère.
 # Décommente cette ligne à la place de celle du dessus si ça se reproduit.)
 #EXTINF:-1 tvg-chno="3" tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" group-title="France", France 3
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Ffrance-3-highest.m3u8
@@ -86,14 +86,16 @@ https://jmp2.uk/stvp-FR4000003O1
 #EXTINF:-1 tvg-chno="20" tvg-id="TF1SeriesFilms.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png?h=100" group-title="France", TF1 Séries Films
 https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
 # TF1 Séries Films et Novo 19 : aucun secours possible, prouvé le 2026-09-12.
-# Ce sont les 2 seules chaînes proxifiées sans « fb= », et c'est ce qui les fait
-# renvoyer 502 pendant la fenêtre de rotation de ParaTV (1-2 min par heure, la
-# playlist étant publiée avant les fichiers) là où TF1/TMC/TFX/LCI basculent en
-# silence sur leur repli. 4 pistes fermées : les 4 agrégateurs ne les servent pas
-# hors ParaTV ; netplus est réservé à la Suisse ; le dépôt tiers qui sauve LCI ne
-# contient que LCI ; et 12 chemins de pool répondent 404 alors que la sonde
-# témoin TF1_HD joue — le pool est vivant, il ne les porte pas. Détail complet
-# dans SERVEURS.md. Si tu croises une source qui marche, dis-le-moi.
+# Ce sont les 2 chaînes DU GROUPE TF1 sans « fb= » : quand ParaTV annonce un
+# nouveau dossier de stubs avant de l'avoir publié, elles renvoient 502 là où
+# TF1/TMC/TFX/LCI basculent en silence sur leur repli. Épisodique, pas
+# systématique : en régime normal ParaTV publie ~6 min après avoir généré et le
+# cache du proxy absorbe tout ; le 2026-09-12 il a mis jusqu'à 68 min, 3 fois.
+# 4 pistes fermées : les 4 agrégateurs ne les servent pas hors ParaTV ; netplus
+# est réservé à la Suisse ; le dépôt tiers qui sauve LCI ne contient que LCI ;
+# et 12 chemins de pool répondent 404 alors que la sonde témoin TF1_HD joue — le
+# pool est vivant, il ne les porte pas. Détail dans SERVEURS.md. Si tu croises
+# une source qui marche, dis-le-moi.
 #EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs
