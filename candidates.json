@@ -1,1 +1,16 @@
-[]
+[
+  {"name": "TF1 Series Films — pool 151.80 TF1_Series_Films_HD", "langue": "fr", "url": "http://151.80.18.177:86/TF1_Series_Films_HD/index.m3u8"},
+  {"name": "TF1 Series Films — pool 151.80 TF1_Series_Films", "langue": "fr", "url": "http://151.80.18.177:86/TF1_Series_Films/index.m3u8"},
+  {"name": "TF1 Series Films — pool 151.80 HD1_HD (ancien nom)", "langue": "fr", "url": "http://151.80.18.177:86/HD1_HD/index.m3u8"},
+  {"name": "TF1 Series Films — pool 151.80 HD1", "langue": "fr", "url": "http://151.80.18.177:86/HD1/index.m3u8"},
+  {"name": "TF1 Series Films — pool 99.27 TF1SeriesFilms", "langue": "fr", "url": "http://99.27.51.147:8080/TF1SeriesFilms/index.m3u8"},
+  {"name": "TF1 Series Films — pool 99.27 HD1", "langue": "fr", "url": "http://99.27.51.147:8080/HD1/index.m3u8"},
+  {"name": "TF1 Series Films — netplus (CH-only, temoin)", "langue": "fr", "url": "https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8"},
+  {"name": "Novo 19 — pool 151.80 NOVO19_HD", "langue": "fr", "url": "http://151.80.18.177:86/NOVO19_HD/index.m3u8"},
+  {"name": "Novo 19 — pool 151.80 NOVO19", "langue": "fr", "url": "http://151.80.18.177:86/NOVO19/index.m3u8"},
+  {"name": "Novo 19 — pool 151.80 Novo_19_HD", "langue": "fr", "url": "http://151.80.18.177:86/Novo_19_HD/index.m3u8"},
+  {"name": "Novo 19 — pool 99.27 NOVO19", "langue": "fr", "url": "http://99.27.51.147:8080/NOVO19/index.m3u8"},
+  {"name": "Novo 19 — pool 99.27 Novo19", "langue": "fr", "url": "http://99.27.51.147:8080/Novo19/index.m3u8"},
+  {"name": "Novo 19 — netplus (CH-only, temoin)", "langue": "fr", "url": "https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8"},
+  {"name": "TEMOIN pool 151.80 vivant (TF1_HD, secours actuel de TF1)", "langue": "fr", "url": "http://151.80.18.177:86/TF1_HD/index.m3u8"}
+]
