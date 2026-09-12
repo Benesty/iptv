@@ -70,6 +70,7 @@ Le proxy ne renvoie que du média (liste blanche de `content-type`, `nosniff`,
 | **EPG** — fusionne les guides et publie sur la branche `epg` | quotidien + à chaque modif de `TV.m3u` | `.github/workflows/epg.yml` → `scripts/build_epg.py` |
 | **Test des liens** | à chaque push | `.github/workflows/check-links.yml` |
 | **Vérification complète** (chaînes + sécurité) | manuel | `.github/workflows/verify.yml` |
+| **Diagnostic d'un 502** — dit lequel des 4 étages casse (ParaTV → stub → CDN → proxy) | manuel | `.github/workflows/diag-502.yml` |
 
 ### Comment le bot évite les fausses réparations
 

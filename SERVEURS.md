@@ -24,6 +24,7 @@ le proxy Vercel (voir README).
 | `99.27.51.147:8080` | FR | JOUE | M6, Gulli, MTV, SYFY, CinéFrisson | oui |
 | `185.246.209.113` | **CA** | **GÉO-CA** | CHCH-DT, Cottage Life, CTV Life Channel, T+E — et **rien d'autre** : 20 chemins sondés (TSN*, W_NETWORK, SLICE, MUCH, HGTV, SPORTSNET, HISTORY…) renvoient tous 404 | non |
 | `23.133.220.149` | CA | JOUE | TV5 Québec Canada, Unis TV | non |
+| `23.237.104.106:8080` | **US** | JOUE | ~40 chaînes câblées US, chemins `USA_<NOM>` (Disney Junior, Nickelodeon, FX, Syfy, Starz, Bloomberg, Comedy Central…) — **Nat Geo Wild** y répond (`/USA_NAT_GEO_WILD/`) alors qu'aucun agrégateur ne la liste ; `/USA_CNN/` et `/USA_NATIONAL_GEOGRAPHIC/` en 404 | oui (Disney Junior US, Nat Geo Wild) |
 | `5.180.164.197:8080` | FR | JOUE | France 3 Lorraine, TV5Monde Europe | non |
 | `89.187.185.76:8080` | FR | JOUE | France 3 Côte d'Azur | non |
 | `89.33.29.118` | FR | JOUE | MCM Top | non |
@@ -166,6 +167,91 @@ leurs secours à chaque passage.
 > playlist avance, et seulement en secours : son rythme de rafraîchissement
 > n'est pas connu.
 
+## Jeton ParaTV périmé + absence de repli — alerte Vercel du 2026-09-12 15:20
+
+Alerte Vercel : « 5xx error spike on /api/fr », 6 requêtes en échec en 5 minutes
+alors que la moyenne des 24 h précédentes était de 0. Le workflow `diag-502` est
+sorti de ce diagnostic (il sépare les quatre étages : playlist → stub → CDN → proxy).
+
+**Les 6 requêtes sont les sondes du bot.** Le passage d'auto-réparation a démarré
+à 15:20:39 UTC — l'heure exacte de l'alerte — et s'est terminé à 15:24:44, donc
+entièrement dans le même seau de 5 minutes. Trois chaînes en 502 × 2 passages
+(sonde initiale, puis re-test 60 s plus tard) = 6. Aucun trafic spectateur n'est
+nécessaire pour expliquer le chiffre, et il l'exclut même : un lecteur qui zappe
+sur une de ces chaînes génère à lui seul bien plus de 6 échecs.
+
+**Cause racine, vérifiée dans l'historique git de ParaTV** (clone en lecture
+seule). ParaTV a fait tourner son dossier de stubs TF1 à 14:29:19 UTC
+(`52BX255xYe6c` → `q9E0AXUKJqPG`), et les fichiers du nouveau dossier sont bien
+arrivés 2 min plus tard, à 14:31:33 — la rotation n'est PAS en cause. Le défaut
+est ailleurs : **les JWT que ces fichiers contenaient avaient été émis à 11:18:19
+et expiraient à 15:18:19 UTC**, et le rafraîchissement suivant (15:26:32) les a
+recopiés tels quels, toujours `iat 11:18:19 / exp 15:18:19`. Il y a donc eu une
+fenêtre à découvert de **15:18:19 à 15:26:32** où tout le groupe TF1 portait un
+jeton mort. Le bot est passé à 15:20:39, soit 2 minutes après l'expiration.
+
+| Moment (UTC) | Événement |
+|---|---|
+| 14:29:19 | ParaTV publie une playlist pointant vers `q9E0AXUKJqPG` |
+| 14:31:33 | les fichiers du dossier arrivent (jetons `iat 11:18:19 / exp 15:18:19`) |
+| **15:18:19** | **les jetons TF1 expirent** |
+| 15:20:39 | le bot passe → 502 → l'alerte Vercel sonne |
+| 15:26:32 | ParaTV rafraîchit… en recopiant les MÊMES jetons périmés |
+| 16:28:44 | rafraîchissement suivant : jetons neufs, tout rejoue |
+
+**Pourquoi seulement trois chaînes.** Jeton périmé → `resolveStub()` renvoie
+« jeton du stub expiré » → `failOrFallback()`, qui **redirige (302) vers le `fb=`
+quand il y en a un et renvoie 502 sec sinon**. TF1, TMC, TFX et LCI ont un repli
+et ont basculé sans bruit ; Novo 19 et TF1 Séries Films n'en ont pas. C'est la
+seule différence entre les deux groupes — les 6 stubs TF1 sont par ailleurs
+rigoureusement identiques (même dossier, même `cip`, même fraîcheur).
+
+**France 2 est une panne distincte**, simultanée par coïncidence. Son stub est
+structurellement identique à ceux de France 3 et France 5 (mêmes 5 URI dans le
+même ordre, même hôte `live-ssai-p.ftven.fr`, même chemin SSAI `/dai/`), et
+celles-ci allaient bien. En mode `u=` sans `v=`, le proxy ne passe jamais par la
+sonde du manifeste maître (la condition exige `id`, ou `stubHost && v !== null`) :
+son 502 vient donc soit de la lecture du stub, soit du chargement d'une variante
+— le message du bot (« HTTP 502 » sec) ne permet pas de trancher entre les deux,
+les deux appels étant dans le même `try`. Ce qui est sûr : c'était passager, et
+France 2 rejouait le soir même.
+
+**Fausse piste écartée — le champ `cip` des jetons TF1.** Ces JWT contiennent
+`"cip": "159.26.112.8"`, l'IP du client qui les a demandés (ParaTV). On pouvait
+en conclure que le groupe TF1 n'est pas proxifiable. **C'est faux** : depuis une
+troisième adresse, celle d'un runner GitHub, ces mêmes URI répondent 200. TF1
+n'impose pas ce champ. Ne pas repartir sur cette piste.
+
+**Ce qui a été corrigé dans `api/fr.js` le 2026-09-12.** Aucun des deux points
+ci-dessous n'aurait évité cette panne-là — un jeton mort ne se rattrape pas —
+mais le diagnostic les a mis au jour et ils valent pour la prochaine :
+
+1. *la sonde visait l'audio.* Avant de servir un manifeste maître en mode `id=`,
+   le proxy sondait `uris[0]`. Or `urisOf()` rend les URI dans l'ordre du
+   document, et dans tous les stubs relevés (france-2, france-3, novo19, tmc) les
+   trois premières sont des pistes **audio** et la quatrième un sous-titre : la
+   vidéo n'arrive qu'en cinquième. On jugeait donc la chaîne sur son audio sans
+   jamais vérifier le flux regardé. `uriVideo()` vise désormais la première
+   variante `#EXT-X-STREAM-INF`, avec repli sur `uris[0]` s'il n'y en a pas.
+2. *le 502 sec après une sonde ratée.* Quand la sonde échoue et qu'il n'y a pas
+   de repli, le proxy sert maintenant le manifeste quand même : un 502 ne laisse
+   aucune chance au lecteur, alors que les autres variantes sont peut-être saines
+   et que chaque « `&v=` » est relu en direct sur un stub frais. Le comportement
+   avec `fb=` est inchangé. Le bot continue de voir la panne : son test profond
+   descend jusqu'au segment.
+
+> **Ce qui reste ouvert.** Le vrai correctif pour Novo 19 et TF1 Séries Films
+> serait un `fb=`, seul mécanisme qui rattrape un jeton mort. Elles sont les deux
+> seules chaînes proxifiées à n'en avoir aucun : pour TF1 Séries Films, 9 chemins
+> de pool et netplus ont été essayés en vain le 2026-09-02 ; pour Novo 19, rien
+> n'a encore été tenté. Tant qu'elles n'en ont pas, l'alerte Vercel resonnera à
+> chaque fois que ParaTV laissera passer un jeton périmé.
+>
+> France 2, elle, a désormais une seconde source officielle indépendante en `ALT`
+> dans `TV.m3u` : le stub schumijo `playlists/francetv/france2.m3u8`, sur
+> `simulcast-p.ftven.fr` et sans insertion publicitaire, là où ParaTV sert
+> `live-ssai-p.ftven.fr`.
+
 ## Sources officielles : bilan chaîne par chaîne (2026-09-02)
 
 Question posée : pour chaque chaîne servie par un pool anonyme, existe-t-il un
@@ -180,13 +266,36 @@ Free-TV, iptv-org fr/ca/us) et les tests déjà menés via le proxy Paris.
 | Ciné+ Émotion | non | chaîne payante Canal+ |
 | AB1, RTL9 | non | payantes (AB / RTL) ; RTL9 n'existe qu'en restream |
 | Nickelodeon, Nickelodeon Junior, Disney Junior | non | payantes (Paramount / Disney), aucun flux public FR |
-| History, National Geographic, Nat Geo Wild | non | payantes (A+E / Disney), seuls des restreams existent |
+| History, National Geographic | non | payantes (A+E / Disney), seuls des restreams existent |
+| Nat Geo Wild | non | idem ; le pool 198.58 ne sert qu'une boucle VOD depuis le 2026-09-01 → **basculée le 2026-09-03** sur le pool 23.237 (trouvée par sondage, voir ci-dessous) |
 | Disney Channel US, Disney Junior US | non | idem ; la seule source vivante de Disney Channel US est réservée aux États-Unis |
-| CNN | déjà officiel (`warnermediacdn.com`) | c'est ce flux qui sert une boucle VOD par moments |
+| CNN | officiel (`warnermediacdn.com`)… **mais c'est une mire** | le chemin `cnn_slate` ne sert qu'une boucle VOD (ENDLIST) depuis le 2026-09-01 ; le direct CNN US exige un abonnement TV. **Basculée le 2026-09-03 sur CNN Headlines International**, canal FAST officiel de CNN (Samsung TV Plus FR, via jmp2) ; CNN Headlines (Pluto US) en ALT |
 
 Règle qui en découle : un pool n'est remplacé par un flux officiel que quand ce
 flux existe **et** passe le proxy. Pour le groupe M6, seul 6cloud changerait la
 donne ; il faudrait qu'il cesse de bloquer les IP de datacenter.
+
+## Banc d'essai du 2026-09-03 : CNN et Nat Geo Wild
+
+Toutes deux « 💀 VOD/clip (ENDLIST) » depuis le 2026-09-01 sans que le bot
+trouve mieux : ses six sources n'offrent qu'une seule URL pour chacune (celle
+qui est en panne). 19 sondes lancées via `test-candidates` + `diag-hosts` :
+
+| Piste | Verdict | Conclusion |
+|---|---|---|
+| `jmp2.uk/stvp-FRBD190001055` — CNN Headlines International (Samsung TV Plus FR) | **JOUE** | **adoptée** : canal FAST officiel de CNN, même mécanique que RMC Life / TV5Monde+ Voyage (EPG Samsung `FRBD190001055`) |
+| `jmp2.uk/plu-5421f71da6af422839419cb3` — CNN Headlines (Pluto TV US) | JOUE | en ALT (Pluto US non essayé depuis le Québec) |
+| `cnn-cnninternational-1-*.{rakuten,samsung,plex}.wurl.tv` (4 hôtes cités par des playlists GitHub) | **DNS-KO** | les feeds wurl de CNN International n'existent plus |
+| `viamotionhsi.netplus.ch/…/cnn` | timeout | réservé à la Suisse, comme le reste de netplus |
+| `/cnn/` sur 198.58, 212.5 et `/USA_CNN/` sur 23.237 | 404 | aucun pool US connu ne porte CNN |
+| `23.237.104.106:8080/USA_NAT_GEO_WILD/` | **JOUE** | **adoptée** pour Nat Geo Wild (hôte différent de National Geographic, qui reste sur 198.58) |
+| `/ngwild/`, `/natgeowild/` sur 198.58 et 212.5 ; `/USA_NATGEO_WILD/`, `/USA_NATIONAL_GEOGRAPHIC_WILD/` sur 23.237 | 404 | — |
+| `198.58.104.90:8989/natgeowild/` (l'ancienne) | 200 mais ENDLIST | en ALT, peut revenir |
+
+Nuance à la règle « deviner des chemins ne marche pas » : ça a marché ici parce
+que la convention du pool 23.237 (`USA_<NOM_EN_MAJUSCULES>`) est connue par ses
+~40 chemins publiés — un seul essai sur trois a répondu, et seulement là. Sur un
+pool dont on ne connaît pas la convention, la règle reste vraie.
 
 ## Ce que cette recherche n'a PAS donné
 

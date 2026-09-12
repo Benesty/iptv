@@ -188,7 +188,10 @@ REGISTRY = {
         "http://198.58.104.90:8989/natgeo/index.m3u8",
         "http://212.5.144.156:8080/natgeo/index.m3u8",
     ],
-    "NatGeoWild.us": ["http://198.58.104.90:8989/natgeowild/index.m3u8"],
+    "NatGeoWild.us": [
+        "http://23.237.104.106:8080/USA_NAT_GEO_WILD/index.m3u8",  # sondage 2026-09-03
+        "http://198.58.104.90:8989/natgeowild/index.m3u8",         # boucle VOD depuis le 2026-09-01
+    ],
     "DisneyChannel.us": [
         "http://190.14.10.19:16000/play/a06z/index.m3u8",
         "http://212.5.144.156/disney/index.m3u8",
