@@ -662,9 +662,11 @@ export default async function handler(req) {
       // les autres variantes sont peut-être saines et chaque « &v= » est relu
       // en direct sur un stub frais. Le bot, lui, continue de voir la panne :
       // son test profond descend jusqu'au segment et récolte l'erreur là.
-      // C'est ce 502 sec qui a fait sonner Vercel le 2026-09-12 à 15:20 pour
-      // France 2, Novo 19 et TF1 Séries Films — les trois seules chaînes
-      // proxifiées sans repli — alors qu'elles rejouaient dans la minute.
+      //
+      // À ne pas confondre avec la panne du 2026-09-12 15:20 (alerte Vercel) :
+      // celle-là venait d'un jeton ParaTV périmé, donc du `return` ci-dessus
+      // sur r.error — et un jeton mort ne se rattrape pas en servant le
+      // manifeste. Là, seul un fb= sauve la chaîne. Détail dans SERVEURS.md.
       if (sondeKO && fallbackTarget(fb)) return failOrFallback(sondeKO, fb);
       const self = id ? `${origin}/api/fr?id=${encodeURIComponent(id)}` : `${origin}${SELF}${encodeURIComponent(target)}`;
       return new Response(rewriteStub(r.text, self), { status: 200, headers: MANIFEST_HEADERS });
