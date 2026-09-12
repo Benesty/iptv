@@ -1,25 +1,22 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-12 15:24 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-12 20:27 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 7 · 🌍 16 · ✅ 49
+**72 chaînes** — 💀 4 · 🌍 15 · ✅ 53
 
 
-## 💀 En panne (7)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
 | CNN | VOD/clip (ENDLIST), pas un direct |
 | Disney Channel US | HTTP 403 sur un pool confirmé injouable depuis le Québec |
-| France 2 | HTTP 502 · via proxy Paris |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | Nat Geo Wild | VOD/clip (ENDLIST), pas un direct |
-| Novo 19 | HTTP 502 · via proxy Paris |
-| TF1 Séries Films | HTTP 502 · via proxy Paris |
 
-## 🌍 Géo-bloquées (403) (16)
+## 🌍 Géo-bloquées (403) (15)
 
 | Chaîne | Détail |
 |---|---|
@@ -37,10 +34,9 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCN | HTTP 403 |
 | M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
-| TFX | HTTP 403 · via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (49)
+## ✅ Fonctionnelles (53)
 
 | Chaîne | Détail |
 |---|---|
@@ -57,6 +53,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CityNews | — |
 | Disney Junior | — |
 | Disney Junior US | — |
+| France 2 | via proxy Paris |
 | France 24 (FR) | — |
 | France 3 | via proxy Paris |
 | France 4 | via proxy Paris |
@@ -78,6 +75,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Téléréalités | — |
+| Novo 19 | via proxy Paris |
 | Paris Première | — |
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
@@ -87,6 +85,8 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Savoir Média | — |
 | T18 | via proxy Paris · secours ✅ |
 | TF1 | via proxy Paris · secours ✅ |
+| TF1 Séries Films | via proxy Paris |
+| TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
