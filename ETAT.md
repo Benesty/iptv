@@ -1,19 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-13 20:37 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-13 23:06 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 1 · 🌍 14 · ✅ 57
+**72 chaînes** — 💀 2 · 🌍 15 · ✅ 55
 
 
-## 💀 En panne (1)
+## 💀 En panne (2)
 
 | Chaîne | Détail |
 |---|---|
+| Disney Channel US | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
-## 🌍 Géo-bloquées (403) (14)
+## 🌍 Géo-bloquées (403) (15)
 
 | Chaîne | Détail |
 |---|---|
@@ -29,10 +30,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
+| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (57)
+## ✅ Fonctionnelles (55)
 
 | Chaîne | Détail |
 |---|---|
@@ -48,7 +50,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CSTAR | via proxy Paris · secours ✅ |
 | Ciné+ Émotion | — |
 | CityNews | — |
-| Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
 | France 2 | via proxy Paris |
@@ -67,7 +68,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
-| M6 | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
 | Nickelodeon | — |
