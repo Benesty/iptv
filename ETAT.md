@@ -1,6 +1,6 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-13 11:32 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-13 16:01 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
@@ -64,7 +64,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Gusto TV | — |
 | History | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
+| LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | M6 | — |
@@ -84,7 +84,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada INFO | — |
 | Savoir Média | — |
 | T18 | via proxy Paris · secours ✅ |
-| TF1 | via proxy Paris · secours ✅ |
+| TF1 | via proxy Paris · secours 💀 (HTTP 404) |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TMC | via proxy Paris · secours ✅ |
