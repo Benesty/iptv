@@ -53,7 +53,8 @@ EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
 # pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
 # (vérifiés le 2026-07-20 dans epgshare01 FR/CA + Samsung TV Plus CA)
 ALIAS = {
-    "CanalPlus.fr": "Canal+.fr",              # CANAL+ en clair -> guide « Canal+ »
+    "CanalPlus.fr": "Canal+.fr",              # CANAL+ -> guide « Canal+ »
+    "CanalPlusSport.fr": "Canal+ Sport.fr",   # vérifié dans open-epg france1 le 2026-09-14
     "CBMT.Montreal.News.ca": "CA4600005WZ",   # CBC News Montréal -> Samsung « CBC News Quebec »
     "CanalPlusCinemas.fr": "Canal+.Cinéma(s).fr",  # Canal+ Cinéma -> guide « Canal+ Cinéma(s) »
     "NoovoComedies.ca": "CA1300001DN",        # Noovo Comédies -> Samsung « Noovo Ça c'est drôle »

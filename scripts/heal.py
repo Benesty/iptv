@@ -103,6 +103,12 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Sources tierces retenues par l'utilisateur le 2026-09-14 : vidéo et
+    # avance vérifiées. Gardées pour les retrouver si un remplacement meurt.
+    "CanalPlus.fr": ["http://151.80.18.177:86/Canal+_HD/index.m3u8"],
+    "CanalPlusSport.fr": ["http://151.80.18.177:86/Canal+_sport_HD/index.m3u8"],
+    "DiscoveryChannel.fr": ["http://151.80.18.177:86/Discovery_HD/index.m3u8"],
+    "CartoonNetwork.us": ["http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8"],
     # Groupe TF1 : la chaîne elle-même passe par le proxy (stub ParaTV, jeton
     # relu à chaque lecture). Ces adresses servent de SECOURS (&fb= du lien
     # proxy) : le lecteur y est renvoyé si le stub est introuvable, expiré ou

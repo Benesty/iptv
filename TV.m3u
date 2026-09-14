@@ -88,8 +88,11 @@ https://iptv-lake-three.vercel.app/api/fr?id=TF1SeriesFilms.fr
 # TF1 Séries Films : aucun secours connu (2026-09-02 : 9 chemins de pool et le
 # CDN netplus essayés, tous morts ou géo-bloqués). Seule la relecture du jeton
 # par le proxy la protège.
-#EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+ en clair
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
+#EXTINF:-1 tvg-chno="40" tvg-id="CanalPlus.fr" tvg-logo="https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png?h=100" group-title="France", CANAL+
+http://151.80.18.177:86/Canal+_HD/index.m3u8
+# Source tierce choisie le 2026-09-14 : vidéo 720p/25 et playlist en mouvement.
+# URL publiée le 2026-04-30 ; disponibilité continue et lecture au Québec non confirmées.
+# ALT CANAL+ (ancien flux officiel, plages en clair uniquement): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Fcanalplus%2Fres%2Fcanalplusclair-hd-highest.m3u8
 #EXTINF:-1 tvg-chno="115" tvg-id="FranceTVDocs.fr" tvg-logo="https://i.imgur.com/KQmIjgs.png" group-title="France", France TV Docs
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ffrancetv%2Fres%2Fdocumentaire-highest.m3u8
 #EXTINF:-1 tvg-chno="116" tvg-id="FranceTVSeries.fr" tvg-logo="https://i.imgur.com/ESz1gbr.png" group-title="France", France TV Séries
@@ -108,6 +111,15 @@ https://jmp2.uk/stvp-FR1800004EP
 #========================================
 # 🇫🇷 FRANCE — Thématiques
 #========================================
+# Sources tierces ajoutées le 2026-09-14 : vidéo et avance des playlists vérifiées.
+# URLs publiées le 2026-04-30 ; droits de diffusion et lecture au Québec non vérifiés.
+# Source : https://world-iptv.club/iptv-m3u8-urls-channels-listes-30-04-2026/
+#EXTINF:-1 tvg-id="CanalPlusSport.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/canal-plus-sport-fr.png" group-title="France", CANAL+ Sport
+http://151.80.18.177:86/Canal+_sport_HD/index.m3u8
+# Qualité mesurée : 1920x1080, 50 images/s.
+#EXTINF:-1 tvg-id="DiscoveryChannel.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/discovery-channel-us.png" group-title="France", Discovery
+http://151.80.18.177:86/Discovery_HD/index.m3u8
+# Qualité mesurée : 1280x720, 25 images/s.
 #EXTINF:-1 tvg-chno="51" tvg-id="AB1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/ab1-fr.png" group-title="France", AB1
 http://151.80.18.177:86/AB1/index.m3u8
 # ALT AB1 (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/332/index.m3u8
@@ -365,6 +377,12 @@ http://23.237.104.106:8080/USA_NAT_GEO_WILD/index.m3u8
 # sur le pool 23.237 (celui de Disney Junior US, chemins « USA_<NOM> »), validée au
 # banc d'essai. Hôte différent de National Geographic (198.58) : voulu.
 # ALT Nat Geo Wild (pool 198.58, en boucle VOD depuis le 2026-09-01, peut revenir): http://198.58.104.90:8989/natgeowild/index.m3u8
+# Cartoon Network US — source tierce ajoutée le 2026-09-14, vidéo et avance vérifiées.
+# Qualité mesurée : 1920x1080, 59,94 images/s ; logo CN confirmé à l'écran.
+# URL signalée en mars 2026 : https://github.com/iptv-org/iptv/issues/34660
+# Droits de diffusion, continuité et lecture au Québec non vérifiés.
+#EXTINF:-1 tvg-id="CartoonNetwork.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cartoon-network-us.png" group-title="USA", Cartoon Network US
+http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8
 #EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
 http://212.5.144.156/disney/index.m3u8
 # ALT Disney Channel US (autre pool): http://212.5.144.156/disney/index.m3u8
