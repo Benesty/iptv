@@ -1,18 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-14 19:50 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-14 23:51 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**79 chaînes** — 💀 2 · 🌍 14 · ✅ 63
+**79 chaînes** — 💀 4 · 🌍 14 · ✅ 61
 
 
-## 💀 En panne (2)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
-| CSTAR | HTTP 502 · via proxy Paris · secours 💀 (HTTP 404) |
+| CANAL+ Sport | HTTP 404 |
+| CSTAR | HTTP 502 · via proxy Paris · secours 🌍 (HTTP 403) |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
+| RTL9 | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -33,7 +35,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (63)
+## ✅ Fonctionnelles (61)
 
 | Chaîne | Détail |
 |---|---|
@@ -43,7 +45,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | BFM TV | via proxy Paris |
 | Bloomberg TV | — |
 | CANAL+ | — |
-| CANAL+ Sport | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
@@ -87,7 +88,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
-| RTL9 | — |
 | Radio-Canada INFO | — |
 | Savoir Média | — |
 | T18 | via proxy Paris · secours ✅ |
