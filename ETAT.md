@@ -1,16 +1,17 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-14 12:25 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-14 19:50 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**72 chaînes** — 💀 1 · 🌍 14 · ✅ 57
+**79 chaînes** — 💀 2 · 🌍 14 · ✅ 63
 
 
-## 💀 En panne (1)
+## 💀 En panne (2)
 
 | Chaîne | Détail |
 |---|---|
+| CSTAR | HTTP 502 · via proxy Paris · secours 💀 (HTTP 404) |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
 ## 🌍 Géo-bloquées (403) (14)
@@ -32,7 +33,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (57)
+## ✅ Fonctionnelles (63)
 
 | Chaîne | Détail |
 |---|---|
@@ -41,16 +42,21 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Arte | via proxy Paris |
 | BFM TV | via proxy Paris |
 | Bloomberg TV | — |
-| CANAL+ en clair | via proxy Paris |
+| CANAL+ | — |
+| CANAL+ Sport | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
-| CSTAR | via proxy Paris · secours ✅ |
+| Cartoon Network US | — |
 | Ciné+ Émotion | — |
 | CityNews | — |
+| Comédie+ | — |
+| Discovery | — |
 | Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
+| Eurosport 1 | — |
+| Eurosport 2 | — |
 | France 2 | via proxy Paris |
 | France 24 (FR) | — |
 | France 3 | via proxy Paris |
@@ -62,9 +68,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | GULLI | — |
 | Global News Montréal | — |
 | Gusto TV | — |
+| Histoire TV | — |
 | History | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
+| LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | M6 | — |
