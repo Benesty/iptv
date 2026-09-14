@@ -111,6 +111,21 @@ https://jmp2.uk/stvp-FR1800004EP
 #========================================
 # 🇫🇷 FRANCE — Thématiques
 #========================================
+# Ajouts du 2026-09-14 : sources tierces publiées en avril 2026.
+# Vidéo et progression vérifiées ; premier essai en timeout, deuxième réussi.
+# Lecture au Québec non confirmée. Source : https://world-iptv.club/iptv-m3u8-urls-channels-listes-30-04-2026/
+#EXTINF:-1 tvg-id="Eurosport1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/eurosport-1-fr.png" group-title="France", Eurosport 1
+http://151.80.18.177:86/Eurosport_HD/index.m3u8
+# Qualité mesurée : 720p/25.
+#EXTINF:-1 tvg-id="Eurosport2.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/eurosport-2-fr.png" group-title="France", Eurosport 2
+http://151.80.18.177:86/Eurosport_2_HD/index.m3u8
+# Qualité mesurée : 1080p/50.
+#EXTINF:-1 tvg-id="ComediePlus.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/comedie-plus-fr.png" group-title="France", Comédie+
+http://151.80.18.177:86/Comedie+_HD/index.m3u8
+# Qualité mesurée : 720p/25.
+#EXTINF:-1 tvg-id="HistoireTV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/histoire-tv-fr.png" group-title="France", Histoire TV
+http://151.80.18.177:86/Histoire/index.m3u8
+# Qualité mesurée : 720p/25.
 # Sources tierces ajoutées le 2026-09-14 : vidéo et avance des playlists vérifiées.
 # URLs publiées le 2026-04-30 ; droits de diffusion et lecture au Québec non vérifiés.
 # Source : https://world-iptv.club/iptv-m3u8-urls-channels-listes-30-04-2026/

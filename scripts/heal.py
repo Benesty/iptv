@@ -103,6 +103,11 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Quatre chaînes FR choisies par l'utilisateur le 2026-09-14.
+    "Eurosport1.fr": ["http://151.80.18.177:86/Eurosport_HD/index.m3u8"],
+    "Eurosport2.fr": ["http://151.80.18.177:86/Eurosport_2_HD/index.m3u8"],
+    "ComediePlus.fr": ["http://151.80.18.177:86/Comedie+_HD/index.m3u8"],
+    "HistoireTV.fr": ["http://151.80.18.177:86/Histoire/index.m3u8"],
     # Sources tierces retenues par l'utilisateur le 2026-09-14 : vidéo et
     # avance vérifiées. Gardées pour les retrouver si un remplacement meurt.
     "CanalPlus.fr": ["http://151.80.18.177:86/Canal+_HD/index.m3u8"],
