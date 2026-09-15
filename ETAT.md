@@ -1,17 +1,16 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-15 11:31 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-15 16:44 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**79 chaînes** — 💀 2 · 🌍 14 · ✅ 63
+**79 chaînes** — 💀 1 · 🌍 14 · ✅ 64
 
 
-## 💀 En panne (2)
+## 💀 En panne (1)
 
 | Chaîne | Détail |
 |---|---|
-| CSTAR | HTTP 502 · via proxy Paris · secours 🌍 (HTTP 403) |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
 ## 🌍 Géo-bloquées (403) (14)
@@ -33,7 +32,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (63)
+## ✅ Fonctionnelles (64)
 
 | Chaîne | Détail |
 |---|---|
@@ -47,6 +46,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
+| CSTAR | via proxy Paris · secours ✅ |
 | Cartoon Network US | — |
 | Ciné+ Émotion | — |
 | CityNews | — |
