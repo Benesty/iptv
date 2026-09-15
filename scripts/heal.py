@@ -103,6 +103,11 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Quatre chaînes FR validées (vidéo et progression) et choisies le 2026-09-15.
+    "CanalJ.fr": ["http://151.80.18.177:86/Canal_J_HD/index.m3u8"],
+    "PlanetePlus.fr": ["http://151.80.18.177:86/Planete+_HD/index.m3u8"],
+    "TCMCinema.fr": ["http://151.80.18.177:86/TCM_Cinema_HD/index.m3u8"],
+    "13emeRue.fr": ["http://151.80.18.177:86/13_Eme_Rue_HD/index.m3u8"],
     # Quatre chaînes FR choisies par l'utilisateur le 2026-09-14.
     "Eurosport1.fr": ["http://151.80.18.177:86/Eurosport_HD/index.m3u8"],
     "Eurosport2.fr": ["http://151.80.18.177:86/Eurosport_2_HD/index.m3u8"],
