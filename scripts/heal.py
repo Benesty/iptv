@@ -103,6 +103,12 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Ajouts US autorisés le 2026-09-15 ; vidéo et progression vérifiées.
+    "USANetwork.us": ["http://190.11.225.124:5000/live/usa_hd/playlist.m3u8"],
+    "Bravo.us": ["http://41.205.93.154/BRAVO/index.m3u8"],
+    "AMC.us": ["http://23.239.31.26:8989/amc/index.m3u8"],
+    "ComedyCentral.us": ["https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8"],
+    "NoovoCrime.ca": ["https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8"],
     # Quatre chaînes FR validées (vidéo et progression) et choisies le 2026-09-15.
     "CanalJ.fr": ["http://151.80.18.177:86/Canal_J_HD/index.m3u8"],
     "PlanetePlus.fr": ["http://151.80.18.177:86/Planete+_HD/index.m3u8"],

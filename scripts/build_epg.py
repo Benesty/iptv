@@ -47,12 +47,51 @@ EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
          #  - france4 : France TV Docs, France TV Séries ;
          #  - unitedstates3 : National Geographic US (flux Est).
          "https://www.open-epg.com/files/france4.xml",
-         "https://www.open-epg.com/files/unitedstates3.xml"]
+         "https://www.open-epg.com/files/unitedstates3.xml",
+         "https://www.open-epg.com/files/unitedstates5.xml",
+         "https://www.open-epg.com/files/canada.xml",
+         "https://epg.pw/api/epg.xml?channel_id=470466"]
+
+# Ces sources complètent uniquement les chaînes contrôlées le 2026-09-15.
+# Ne pas importer leurs autres identifiants : canada.xml contient aussi des
+# homonymes dont les programmes divergent des sources déjà utilisées.
+SOURCE_CHANNELS = {
+    "https://www.open-epg.com/files/unitedstates5.xml": {
+        "USA.us", "Bravo.us", "AMC.us", "Comedy Central.us",
+        "Disney Channel.us", "Disney Junior.us",
+    },
+    "https://www.open-epg.com/files/canada.xml": {"CITYNEWSALBERTA.ca"},
+}
+
+
+def scoped_feed(xml, url):
+    allowed = SOURCE_CHANNELS.get(url)
+    if allowed is None:
+        return xml
+    root = ET.fromstring(xml)
+    for element in list(root):
+        cid = element.get("id") if element.tag == "channel" else element.get("channel")
+        if cid not in allowed:
+            root.remove(element)
+    return ET.tostring(root, encoding="utf-8")
 
 # Alias explicites : tvg-id du m3u -> id EXACT d'une chaîne dans un guide source,
 # pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
 # (vérifiés le 2026-07-20 dans epgshare01 FR/CA + Samsung TV Plus CA)
 ALIAS = {
+    # Versions US Est déclarées dans iptv-org ; les guides Ouest restent distincts.
+    "USANetwork.us": "USA.us",
+    "Bravo.us": "Bravo.us",
+    "AMC.us": "AMC.us",
+    "ComedyCentral.us": "Comedy Central.us",
+    "DisneyChannel.us": "Disney Channel.us",
+    "DisneyJunior.us": "Disney Junior.us",
+    "CartoonNetwork.us": "Cartoon Network USA HD - Eastern (1325).us",
+    "BloombergTV.us": "Bloomberg TV USA HD (1222).us",
+    "KnowledgeNetwork.ca": "470466",  # programme comparé au site officiel
+    "NoovoCrime.ca": "CA1400006BZ",  # ancien flux Noovo Téléréalités, logo Crime vérifié
+    "CBCNewsExplore.ca": "CABC2300009KD",  # chaîne FAST CBC News, pas News Network
+    "CityNewsEdmonton.ca": "CITYNEWSALBERTA.ca",  # bandeau Edmonton vérifié ; guide Alberta
     "PlanetePlus.fr": "Planète+.fr",  # open-epg france1 vérifié le 2026-09-15
     "ComediePlus.fr": "Comédie+.fr",  # open-epg france1 vérifié le 2026-09-14
     "CanalPlus.fr": "Canal+.fr",              # CANAL+ -> guide « Canal+ »
@@ -212,7 +251,7 @@ n_nationaux = len(feeds)   # combien de guides nationaux ont réellement été c
 for url in EXTRA:
     time.sleep(2)
     try:
-        feeds.append(decompresse(get(url)))
+        feeds.append(scoped_feed(decompresse(get(url)), url))
         print(f"   + extra : {url.split('/')[-2]}/{url.split('/')[-1]}")
     except Exception as e:
         print(f"!! {url} : {e}")
