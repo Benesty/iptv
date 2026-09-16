@@ -51,11 +51,10 @@ https://iptv-lake-three.vercel.app/api/fr?id=TMC.fr&fb=http%3A%2F%2F151.80.18.17
 https://iptv-lake-three.vercel.app/api/fr?id=NT1.fr&fb=http%3A%2F%2F145.239.5.177%2F315%2Findex.m3u8
 # ALT TFX (secours pool, décommenter si le flux ci-dessus est HS): http://145.239.5.177/315/index.m3u8
 #EXTINF:-1 tvg-chno="12" tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png" group-title="France", GULLI
-http://99.27.51.147:8080/Gulli/index.m3u8
-# GULLI n'a que 2 sources connues et les DEUX ont des pannes intermittentes (le
-# 2026-08-14 à midi les deux étaient HS en même temps) : le bot alterne entre
-# elles toutes les 3 h, c'est normal — pas de source stable connue à ce jour.
-# ALT GULLI (pool M6, l'autre moitié du ping-pong): http://99.27.51.147:8080/Gulli/index.m3u8
+https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-gulli/cmaf_q2hyb21h/hls-short-sd.m3u8
+# GULLI : source officielle M6/Bedrock en accès direct, testée le 2026-09-16.
+# 576p25 (SD), avec piste audio française séparée ; ce n'est pas de la HD.
+# ALT GULLI (ancien pool, secours validé): http://99.27.51.147:8080/Gulli/index.m3u8
 #EXTINF:-1 tvg-chno="15" tvg-id="LCI.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png" group-title="France", LCI
 https://iptv-lake-three.vercel.app/api/fr?id=LCI.fr&fb=https%3A%2F%2Fraw.githubusercontent.com%2Fpinkisso%2Fmored%2Frefs%2Fheads%2Fmain%2Fres%2F26-1%2Flci1.m3u8
 # ALT LCI (stub GitHub tiers, jeton TF1 ; ses segments se lisent mais sa playlist n'avançait pas au test du bot le 2026-09-02): https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8
@@ -101,7 +100,9 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 # 🇫🇷 FRANCE — Info
 #========================================
 #EXTINF:-1 tvg-id="BFMTV.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png" group-title="France", BFM TV
-https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8
+https://jmp2.uk/stvp-FRBD410000783
+# BFM TV : distribution officielle Samsung TV Plus, 1080p25, testée le 2026-09-16.
+# ALT BFM TV (ancien flux officiel 540p): https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8
 #EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://i.imgur.com/oJzjkUV.png" group-title="France", France 24 (FR)
 https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="FR1800005X0" tvg-logo="https://i.imgur.com/dLLmV6b.png" group-title="France", TV5Monde Info
@@ -171,14 +172,12 @@ https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.
 # pas d'EPG vaut mieux qu'un faux EPG, conformément aux conventions du dépôt.
 #EXTINF:-1 group-title="France", France TV Sport
 https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Fraw.githubusercontent.com%2Fschumijo%2Fiptv%2Fmain%2Fplaylists%2Ffrancetv%2Fsport.m3u8
-# T18 — réactivée le 2026-08-14 : ParaTV a relancé son stub Dailymotion
-# (streams/t18/t18-dm.m3u8, live id x9jhhyc — le même que notre résolveur), et le
-# stub jouait au banc d'essai du jour. Primaire = résolveur dm= (jeton frais à
-# chaque zap, même mécanique que CSTAR), stub ParaTV en repli (fb=). Si le live
-# change d'id, remplace x9jhhyc par l'id courant (https://www.dailymotion.com/t18/videos).
+# T18 : source Dailymotion officielle en 1080p50, testée le 2026-09-16.
+# id= suit la variante haute de ParaTV et relit ses jetons ; l'ancien résolveur
+# dm= servait seulement 480p50 lors de l'audit. Il reste disponible en secours.
 #EXTINF:-1 tvg-id="T18.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/t18-fr.png" group-title="France", T18
-https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Ft18-dm.m3u8
-# ALT T18 (stub ParaTV direct, jouait aussi sans proxy au test du 2026-08-14): https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/t18-dm.m3u8
+https://iptv-lake-three.vercel.app/api/fr?id=T18.fr
+# ALT T18 (résolveur officiel Dailymotion 480p): https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Ft18-dm.m3u8
 #EXTINF:-1 tvg-id="LaChaineLEquipe.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png" group-title="France", La Chaîne L'Équipe
 https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8
 #EXTINF:-1 tvg-id="NOVO19.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png" group-title="France", Novo 19
@@ -396,9 +395,11 @@ https://jmp2.uk/stvp-FRBD190001055
 # l'autre : la prochaine panne de pool n'emportera pas tout le groupe.
 # Le suffixe « US » les distingue de Disney Channel/Junior FR déjà présentes —
 # sans lui, le bot d'auto-réparation pourrait confondre les deux versions.
-#EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-channel-us.png" group-title="USA", History
-https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
-# ALT History (restream Cloudflare Stream): https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
+# History désactivée le 2026-09-16 : l'URL Cloudflare diffuse His Glory, pas History.
+# Le candidat 212.5.144.156 montre History en 1080p HEVC, mais sans piste audio
+# dans son manifeste ni dans le segment décodé ; pas de remplacement complet validé.
+# #EXTINF:-1 tvg-id="History.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/history-channel-us.png" group-title="USA", History
+# https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8
 #EXTINF:-1 tvg-id="NationalGeographic.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/national-geographic-us.png" group-title="USA", National Geographic
 http://198.58.104.90:8989/natgeo/index.m3u8
 # ALT National Geographic (autre pool, East aussi): http://212.5.144.156:8080/natgeo/index.m3u8
@@ -481,8 +482,10 @@ http://190.11.225.124:5000/live/cbs_hd/playlist.m3u8
 http://190.11.225.124:5000/live/nbc_hd/playlist.m3u8
 # NBC : 1080i, H.264 ; pistes anglaises AC3 et AAC. EPG WTVJ-DT.
 #EXTINF:-1 tvg-id="FoxSports1.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fox-sports-1-us.png" group-title="USA", Fox Sports 1 US
-http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8
-# Fox Sports 1 : 720p59,94, H.264/AAC.
+http://85.237.89.160:9590/usa-s/FOX-SPORTS-1/index.m3u8
+# Fox Sports 1 : 1080p59,94, H.264/AAC, flux tiers testé le 2026-09-16.
+# La résolution encodée ne prouve pas que le programme est nativement en 1080p.
+# ALT Fox Sports 1 (ancien flux 720p59,94): http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8
 #EXTINF:-1 tvg-id="ESPNews.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/espnews-us.png" group-title="USA", ESPNews US
 http://41.205.93.154/ESPNNEWS/index.m3u8
 # ESPNews : 720p59,94, H.264/AAC.
