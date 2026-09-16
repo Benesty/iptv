@@ -34,7 +34,9 @@ jobs:
       # Garde-fou : le bot écrit dans TV.m3u sans supervision. Si sa logique de
       # validation est cassée, il vaut mieux ne pas le laisser tourner du tout.
       - name: Banc d'essai du bot (hors-ligne)
-        run: python3 scripts/test_heal.py
+        run: |
+          python3 scripts/test_heal.py
+          python3 scripts/test_heal_web.py
 
       - name: Heal
         run: |

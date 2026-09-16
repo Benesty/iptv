@@ -417,8 +417,9 @@ http://23.237.104.106:8080/USA_NAT_GEO_WILD/index.m3u8
 #EXTINF:-1 tvg-id="CartoonNetwork.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cartoon-network-us.png" group-title="USA", Cartoon Network US
 http://23.237.104.106:8080/USA_CARTOON_NETWORK/index.m3u8
 #EXTINF:-1 tvg-id="DisneyChannel.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-channel-us.png" group-title="USA", Disney Channel US
-http://212.5.144.156/disney/index.m3u8
-# ALT Disney Channel US (autre pool): http://212.5.144.156/disney/index.m3u8
+http://4.30.180.36:8420/disneychannel/index.m3u8?token=test
+# 2026-09-16 : H.264/AAC 720p29,97 ; ancien HEVC incompatible avec Beneflix web.
+# Source tierce publiée le 2026-07-20 : https://github.com/iptv-org/iptv/issues/45914
 #EXTINF:-1 tvg-id="DisneyJunior.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/disney-jr-us.png" group-title="USA", Disney Junior US
 http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8
 # ALT Disney Junior US (autre pool): http://212.5.144.156/disneyjr/index.m3u8
@@ -433,11 +434,13 @@ http://190.11.225.124:5000/live/usa_hd/playlist.m3u8
 http://41.205.93.154/BRAVO/index.m3u8
 # Bravo : 720p, H.264/AAC.
 #EXTINF:-1 tvg-id="AMC.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/amc-us.png" group-title="USA", AMC US
-http://23.239.31.26:8989/amc/index.m3u8
-# AMC : 720p, MPEG-2/MP2 ; lecteur compatible nécessaire, lecture navigateur non validée.
+http://41.205.93.154/AMC/index.m3u8
+# 2026-09-16 : H.264/AAC 1080p59,94 ; remplace le MPEG-2/MP2 incompatible web.
+# ALT AMC : http://4.30.180.36:8420/amc/index.m3u8?token=test
 #EXTINF:-1 tvg-id="ComedyCentral.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/comedy-central-us.png" group-title="USA", Comedy Central US
-https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8
-# Comedy Central : 432p, H.264/AAC.
+http://4.30.180.36:8420/comedycentral/index.m3u8?token=test
+# 2026-09-16 : H.264/AAC 576p29,97 ; remplace le flux Ayna HTTP 404.
+# Source tierce publiée le 2026-07-20 : https://github.com/iptv-org/iptv/issues/45901
 
 # Six chaînes US choisies le 2026-09-16 : vidéo décodée et direct progressant.
 # Sources tierces ; droits de redistribution et lecture au Québec non vérifiés.
@@ -493,3 +496,4 @@ http://41.205.93.154/ESPNNEWS/index.m3u8
 http://198.58.104.90:8989/nickelodeon/index.m3u8
 # Nickelodeon Est / Nick at Nite le soir : 720p59,94, MPEG-2/MP2.
 # Lecteur compatible nécessaire ; lecture navigateur non validée.
+

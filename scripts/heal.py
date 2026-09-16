@@ -21,7 +21,7 @@ LIVE_GAP s plus tard, que sa playlist média avance (validate_candidate) —
 l'ancien test unique adoptait des flux gelés ou éphémères, d'où des
 « réparations » vers des liens morts.
 """
-import re, sys, time, shutil, subprocess, unicodedata
+import json, re, sys, time, shutil, subprocess, unicodedata
 import urllib.request, urllib.error, urllib.parse
 
 TIMEOUT = 15
@@ -133,8 +133,11 @@ REGISTRY = {
     # Ajouts US autorisés le 2026-09-15 ; vidéo et progression vérifiées.
     "USANetwork.us": ["http://190.11.225.124:5000/live/usa_hd/playlist.m3u8"],
     "Bravo.us": ["http://41.205.93.154/BRAVO/index.m3u8"],
-    "AMC.us": ["http://23.239.31.26:8989/amc/index.m3u8"],
-    "ComedyCentral.us": ["https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8"],
+    "AMC.us": [
+        "http://41.205.93.154/AMC/index.m3u8",
+        "http://4.30.180.36:8420/amc/index.m3u8?token=test",
+    ],
+    "ComedyCentral.us": ["http://4.30.180.36:8420/comedycentral/index.m3u8?token=test"],
     "NoovoCrime.ca": ["https://d29qczaufx5vc3.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-dxg2k6h0o2l6i/Noovo_Telerealites.m3u8"],
     # Quatre chaînes FR validées (vidéo et progression) et choisies le 2026-09-15.
     "CanalJ.fr": ["http://151.80.18.177:86/Canal_J_HD/index.m3u8"],
@@ -242,8 +245,7 @@ REGISTRY = {
         "http://198.58.104.90:8989/natgeowild/index.m3u8",         # boucle VOD depuis le 2026-09-01
     ],
     "DisneyChannel.us": [
-        "http://190.14.10.19:16000/play/a06z/index.m3u8",
-        "http://212.5.144.156/disney/index.m3u8",
+        "http://4.30.180.36:8420/disneychannel/index.m3u8?token=test",
     ],
     "DisneyJunior.us": [
         "http://23.237.104.106:8080/USA_DISNEY_JUNIOR/index.m3u8",
@@ -465,6 +467,36 @@ def classify(url):
     return probe(url)[0]
 
 
+def compatible_web(url):
+    """Un remplaçant doit fournir une piste H.264 et une piste AAC.
+
+    Décoder avec ffprobe ne suffit pas : MPEG-2/MP2 et HEVC passent ce test
+    mais échouent dans Beneflix web. Politique conservatrice pour les NOUVEAUX
+    remplaçants seulement. Échec/timeout/ffprobe absent = ne pas remplacer.
+    Le master conserve les renditions audio séparées dans le sondage.
+    """
+    if not FFPROBE:
+        return False
+    try:
+        result = subprocess.run(
+            [FFPROBE, "-v", "error", "-user_agent", UA,
+             "-rw_timeout", "15000000", "-analyzeduration", "5000000",
+             "-probesize", "5000000", "-show_entries",
+             "stream=codec_type,codec_name", "-of", "json", url],
+            capture_output=True, text=True, timeout=40)
+        if result.returncode != 0:
+            return False
+        streams = json.loads(result.stdout).get("streams", [])
+        video = [s for s in streams if s.get("codec_type") == "video"]
+        audio = [s for s in streams if s.get("codec_type") == "audio"]
+        # Toutes les variantes vidéo doivent pouvoir être sélectionnées par HLS.js.
+        # Au moins une piste AAC est requise ; AC3 peut coexister avec elle.
+        return (bool(video) and all(s.get("codec_name") == "h264" for s in video)
+                and any(s.get("codec_name") == "aac" for s in audio))
+    except (OSError, ValueError, TypeError, AttributeError, subprocess.TimeoutExpired):
+        return False
+
+
 def validate_candidate(url):
     """Validation RENFORCÉE d'un remplaçant (2026-08-14).
 
@@ -472,13 +504,13 @@ def validate_candidate(url):
     d'où des « réparations » vers des liens morts : les flux qui meurent au
     bout d'une minute, les flux gelés, et les clips VOD. On exige maintenant
     un test profond OK **puis**, LIVE_GAP s plus tard, la preuve que la
-    playlist média avance réellement.
+    playlist média avance réellement, puis H.264/AAC pour Beneflix web.
     """
     st, _reason, media, fp = probe(url)
     if st != "ok":
         return False
     time.sleep(LIVE_GAP)
-    return playlist_progress(media, fp) == "avance"
+    return playlist_progress(media, fp) == "avance" and compatible_web(url)
 
 
 def norm(s):
@@ -613,6 +645,9 @@ STUBS_ROTATIFS = ("raw.githubusercontent.com/Paradise-91/ParaTV/",)
 # Faux libellé confirmé à l'image le 2026-09-16 : ce flux diffuse His Glory.
 # Même un agrégateur qui le nomme encore History ne doit pas le réintroduire.
 REJECTED_STREAMS = {
+    # Échecs navigateur confirmés ; éviter de défaire les corrections du 2026-09-16.
+    "http://212.5.144.156/disney/index.m3u8",
+    "http://23.239.31.26:8989/amc/index.m3u8",
     "https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8",
 }
 
@@ -875,3 +910,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

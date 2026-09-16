@@ -13,6 +13,9 @@ import http.server, threading, time, sys, os
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import heal
+# Ce serveur ne produit pas de vrais segments vidéo ; codecs testés séparément.
+heal.compatible_web = lambda url: True
+heal.FFPROBE = None  # Les faux segments ne sont pas des médias décodables.
 heal.LIVE_GAP = 2  # accélère le test (25 s en prod)
 
 STATE = {"seq": 100, "advance": True, "fail_refetch": False, "hits": {}}
@@ -160,13 +163,17 @@ check("est_stub_rotatif pool", heal.est_stub_rotatif("http://145.239.5.177/368/i
 essayes = []
 _vrai = heal.validate_candidate
 heal.validate_candidate = lambda u: essayes.append(u) or _vrai(u)
+_registry = heal.REGISTRY
+heal.REGISTRY = {}  # Ne jamais contacter les vrais secours depuis ce banc hors ligne.
 rep = heal.find_replacement("LCI.fr", "LCI",
                             "https://raw.githubusercontent.com/pinkisso/mored/refs/heads/main/res/26-1/lci1.m3u8",
                             {"LCI.fr": [(paratv, "15. LCI [720p-tf1.fr]"), (f"{base}/master.m3u8", "LCI")]}, {})
 heal.validate_candidate = _vrai
+heal.REGISTRY = _registry
 check("le stub ParaTV n'est même pas essayé", paratv in essayes, False)
 check("le flux vivant suivant est retenu", rep, f"{base}/master.m3u8")
 
 srv.shutdown()
 print("\nRÉSULTAT GLOBAL :", "✅ tout passe" if ok else "❌ ÉCHECS")
 sys.exit(0 if ok else 1)
+
