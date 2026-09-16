@@ -103,12 +103,24 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Audit du 2026-09-16 : sources officielles / qualité, mêmes identités EPG.
+    "BFMTV.fr": [
+        "https://jmp2.uk/stvp-FRBD410000783",
+        "https://iptv-lake-three.vercel.app/api/fr?u=https%3A%2F%2Flive-cdn-stream-euw1.bfmtv.bct.nextradiotv.com%2Fmaster.m3u8",
+    ],
+    "T18.fr": [
+        "https://iptv-lake-three.vercel.app/api/fr?id=T18.fr",
+        "https://iptv-lake-three.vercel.app/api/fr?dm=x9jhhyc&ref=https%3A%2F%2Fwww.t18.fr%2F&fb=https%3A%2F%2Fraw.githubusercontent.com%2FParadise-91%2FParaTV%2Fmain%2Fstreams%2Ft18%2Ft18-dm.m3u8",
+    ],
     # Miami, sports et Nickelodeon US : choix du 2026-09-16, flux décodés et actifs.
     # Les trois stations de Miami gardent leurs identifiants locaux pour l'EPG.
     "WSVNDT2.us": ["http://190.11.225.124:5000/live/abc_hd/playlist.m3u8"],
     "WFORDT.us": ["http://190.11.225.124:5000/live/cbs_hd/playlist.m3u8"],
     "WTVJDT.us": ["http://190.11.225.124:5000/live/nbc_hd/playlist.m3u8"],
-    "FoxSports1.us": ["http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8"],
+    "FoxSports1.us": [
+        "http://85.237.89.160:9590/usa-s/FOX-SPORTS-1/index.m3u8",
+        "http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8",
+    ],
     "ESPNews.us": ["http://41.205.93.154/ESPNNEWS/index.m3u8"],
     "Nickelodeon.us": ["http://198.58.104.90:8989/nickelodeon/index.m3u8"],
     # Six ajouts US choisis le 2026-09-16 ; vidéo et progression vérifiées.
@@ -188,8 +200,9 @@ REGISTRY = {
     "SerieClub.fr": ["http://151.80.18.177:86/Serie_Club_HD/index.m3u8"],
     "W9.fr": ["http://151.80.18.177:86/W9_HD/index.m3u8"],
     "Gulli.fr": [
-        "https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8",
+        "https://origin-m6web.live.6cloud.fr/out/v1/6play/6play-gulli/cmaf_q2hyb21h/hls-short-sd.m3u8",
         "http://99.27.51.147:8080/Gulli/index.m3u8",
+        "https://stream1.freetv.fun/027cd356ec6b03bd62d4ccb17fc487c1dca3fd05bdbec771634fa361772de734.m3u8",
     ],
     "AB1.fr": [
         "http://151.80.18.177:86/AB1/index.m3u8",
@@ -219,7 +232,6 @@ REGISTRY = {
     # 40.160.24.53 et 206.212.244.63 sont morts en bloc ce jour-là).
     "History.us": [
         "http://212.5.144.156:8080/history/index.m3u8",
-        "https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8",
     ],
     "NationalGeographic.us": [
         "http://198.58.104.90:8989/natgeo/index.m3u8",
@@ -598,6 +610,12 @@ def build_index():
 # LCI par l'un d'eux, c'est-à-dire par la source même que le secours protège.
 STUBS_ROTATIFS = ("raw.githubusercontent.com/Paradise-91/ParaTV/",)
 
+# Faux libellé confirmé à l'image le 2026-09-16 : ce flux diffuse His Glory.
+# Même un agrégateur qui le nomme encore History ne doit pas le réintroduire.
+REJECTED_STREAMS = {
+    "https://customer-6itfaqopbksp5p0q.cloudflarestream.com/3972e89fb79bf6d6dd2a16c75455087a/manifest/video.m3u8",
+}
+
 
 def est_stub_rotatif(url):
     return any(s in url for s in STUBS_ROTATIFS)
@@ -619,7 +637,7 @@ def find_replacement(tid, name, current, by_id, by_name):
             continue
         seen.add(u); cands.append(u)
     for u in cands:
-        if u == current:
+        if u == current or u in REJECTED_STREAMS:
             continue
         if any(h in u for h in SKIP_HOSTS) or est_stub_rotatif(u):
             continue
