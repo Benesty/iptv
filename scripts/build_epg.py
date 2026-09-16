@@ -50,7 +50,12 @@ EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
          "https://www.open-epg.com/files/unitedstates3.xml",
          "https://www.open-epg.com/files/unitedstates5.xml",
          "https://www.open-epg.com/files/canada.xml",
-         "https://epg.pw/api/epg.xml?channel_id=470466"]
+         "https://epg.pw/api/epg.xml?channel_id=470466",
+         # Stations de Miami identifiées dans les flux le 2026-09-16.
+         # ABC est WSVN-DT2 (7.2), distinct de WSVN Fox (7.1) et de WPLG.
+         "https://epg.pw/api/epg.xml?channel_id=471825",
+         "https://epg.pw/api/epg.xml?channel_id=469559",
+         "https://epg.pw/api/epg.xml?channel_id=468203"]
 
 # Ces sources complètent uniquement les chaînes contrôlées les 2026-09-15/16.
 # Ne pas importer leurs autres identifiants : canada.xml contient aussi des
@@ -81,6 +86,13 @@ def scoped_feed(xml, url):
 # pour les chaînes dont ni l'id ni le nom ne matchent automatiquement.
 # (vérifiés le 2026-07-20 dans epgshare01 FR/CA + Samsung TV Plus CA)
 ALIAS = {
+    # Guides exacts de Miami ; programmes en cours comparés aux images du flux.
+    "WSVNDT2.us": "471825",  # ABC Miami : WSVN-DT2
+    "WFORDT.us": "469559",   # CBS Miami : WFOR-DT
+    "WTVJDT.us": "468203",   # NBC Miami : WTVJ-DT
+    "FoxSports1.us": "Fox Sports 1 HD (1652).us",
+    "ESPNews.us": "ESPN News HD (1604).us",
+    "Nickelodeon.us": "Nickelodeon USA - East Feed (316).us",
     # Versions US Est déclarées dans iptv-org ; les guides Ouest restent distincts.
     "USANetwork.us": "USA.us",
     "Bravo.us": "Bravo.us",

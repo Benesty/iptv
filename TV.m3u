@@ -464,3 +464,29 @@ http://41.205.93.154/LIFETIME/index.m3u8
 #EXTINF:-1 tvg-id="AE.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/a-and-e-us.png" group-title="USA", A&E US
 http://23.239.31.26:8989/aande/index.m3u8
 # A&E : 720p59,94, MPEG-2/MP2 ; lecteur compatible nécessaire, navigateur non validé.
+
+# Six chaînes US choisies le 2026-09-16 ; vidéo décodée et progression vérifiées.
+# Sources tierces publiées au plus tard le 2026-09-04 :
+# https://github.com/iptv-org/iptv/blob/d4d4ff9ebceb8e90a56c1bb251e96640e7e1db8d/streams/us.m3u
+# Droits de redistribution, continuité et lecture au Québec non vérifiés.
+# Les métadonnées MPEG-TS identifient ABC WSVN, CBS WFOR et NBC WTVJ.
+# Identifiants et noms propres à Miami pour conserver les bons guides locaux.
+#EXTINF:-1 tvg-id="WSVNDT2.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/abc-us.png" group-title="USA", ABC Miami US
+http://190.11.225.124:5000/live/abc_hd/playlist.m3u8
+# ABC : 1080i, H.264 ; pistes anglaises AC3 et AAC. EPG WSVN-DT2 (ABC 7.2).
+#EXTINF:-1 tvg-id="WFORDT.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/cbs-logo-white-us.png" group-title="USA", CBS Miami US
+http://190.11.225.124:5000/live/cbs_hd/playlist.m3u8
+# CBS : 1080i, H.264 ; pistes anglaises AC3 et AAC. EPG WFOR-DT.
+#EXTINF:-1 tvg-id="WTVJDT.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nbc-us.png" group-title="USA", NBC Miami US
+http://190.11.225.124:5000/live/nbc_hd/playlist.m3u8
+# NBC : 1080i, H.264 ; pistes anglaises AC3 et AAC. EPG WTVJ-DT.
+#EXTINF:-1 tvg-id="FoxSports1.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/fox-sports-1-us.png" group-title="USA", Fox Sports 1 US
+http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8
+# Fox Sports 1 : 720p59,94, H.264/AAC.
+#EXTINF:-1 tvg-id="ESPNews.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/espnews-us.png" group-title="USA", ESPNews US
+http://41.205.93.154/ESPNNEWS/index.m3u8
+# ESPNews : 720p59,94, H.264/AAC.
+#EXTINF:-1 tvg-id="Nickelodeon.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/nickelodeon-us.png" group-title="USA", Nickelodeon US
+http://198.58.104.90:8989/nickelodeon/index.m3u8
+# Nickelodeon Est / Nick at Nite le soir : 720p59,94, MPEG-2/MP2.
+# Lecteur compatible nécessaire ; lecture navigateur non validée.

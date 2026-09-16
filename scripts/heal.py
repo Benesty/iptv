@@ -103,6 +103,14 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Miami, sports et Nickelodeon US : choix du 2026-09-16, flux décodés et actifs.
+    # Les trois stations de Miami gardent leurs identifiants locaux pour l'EPG.
+    "WSVNDT2.us": ["http://190.11.225.124:5000/live/abc_hd/playlist.m3u8"],
+    "WFORDT.us": ["http://190.11.225.124:5000/live/cbs_hd/playlist.m3u8"],
+    "WTVJDT.us": ["http://190.11.225.124:5000/live/nbc_hd/playlist.m3u8"],
+    "FoxSports1.us": ["http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8"],
+    "ESPNews.us": ["http://41.205.93.154/ESPNNEWS/index.m3u8"],
+    "Nickelodeon.us": ["http://198.58.104.90:8989/nickelodeon/index.m3u8"],
     # Six ajouts US choisis le 2026-09-16 ; vidéo et progression vérifiées.
     "FoodNetwork.us": ["http://23.237.104.106:8080/USA_FOOD_NETWORK/index.m3u8"],
     "AnimalPlanet.us": ["http://23.237.104.106:8080/USA_ANIMAL_PLANET/index.m3u8"],
