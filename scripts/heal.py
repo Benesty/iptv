@@ -103,6 +103,13 @@ SOURCES = [
 # chaîne (validé le 2026-07-17), essayé EN PREMIER quand la chaîne meurt, dans
 # l'ordre de préférence. Ajoute-z-en librement : le bot valide avant d'écrire.
 REGISTRY = {
+    # Six ajouts US choisis le 2026-09-16 ; vidéo et progression vérifiées.
+    "FoodNetwork.us": ["http://23.237.104.106:8080/USA_FOOD_NETWORK/index.m3u8"],
+    "AnimalPlanet.us": ["http://23.237.104.106:8080/USA_ANIMAL_PLANET/index.m3u8"],
+    "Syfy.us": ["http://23.237.104.106:8080/USA_SYFY/index.m3u8"],
+    "ParamountNetwork.us": ["http://23.237.104.106:8080/USA_PARAMOUNT_NETWORK/index.m3u8"],
+    "Lifetime.us": ["http://41.205.93.154/LIFETIME/index.m3u8"],
+    "AE.us": ["http://23.239.31.26:8989/aande/index.m3u8"],
     # Ajouts US autorisés le 2026-09-15 ; vidéo et progression vérifiées.
     "USANetwork.us": ["http://190.11.225.124:5000/live/usa_hd/playlist.m3u8"],
     "Bravo.us": ["http://41.205.93.154/BRAVO/index.m3u8"],

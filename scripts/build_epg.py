@@ -52,13 +52,15 @@ EXTRA = ["https://xmltvfr.fr/xmltv/xmltv_tnt.xml.gz",
          "https://www.open-epg.com/files/canada.xml",
          "https://epg.pw/api/epg.xml?channel_id=470466"]
 
-# Ces sources complètent uniquement les chaînes contrôlées le 2026-09-15.
+# Ces sources complètent uniquement les chaînes contrôlées les 2026-09-15/16.
 # Ne pas importer leurs autres identifiants : canada.xml contient aussi des
 # homonymes dont les programmes divergent des sources déjà utilisées.
 SOURCE_CHANNELS = {
     "https://www.open-epg.com/files/unitedstates5.xml": {
         "USA.us", "Bravo.us", "AMC.us", "Comedy Central.us",
         "Disney Channel.us", "Disney Junior.us",
+        "Food Network.us", "Animal Planet.us", "Syfy.us",
+        "Paramount Network.us", "Lifetime.us", "AAndE.us",
     },
     "https://www.open-epg.com/files/canada.xml": {"CITYNEWSALBERTA.ca"},
 }
@@ -84,6 +86,12 @@ ALIAS = {
     "Bravo.us": "Bravo.us",
     "AMC.us": "AMC.us",
     "ComedyCentral.us": "Comedy Central.us",
+    "FoodNetwork.us": "Food Network.us",
+    "AnimalPlanet.us": "Animal Planet.us",
+    "Syfy.us": "Syfy.us",
+    "ParamountNetwork.us": "Paramount Network.us",
+    "Lifetime.us": "Lifetime.us",
+    "AE.us": "AAndE.us",
     "DisneyChannel.us": "Disney Channel.us",
     "DisneyJunior.us": "Disney Junior.us",
     "CartoonNetwork.us": "Cartoon Network USA HD - Eastern (1325).us",

@@ -437,3 +437,30 @@ http://23.239.31.26:8989/amc/index.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/comedy-central-us.png" group-title="USA", Comedy Central US
 https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8
 # Comedy Central : 432p, H.264/AAC.
+
+# Six chaînes US choisies le 2026-09-16 : vidéo décodée et direct progressant.
+# Sources tierces ; droits de redistribution et lecture au Québec non vérifiés.
+# Food, Animal Planet, SYFY et Paramount : URLs publiées dès le 2025-05-26
+# https://github.com/arquerido/mych/blob/22423d53531d6e0925c4f14fd42f1544437a2a3f/USA.m3u8
+# Lifetime et A&E : URLs présentes au 2026-09-04 dans iptv-org.
+# https://github.com/iptv-org/iptv/blob/d4d4ff9ebceb8e90a56c1bb251e96640e7e1db8d/streams/us.m3u
+# Ancienneté de publication, pas une garantie de disponibilité continue.
+# EPG US Est raccordés dans scripts/build_epg.py.
+#EXTINF:-1 tvg-id="FoodNetwork.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/food-network-us.png" group-title="USA", Food Network US
+http://23.237.104.106:8080/USA_FOOD_NETWORK/index.m3u8
+# Food Network : 1080p59,94, H.264/AAC.
+#EXTINF:-1 tvg-id="AnimalPlanet.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/animal-planet-us.png" group-title="USA", Animal Planet US
+http://23.237.104.106:8080/USA_ANIMAL_PLANET/index.m3u8
+# Animal Planet : 1080p59,94, H.264/AAC.
+#EXTINF:-1 tvg-id="Syfy.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/syfy-us.png" group-title="USA", SYFY US
+http://23.237.104.106:8080/USA_SYFY/index.m3u8
+# SYFY : 1080p59,94, H.264/AAC.
+#EXTINF:-1 tvg-id="ParamountNetwork.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/paramount-network-us.png" group-title="USA", Paramount Network US
+http://23.237.104.106:8080/USA_PARAMOUNT_NETWORK/index.m3u8
+# Paramount : 1080p59,94, H.264/AC3 ; son AC3 non pris en charge par tous les navigateurs.
+#EXTINF:-1 tvg-id="Lifetime.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/lifetime-us.png" group-title="USA", Lifetime US
+http://41.205.93.154/LIFETIME/index.m3u8
+# Lifetime : 720p29,97, H.264/AAC.
+#EXTINF:-1 tvg-id="AE.us" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/united-states/a-and-e-us.png" group-title="USA", A&E US
+http://23.239.31.26:8989/aande/index.m3u8
+# A&E : 720p59,94, MPEG-2/MP2 ; lecteur compatible nécessaire, navigateur non validé.
