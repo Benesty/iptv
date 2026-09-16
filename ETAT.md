@@ -1,17 +1,19 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-16 04:21 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-16 11:18 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**99 chaînes** — 💀 2 · 🌍 14 · ✅ 83
+**98 chaînes** — 💀 4 · 🌍 14 · ✅ 80
 
 
-## 💀 En panne (2)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
 | Comedy Central US | HTTP 404 |
+| Disney Channel US | HTTP 403 sur un pool confirmé injouable depuis le Québec |
+| Lifetime US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
 ## 🌍 Géo-bloquées (403) (14)
@@ -33,7 +35,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (83)
+## ✅ Fonctionnelles (80)
 
 | Chaîne | Détail |
 |---|---|
@@ -45,7 +47,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
-| BFM TV | via proxy Paris |
+| BFM TV | via redirecteur |
 | Bloomberg TV | — |
 | Bravo US | — |
 | CANAL+ | — |
@@ -61,7 +63,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CityNews Edmonton | — |
 | Comédie+ | — |
 | Discovery | — |
-| Disney Channel US | — |
 | Disney Junior | — |
 | Disney Junior US | — |
 | ESPNews US | — |
@@ -81,12 +82,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Global News Montréal | — |
 | Gusto TV | — |
 | Histoire TV | — |
-| History | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours ✅ |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
-| Lifetime US | — |
 | M6 | — |
 | NBC Miami US | — |
 | Nat Geo Wild | — |
@@ -108,7 +107,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada INFO | — |
 | SYFY US | — |
 | Savoir Média | — |
-| T18 | via proxy Paris · secours ✅ |
+| T18 | via proxy Paris |
 | TCM Cinéma | — |
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
