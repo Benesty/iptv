@@ -1,21 +1,19 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-17 21:14 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-18 04:12 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 5 · 🌍 14 · ✅ 79
+**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
 
 
-## 💀 En panne (5)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
+| AMC US | HTTP 404 |
 | Lifetime US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
-| National Geographic | HTTP 404 |
-| Nickelodeon US | HTTP 404 |
-| RTL9 | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -36,7 +34,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (79)
+## ✅ Fonctionnelles (81)
 
 | Chaîne | Détail |
 |---|---|
@@ -45,7 +43,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | A&E US | — |
 | AB1 | — |
 | ABC Miami US | — |
-| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
@@ -92,8 +89,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | M6 | — |
 | NBC Miami US | — |
 | Nat Geo Wild | — |
+| National Geographic | — |
 | Nickelodeon | — |
 | Nickelodeon Junior | — |
+| Nickelodeon US | — |
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Crime | — |
@@ -104,6 +103,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
+| RTL9 | — |
 | Radio-Canada INFO | — |
 | SYFY US | — |
 | Savoir Média | — |
