@@ -1,24 +1,19 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-18 20:49 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-18 23:13 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 8 · 🌍 14 · ✅ 76
+**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
 
 
-## 💀 En panne (8)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
-| Animal Planet US | TimeoutError |
-| Cartoon Network US | TimeoutError |
-| Disney Junior US | HTTP 404 |
-| Food Network US | TimeoutError |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
-| Nat Geo Wild | TimeoutError |
-| Paramount Network US | TimeoutError |
-| SYFY US | HTTP 404 |
+| Planète+ | HTTP 404 |
+| RTL9 | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -39,7 +34,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (76)
+## ✅ Fonctionnelles (81)
 
 | Chaîne | Détail |
 |---|---|
@@ -49,6 +44,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | AB1 | — |
 | ABC Miami US | — |
 | AMC US | — |
+| Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
 | Bloomberg TV | — |
@@ -61,6 +57,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CNews | via proxy Paris |
 | CSTAR | via proxy Paris · secours ✅ |
 | Canal J | — |
+| Cartoon Network US | — |
 | Ciné+ Émotion | — |
 | CityNews Edmonton | — |
 | Comedy Central US | — |
@@ -68,9 +65,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Discovery | — |
 | Disney Channel US | — |
 | Disney Junior | — |
+| Disney Junior US | — |
 | ESPNews US | — |
 | Eurosport 1 | — |
 | Eurosport 2 | — |
+| Food Network US | — |
 | Fox Sports 1 US | — |
 | France 2 | via proxy Paris |
 | France 24 (FR) | — |
@@ -91,6 +90,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Lifetime US | — |
 | M6 | — |
 | NBC Miami US | — |
+| Nat Geo Wild | — |
 | National Geographic | — |
 | Nickelodeon | — |
 | Nickelodeon Junior | — |
@@ -99,17 +99,17 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Noovo Comédies | — |
 | Noovo Crime | — |
 | Novo 19 | via proxy Paris |
+| Paramount Network US | — |
 | Paris Première | — |
-| Planète+ | — |
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
-| RTL9 | — |
 | Radio-Canada INFO | — |
+| SYFY US | — |
 | Savoir Média | — |
 | T18 | via proxy Paris |
 | TCM Cinéma | — |
-| TF1 | via proxy Paris · secours ✅ |
+| TF1 | via proxy Paris · secours 💀 (HTTP 404) |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TMC | via proxy Paris · secours ✅ |
