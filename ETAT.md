@@ -1,21 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-19 22:54 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-20 04:28 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
+**98 chaînes** — 💀 2 · 🌍 15 · ✅ 81
 
 
-## 💀 En panne (3)
+## 💀 En panne (2)
 
 | Chaîne | Détail |
 |---|---|
+| Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
-| RTL9 | gelé (la playlist média n'avance plus) |
-| TCM Cinéma | HTTP 404 |
 
-## 🌍 Géo-bloquées (403) (14)
+## 🌍 Géo-bloquées (403) (15)
 
 | Chaîne | Détail |
 |---|---|
@@ -31,6 +30,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
+| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
@@ -65,7 +65,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Discovery | — |
 | Disney Channel US | — |
 | Disney Junior | — |
-| Disney Junior US | — |
 | ESPNews US | — |
 | Eurosport 1 | — |
 | Eurosport 2 | — |
@@ -84,11 +83,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Gusto TV | — |
 | Histoire TV | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours ✅ |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
-| M6 | — |
 | NBC Miami US | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
@@ -105,10 +103,12 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
+| RTL9 | — |
 | Radio-Canada INFO | — |
 | SYFY US | — |
 | Savoir Média | — |
 | T18 | via proxy Paris |
+| TCM Cinéma | — |
 | TF1 | via proxy Paris · secours ✅ |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
