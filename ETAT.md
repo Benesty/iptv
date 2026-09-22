@@ -1,40 +1,22 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-22 11:23 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-22 16:44 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
+**98 chaînes** — 💀 4 · ✅ 94
 
 
-## 💀 En panne (3)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
-| AMC US | HTTP 404 |
+| CBC Montréal | HTTP 404 |
+| CBC News Network | HTTP 404 |
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
-## 🌍 Géo-bloquées (403) (14)
-
-| Chaîne | Détail |
-|---|---|
-| CBC Comedy | HTTP 403 |
-| CBC Kids | HTTP 403 |
-| CBC Montréal | HTTP 403 |
-| CBC News Explore | HTTP 403 |
-| CBC News Montréal | HTTP 403 · via redirecteur |
-| CBC News Network | HTTP 403 |
-| CTV News | HTTP 403 · via redirecteur |
-| ICI RDI | HTTP 403 |
-| ICI Télé Estrie | HTTP 403 |
-| ICI Télé Québec | HTTP 403 |
-| L'Agent Jean! | HTTP 403 |
-| LCN | HTTP 403 |
-| Radio-Canada Jeunesse | HTTP 403 |
-| TVA | HTTP 403 |
-
-## ✅ Fonctionnelles (81)
+## ✅ Fonctionnelles (94)
 
 | Chaîne | Détail |
 |---|---|
@@ -43,6 +25,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | A&E US | — |
 | AB1 | — |
 | ABC Miami US | — |
+| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
@@ -50,11 +33,16 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Bravo US | — |
 | CANAL+ | — |
 | CANAL+ Sport | — |
+| CBC Comedy | — |
+| CBC Kids | — |
+| CBC News Explore | — |
+| CBC News Montréal | via redirecteur |
 | CBS Miami US | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
 | CSTAR | via proxy Paris · secours ✅ |
+| CTV News | via redirecteur |
 | Canal J | — |
 | Cartoon Network US | — |
 | Ciné+ Émotion | — |
@@ -81,8 +69,13 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Global News Montréal | — |
 | Gusto TV | — |
 | Histoire TV | — |
+| ICI RDI | — |
+| ICI Télé Estrie | — |
+| ICI Télé Québec | — |
 | Knowledge Network | — |
+| L'Agent Jean! | — |
 | LCI | via proxy Paris · secours ✅ |
+| LCN | — |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
@@ -105,6 +98,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | RMC Story | via proxy Paris |
 | RTL9 | — |
 | Radio-Canada INFO | — |
+| Radio-Canada Jeunesse | — |
 | SYFY US | — |
 | Savoir Média | — |
 | T18 | via proxy Paris |
@@ -115,6 +109,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
+| TVA | — |
 | Teva | — |
 | USA Network US | — |
 | W9 | — |
