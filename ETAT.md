@@ -1,16 +1,17 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-22 04:44 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-22 11:23 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 2 · 🌍 14 · ✅ 82
+**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
 
 
-## 💀 En panne (2)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
+| AMC US | HTTP 404 |
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
@@ -33,7 +34,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (82)
+## ✅ Fonctionnelles (81)
 
 | Chaîne | Détail |
 |---|---|
@@ -42,7 +43,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | A&E US | — |
 | AB1 | — |
 | ABC Miami US | — |
-| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
