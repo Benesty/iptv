@@ -1,18 +1,19 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-22 21:11 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-23 04:18 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 2 · 🌍 14 · ✅ 82
+**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
 
 
-## 💀 En panne (2)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
+| Nickelodeon | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -33,7 +34,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (82)
+## ✅ Fonctionnelles (81)
 
 | Chaîne | Détail |
 |---|---|
@@ -90,7 +91,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | NBC Miami US | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
-| Nickelodeon | — |
 | Nickelodeon Junior | — |
 | Nickelodeon US | — |
 | Noovo Cinéma | — |
