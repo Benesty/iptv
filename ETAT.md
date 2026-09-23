@@ -1,19 +1,20 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-23 16:38 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-23 21:25 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
+**98 chaînes** — 💀 4 · 🌍 14 · ✅ 80
 
 
-## 💀 En panne (3)
+## 💀 En panne (4)
 
 | Chaîne | Détail |
 |---|---|
-| Bravo US | HTTP 404 |
+| Bravo US | TimeoutError |
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
+| Teva | HTTP 404 |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -34,7 +35,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (81)
+## ✅ Fonctionnelles (80)
 
 | Chaîne | Détail |
 |---|---|
@@ -115,7 +116,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
-| Teva | — |
 | USA Network US | — |
 | W9 | — |
 | franceinfo | via proxy Paris |
