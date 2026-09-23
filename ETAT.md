@@ -1,20 +1,21 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-23 11:15 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-23 16:38 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 2 · 🌍 15 · ✅ 81
+**98 chaînes** — 💀 3 · 🌍 14 · ✅ 81
 
 
-## 💀 En panne (2)
+## 💀 En panne (3)
 
 | Chaîne | Détail |
 |---|---|
+| Bravo US | HTTP 404 |
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 
-## 🌍 Géo-bloquées (403) (15)
+## 🌍 Géo-bloquées (403) (14)
 
 | Chaîne | Détail |
 |---|---|
@@ -30,7 +31,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
-| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
@@ -48,7 +48,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
 | Bloomberg TV | — |
-| Bravo US | — |
 | CANAL+ | — |
 | CANAL+ Sport | — |
 | CBS Miami US | — |
@@ -87,6 +86,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
+| M6 | — |
 | NBC Miami US | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
