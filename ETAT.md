@@ -1,24 +1,26 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-26 16:15 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-26 21:01 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 6 · 🌍 15 · ✅ 77
+**98 chaînes** — 💀 8 · 🌍 14 · ✅ 76
 
 
-## 💀 En panne (6)
+## 💀 En panne (8)
 
 | Chaîne | Détail |
 |---|---|
 | ABC Miami US | URLError |
+| CANAL+ Sport | HTTP 404 |
 | CBS Miami US | URLError |
 | Disney Junior US | HTTP 404 |
+| M6 | TimeoutError |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | USA Network US | URLError |
 
-## 🌍 Géo-bloquées (403) (15)
+## 🌍 Géo-bloquées (403) (14)
 
 | Chaîne | Détail |
 |---|---|
@@ -34,11 +36,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
-| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (77)
+## ✅ Fonctionnelles (76)
 
 | Chaîne | Détail |
 |---|---|
@@ -53,7 +54,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Bloomberg TV | — |
 | Bravo US | — |
 | CANAL+ | — |
-| CANAL+ Sport | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
