@@ -1,6 +1,6 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-26 23:32 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-27 04:52 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
@@ -14,9 +14,9 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ABC Miami US | URLError |
 | CBS Miami US | URLError |
 | Disney Junior US | HTTP 404 |
+| M6 | TimeoutError |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
-| Planète+ | HTTP 404 |
 | USA Network US | URLError |
 
 ## 🌍 Géo-bloquées (403) (14)
@@ -89,7 +89,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
-| M6 | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
 | Nickelodeon | — |
@@ -101,6 +100,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Novo 19 | via proxy Paris |
 | Paramount Network US | — |
 | Paris Première | — |
+| Planète+ | — |
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
