@@ -1,24 +1,25 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-09-27 16:51 UTC._
+_Mis à jour automatiquement par le bot le 2026-09-27 21:18 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 6 · 🌍 15 · ✅ 77
+**98 chaînes** — 💀 7 · 🌍 14 · ✅ 77
 
 
-## 💀 En panne (6)
+## 💀 En panne (7)
 
 | Chaîne | Détail |
 |---|---|
 | ABC Miami US | URLError |
 | CBS Miami US | URLError |
 | Disney Junior US | HTTP 404 |
+| ESPNews US | TimeoutError |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | USA Network US | URLError |
 
-## 🌍 Géo-bloquées (403) (15)
+## 🌍 Géo-bloquées (403) (14)
 
 | Chaîne | Détail |
 |---|---|
@@ -34,7 +35,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ICI Télé Québec | HTTP 403 |
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
-| M6 | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
@@ -67,7 +67,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Discovery | — |
 | Disney Channel US | — |
 | Disney Junior | — |
-| ESPNews US | — |
 | Eurosport 1 | — |
 | Eurosport 2 | — |
 | Food Network US | — |
@@ -89,6 +88,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
+| M6 | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
 | Nickelodeon | — |
