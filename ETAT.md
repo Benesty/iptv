@@ -1,13 +1,13 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-03 16:07 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-03 21:01 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 6 · 🌍 14 · ✅ 78
+**98 chaînes** — 💀 8 · 🌍 15 · ✅ 75
 
 
-## 💀 En panne (6)
+## 💀 En panne (8)
 
 | Chaîne | Détail |
 |---|---|
@@ -16,9 +16,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Disney Junior US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
+| Novo 19 | HTTP 502 · via proxy Paris |
+| TF1 Séries Films | HTTP 502 · via proxy Paris |
 | USA Network US | URLError |
 
-## 🌍 Géo-bloquées (403) (14)
+## 🌍 Géo-bloquées (403) (15)
 
 | Chaîne | Détail |
 |---|---|
@@ -35,9 +37,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | L'Agent Jean! | HTTP 403 |
 | LCN | HTTP 403 |
 | Radio-Canada Jeunesse | HTTP 403 |
+| TFX | HTTP 403 · via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (78)
+## ✅ Fonctionnelles (75)
 
 | Chaîne | Détail |
 |---|---|
@@ -97,7 +100,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Crime | — |
-| Novo 19 | via proxy Paris |
 | Paramount Network US | — |
 | Paris Première | — |
 | Planète+ | — |
@@ -111,8 +113,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | T18 | via proxy Paris |
 | TCM Cinéma | — |
 | TF1 | via proxy Paris · secours ✅ |
-| TF1 Séries Films | via proxy Paris |
-| TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
 | TMC | via proxy Paris · secours ✅ |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
