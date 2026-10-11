@@ -1,6 +1,6 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-11 12:35 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-11 19:33 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
@@ -14,8 +14,8 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | ABC Miami US | URLError |
 | CBS Miami US | URLError |
 | Cartoon Network US | HTTP 404 |
-| Disney Junior | HTTP 404 |
 | Disney Junior US | HTTP 404 |
+| Eurosport 1 | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | USA Network US | URLError |
@@ -66,8 +66,8 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Comédie+ | — |
 | Discovery | — |
 | Disney Channel US | — |
+| Disney Junior | — |
 | ESPNews US | — |
-| Eurosport 1 | — |
 | Eurosport 2 | — |
 | Food Network US | — |
 | Fox Sports 1 US | — |
