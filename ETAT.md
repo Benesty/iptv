@@ -1,23 +1,46 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-12 10:38 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-12 21:28 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 7 · 🌍 14 · ✅ 77
+**98 chaînes** — 💀 30 · 🌍 14 · ✅ 54
 
 
-## 💀 En panne (7)
+## 💀 En panne (30)
 
 | Chaîne | Détail |
 |---|---|
+| 13ème Rue | URLError |
+| 6TER | URLError |
+| AB1 | URLError |
 | ABC Miami US | URLError |
+| AMC US | HTTP 404 |
+| CANAL+ | URLError |
+| CANAL+ Sport | URLError |
 | CBS Miami US | URLError |
+| Canal J | URLError |
 | Cartoon Network US | HTTP 404 |
+| Ciné+ Émotion | URLError |
+| Comédie+ | URLError |
+| Discovery | URLError |
+| Disney Junior | URLError |
 | Disney Junior US | HTTP 404 |
+| Eurosport 1 | URLError |
+| Eurosport 2 | URLError |
+| Histoire TV | URLError |
+| Lifetime US | gelé (la playlist média n'avance plus) |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
+| Nickelodeon | URLError |
+| Nickelodeon Junior | URLError |
+| Paris Première | URLError |
+| Planète+ | URLError |
+| RTL9 | URLError |
+| TCM Cinéma | URLError |
+| Teva | URLError |
 | USA Network US | URLError |
+| W9 | URLError |
 
 ## 🌍 Géo-bloquées (403) (14)
 
@@ -38,37 +61,24 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (77)
+## ✅ Fonctionnelles (54)
 
 | Chaîne | Détail |
 |---|---|
-| 13ème Rue | — |
-| 6TER | — |
 | A&E US | — |
-| AB1 | — |
-| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
 | Bloomberg TV | — |
 | Bravo US | — |
-| CANAL+ | — |
-| CANAL+ Sport | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
 | CSTAR | via proxy Paris · secours ✅ |
-| Canal J | — |
-| Ciné+ Émotion | — |
 | CityNews Edmonton | — |
 | Comedy Central US | — |
-| Comédie+ | — |
-| Discovery | — |
 | Disney Channel US | — |
-| Disney Junior | — |
 | ESPNews US | — |
-| Eurosport 1 | — |
-| Eurosport 2 | — |
 | Food Network US | — |
 | Fox Sports 1 US | — |
 | France 2 | via proxy Paris |
@@ -82,40 +92,30 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | GULLI | — |
 | Global News Montréal | — |
 | Gusto TV | — |
-| Histoire TV | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours ✅ |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
-| Lifetime US | — |
 | M6 | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
-| Nickelodeon | — |
-| Nickelodeon Junior | — |
 | Nickelodeon US | — |
 | Noovo Cinéma | — |
 | Noovo Comédies | — |
 | Noovo Crime | — |
 | Novo 19 | via proxy Paris |
 | Paramount Network US | — |
-| Paris Première | — |
-| Planète+ | — |
 | RMC Découverte | via redirecteur |
 | RMC Life | via redirecteur |
 | RMC Story | via proxy Paris |
-| RTL9 | — |
 | Radio-Canada INFO | — |
 | SYFY US | — |
 | Savoir Média | — |
 | T18 | via proxy Paris |
-| TCM Cinéma | — |
-| TF1 | via proxy Paris · secours ✅ |
+| TF1 | via proxy Paris · secours 💀 (URLError) |
 | TF1 Séries Films | via proxy Paris |
 | TFX | via proxy Paris · secours 💀 (HTTP 403 sur un pool confirmé injouable depuis le Québec) |
-| TMC | via proxy Paris · secours ✅ |
+| TMC | via proxy Paris · secours 💀 (URLError) |
 | TV5Monde Info | via proxy Paris |
 | TV5Monde+ Voyage | via redirecteur |
-| Teva | — |
-| W9 | — |
 | franceinfo | via proxy Paris |
