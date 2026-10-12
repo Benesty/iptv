@@ -1,21 +1,23 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-11 19:33 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-12 00:30 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 8 · 🌍 14 · ✅ 76
+**98 chaînes** — 💀 10 · 🌍 14 · ✅ 74
 
 
-## 💀 En panne (8)
+## 💀 En panne (10)
 
 | Chaîne | Détail |
 |---|---|
 | ABC Miami US | URLError |
+| AMC US | HTTP 404 |
+| CANAL+ | HTTP 404 |
 | CBS Miami US | URLError |
 | Cartoon Network US | HTTP 404 |
 | Disney Junior US | HTTP 404 |
-| Eurosport 1 | HTTP 404 |
+| Lifetime US | HTTP 404 |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | USA Network US | URLError |
@@ -39,7 +41,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (76)
+## ✅ Fonctionnelles (74)
 
 | Chaîne | Détail |
 |---|---|
@@ -47,13 +49,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | 6TER | — |
 | A&E US | — |
 | AB1 | — |
-| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
 | Bloomberg TV | — |
 | Bravo US | — |
-| CANAL+ | — |
 | CANAL+ Sport | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
@@ -68,6 +68,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Disney Channel US | — |
 | Disney Junior | — |
 | ESPNews US | — |
+| Eurosport 1 | — |
 | Eurosport 2 | — |
 | Food Network US | — |
 | Fox Sports 1 US | — |
@@ -87,7 +88,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
-| Lifetime US | — |
 | M6 | — |
 | Nat Geo Wild | — |
 | National Geographic | — |
