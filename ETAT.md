@@ -1,13 +1,13 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-13 06:41 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-13 17:10 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 28 · 🌍 14 · ✅ 56
+**98 chaînes** — 💀 29 · 🌍 14 · ✅ 55
 
 
-## 💀 En panne (28)
+## 💀 En panne (29)
 
 | Chaîne | Détail |
 |---|---|
@@ -15,6 +15,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | 6TER | URLError |
 | AB1 | URLError |
 | ABC Miami US | URLError |
+| AMC US | HTTP 404 |
 | CANAL+ | URLError |
 | CANAL+ Sport | URLError |
 | CBS Miami US | URLError |
@@ -59,12 +60,11 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (56)
+## ✅ Fonctionnelles (55)
 
 | Chaîne | Détail |
 |---|---|
 | A&E US | — |
-| AMC US | — |
 | Animal Planet US | — |
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
@@ -92,7 +92,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Global News Montréal | — |
 | Gusto TV | — |
 | Knowledge Network | — |
-| LCI | via proxy Paris · secours ✅ |
+| LCI | via proxy Paris · secours 🌍 (HTTP 403) |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
 | Lifetime US | — |
