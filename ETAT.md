@@ -1,13 +1,13 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-14 04:48 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-14 11:56 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 37 · 🌍 14 · ✅ 47
+**98 chaînes** — 💀 34 · 🌍 14 · ✅ 50
 
 
-## 💀 En panne (37)
+## 💀 En panne (34)
 
 | Chaîne | Détail |
 |---|---|
@@ -15,9 +15,8 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | 6TER | URLError |
 | AB1 | URLError |
 | ABC Miami US | URLError |
-| AMC US | URLError |
+| AMC US | HTTP 404 |
 | Animal Planet US | URLError |
-| Bravo US | URLError |
 | CANAL+ | URLError |
 | CANAL+ Sport | URLError |
 | CBS Miami US | URLError |
@@ -28,12 +27,10 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Discovery | URLError |
 | Disney Junior | URLError |
 | Disney Junior US | URLError |
-| ESPNews US | URLError |
 | Eurosport 1 | URLError |
 | Eurosport 2 | URLError |
 | Food Network US | URLError |
 | Histoire TV | URLError |
-| Lifetime US | URLError |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | Nat Geo Wild | URLError |
@@ -68,7 +65,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (47)
+## ✅ Fonctionnelles (50)
 
 | Chaîne | Détail |
 |---|---|
@@ -76,6 +73,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Arte | via proxy Paris |
 | BFM TV | via redirecteur |
 | Bloomberg TV | — |
+| Bravo US | — |
 | CBS News 24/7 | — |
 | CNN Headlines International | via redirecteur |
 | CNews | via proxy Paris |
@@ -83,6 +81,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | CityNews Edmonton | — |
 | Comedy Central US | — |
 | Disney Channel US | — |
+| ESPNews US | — |
 | Fox Sports 1 US | — |
 | France 2 | via proxy Paris |
 | France 24 (FR) | — |
@@ -99,6 +98,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
+| Lifetime US | — |
 | M6 | — |
 | National Geographic | — |
 | Nickelodeon US | — |
