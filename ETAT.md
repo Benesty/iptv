@@ -1,13 +1,13 @@
 # État des chaînes
 
-_Mis à jour automatiquement par le bot le 2026-10-14 11:56 UTC._
+_Mis à jour automatiquement par le bot le 2026-10-14 17:19 UTC._
 
 Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'un diffuseur est un géo-blocage normal : la chaîne fonctionne depuis sa zone. Sur un pool anonyme, c'est suspect — le bot cherche alors un remplaçant. Les chaînes « via proxy » sont testées à travers le proxy Paris, comme le fait ton lecteur ; leur « secours » est l'adresse vers laquelle le proxy bascule tout seul si le flux officiel lâche.
 
-**98 chaînes** — 💀 34 · 🌍 14 · ✅ 50
+**98 chaînes** — 💀 35 · 🌍 14 · ✅ 49
 
 
-## 💀 En panne (34)
+## 💀 En panne (35)
 
 | Chaîne | Détail |
 |---|---|
@@ -31,6 +31,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Eurosport 2 | URLError |
 | Food Network US | URLError |
 | Histoire TV | URLError |
+| Lifetime US | gelé (la playlist média n'avance plus) |
 | M6 Music | HTTP 403 sur un pool confirmé injouable depuis le Québec |
 | NBC Miami US | URLError |
 | Nat Geo Wild | URLError |
@@ -65,7 +66,7 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | Radio-Canada Jeunesse | HTTP 403 |
 | TVA | HTTP 403 |
 
-## ✅ Fonctionnelles (50)
+## ✅ Fonctionnelles (49)
 
 | Chaîne | Détail |
 |---|---|
@@ -98,7 +99,6 @@ Vu depuis un runner GitHub aux États-Unis. Un `🌍 403` sur le CDN officiel d'
 | LCI | via proxy Paris · secours ✅ |
 | LCP - Public Sénat | via proxy Paris |
 | La Chaîne L'Équipe | — |
-| Lifetime US | — |
 | M6 | — |
 | National Geographic | — |
 | Nickelodeon US | — |
